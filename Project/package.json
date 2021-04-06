@@ -1,7 +1,7 @@
 {
   "name": "project-i-on-web",
   "version": "1.0.0",
-  "description": "This is a web application for ISEL students",
+  "description": "This is a web application for students",
   "main": "i-on-web-server.js",
   "directories": {
     "test": "test"
