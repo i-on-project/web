@@ -1,0 +1,30 @@
+{
+	"bachelor": [
+		"Engenharia Informática, Redes e Telecomunicações",
+		"Engenharia Biomédica",
+		"Engenharia Civil",
+		"Engenharia Electrónica e Telecomunicações e de Computadores",
+		"Engenharia Eletrotécnica",
+		"Engenharia Informática e Multimédia",
+		"Engenharia Informática e de Computadores",
+		"Engenharia Mecânica",
+		"Engenharia Química e Biológica",
+		"Matemática Aplicada à Tecnologia e à Empresa",
+		"Tecnologias e Gestão Municipal"
+	],
+
+	"master": [
+		"Análise e Controlo de Riscos Ambientais para a Saúde",
+        "Engenharia Biomédica",
+        "Engenharia Civil",
+        "Engenharia da Qualidade e Ambiente",
+        "Engenharia de Eletrónica e Telecomunicações",
+        "Engenharia de Manutenção",
+        "Engenharia e Gestão Industrial",
+        "Engenharia Eletrotécnica",
+        "Engenharia Informática e de Computadores",
+        "Engenharia Informática e Multimédia",
+        "Engenharia Mecânica",
+        "Engenharia Química e Biológica"
+	]	
+}

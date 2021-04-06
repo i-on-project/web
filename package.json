@@ -1,0 +1,30 @@
+{
+  "name": "project-i-on-web",
+  "version": "1.0.0",
+  "description": "This is a web application for ISEL students",
+  "main": "i-on-web-server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "npm run lite",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lite": "lite-server"
+  },
+  "keywords": [],
+  "author": "Ricardo Severino & Catarina Palma",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "4.6.0",
+    "bootstrap-icons": "1.4.1",
+    "express": "^4.17.1",
+    "font-awesome": "4.7.0",
+    "hbs": "^4.1.1",
+    "jquery": "3.5.1",
+    "node-fetch": "^2.6.1",
+    "popper.js": "1.16.1"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
