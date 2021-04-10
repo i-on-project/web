@@ -1,30 +1,188 @@
 {
-	"bachelor": [
-		"Engenharia Informática, Redes e Telecomunicações",
-		"Engenharia Biomédica",
-		"Engenharia Civil",
-		"Engenharia Electrónica e Telecomunicações e de Computadores",
-		"Engenharia Eletrotécnica",
-		"Engenharia Informática e Multimédia",
-		"Engenharia Informática e de Computadores",
-		"Engenharia Mecânica",
-		"Engenharia Química e Biológica",
-		"Matemática Aplicada à Tecnologia e à Empresa",
-		"Tecnologias e Gestão Municipal"
-	],
-
-	"master": [
-		"Análise e Controlo de Riscos Ambientais para a Saúde",
-        "Engenharia Biomédica",
-        "Engenharia Civil",
-        "Engenharia da Qualidade e Ambiente",
-        "Engenharia de Eletrónica e Telecomunicações",
-        "Engenharia de Manutenção",
-        "Engenharia e Gestão Industrial",
-        "Engenharia Eletrotécnica",
-        "Engenharia Informática e de Computadores",
-        "Engenharia Informática e Multimédia",
-        "Engenharia Mecânica",
-        "Engenharia Química e Biológica"
-	]	
+    "entities": [
+        {
+            "properties": {
+                "programmeId": 1,
+				"acronym": "LEIRT",
+				"name": "Engenharia Informática, Redes e Telecomunicações",
+				"degree": "bachelor"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 2,
+                "acronym": "LEIC",
+				"name": "Engenharia Informática e de Computadores",
+				"degree": "bachelor"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 3,
+                "acronym": "LEETC",
+				"name": "Engenharia Electrónica e Telecomunicações e de Computadores",
+				"degree": "bachelor"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 4,
+                "acronym": "LEIM",
+				"name": "Engenharia Informática e Multimédia",
+				"degree": "bachelor"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 5,
+                "acronym": "LEE",
+				"name": "Engenharia Eletrotécnica",
+				"degree": "bachelor"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 6,
+                "acronym": "LEM",
+				"name": "Engenharia Mecânica",
+				"degree": "bachelor"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 7,
+                "acronym": "LMATE",
+				"name": "Matemática Aplicada à Tecnologia e à Empresa",
+				"degree": "bachelor"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 8,
+                "acronym": "LEC",
+				"name": "Engenharia Civil",
+				"degree": "bachelor"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 9,
+                "acronym": "LEQB",
+				"name": "Engenharia Química e Biológica",
+				"degree": "bachelor"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 10,
+                "acronym": "LEB",
+				"name": "Engenharia Biomédica",
+				"degree": "bachelor"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 11,
+                "acronym": "LTGM",
+				"name": "Tecnologias e Gestão Municipal",
+				"degree": "bachelor"
+            }
+        },
+        {
+            "properties": {
+                "programmeId": 12,
+                "acronym": "MEIC",
+				"name": "Engenharia Informática e de Computadores",
+				"degree": "master"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 13,
+                "acronym": "MEET",
+				"name": "Engenharia de Eletrónica e Telecomunicações",
+				"degree": "master"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 14,
+                "acronym": "MEIM",
+				"name": "Engenharia Informática e Multimédia",
+				"degree": "master"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 15,
+                "acronym": "MEE",
+				"name": "Engenharia Eletrotécnica",
+				"degree": "master"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 16,
+                "acronym": "MEM",
+				"name": "Engenharia Mecânica",
+				"degree": "master"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 17,
+                "acronym": "MEC",
+				"name": "Engenharia Civil",
+				"degree": "master"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 18,
+                "acronym": "MEQB",
+				"name": "Engenharia Química e Biológica",
+				"degree": "master"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 19,
+                "acronym": "MEGI",
+				"name": "Engenharia e Gestão Industrial",
+				"degree": "master"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 20,
+                "acronym": "MEM",
+				"name": "Engenharia de Manutenção",
+				"degree": "master"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 21,
+                "acronym": "MEQA",
+				"name": "Engenharia da Qualidade e Ambiente",
+				"degree": "master"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 22,
+                "acronym": "MEB",
+				"name": "Engenharia Biomédica",
+				"degree": "master"
+            }
+        },
+		{
+            "properties": {
+                "programmeId": 23,
+                "acronym": "MACRAS",
+				"name": "Análise e Controlo de Riscos Ambientais para a Saúde",
+				"degree": "master"
+            }
+        }
+    ]
 }

@@ -1,0 +1,36 @@
+{
+	"projects": {
+	
+		"Projeto i-on Web" : [
+			"Catarina Palma LEIRT 20/21",
+			"Ricardo Severino LEIRT 20/21"
+		],
+		
+		"Projeto i-on Android" : [
+			"Diogo Santos LEIC 19/20",
+            "João Silva LEIC 19/20",
+            "João Tiago LEIRT 20/21"
+		],
+		
+		"Projeto i-on Core" : [
+			"Alexandru Pena LEIC 19/20",
+			"João Pereira LEIC 9/20",
+            "Jorge Brown LEIC 19/20",
+            "Ricardo Margalhau LEIC 20/21"
+		],
+		
+		"Projeto i-on Integration" : [
+			"Miguel Teixeira LEIC 19/20",
+            "Samuel Costa LEIC 19/20",
+            "Cristiano Morgado LEIC 20/21",
+            "Ricardo Canto LEIC 20/21"
+		]
+	},
+
+	"teachers": [
+		"Professor João Trindade",
+		"Professor Luís Falcão",
+		"Professor Paulo Pereira",
+		"Professor Pedro Felix"
+	]	
+}

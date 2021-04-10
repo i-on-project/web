@@ -1,0 +1,265 @@
+{
+    "entities": [
+        {
+            "properties": {
+				"acronym": "AM1",
+				"name": "Análise Matemática I",
+                "courseId": 1,
+                "termNumber": 1,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+        {
+            "properties": {
+				"acronym": "ALGA",
+				"name": "Álgebra Linear e Geometria Analítica",
+                "courseId": 2,
+                "termNumber": 1,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "LSD",
+				"name": "Lógica e Sistemas Digitais",
+                "courseId": 3,
+                "termNumber": 1,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "PG1",
+				"name": "Programação I",
+                "courseId": 4,
+                "termNumber": 1,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "Elect",
+				"name": "Eletrónica",
+                "courseId": 5,
+                "termNumber": 1,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "PE",
+				"name": "Probabilidades e Estatística",
+                "courseId": 6,
+                "termNumber": 2,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "RcP",
+				"name": "Redes de Computadores",
+                "courseId": 7,
+                "termNumber": 2,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "SS",
+				"name": "Sinais e Sistemas",
+                "courseId": 8,
+                "termNumber": 2,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "AC",
+				"name": "Arquitetura de Computadores",
+                "courseId": 9,
+                "termNumber": 2,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "PG2",
+				"name": "Programação II",
+                "courseId": 10,
+                "termNumber": 2,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "RI",
+				"name": "Redes de Internet",
+                "courseId": 11,
+                "termNumber": 3,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "Tel1",
+				"name": "Telecomunicações I",
+                "courseId": 12,
+                "termNumber": 3,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "AM2",
+				"name": "Análise Matemática II",
+                "courseId": 13,
+                "termNumber": 3,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "PG3",
+				"name": "Programação III",
+                "courseId": 14,
+                "termNumber": 3,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "SI",
+				"name": "Sistemas de Informação",
+                "courseId": 15,
+                "termNumber": 3,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "TAR",
+				"name": "Tecnologias Avançadas de Redes",
+                "courseId": 16,
+                "termNumber": 4,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "Tel2",
+				"name": "Telecomunicações II",
+                "courseId": 17,
+                "termNumber": 4,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "FPR",
+				"name": "Fundamentos de Propagação e Radiação",
+                "courseId": 18,
+                "termNumber": 4,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "SO",
+				"name": "Sistemas Operativos",
+                "courseId": 19,
+                "termNumber": 4,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "MPD",
+				"name": "Modelação e Padrões de Desenho",
+                "courseId": 20,
+                "termNumber": 4,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "PDS",
+				"name": "Processamento Digital de Sinais",
+                "courseId": 21,
+                "termNumber": 5,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "ST",
+				"name": "Sistemas de Telecomunicações",
+                "courseId": 22,
+                "termNumber": 5,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "PI",
+				"name": "Programação na Internet",
+                "courseId": 23,
+                "termNumber": 5,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "SI",
+				"name": "Segurança Informática",
+                "courseId": 24,
+                "termNumber": 5,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "P",
+				"name": "Projeto",
+                "courseId": 25,
+                "termNumber": 6,
+				"optional": "false",
+				"ects": 6
+            }
+        },
+		{
+            "properties": {
+				"acronym": "CN",
+				"name": "Computação na Nuvem",
+                "courseId": 26,
+                "termNumber": 6,
+				"optional": "false",
+				"ects": 6
+            }
+        }
+    ]
+}
+

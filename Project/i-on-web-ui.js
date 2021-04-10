@@ -18,7 +18,7 @@ function webui(service) {
 
 		schedule: async function(req, res) { /// Schedule Page
 			try {
-				const data = await service.getScheduleContent();
+				const data = await service.getSchedule();
 				res.render('schedule', data);
 			} catch(err) {
 				// TO DO - Handle errors
@@ -28,7 +28,7 @@ function webui(service) {
 
 		calendar: async function(req, res) { /// Calendar Page
 			try {
-				const data = await service.getCalendarContent();
+				const data = await service.getCalendar();
 				res.render('calendar', data);
 			} catch(err) {
 				// TO DO - Handle errors
@@ -36,9 +36,41 @@ function webui(service) {
 			}
 		},
 
+		myCourses: async function(req, res) { /// myCourses Page
+			try {
+				const data = await service.getMyCourses();
+				res.render('myCourses', data);
+			} catch(err) {
+				// TO DO - Handle errors
+				console.log('Failed to show myCourses page');
+			}
+		},
+
+		programmeOffers: async function(req, res) { /// programmeOffers Page
+			try {
+				const data = await service.getProgrammeOffers();
+				res.render('programmeOffers', data);
+			} catch(err) {
+				// TO DO - Handle errors
+				console.log('Failed to show programmeOffers page');
+			}
+		},
+
+		programme: async function(req, res) { /// Programme Page
+			try {
+				const params = req.params;
+				const data = await service.getProgrammeData(params['id']);
+				res.render('programme', data);
+			} catch(err) {
+				// TO DO - Handle errors
+				console.log('Failed to show Programme page');
+			}
+		},
+
 		about: async function(req, res) { /// Calendar Page
 			try {
-				res.render('about');
+				const data = await service.getAboutData();
+				res.render('about', data);
 			} catch(err) {
 				// TO DO - Handle errors
 				console.log('Failed to show Calendar page');
@@ -63,6 +95,9 @@ function webui(service) {
 	router.get('/', theWebUI.home);	/// Home Page
 	router.get('/schedule', theWebUI.schedule);	/// Schedule Page
 	router.get('/calendar', theWebUI.calendar);	/// Calendar Page
+	router.get('/courses', theWebUI.myCourses); /// myCourses Page
+	router.get('/programmeOffers', theWebUI.programmeOffers); /// programmeOffers Page
+	router.get('/programme/:id', theWebUI.programme); /// programme Page
 	router.get('/about', theWebUI.about); /// About Page
 	
 	/*** Associate the paths with the respective authentication functions ***/

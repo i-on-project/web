@@ -20,13 +20,13 @@
         <div class="col-12 col-sm-6">
             <h4 class="text-center">Licenciaturas</h4>
             {{#each bachelor}}
-                <a class="offset-3" href="/">{{this}}</a><br>
+                <a class="offset-3" href="/programme/{{this.programmeId}}">{{this.name}}</a><br>
             {{/each}}
         </div>
         <div class="col col-sm-6">
             <h4 class="text-center">Mestrados</h4>
             {{#each master}}
-                <a class="offset-3" href="/">{{this}}</a><br>
+                <a class="offset-3" href="/programme/{{this.programmeId}}">{{this.name}}</a><br>
             {{/each}}
          </div>
     </div>
