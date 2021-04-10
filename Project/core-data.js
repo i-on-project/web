@@ -5,16 +5,16 @@ const fetch = require('node-fetch');
 const contentType = 'application/json';
 
 /// Environment variables
-// TO DO - Change token to environment variable
-const authorization = 'Bearer l7kowOOkliu21oXxNpuCyM47u2omkysxb8lv3qEhm5U';
-
+const read_authorization = 'Bearer ' + process.env.CORE_READ_TOKEN;
+const write_authorization = 'Bearer ' + process.env.CORE_WRITE_TOKEN;
+const core_uri = process.env.CORE_URI;
 
 const coreRequest = async function(uri, method, reqBody) {
 	const response = await fetch(uri, 
 		{
 			method: method,
 			headers: {
-				'Authorization': authorization,
+				'Authorization': read_authorization,
 				'Content-Type': contentType
 			},
 			body: reqBody
@@ -23,19 +23,23 @@ const coreRequest = async function(uri, method, reqBody) {
 	// TO DO - Verify response status
 
 	return response.json();
-}
+};
 
-module.exports = {
+module.exports = function() {
 
-	loadAllProgrammes: async function () {
+	const loadAllProgrammes = async function () {
 		try {
-			// TO DO - change request uri (this is a test version) 
-			return await coreRequest('http://localhost:10023/v0/programmes/', 'GET');
+			console.log(read_authorization);
+			console.log(core_uri);
+			return await coreRequest(core_uri + '/v0/programmes/', 'GET');
 		} catch(err) {
 			switch (err) {
 				// TO DO - Handle errors
 			}
 		}
 	}
-	
+
+	return {
+		loadAllProgrammes : loadAllProgrammes
+	};
 }

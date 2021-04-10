@@ -1,10 +1,13 @@
 'use strict'
 
-module.exports = function(storage, core_data) {
+module.exports = function(data) {
 
 	const getHomeContent = async function(){
+		
 		const programmes = await getAllProgrammes();
 		
+		console.log("Programmes: " + JSON.stringify(programmes));
+
 		// TO DO -> Simplify (do an auxiliar function)
 		const bachelorProgrammes = programmes.entities.filter( entities => entities.properties.degree == "bachelor")
 		.map(entities => entities.properties);
@@ -28,7 +31,7 @@ module.exports = function(storage, core_data) {
 	};
 
 	const getProgrammeOffers = async function(){
-		const offers = await storage.loadAllProgrammeOffers(1); // TO DO - Change
+		const offers = await data.loadAllProgrammeOffers(1); // TO DO - Change
 
 		const programmeOffers = offers.entities.map(entities => entities.properties);
 
@@ -50,11 +53,11 @@ module.exports = function(storage, core_data) {
 	};
 
 	const getAllProgrammes = async function(){
-		return await storage.loadAllProgrammes();
+		return await data.loadAllProgrammes();
 	};
 
 	const getAboutData = async function(){
-		return await storage.loadAboutData();
+		return await data.loadAboutData();
 	};
 
 	return {
@@ -63,7 +66,6 @@ module.exports = function(storage, core_data) {
 		getCalendar : getCalendar,
 		getMyCourses : getMyCourses,
 		getProgrammeOffers : getProgrammeOffers,
-		getAllProgrammes : getAllProgrammes,
 		getProgrammeData : getProgrammeData,
 		getAboutData : getAboutData
 	};
