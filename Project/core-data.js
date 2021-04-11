@@ -1,5 +1,6 @@
 'use strict'
 
+const error = require('./i-on-web-errors.js');
 const fetch = require('node-fetch'); 
 
 const contentType = 'application/json';
@@ -9,7 +10,7 @@ const read_authorization = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const write_authorization = 'Bearer ' + process.env.CORE_WRITE_TOKEN;
 const core_uri = process.env.CORE_URI;
 
-const coreRequest = async function(uri, method, reqBody) {
+const coreRequest = async function(uri, method, expectedStatus, reqBody) {
 	const response = await fetch(uri, 
 		{
 			method: method,
@@ -20,7 +21,7 @@ const coreRequest = async function(uri, method, reqBody) {
 			body: reqBody
 		});
 		
-	// TO DO - Verify response status
+	if(response.status != expectedStatus) throw response.status;
 
 	return response.json();
 };
@@ -31,10 +32,13 @@ module.exports = function() {
 		try {
 			console.log(read_authorization);
 			console.log(core_uri);
-			return await coreRequest(core_uri + '/v0/programmes/', 'GET');
+			return await coreRequest(core_uri + '/v0/programmes/', 'GET', 200);
 		} catch(err) {
 			switch (err) {
-				// TO DO - Handle errors
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
 			}
 		}
 	}

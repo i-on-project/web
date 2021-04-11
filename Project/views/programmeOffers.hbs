@@ -1,10 +1,10 @@
 <div class="container-fluid pageBeginning">
     <h3 class="text-center">Plano Curricular</h3>
-    <br><br>
+    <div class="row row-content">
     {{#each programmeOffersByTerms}}
-        <div class="offersDiv">
-            <h4 class="text-center">{{@key}}</h4>
-            <table class="table table-bordered tableDetails">
+        <div class="col-md-6 divSpacing">
+            <h4 class="text-center">{{@key}}º Semestre</h4>
+            <table class="table table-bordered">
                 <tr>
                     <th>Unidade Curricular</th>
                     <th class="text-center">ECTS</th>
@@ -18,4 +18,5 @@
             </table>
         </div>
     {{/each}}
+    </div>
 </div>

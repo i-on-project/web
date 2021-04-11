@@ -1,6 +1,7 @@
 'use strict'
 
 const express = require('express');
+const error = require('./i-on-web-errors.js');
 
 function webui(service) {
 	
@@ -11,8 +12,7 @@ function webui(service) {
 				const data = await service.getHomeContent();
 				res.render('home', data);
 			} catch(err) {
-				// TO DO - Handle errors
-				console.log('Failed to show Home page');
+				onError(res, err, 'Failed to show Home Page');
 			}
 		},
 
@@ -21,8 +21,7 @@ function webui(service) {
 				const data = await service.getSchedule();
 				res.render('schedule', data);
 			} catch(err) {
-				// TO DO - Handle errors
-				console.log('Failed to show Schedule page');
+				onError(res, err, 'Failed to show Schedule');
 			}
 		},
 
@@ -31,8 +30,7 @@ function webui(service) {
 				const data = await service.getCalendar();
 				res.render('calendar', data);
 			} catch(err) {
-				// TO DO - Handle errors
-				console.log('Failed to show Calendar page');
+				onError(res, err, 'Failed to show Calendar');
 			}
 		},
 
@@ -41,18 +39,16 @@ function webui(service) {
 				const data = await service.getMyCourses();
 				res.render('myCourses', data);
 			} catch(err) {
-				// TO DO - Handle errors
-				console.log('Failed to show myCourses page');
+				onError(res, err, 'Failed to show User Courses');
 			}
 		},
 
 		programmeOffers: async function(req, res) { /// programmeOffers Page
 			try {
-				const data = await service.getProgrammeOffers();
+				const data = await service.getProgrammeOffers(1); // TO DO - Change
 				res.render('programmeOffers', data);
 			} catch(err) {
-				// TO DO - Handle errors
-				console.log('Failed to show programmeOffers page');
+				onError(res, err, 'Failed to show Programme Offers');
 			}
 		},
 
@@ -62,28 +58,34 @@ function webui(service) {
 				const data = await service.getProgrammeData(params['id']);
 				res.render('programme', data);
 			} catch(err) {
-				// TO DO - Handle errors
-				console.log('Failed to show Programme page');
+				onError(res, err, 'Failed to show Programme Page');
 			}
 		},
 
-		about: async function(req, res) { /// Calendar Page
+		about: async function(req, res) { /// About Page
 			try {
 				const data = await service.getAboutData();
 				res.render('about', data);
 			} catch(err) {
-				// TO DO - Handle errors
-				console.log('Failed to show Calendar page');
+				onError(res, err, 'Failed to show About Page');
 			}
 		},
 
 		/******* Authentication Pages *******/
 		loginUI: function(req, res) {
-			res.render('login', {'page': 'login'}); 
+			try {	
+				res.render('login', {'page': 'login'}); 
+			} catch(err) {
+				onError(res, err, 'Failed to show Login Page');
+			}
 		},
 
 		registerUI: function(req, res) {
-			res.render('register'); 
+			try {
+				res.render('register');
+			} catch(err) {
+				onError(res, err, 'Failed to show Login Page');
+			}
 		}
 
 	}
@@ -105,6 +107,25 @@ function webui(service) {
 	router.get('/register', theWebUI.registerUI);
 
 	return router;
+}
+
+function onError(res, err, defaultError) {
+	
+	/// Translating application errors to HTTP erros
+	switch (err) {
+		case error.RESOURCE_NOT_FOUND:
+			responseFunction(res, 404, 'Resource Not Found', 'errorPage');
+			break;
+		default:
+			responseFunction(res, 500, 'An error has occured: ' + defaultError, 'errorPage');
+			break;
+	}
+}
+
+function responseFunction(res, status, msg, page) {
+	const answer = {'status': status, 'message': msg};
+	res.statusCode = answer.status;
+	res.render(page, answer);
 }
 
 module.exports = webui;

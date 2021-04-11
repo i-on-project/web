@@ -1,76 +1,36 @@
-<div class="container-fluid">
+<div class="container-fluid pageBeginning">
     <div class="row row-content">
         <div class="col-12 offset-1 col-sm-5">
             <h3 class="offset-4">Alunos</h3><br>
-            <div class="container-fluid">
-                <div class="row row-content">
-                    <div class="col col-sm-3">
-                        <img src="/public/images/web.jpg" alt="Projeto i-on Web" class="img-fluid">
-                    </div>
-                    <div class="col col-sm-9">
-                        <h5>Projeto i-on Web</h5>
-                        Catarina Palma    LEIRT   20/21<br>
-                        Ricardo Severino  LEIRT   20/21<br><br>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row row-content">
-                    <div class="col col-sm-3">
-                        <img src="/public/images/android.png" alt="Projeto i-on Android" class="img-fluid">
-                    </div>
-                    <div class="col col-sm-9">
-                        <h5>Projeto i-on Android</h5>
-                        Diogo Santos    LEIC   19/20<br>
-                        João Silva  LEIC   19/20<br>
-                        João Tiago  LEIRT   20/21<br><br>
+            {{#each projects}}
+                <div class="container-fluid">
+                    <div class="row row-content">
+                        <div class="col col-sm-3">
+                            <img src="/public/images/{{this.image}}" alt="Projeto i-on {{this.name}}" class="img-fluid">
+                        </div>
+                        <div class="col col-sm-9">
+                            <h5>Projeto i-on {{this.name}}</h5>
+                            {{#each this.students}}
+                                {{this.student}}<br>
+                            {{/each}}<br><br>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row row-content">
-                    <div class="col col-sm-3">
-                        <img src="/public/images/core.png" alt="Projeto i-on Core" class="img-fluid">
-                    </div>
-                    <div class="col col-sm-9">
-                        <h5>Projeto i-on Core</h5>
-                        Alexandru Pena    LEIC   19/20<br>
-						João Pereira	LEIC	19/20<br>
-                        Jorge Brown    LEIC   19/20<br>
-                        Ricardo Margalhau    LEIC   20/21<br><br>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row row-content">
-                    <div class="col col-sm-3">
-                        <img src="/public/images/integration.png" alt="Projeto i-on Integration" class="img-fluid">
-                    </div>
-                    <div class="col col-sm-9">
-                        <h5>Projeto i-on Integration</h5>
-                        Miguel Teixeira    LEIC   19/20<br>
-                        Samuel Costa    LEIC   19/20<br>
-                        Cristiano Morgado    LEIC   20/21<br>
-                        Ricardo Canto    LEIC   20/21
-                    </div>
-                </div>
-            </div>
-        </div>
+            {{/each}}
+         </div>
         <div class="col col-sm-5">
             <h3 class="offset-3">Docentes</h3><br>
             <div class="container-fluid">
                 <div class="row row-content">
                     <div class="col col-sm-4">
-                        <img src="/public/images/adeetc.png" alt="ISEL ADEETC" class="img-fluid">
+                        <img src="/public/images/{{this.departmentImage}}" alt="ISEL {{this.department}}" class="img-fluid">
                     </div>
                     <div class="col col-sm-8">
-                        Professor João Trindade<br>
-                        Professor Luís Falcão<br>
-                        Professor Paulo Pereira<br>
-                        Professor Pedro Felix
+                        {{#each this.teachers}}
+                            {{this.teacher}}<br>
+                        {{/each}}
                     </div>
                 </div>
-            </div>
-         </div>
+        </div>
     </div>
 </div>

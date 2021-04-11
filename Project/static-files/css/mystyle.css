@@ -112,8 +112,12 @@ tr.border_bottom td {
   width: 50%;
 }
 
-/* Padding space between div in the programmeOffers Page */
-.offersDiv {
-  padding-bottom: 30px;
+/* Padding space between div and previous element */
+.divSpacing {
+  padding-top: 30px;
 }
 
+/* Solid border */
+hr.solid {
+  border-top: 3px solid #bbb;
+}

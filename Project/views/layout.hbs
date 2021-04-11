@@ -11,8 +11,9 @@
 		<link rel="stylesheet" href="/dependecies/bootstrap-icons/font/bootstrap-icons.css">	<!-- Bootstrap icons -->
 		<link rel="stylesheet" href="/dependecies/font-awesome/css/font-awesome.min.css"> 		<!-- FontAwesome icons -->
 		<link rel="stylesheet" href="/public/css/mystyle.css" type="text/css">					<!-- Customized CSS -->
-		
+
 		<title>i-on Web</title>
+		<link rel="shortcut icon" type="image/png" href="/public/images/logo2.png">
 	</head>
 	
 	<body>
@@ -60,17 +61,17 @@
 								<li class="dropdown-submenu">
 									<a  class="dropdown-item" href="#">Licenciaturas</a>
 									<ul class="dropdown-menu">
-										<li class="dropdown-item"><a href="#">LEIRT</a></li>
-										<li class="dropdown-item"><a href="#">LEIC</a></li>
-										<li class="dropdown-item"><a href="#">LEETC</a></li>
+										{{#each bachelor}}
+                							<li class="dropdown-item"><a href="/programme/{{this.programmeId}}">{{this.acronym}}</a></li>
+            							{{/each}}
 									</ul>
 								</li>
 								<li class="dropdown-submenu">
 									<a  class="dropdown-item" href="#">Mestrados</a>
 									<ul class="dropdown-menu">
-										<li class="dropdown-item"><a href="#">MEETC</a></li>
-										<li class="dropdown-item"><a href="#">MEIC</a></li>
-										<li class="dropdown-item"><a href="#">MEQ</a></li>
+										{{#each master}}
+                							<li class="dropdown-item"><a href="/programme/{{this.programmeId}}">{{this.acronym}}</a></li>
+            							{{/each}}
 									</ul>
 								</li>
 							</ul>

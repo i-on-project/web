@@ -23,6 +23,16 @@ module.exports = function() {
 		}
 	};
 
+	const loadProgrammeData = async function(programmeId) {
+		try {
+			const path = './data/programmes/' + programmeId;
+			const offers = require(path);
+			return offers;
+		} catch (err) {
+			// TO DO - Handle errors
+		}
+	};
+
 	const loadAboutData = async function() {
 		try {
 			return about;
@@ -34,6 +44,7 @@ module.exports = function() {
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
+		loadProgrammeData : loadProgrammeData,
 		loadAboutData : loadAboutData
 	};
 }
