@@ -9,7 +9,10 @@ const app = express();
 /***** Run configurations *****/ 
 
 /// Data
-const data = require('./' + process.env.I_ON_WEB_OPERATION_MODE + '.js')();
+let data;
+if(process.env.OPERATION_MODE == "dev") {
+    data = require('./mock-data.js')();
+} else data = require('./core-data.js')();
 
 /// Services
 const service = require('./i-on-web-services.js')(data);

@@ -2,7 +2,7 @@
     "entities": [
         {
             "properties": {
-                "programmeId": 1,
+                "programmeId": 3,
 				"acronym": "LEIRT",
 				"name": "Engenharia Informática, Redes e Telecomunicações",
 				"degree": "bachelor"
@@ -10,7 +10,7 @@
         },
 		{
             "properties": {
-                "programmeId": 2,
+                "programmeId": 1,
                 "acronym": "LEIC",
 				"name": "Engenharia Informática e de Computadores",
 				"degree": "bachelor"
@@ -18,7 +18,7 @@
         },
 		{
             "properties": {
-                "programmeId": 3,
+                "programmeId": 0,
                 "acronym": "LEETC",
 				"name": "Engenharia Electrónica e Telecomunicações e de Computadores",
 				"degree": "bachelor"
@@ -26,7 +26,7 @@
         },
 		{
             "properties": {
-                "programmeId": 4,
+                "programmeId": 0,
                 "acronym": "LEIM",
 				"name": "Engenharia Informática e Multimédia",
 				"degree": "bachelor"
@@ -34,7 +34,7 @@
         },
 		{
             "properties": {
-                "programmeId": 5,
+                "programmeId": 0,
                 "acronym": "LEE",
 				"name": "Engenharia Eletrotécnica",
 				"degree": "bachelor"
@@ -42,7 +42,7 @@
         },
 		{
             "properties": {
-                "programmeId": 6,
+                "programmeId": 0,
                 "acronym": "LEM",
 				"name": "Engenharia Mecânica",
 				"degree": "bachelor"
@@ -50,7 +50,7 @@
         },
 		{
             "properties": {
-                "programmeId": 7,
+                "programmeId": 0,
                 "acronym": "LMATE",
 				"name": "Matemática Aplicada à Tecnologia e à Empresa",
 				"degree": "bachelor"
@@ -58,7 +58,7 @@
         },
 		{
             "properties": {
-                "programmeId": 8,
+                "programmeId": 0,
                 "acronym": "LEC",
 				"name": "Engenharia Civil",
 				"degree": "bachelor"
@@ -66,7 +66,7 @@
         },
 		{
             "properties": {
-                "programmeId": 9,
+                "programmeId": 0,
                 "acronym": "LEQB",
 				"name": "Engenharia Química e Biológica",
 				"degree": "bachelor"
@@ -74,7 +74,7 @@
         },
 		{
             "properties": {
-                "programmeId": 10,
+                "programmeId": 0,
                 "acronym": "LEB",
 				"name": "Engenharia Biomédica",
 				"degree": "bachelor"
@@ -82,7 +82,7 @@
         },
 		{
             "properties": {
-                "programmeId": 11,
+                "programmeId": 0,
                 "acronym": "LTGM",
 				"name": "Tecnologias e Gestão Municipal",
 				"degree": "bachelor"
@@ -90,7 +90,7 @@
         },
         {
             "properties": {
-                "programmeId": 12,
+                "programmeId": 2,
                 "acronym": "MEIC",
 				"name": "Engenharia Informática e de Computadores",
 				"degree": "master"
@@ -98,7 +98,7 @@
         },
 		{
             "properties": {
-                "programmeId": 13,
+                "programmeId": 0,
                 "acronym": "MEET",
 				"name": "Engenharia de Eletrónica e Telecomunicações",
 				"degree": "master"
@@ -106,7 +106,7 @@
         },
 		{
             "properties": {
-                "programmeId": 14,
+                "programmeId": 0,
                 "acronym": "MEIM",
 				"name": "Engenharia Informática e Multimédia",
 				"degree": "master"
@@ -114,7 +114,7 @@
         },
 		{
             "properties": {
-                "programmeId": 15,
+                "programmeId": 0,
                 "acronym": "MEE",
 				"name": "Engenharia Eletrotécnica",
 				"degree": "master"
@@ -122,7 +122,7 @@
         },
 		{
             "properties": {
-                "programmeId": 16,
+                "programmeId": 0,
                 "acronym": "MEM",
 				"name": "Engenharia Mecânica",
 				"degree": "master"
@@ -130,7 +130,7 @@
         },
 		{
             "properties": {
-                "programmeId": 17,
+                "programmeId": 0,
                 "acronym": "MEC",
 				"name": "Engenharia Civil",
 				"degree": "master"
@@ -138,7 +138,7 @@
         },
 		{
             "properties": {
-                "programmeId": 18,
+                "programmeId": 0,
                 "acronym": "MEQB",
 				"name": "Engenharia Química e Biológica",
 				"degree": "master"
@@ -146,7 +146,7 @@
         },
 		{
             "properties": {
-                "programmeId": 19,
+                "programmeId": 0,
                 "acronym": "MEGI",
 				"name": "Engenharia e Gestão Industrial",
 				"degree": "master"
@@ -154,7 +154,7 @@
         },
 		{
             "properties": {
-                "programmeId": 20,
+                "programmeId": 0,
                 "acronym": "MEM",
 				"name": "Engenharia de Manutenção",
 				"degree": "master"
@@ -162,7 +162,7 @@
         },
 		{
             "properties": {
-                "programmeId": 21,
+                "programmeId": 0,
                 "acronym": "MEQA",
 				"name": "Engenharia da Qualidade e Ambiente",
 				"degree": "master"
@@ -170,7 +170,7 @@
         },
 		{
             "properties": {
-                "programmeId": 22,
+                "programmeId": 0,
                 "acronym": "MEB",
 				"name": "Engenharia Biomédica",
 				"degree": "master"
@@ -178,7 +178,7 @@
         },
 		{
             "properties": {
-                "programmeId": 23,
+                "programmeId": 0,
                 "acronym": "MACRAS",
 				"name": "Análise e Controlo de Riscos Ambientais para a Saúde",
 				"degree": "master"

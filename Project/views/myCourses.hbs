@@ -1,3 +1,14 @@
 <div class="container-fluid pageBeginning">
+
     <h3 class="text-center">As minhas disciplinas</h3>
+    <div class="divSpacing">
+        {{#if myCourses}}
+
+        {{else}}
+            <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
+        {{/if}}
+    </div>
+    <div class="divSpacing">
+        <a class="btn btn-outline-dark pull-right" href="/programmeOffers" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+    </div>
 </div>

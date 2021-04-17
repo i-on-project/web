@@ -9,12 +9,12 @@ const getAllProgrammes = async function(data){
 const getProgrammesByDegree = async function(data){
 	
 	const programmes = await getAllProgrammes(data);
-
 	// TO DO -> Simplify (do an auxiliar function)
+
 	const bachelorProgrammes = programmes.entities
 	.filter( entities => entities.properties.degree == "bachelor")
 	.map(entities => entities.properties);
-	
+
 	const masterProgrammes = programmes.entities
 	.filter( entities => entities.properties.degree == "master")
 	.map(entities => entities.properties);
@@ -55,18 +55,22 @@ module.exports = function(data) {
 
 		const programmeOffersByTerms = offers.entities
 		.map(entities => entities.properties)
-		.reduce(function(offersByTerms, offer) {
-			offersByTerms[offer.termNumber] = offersByTerms[offer.termNumber] || [];
-			offersByTerms[offer.termNumber].push(offer);
-			return offersByTerms;
-		}, {});
+		.reduce( (offersByTerms, offer) => {
+			return offer.termNumber.reduce( (offersByTerms, term) => {
+				offersByTerms[term] = offersByTerms[term] || [];
+				offersByTerms[term].push(offer);
+				return offersByTerms;
+			}, offersByTerms);
 
+		}, {});
+	
 		return await response(data, {programmeOffersByTerms : programmeOffersByTerms , page: "programmeOffers"});
 	};
 
 	const getProgrammeData = async function(programmeId){
 		const programme = await data.loadProgrammeData(programmeId);
 		const offers = await getProgrammeOffers(programmeId);
+
 		return await response(data, {programmeOffersByTerms: offers.programmeOffersByTerms, programme: programme.properties});
 	};
 

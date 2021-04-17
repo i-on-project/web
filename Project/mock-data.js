@@ -1,13 +1,13 @@
 'use strict'
 
-const degrees = require('./data/programmes');
+const programmes = require('./data/programmes');
 const about = require('./data/i-on-team');
 
 module.exports = function() {
 
 	const loadAllProgrammes = async function() {
 		try {
-			return degrees;
+			return programmes;
 		} catch (err) {
 			// TO DO - Handle errors
 		}
@@ -26,8 +26,8 @@ module.exports = function() {
 	const loadProgrammeData = async function(programmeId) {
 		try {
 			const path = './data/programmes/' + programmeId;
-			const offers = require(path);
-			return offers;
+			const programme = require(path);
+			return programme;
 		} catch (err) {
 			// TO DO - Handle errors
 		}

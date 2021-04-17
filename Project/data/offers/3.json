@@ -2,8 +2,8 @@
     "entities": [
         {
             "properties": {
-				"acronym": "CDI",
-				"name": "Cálculo Diferencial e Integral",
+				"acronym": "AM1",
+				"name": "Análise Matemática I",
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [1],
@@ -14,10 +14,10 @@
         },
         {
             "properties": {
-				"acronym": "TMD",
-				"name": "Tópicos de Matemática Discreta",
-                "courseId": 3,
-				"id": 3,
+				"acronym": "ALGA",
+				"name": "Álgebra Linear e Geometria Analítica",
+                "courseId": 0,
+				"id": 0,
                 "termNumber": [1],
 				"optional": "false",
 				"ects": 6,
@@ -38,8 +38,8 @@
         },
 		{
             "properties": {
-				"acronym": "PG",
-				"name": "Programação",
+				"acronym": "PG1",
+				"name": "Programação I",
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [1],
@@ -57,19 +57,19 @@
                 "termNumber": [1],
 				"optional": "false",
 				"ects": 6,
-				"scientificArea": "ET"
+				"scientificArea": "TEL"
             }
         },
 		{
             "properties": {
-				"acronym": "LIC",
-				"name": "Laboratório de Informática e Computadores",
+				"acronym": "PE",
+				"name": "Probabilidades e Estatística",
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [2],
 				"optional": "false",
 				"ects": 6,
-				"scientificArea": "IC"
+				"scientificArea": "MAT"
             }
         },
 		{
@@ -86,14 +86,14 @@
         },
 		{
             "properties": {
-				"acronym": "AED",
-				"name": "Algoritmos e Estruturas de Dados",
+				"acronym": "SS",
+				"name": "Sinais e Sistemas",
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [2],
 				"optional": "false",
 				"ects": 6,
-				"scientificArea": "IC"
+				"scientificArea": "TEL"
             }
         },
 		{
@@ -110,20 +110,44 @@
         },
 		{
             "properties": {
-				"acronym": "ALGA",
-				"name": "Álgebra Linear e Geometria Analítica",
+				"acronym": "PG2",
+				"name": "Programação II",
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [2],
 				"optional": "false",
 				"ects": 6,
-				"scientificArea": "MAT"
+				"scientificArea": "IC"
             }
         },
 		{
             "properties": {
-				"acronym": "PE",
-				"name": "Probabilidade e Estatística",
+				"acronym": "RI",
+				"name": "Redes de Internet",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [3],
+				"optional": "false",
+				"ects": 6,
+				"scientificArea": "IC"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "Tel1",
+				"name": "Telecomunicações I",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [3],
+				"optional": "false",
+				"ects": 6,
+				"scientificArea": "TEL"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "AM2",
+				"name": "Análise Matemática II",
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [3],
@@ -134,95 +158,11 @@
         },
 		{
             "properties": {
-				"acronym": "IPW",
-				"name": "Introdução à Programação na Web",
+				"acronym": "PG3",
+				"name": "Programação III",
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [3],
-				"optional": "false",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "ISI",
-				"name": "Introdução aos Sistemas de Informação",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [3],
-				"optional": "false",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "PSC",
-				"name": "Programação em Sistemas Computacionais",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [3],
-				"optional": "false",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "TDS",
-				"name": "Técnicas de Desenvolvimento de Software",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [3],
-				"optional": "false",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "CD",
-				"name": "Comunicação Digital",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [4],
-				"optional": "false",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "LS",
-				"name": "Laboratório de Software",
-                "courseId": 1,
-				"id": 2,
-                "termNumber": [4],
-				"optional": "false",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "LAE",
-				"name": "Linguagens e Ambientes de Execução",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [4],
-				"optional": "false",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "PC",
-				"name": "Programação Concorrente",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [4],
 				"optional": "false",
 				"ects": 6,
 				"scientificArea": "IC"
@@ -234,6 +174,18 @@
 				"name": "Sistemas de Informação",
                 "courseId": 0,
 				"id": 0,
+                "termNumber": [3],
+				"optional": "false",
+				"ects": 6,
+				"scientificArea": "IC"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "TAR",
+				"name": "Tecnologias Avançadas de Redes",
+                "courseId": 0,
+				"id": 0,
                 "termNumber": [4],
 				"optional": "false",
 				"ects": 6,
@@ -242,11 +194,35 @@
         },
 		{
             "properties": {
-				"acronym": "DAW",
-				"name": "Desenvolvimento de Aplicações Web",
-                "courseId": 2,
-				"id": 1,
-                "termNumber": [5],
+				"acronym": "Tel2",
+				"name": "Telecomunicações II",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [4],
+				"optional": "false",
+				"ects": 6,
+				"scientificArea": "TEL"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "FPR",
+				"name": "Fundamentos de Propagação e Radiação",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [4],
+				"optional": "false",
+				"ects": 6,
+				"scientificArea": "TEL"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "SO",
+				"name": "Sistemas Operativos",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [4],
 				"optional": "false",
 				"ects": 6,
 				"scientificArea": "IC"
@@ -254,20 +230,44 @@
         },
 		{
             "properties": {
-				"acronym": "PDM",
-				"name": "Programação em Dispositivos Móveis",
+				"acronym": "MPD",
+				"name": "Modelação e Padrões de Desenho",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [4],
+				"optional": "false",
+				"ects": 6,
+				"scientificArea": "IC"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "PDS",
+				"name": "Processamento Digital de Sinais",
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
 				"optional": "false",
 				"ects": 6,
-				"scientificArea": "IC"
+				"scientificArea": "TEL"
             }
         },
 		{
             "properties": {
-				"acronym": "TVS",
-				"name": "Técnicas de Virtualização de Sistemas",
+				"acronym": "ST",
+				"name": "Sistemas de Telecomunicações",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [5],
+				"optional": "false",
+				"ects": 6,
+				"scientificArea": "TEL"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "PI",
+				"name": "Programação na Internet",
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
@@ -290,10 +290,58 @@
         },
 		{
             "properties": {
-				"acronym": "PS",
-				"name": "Projeto e Seminário",
-                "courseId": 4,
-				"id": 4,
+				"acronym": "PDM",
+				"name": "Programação de Dispositivos Móveis",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [5],
+				"optional": "true",
+				"ects": 6,
+				"scientificArea": "IC"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "PRC",
+				"name": "Projeto de Redes de Computadores",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [5],
+				"optional": "true",
+				"ects": 6,
+				"scientificArea": "IC"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "IRS",
+				"name": "Integração de Redes e Serviços",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [5],
+				"optional": "true",
+				"ects": 6,
+				"scientificArea": "IC"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "RCom",
+				"name": "Rádio Comunicações",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [5],
+				"optional": "true",
+				"ects": 6,
+				"scientificArea": "IC"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "P",
+				"name": "Projeto",
+                "courseId": 0,
+				"id": 0,
                 "termNumber": [6],
 				"optional": "false",
 				"ects": 6,
@@ -302,50 +350,98 @@
         },
 		{
             "properties": {
-				"acronym": "EGP",
-				"name": "Economia e Gestão de Projeto",
+				"acronym": "CN",
+				"name": "Computação na Nuvem",
                 "courseId": 0,
 				"id": 0,
-                "termNumber": [5, 6],
-				"optional": "true",
+                "termNumber": [6],
+				"optional": "false",
 				"ects": 6,
-				"scientificArea": "CSO"
+				"scientificArea": "IC"
             }
         },
 		{
             "properties": {
-				"acronym": "Emp",
-				"name": "Empreendedorismo",
+				"acronym": "SD",
+				"name": "Sistemas Distribuídos",
                 "courseId": 0,
 				"id": 0,
-                "termNumber": [5],
+                "termNumber": [6],
 				"optional": "true",
 				"ects": 6,
-				"scientificArea": "CSO"
+				"scientificArea": "IC"
             }
         },
 		{
             "properties": {
-				"acronym": "GQS",
-				"name": "Gestão da Qualidade em Saúde",
+				"acronym": "DAW",
+				"name": "Desenvolvimento de Aplicações Web",
                 "courseId": 0,
 				"id": 0,
-                "termNumber": [5],
+                "termNumber": [6],
 				"optional": "true",
 				"ects": 6,
-				"scientificArea": "CSO"
+				"scientificArea": "IC"
             }
         },
 		{
             "properties": {
-				"acronym": "SG",
-				"name": "Sistemas de Gestão",
+				"acronym": "SRC",
+				"name": "Segurança em Redes de Computadores",
                 "courseId": 0,
 				"id": 0,
-                "termNumber": [5, 6],
+                "termNumber": [6],
 				"optional": "true",
 				"ects": 6,
-				"scientificArea": "CSO"
+				"scientificArea": "IC"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "RA",
+				"name": "Redes de Acesso",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [6],
+				"optional": "true",
+				"ects": 6,
+				"scientificArea": "IC"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "CTVS",
+				"name": "Comunicações Terrestres e Via Satélite",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [6],
+				"optional": "true",
+				"ects": 6,
+				"scientificArea": "TEL"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "PORM",
+				"name": "Planeamento e Otimização de Redes Móveis",
+                 "courseId": 0,
+				"id": 0,
+                "termNumber": [6],
+				"optional": "true",
+				"ects": 6,
+				"scientificArea": "TEL"
+            }
+        },
+		{
+            "properties": {
+				"acronym": "AAR",
+				"name": "Administração Automatizada de Redes",
+                "courseId": 0,
+				"id": 0,
+                "termNumber": [6],
+				"optional": "true",
+				"ects": 6,
+				"scientificArea": "IC"
             }
         },
 		{
@@ -362,185 +458,28 @@
         },
 		{
             "properties": {
-				"acronym": "CQF",
-				"name": "Controlo de Qualidade e Fiabilidade",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [5],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "MAT"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "IEB",
-				"name": "Introdução à Estatística Bayesiana",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [5],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "MAT"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "AA",
-				"name": "Álgebra e Aplicações",
+				"acronym": "SG",
+				"name": "Sistemas de Gestão",
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [6],
 				"optional": "true",
 				"ects": 6,
-				"scientificArea": "MAT"
+				"scientificArea": "CSO"
             }
-        },
+        },	
 		{
             "properties": {
-				"acronym": "TJ",
-				"name": "Teoria de Jogos",
+				"acronym": "EGP",
+				"name": "Economia e Gestão de Projeto",
                 "courseId": 0,
 				"id": 0,
-                "termNumber": [6],
+                "termNumber": [5, 6],
 				"optional": "true",
 				"ects": 6,
-				"scientificArea": "MAT"
+				"scientificArea": "CSO"
             }
-        },
-		{
-            "properties": {
-				"acronym": "CSM",
-				"name": "Codificação de Sinais Multimédia",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [6],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "ET"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "ICD",
-				"name": "Introdução à Codificação de Dados",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [5],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "LC",
-				"name": "Lógica e Computação",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [5],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "PF",
-				"name": "Programação Funcional",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [5],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "RI",
-				"name": "Redes de Internet",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [5],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "SE",
-				"name": "Sistemas Embebidos",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [5],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "CN",
-				"name": "Computação na Nuvem",
-                "courseId": 5,
-				"id": 5,
-                "termNumber": [6],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		
-		{
-            "properties": {
-				"acronym": "IA",
-				"name": "Inteligência Artificial",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [6],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "PIB",
-				"name": "Processamento de Imagem e Biometria",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [6],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "SEIC",
-				"name": "Sistemas Embebidos para a Internet das Coisas",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [6],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "TAR",
-				"name": "Tecnologias Avançadas de Redes",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [6],
-				"optional": "true",
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        }
+        }		
     ]
 }
 

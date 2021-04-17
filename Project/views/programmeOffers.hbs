@@ -8,15 +8,22 @@
                 <tr>
                     <th>Unidade Curricular</th>
                     <th class="text-center">ECTS</th>
+                    <th class="text-center">Área</th>
+                    <th class="text-center"><i class="fa fa-square-o" aria-hidden="true"></i></th>
                 </tr>
                 {{#each this}} 
                     <tr class="border_bottom">
-                        <td class="col-md-4">{{this.name}}</td>
-                        <td class="col-md-2 text-center">{{this.ects}}</td>
+                        <td class="col-md-3">{{this.name}}</td>
+                        <td class="col-md-1 text-center">{{this.ects}}</td>
+                        <td class="col-md-1 text-center">{{this.scientificArea}}</td>
+                        <td class="col-md-1 text-center"><i class="fa fa-square-o" aria-hidden="true"></i></td>
                     </tr>
                 {{/each}}
             </table>
         </div>
     {{/each}}
+    </div>
+    <div class="divSpacing text-center">
+        <button class="btn btn-dark btn-lg btn-block" href="#" type="submit">Concluir</button>
     </div>
 </div>
