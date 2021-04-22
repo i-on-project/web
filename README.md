@@ -15,7 +15,7 @@
     <a href="https://github.com/i-on-project/web/pulls/">
         <img src="https://img.shields.io/github/issues-pr/i-on-project/web" alt="Pull requests" />
     </a>
-    <a href="https://github.com/i-on-project/web/commits/master">
+    <a href="https://github.com/i-on-project/web/commits/main">
         <img src="https://img.shields.io/github/last-commit/i-on-project/web" alt="Last commit" />
     </a>
 </p>
