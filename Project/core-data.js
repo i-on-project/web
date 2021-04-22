@@ -8,9 +8,10 @@ const contentType = 'application/json';
 
 /// Environment variables
 const read_authorization = 'Bearer ' + process.env.CORE_READ_TOKEN;
-const core_uri = process.env.CORE_URI;
+const core_url = process.env.CORE_URL;
 
 const coreRequest = async function(uri, method, expectedStatus, reqBody) {
+
 	const response = await fetch(uri, 
 		{
 			method: method,
@@ -20,7 +21,7 @@ const coreRequest = async function(uri, method, expectedStatus, reqBody) {
 			},
 			body: reqBody
 		});
-		
+
 	if(response.status != expectedStatus) throw response.status;
 
 	return response.json();
@@ -30,8 +31,8 @@ module.exports = function() {
 
 	const loadAllProgrammes = async function () {
 		try {
-			const receivedData = await coreRequest(core_uri + '/v0/programmes/', 'GET', 200);
-			
+			const receivedData = await coreRequest(core_url + '/v0/programmes/', 'GET', 200);
+	
 			/* Adding missing data */
 			const responseMockData = await mockData.loadAllProgrammes();
 			const responseWithAddedData = receivedData.entities
@@ -60,7 +61,7 @@ module.exports = function() {
 
 	const loadAllProgrammeOffers = async function (programmeId) {
 		try {
-			const receivedData = await coreRequest(core_uri + '/v0/programmes/'+ programmeId, 'GET', 200);
+			const receivedData = await coreRequest(core_url + '/v0/programmes/'+ programmeId, 'GET', 200);
 
 			/* Adding missing data */ 
 			const responseMockData = await mockData.loadAllProgrammeOffers(programmeId);
@@ -95,7 +96,7 @@ module.exports = function() {
 
 	const loadProgrammeData = async function (programmeId) {
 		try {
-			const response = await coreRequest(core_uri + '/v0/programmes/'+ programmeId, 'GET', 200);
+			const response = await coreRequest(core_url + '/v0/programmes/'+ programmeId, 'GET', 200);
 		
 			/* Adding missing data */
 			const responseMockData = await mockData.loadProgrammeData(programmeId);

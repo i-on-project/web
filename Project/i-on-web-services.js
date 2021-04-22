@@ -63,7 +63,7 @@ module.exports = function(data) {
 			}, offersByTerms);
 
 		}, {});
-	
+
 		return await response(data, {programmeOffersByTerms : programmeOffersByTerms , page: "programmeOffers"});
 	};
 

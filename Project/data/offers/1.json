@@ -7,7 +7,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [1],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "MAT"
             }
@@ -19,7 +19,7 @@
                 "courseId": 3,
 				"id": 3,
                 "termNumber": [1],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "MAT"
             }
@@ -31,7 +31,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [1],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -43,7 +43,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [1],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -55,7 +55,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [1],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "ET"
             }
@@ -67,7 +67,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [2],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -79,7 +79,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [2],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -91,7 +91,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [2],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -103,7 +103,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [2],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -115,7 +115,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [2],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "MAT"
             }
@@ -127,7 +127,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [3],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "MAT"
             }
@@ -139,7 +139,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [3],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -151,7 +151,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [3],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -163,7 +163,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [3],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -175,7 +175,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [3],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -187,7 +187,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [4],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -199,7 +199,7 @@
                 "courseId": 1,
 				"id": 2,
                 "termNumber": [4],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -211,7 +211,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [4],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -223,7 +223,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [4],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -235,7 +235,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [4],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -247,7 +247,7 @@
                 "courseId": 2,
 				"id": 1,
                 "termNumber": [5],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -259,7 +259,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -271,7 +271,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -283,7 +283,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -295,7 +295,7 @@
                 "courseId": 4,
 				"id": 4,
                 "termNumber": [6],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -307,7 +307,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5, 6],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "CSO"
             }
@@ -319,7 +319,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "CSO"
             }
@@ -331,7 +331,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "CSO"
             }
@@ -343,7 +343,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5, 6],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "CSO"
             }
@@ -355,7 +355,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [6],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "CSO"
             }
@@ -367,7 +367,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "MAT"
             }
@@ -379,7 +379,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "MAT"
             }
@@ -391,7 +391,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [6],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "MAT"
             }
@@ -403,7 +403,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [6],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "MAT"
             }
@@ -415,7 +415,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [6],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "ET"
             }
@@ -427,7 +427,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -439,7 +439,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -451,7 +451,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -463,7 +463,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -475,7 +475,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [5],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -487,7 +487,7 @@
                 "courseId": 5,
 				"id": 5,
                 "termNumber": [6],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -500,7 +500,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [6],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -512,7 +512,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [6],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -524,7 +524,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [6],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -536,7 +536,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [6],
-				"optional": "true",
+				"optional": true,
 				"ects": 6,
 				"scientificArea": "IC"
             }

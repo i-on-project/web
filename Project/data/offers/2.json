@@ -7,7 +7,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [1],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -19,7 +19,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [1],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -31,7 +31,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [2],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -43,7 +43,7 @@
                 "courseId": 0,
 				"id": 0,
                 "termNumber": [3, 4],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
@@ -55,7 +55,7 @@
                 "courseId": 3,
 				"id": 6,
                 "termNumber": [3, 4],
-				"optional": "false",
+				"optional": false,
 				"ects": 6,
 				"scientificArea": "IC"
             }
