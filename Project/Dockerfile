@@ -1,9 +1,13 @@
 # Image version from which we'll build our app.
 FROM node:14
 
-ENV OPERATION_MODE="core-data"
-ENV CORE_URI="http://172.17.0.1:10023"
-ENV CORE_READ_TOKEN="l7kowOOkliu21oXxNpuCyM47u2omkysxb8lv3qEhm5U"
+ARG OPERATION_MODE
+ARG CORE_URL
+ARG CORE_READ_TOKEN
+
+ENV OPERATION_MODE=$OPERATION_MODE
+ENV CORE_URL=$CORE_URL
+ENV CORE_READ_TOKEN=$CORE_READ_TOKEN
 
 # Create a directory to hold the application code inside the image, this will be the working directory for the application
 WORKDIR /web
