@@ -1,0 +1,28 @@
+{
+	"entities": [
+		{
+			"properties": {
+				"acronym": "LS",
+				"name": "Laboratório de Software",
+                "courseId": 1,
+				"id": "1N"
+			}
+		},
+		{
+			"properties": {
+				"acronym": "LS",
+				"name": "Laboratório de Software",
+                "courseId": 1,
+				"id": "1D"
+			}
+		},
+		{
+			"properties": {
+				"acronym": "LS",
+				"name": "Laboratório de Software",
+                "courseId": 1,
+				"id": "2D"
+			}
+		}
+	]
+}

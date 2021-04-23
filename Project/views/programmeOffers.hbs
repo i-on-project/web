@@ -1,5 +1,6 @@
 <div class="container-fluid pageBeginning">
     <h3 class="text-center">Plano Curricular</h3>
+    <form method="post" action="/programmeOffers/classes">
     <div class="row row-content">
     {{#each programmeOffersByTerms}}
         <div class="col-md-6 divSpacing">
@@ -40,8 +41,9 @@
     {{/each}}
     </div>
     <div class="divSpacing text-center">
-        <button class="btn btn-dark btn-lg btn-block" href="#" type="submit">Concluir</button>
+      <input class="btn btn-dark btn-lg btn-block" type="submit" value="Concluir selecção"/>
     </div>
+    </form>
 </div>
 
 

@@ -33,6 +33,15 @@ module.exports = function() {
 		}
 	};
 
+	const loadCourseByID = async function(courseId) {
+		try {
+			const path = './data/courses/' + courseId;
+			const course = require(path);
+			return course;
+		} catch (err) {
+			// TO DO - Handle errors
+		}
+	};
 	const loadAboutData = async function() {
 		try {
 			return about;
@@ -45,6 +54,7 @@ module.exports = function() {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
+		loadCourseByID : loadCourseByID,
 		loadAboutData : loadAboutData
 	};
 }

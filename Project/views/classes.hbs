@@ -1,0 +1,24 @@
+<div class="container-fluid pageBeginning">
+    <h3 class="text-center">Turmas disponíveis</h3>
+    <div class="row row-content">
+   {{#each selectedCourses}}
+        <div class="col-md-3 divSpacing">
+            <table class="table table-bordered">
+                <tr>
+                    <th colspan="2">{{this.name}}</th>
+                </tr>
+                {{#each this.classes}} 
+                <tr class="border_bottom">
+                    <td>{{this}}</td>
+                    <td class="text-center"><input type="checkbox"></td>
+                </tr>
+                {{/each}}
+            </table>
+        </div>
+    {{/each}}
+    </div>
+    <div class="divSpacing text-center">
+        <button class="btn btn-dark btn-lg btn-block" href="#" type="submit">Concluir inscrição</button>
+    </div>
+
+</div>

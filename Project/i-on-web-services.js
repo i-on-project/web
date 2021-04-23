@@ -50,6 +50,34 @@ module.exports = function(data) {
 		return await response(data, {page: "myCourses"});
 	};
 
+	const getClasses = async function(body) {
+
+		const coursesIDs = Object.values(body)
+		.map(courseId => parseInt(courseId))
+		.filter(courseId => courseId != 0); // TO DO - Change
+
+		// TO DO - Simplify the following code
+		const courses = [];
+		for(let i = 0; i < coursesIDs.length; i++)
+			courses.push(await data.loadCourseByID(coursesIDs[i]));
+
+		const classesByCourses = courses.reduce((response, course) => {
+			
+			const result = course.entities
+			.map(entities => entities.properties)
+			.reduce( (course_classes, course_class) => {
+				course_classes.classes.push(course_class.id);
+				course_classes.name = course_class.name;
+				return course_classes;
+			}, {name: '', classes: []});
+			response.push(result)
+			return response;
+		}, []);
+
+		return await response(data, {selectedCourses : classesByCourses});
+		
+	};
+
 	const getProgrammeOffers = async function(programmeId){
 		const offers = await data.loadAllProgrammeOffers(programmeId);
 
@@ -91,6 +119,7 @@ module.exports = function(data) {
 		getSchedule : getSchedule,
 		getCalendar : getCalendar,
 		getMyCourses : getMyCourses,
+		getClasses : getClasses,
 		getProgrammeOffers : getProgrammeOffers,
 		getProgrammeData : getProgrammeData,
 		getAboutData : getAboutData

@@ -42,6 +42,16 @@ function webui(service) {
 				onError(res, err, 'Failed to show User Courses');
 			}
 		},
+	
+		classes: async function(req, res) { /// classes Page
+			try {
+				const body = req.body;
+				const data = await service.getClasses(body);
+				res.render('classes', data);
+			} catch(err) {
+				onError(res, err, 'Failed to show Programme Offers');
+			}
+		},
 
 		programmeOffers: async function(req, res) { /// programmeOffers Page
 			try {
@@ -99,6 +109,7 @@ function webui(service) {
 	router.get('/calendar', theWebUI.calendar);	/// Calendar Page
 	router.get('/courses', theWebUI.myCourses); /// myCourses Page
 	router.get('/programmeOffers', theWebUI.programmeOffers); /// programmeOffers Page
+	router.post('/programmeOffers/classes', theWebUI.classes);
 	router.get('/programme/:id', theWebUI.programme); /// programme Page
 	router.get('/about', theWebUI.about); /// About Page
 	

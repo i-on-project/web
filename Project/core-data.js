@@ -96,20 +96,20 @@ module.exports = function() {
 
 	const loadProgrammeData = async function (programmeId) {
 		try {
-			const response = await coreRequest(core_url + '/v0/programmes/'+ programmeId, 'GET', 200);
+			const receivedData = await coreRequest(core_url + '/v0/programmes/'+ programmeId, 'GET', 200);
 		
 			/* Adding missing data */
 			const responseMockData = await mockData.loadProgrammeData(programmeId);
 
-			response.properties.name = responseMockData.properties.name;
-			response.properties["department"] = responseMockData.properties.department;
-			response.properties["department"] = responseMockData.properties.department;
-			response.properties["coordination"] = responseMockData.properties.coordination;
-			response.properties["contacts"] = responseMockData.properties.contacts;
-			response.properties["sourceLink"] = responseMockData.properties.sourceLink;
-			response.properties["description"] = responseMockData.properties.description;
+			receivedData.properties.name = responseMockData.properties.name;
+			receivedData.properties["department"] = responseMockData.properties.department;
+			receivedData.properties["department"] = responseMockData.properties.department;
+			receivedData.properties["coordination"] = responseMockData.properties.coordination;
+			receivedData.properties["contacts"] = responseMockData.properties.contacts;
+			receivedData.properties["sourceLink"] = responseMockData.properties.sourceLink;
+			receivedData.properties["description"] = responseMockData.properties.description;
 
-			return response;
+			return receivedData;
 
 		} catch(err) {
 			switch (err) {
@@ -121,6 +121,33 @@ module.exports = function() {
 		}
 	};
 
+	const loadCourseByID = async function(courseId) {
+		try {
+			const receivedData = await coreRequest(core_url + '/v0/courses/'+ courseId +'/classes/1718i', 'GET', 200); // TO DO - change 
+
+			/* Adding missing data */
+			const responseMockData = await mockData.loadCourseByID(courseId);
+
+			const responseWithAddedData = receivedData.entities
+			.filter(entities => entities.properties.hasOwnProperty('id'))
+			.map( entities => {
+				entities.properties["name"] = responseMockData.entities[0].properties.name; 
+				return entities;
+			});
+
+			const response = {'entities': responseWithAddedData};
+
+			return response;
+
+		} catch (err) {
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	}
 	const loadAboutData = async function () {
 		try {
 			/* Adding missing data */ 
@@ -139,6 +166,7 @@ module.exports = function() {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
+		loadCourseByID : loadCourseByID,
 		loadAboutData : loadAboutData
 	};
 }

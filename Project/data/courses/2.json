@@ -1,0 +1,28 @@
+{
+	"entities": [
+		{
+			"properties": {
+				"acronym": "DAW",
+				"name": "Desenvolvimento de Aplicações Web",
+                "courseId": 2,
+				"id": "1N"
+			}
+		},
+		{
+			"properties": {
+				"acronym": "DAW",
+				"name": "Desenvolvimento de Aplicações Web",
+                "courseId": 2,
+				"id": "1D"
+			}
+		},
+		{
+			"properties": {
+				"acronym": "DAW",
+				"name": "Desenvolvimento de Aplicações Web",
+                "courseId": 2,
+				"id": "2D"
+			}
+		}
+	]
+}
