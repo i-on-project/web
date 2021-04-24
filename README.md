@@ -32,6 +32,7 @@ The i-on initiative aims to build an extensible platform in order to support aca
     - [Running i-on Core](#running-i-on-core)
 - [Docker compose](#docker-compose)
 - [Running i-on Web](#running-i-on-web)
+- [i-on Web online](#i-on-web-online)
 
 ## Functionalities
 i-on Web has the following functionalities available:
@@ -92,4 +93,5 @@ docker-compose up
 ```
 After running the previous command i-on Web should be available on port `8080`.
 
-
+## i-on Web online
+The i-on Web application is also available online since we deploy it to heroku. You can check it out [here](https://i-on-web.herokuapp.com).
