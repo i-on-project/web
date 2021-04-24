@@ -1,6 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
-
 name: heroku_deploy
 
 # Controls when the action will run. 
@@ -30,4 +27,4 @@ jobs:
           email: ${{secrets.HEROKU_EMAIL}}
           api_key: ${{secrets.HEROKU_API_KEY}}
           docker_compose_file: 'project/docker-compose.yml' # set the path to the folder where the docker-compose file is located
-          heroku_apps: '[{"imagename":"app","appname":"i-on-web","apptype":"web"}]' # List of Docker Image name, Heroku app and Heroku app type
+          heroku_apps: '[{"imagename":"web_app","appname":"i-on-web","apptype":"web"}]' # List of Docker Image name, Heroku app and Heroku app type
