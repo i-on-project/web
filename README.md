@@ -1,6 +1,6 @@
 # i-on Web
 <p align="center">
-    <img src="https://github.com/i-on-project/web/blob/main/Project/static-files/images/logo3.png" width="500px" alt="i-on Web" />
+    <img src="https://github.com/i-on-project/web/blob/main/project/static-files/images/logo3.png" width="500px" alt="i-on Web" />
 </p>
 <p align="center">
     <a href="https://github.com/i-on-project/web/blob/main/LICENSE">
@@ -59,16 +59,16 @@ Next we will see how we can run the i-on Web application according to its operat
 The i-on Web application has two operation modes and you can use either one of them.
 
 ### Development mode
-The development mode allows us to run the i-on Web application using mock data stored in .json files, which we can view [here](https://github.com/i-on-project/web/tree/main/Project/data).
+The development mode allows us to run the i-on Web application using mock data stored in .json files, which we can view [here](https://github.com/i-on-project/web/tree/main/project/data).
 
-When building the docker image we can specify the development operation mode by setting the build-time variable `OPERATION_MODE` with the value `dev` by usinf the following command on the __Project directory__:
+When building the docker image we can specify the development operation mode by setting the build-time variable `OPERATION_MODE` with the value `dev` by usinf the following command on the __project directory__:
 ```
 docker-compose build --build-arg OPERATION_MODE="dev"
 ```
 ### Running i-on Core
 This mode allows us to run the i-on Web application using the data provided by i-on Core, as such, both i-on Web and i-on Core need to be running locally. In order to download and run i-on Core please head to the [i-on Core GitHub repository](https://github.com/i-on-project/core).
 
-The enviorment variables present in the docker compose file should be enough for us to establish a connection to i-on Core, as such, we only need to execute the following command on the __Project directory__:
+The enviorment variables present in the docker compose file should be enough for us to establish a connection to i-on Core, as such, we only need to execute the following command on the __project directory__:
 ```
 docker-compose build
 ```
@@ -86,7 +86,7 @@ __Note:__ Usually Docker uses the default `172.17.0.0/16` subnet for container n
 In similarity to the command previously shown in development mode, where we assigned a value to the variable `OPERATION_MODE`, the same can be done with the remaining variables.
 
 ## Running i-on Web
-After executing the build command, in order to run i-on Web locally we can execute the following command on the __Project directory__:
+After executing the build command, in order to run i-on Web locally we can execute the following command on the __project directory__:
 ```
 docker-compose up
 ```

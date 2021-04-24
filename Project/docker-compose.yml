@@ -1,9 +1,9 @@
 version: "3.7"
 
 services:
-  web_app:
+  app:
     container_name: i-on-web
-    image: web_app
+    image: app
     build:
       context: .
       dockerfile: Dockerfile
