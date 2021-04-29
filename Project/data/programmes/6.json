@@ -1,0 +1,19 @@
+{
+    "properties": {
+        "programmeId": 6,
+        "name": "Licenciatura em Engenharia Mecânica", 
+        "acronym": "LEM",
+        "termSize": 6,
+        "department": "ADEM",
+        "coordination": [
+            {"teacher": "Professor Luís Manuel Vicente Ferreira Simões"},
+            {"teacher": "Professor Alda Cristina Jesus N. de Carvalho "},
+            {"teacher": "Professor Mário José Gonçalves Cavaco Mendes "},
+            {"teacher": "Professor Nuno Paulo Ferreira Henriques"},
+			{"teacher": "Professor Nuno Ricardo da Piedade Antunes Serra"}
+        ],
+        "contacts": "",
+        "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-mecanica",
+        "description": "O Ciclo de Estudos conducente à Licenciatura em Engenharia Mecânica, assenta nos princípios orientadores e objectivos subjacentes à sua integração no espaço de Ensino Superior Europeu corporizados no DL nº42/2006 e no DL nº74/2006. Com esse desígnio, o Engenheiro Mecânico que se pretende formar irá operar no espaço nacional e internacional em ambientes de elevada competitividade, regendo-se a sua formação, e inerente organização do Curso, por elevados padrões de exigência."
+    }
+}
