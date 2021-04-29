@@ -1,6 +1,6 @@
 # i-on Web
 <p align="center">
-    <img src="https://github.com/i-on-project/web/blob/main/Project/static-files/images/logo3.png" width="500px" alt="i-on Web" />
+    <img src="/Project/static-files/images/Logo_i-on.png" width="500px" alt="i-on Web" />
 </p>
 <p align="center">
     <a href="https://github.com/i-on-project/web/blob/main/LICENSE">

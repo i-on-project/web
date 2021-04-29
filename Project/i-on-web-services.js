@@ -51,10 +51,11 @@ module.exports = function(data) {
 	};
 
 	const getClasses = async function(body) {
-
-		const coursesIDs = Object.values(body)
-		.map(courseId => parseInt(courseId))
-		.filter(courseId => courseId != 0); // TO DO - Change
+		// TO DO - Change/Simplify
+		const coursesIDs = Object.values(body) // {"3":"4","4":["3","1"],"5":["2","5","6"]}
+			.reduce((res, curr) => res.concat(curr), []) // ["4",["3","1"],["2","5","6"]]
+			.map(courseId => parseInt(courseId)) // [4, 3, 1, 2, 5, 6]
+			.filter(courseId => courseId != 0); // TO DO - Change
 
 		// TO DO - Simplify the following code
 		const courses = [];
@@ -98,7 +99,7 @@ module.exports = function(data) {
 	const getProgrammeData = async function(programmeId){
 		const programme = await data.loadProgrammeData(programmeId);
 		const offers = await getProgrammeOffers(programmeId);
-
+		
 		return await response(data, {programmeOffersByTerms: offers.programmeOffersByTerms, programme: programme.properties});
 	};
 
