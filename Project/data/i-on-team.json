@@ -33,6 +33,14 @@
 				{"student": "Cristiano Morgado LEIC 20/21"},
 				{"student": "Ricardo Canto LEIC 20/21"}
 			]
+		},
+		{
+			"name": "codegarten",
+			"students": [
+				{"student": "Diogo Sousa LEIC 20/21"},
+				{"student": "João Moura LEIC 20/21"},
+				{"student": "Tiago David LEIC 20/21"}
+			]
 		}
 	],
 
