@@ -6,14 +6,10 @@ const port = process.env.PORT || 8080;
 const express = require('express');
 const app = express();
 
-console.log("Operation mode: " + process.env.OPERATION_MODE);
-console.log("Core url: " + process.env.CORE_URL);
-console.log("Read token: " + process.env.CORE_READ_TOKEN);
-
 /***** Run configurations *****/ 
 
 /// Data
-const dataModule = process.env.OPERATION_MODE == "dev"? './mock-data.js' : './core-data.js';
+const dataModule = process.env.OPERATION_MODE == "standalone"? './mock-data.js' : './core-data.js';
 const data = require(dataModule)();
 
 /// Services
