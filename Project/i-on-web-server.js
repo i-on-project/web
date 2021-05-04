@@ -9,7 +9,7 @@ const app = express();
 /***** Run configurations *****/ 
 
 /// Data
-const dataModule = process.env.OPERATION_MODE == "dev"? './mock-data.js' : './core-data.js';
+const dataModule = process.env.OPERATION_MODE == "standalone"? './mock-data.js' : './core-data.js';
 const data = require(dataModule)();
 
 /// Services
