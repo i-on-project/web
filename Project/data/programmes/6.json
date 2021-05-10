@@ -1,6 +1,6 @@
 {
     "properties": {
-        "programmeId": 6,
+        "id": 6,
         "name": "Licenciatura em Engenharia Mecânica", 
         "acronym": "LEM",
         "termSize": 6,

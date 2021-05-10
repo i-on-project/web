@@ -1,5 +1,6 @@
 <div class="container-fluid pageBeginning">
     <h3 class="text-center">Turmas disponíveis</h3>
+    <form method="post" action="/courses">
     <div class="row row-content">
    {{#each selectedCourses}}
         <div class="col-md-3 divSpacing">
@@ -10,7 +11,9 @@
                 {{#each this.classes}} 
                 <tr class="border_bottom">
                     <td>{{this}}</td>
-                    <td class="text-center"><input type="checkbox"></td>
+                    <td class="text-center">
+                        <input type="checkbox" name={{../this.courseId}} value={{this}}>
+                    </td>
                 </tr>
                 {{/each}}
             </table>
@@ -18,7 +21,7 @@
     {{/each}}
     </div>
     <div class="divSpacing text-center">
-        <button class="btn btn-dark btn-lg btn-block" href="#" type="submit">Concluir selecção</button>
+        <input class="btn btn-dark btn-lg btn-block" type="submit" value="Concluir selecção"/>
     </div>
-
+    </form>
 </div>

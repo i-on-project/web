@@ -1,6 +1,6 @@
 {
     "properties": {
-        "programmeId": 1,
+        "id": 1,
         "name": "Licenciatura em Engenharia Informática e de Computadores", 
         "acronym": "LEIC",
         "termSize": 6,

@@ -10,6 +10,13 @@ const contentType = 'application/json';
 const read_authorization = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
 
+// Test simulating a user (to delete)
+const user = {
+	username: "user",
+	password: "123",
+	selectedCoursesAndClasses: {} /// {"1": ["1D", "1N", ..], "2": []}
+};
+
 const coreRequest = async function(uri, method, expectedStatus, reqBody) {
 
 	const response = await fetch(uri, 
@@ -162,11 +169,46 @@ module.exports = function() {
 		}
 	};
 
+	
+	// Test functions (to delete)
+	const loadUser = async function() {
+		try {
+			return user;
+		} catch (err) {
+			// TO DO - Handle errors
+		}
+	};
+
+	const saveUserCoursesAndClasses = async function(body) {
+		try { 
+			// avoid: substitution and repetition
+			for (const prop in body) { /// Iterate over body properties (choosen courses)
+				if (body.hasOwnProperty(prop) ) { 
+
+					if(!user.selectedCoursesAndClasses.hasOwnProperty(prop)) { /// If the user has not yet chosen that course 
+						user.selectedCoursesAndClasses[prop] = body[prop];
+					} else { /// If the user has already chosen classes from that course, then it will be added to the array (we filter classes first to avoid repetitions)
+						const newClasses = body[prop]
+						.filter(
+							courseClass => !user.selectedCoursesAndClasses[prop].includes(courseClass)
+						);
+						user.selectedCoursesAndClasses[prop] = user.selectedCoursesAndClasses[prop].concat(newClasses);
+					} 
+			
+				}
+			}
+		} catch (err) {
+			// TO DO - Handle errors
+		}
+	};
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
 		loadCourseByID : loadCourseByID,
-		loadAboutData : loadAboutData
+		loadAboutData : loadAboutData,
+		saveUserCoursesAndClasses : saveUserCoursesAndClasses,
+		loadUser : loadUser
 	};
 }
