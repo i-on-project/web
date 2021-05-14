@@ -1,6 +1,6 @@
 {
     "properties": {
-        "programmeId": 3,
+        "id": 3,
         "name": "Licenciatura em Engenharia Informática, Redes e Telecomunicações", 
         "acronym": "LEIRT",
         "termSize": 6,

@@ -1,6 +1,6 @@
 {
     "properties": {
-        "programmeId": 2,
+        "id": 2,
         "name": "Mestrado em Engenharia Informática e de Computadores", 
         "acronym": "MEIC",
         "termSize": 6,

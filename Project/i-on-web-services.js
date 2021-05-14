@@ -8,20 +8,53 @@ const getAllProgrammes = async function(data){
 
 module.exports = function(data) {
 
-	const getHomeContent = async function(){
-		return {page: 'home'};
+	const getHomeContent = async function() {
+		// Test simulating a user
+		const user = await data.loadUser();
+		return {user: user, page: 'home'};
 	};
 
-	const getSchedule = async function(){
-		return {page: "schedule"};
+	const getSchedule = async function() {
+		// Test simulating a user
+		const user = await data.loadUser();
+		return {user: user, page: "schedule"};
 	};
 
-	const getCalendar = async function(){
-		return {page: "calendar"};
+	const getCalendar = async function() {
+		// Test simulating a user
+		const user = await data.loadUser();
+		return {user: user, page: "calendar"};
 	};
 
-	const getMyCourses = async function(){
-		return {page: "myCourses"};
+	const getMyCourses = async function() {
+		// Test simulating a user
+		const user = await data.loadUser();
+
+		// Obtain course info to display
+		const coursesIDs = Object.keys(user.selectedCoursesAndClasses);
+		const selectedCourses = []; //
+
+		// criar um array
+		// percorrer as keys do selected courses
+		// para cada uma delas acresentar um obj no array
+		// tiravamos a key e colocavamos num obj, as classes..
+		// faziamos load do curso e guardavamos isso
+		for(let i = 0; i < coursesIDs.length; i++) {
+			const course = await data.loadCourseByID(coursesIDs[i]);
+			const newObj = {
+				"name": course.entities[0].properties.name,
+				"acronym": course.entities[0].properties.acronym,
+				"classes": user.selectedCoursesAndClasses[coursesIDs[i]],
+				"id": coursesIDs[i]
+			};
+			selectedCourses.push(newObj);
+		}
+
+		return {
+			username: user.username, 
+			selectedCourses: selectedCourses, 
+			page: "myCourses"
+		};
 	};
 
 	const getClasses = async function(body) {
@@ -43,13 +76,17 @@ module.exports = function(data) {
 			.reduce( (course_classes, course_class) => {
 				course_classes.classes.push(course_class.id);
 				course_classes.name = course_class.name;
+				course_classes.courseId = course_class.courseId;
 				return course_classes;
-			}, {name: '', classes: []});
+			}, {courseId: 0, name: '', classes: []});
 			response.push(result)
 			return response;
 		}, []);
+		
+		// Test simulating a user
+		const user = await data.loadUser();
 
-		return {selectedCourses : classesByCourses};
+		return {user: user, selectedCourses : classesByCourses};
 		
 	};
 
@@ -67,21 +104,28 @@ module.exports = function(data) {
 
 		}, {});
 
-		return {programmeOffersByTerms : programmeOffersByTerms , page: "programmeOffers"};
+		// Test simulating a user
+		const user = await data.loadUser();
+
+		return {user: user, programmeOffersByTerms : programmeOffersByTerms , page: "programmeOffers"};
 	};
 
 	const getProgrammeData = async function(programmeId){
 		const programme = await data.loadProgrammeData(programmeId);
 		const offers = await getProgrammeOffers(programmeId);
-
-		return {programmeOffersByTerms: offers.programmeOffersByTerms, programme: programme.properties};
+		// Test simulating a user
+		const user = await data.loadUser();
+		return {user: user, programmeOffersByTerms: offers.programmeOffersByTerms, programme: programme.properties};
 	};
 
 	const getAboutData = async function(){
 		const aboutData = await data.loadAboutData();
 		aboutData.projects.map(project => project['image'] = project.name + '.png');
 		
+		// Test simulating a user
+		const user = await data.loadUser();
 		return {
+			user: user,
 			projects: aboutData.projects, 
 			teachers: aboutData.teachers,
 			department: aboutData.department,
@@ -104,6 +148,20 @@ module.exports = function(data) {
 		return {bachelor: bachelorProgrammes, master: masterProgrammes};
 	};
 
+	const selection = async function(body){
+
+			/// Before: {"1":"1N", "2":["1D","2D"]}
+
+			const newBody = Object.fromEntries(Object.entries(body).map(([k, v]) => {
+				const values = Array.isArray(v) ? v : [v]; 
+				return [k, values];
+			})); 
+			
+			/// After: {"1":["1N"], "2":["1D","2D"]}
+
+		await data.saveUserCoursesAndClasses(newBody);
+	};
+
 	return {
 		getHomeContent : getHomeContent,
 		getSchedule : getSchedule,
@@ -113,7 +171,8 @@ module.exports = function(data) {
 		getProgrammeOffers : getProgrammeOffers,
 		getProgrammeData : getProgrammeData,
 		getAboutData : getAboutData,
-		getProgrammesByDegree : getProgrammesByDegree
+		getProgrammesByDegree : getProgrammesByDegree,
+		selection : selection
 	};
 	
 }

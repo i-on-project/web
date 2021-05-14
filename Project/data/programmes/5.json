@@ -1,6 +1,6 @@
 {
     "properties": {
-        "programmeId": 5,
+        "id": 5,
         "name": "Licenciatura em Engenharia Informática e Multimédia", 
         "acronym": "LEIM",
         "termSize": 6,

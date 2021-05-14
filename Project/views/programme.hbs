@@ -29,7 +29,7 @@
       </div>
    </div>
    <hr class="solid">
-   <a class="btn btn-outline-dark pull-right" href="/programmeOffers/{{this.programme.programmeId}}" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a><br>
+   <a class="btn btn-outline-dark pull-right" href="/programmeOffers/{{this.programme.id}}" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a><br>
    <div class="container-fluid divSpacing">
       <h3 class="text-center">Plano Curricular</h3>
       <div class="row row-content">
@@ -41,12 +41,20 @@
                      <th>Unidade Curricular</th>
                      <th class="text-center">ECTS</th>
                      <th class="text-center">Área</th>
+                     <th class="text-center">Obrigatória</th>
                   </tr>
                   {{#each this}} 
                      <tr class="border_bottom">
                            <td class="col-md-3">{{this.name}}</td>
                            <td class="col-md-1 text-center">{{this.ects}}</td>
-                           <td class="col-md-2 text-center">{{this.scientificArea}}</td>
+                           <td class="col-md-1 text-center">{{this.scientificArea}}</td>
+                           <td class="col-md-1 text-center">
+                            {{#if this.optional}}
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            {{else}}
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            {{/if}}
+                        </td>
                      </tr>
                   {{/each}}
                </table>
