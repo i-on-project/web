@@ -1,6 +1,6 @@
 {
     "properties": {
-        "programmeId": 4,
+        "id": 4,
         "name": "Licenciatura em Engenharia Electrónica e Telecomunicações e de Computadores", 
         "acronym": "LEETC",
         "termSize": 6,

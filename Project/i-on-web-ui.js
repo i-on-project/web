@@ -15,6 +15,7 @@ function webui(service) {
 			try {
 				const programmesList = await getProgrammesList(service);
 				const data = await service.getHomeContent();
+				
 				res.render('home', Object.assign(data, programmesList));
 			} catch(err) {
 				await onError(res, err, 'Failed to show Home Page', service);
@@ -91,9 +92,18 @@ function webui(service) {
 			}
 		},
 
-		settings: async function(req, res) { /// About Page
+		settings: async function(req, res) { /// Settings Page
 			try {
 				res.render('settings');
+			} catch(err) {
+				await onError(res, err, 'Failed to show About Page', service);
+			}
+		},
+
+		finishSelection: async function(req, res) { 
+			try {
+				await service.selection(req.body);
+				res.redirect('/courses');
 			} catch(err) {
 				await onError(res, err, 'Failed to show About Page', service);
 			}
@@ -117,7 +127,6 @@ function webui(service) {
 				await onError(res, err, 'Failed to show Login Page', service);
 			}
 		}
-
 	}
 
 	const router = express.Router();
@@ -129,10 +138,11 @@ function webui(service) {
 	router.get('/calendar', theWebUI.calendar);	/// Calendar Page
 	router.get('/courses', theWebUI.myCourses); /// myCourses Page
 	router.get('/programmeOffers/:id', theWebUI.programmeOffers); /// programmeOffers Page
-	router.post('/programmeOffers/:id/classes', theWebUI.classes);
+	router.post('/programmeOffers/classes', theWebUI.classes);
 	router.get('/programme/:id', theWebUI.programme); /// programme Page
 	router.get('/about', theWebUI.about); /// About Page
 	router.get('/settings', theWebUI.settings); /// Settings Page
+	router.post('/courses', theWebUI.finishSelection);
 
 	/*** Associate the paths with the respective authentication functions ***/
 	router.get('/login', theWebUI.loginUI);
