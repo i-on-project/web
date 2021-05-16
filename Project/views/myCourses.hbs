@@ -2,11 +2,11 @@
 
     <h3 class="text-center">As minhas disciplinas</h3>
     <div class="divSpacing">
-        {{#if selectedCourses}}
-            {{#each selectedCourses}}
-                {{#each this.classes}}
-                <div class="boxes" role="alert">
-                {{../this.name}} - {{this}}
+        {{#if selectedCourses}} <!-- If the user has selected any courses -->
+            {{#each selectedCourses}} <!-- Iterate all user courses -->
+                {{#each this.classes}} <!-- For each course we iterate all classes choosen by the user -->
+                <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
+                {{../this.name}} - {{this}} <input class="pull-right" type="checkbox" name={{../this.courseId}} value={{this}}>
                 </div>
                 {{/each}}
             {{/each}}
@@ -14,8 +14,13 @@
             <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
         {{/if}}
     </div>
-    <div class="divSpacing"> <!-- TO DO: href is hardcoded for testing, change it -->
-        <a class="btn btn-outline-dark" href="#" role="button">Anular selecções</a>
+    <div class="divSpacing">
+        <a class="btn btn-outline-dark" href="#" role="button">Editar</a>
+        <!-- TO DO: href is hardcoded for testing, change it -->
         <a class="btn btn-outline-dark pull-right" href="/programmeOffers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
     </div>
 </div>
+
+ <!-- TO DO -->
+<script>
+</script>
