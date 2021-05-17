@@ -1,29 +1,38 @@
 <div class="container-fluid pageBeginning">
-
     <h3 class="text-center">As minhas disciplinas</h3>
+
     <div class="divSpacing">
+
         {{#if selectedCourses}} <!-- If the user has selected any courses -->
             {{#each selectedCourses}} <!-- Iterate all user courses -->
                 {{#each this.classes}} <!-- For each course we iterate all classes choosen by the user -->
-                <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
-                {{../this.name}} - {{this}} <input class="pull-right" type="checkbox" style="display:none" id="{{../this.courseId}}+{{this}}" name={{../this.courseId}} value={{this}}>
-                </div>
+                    <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
+                        {{../this.name}} - {{this}} <input class="pull-right" type="checkbox" style="display:none" id="{{../this.courseId}}+{{this}}" name={{../this.courseId}} value={{this}}>
+                    </div>
                 {{/each}}
             {{/each}}
+            
+            <div class="divSpacing">
+                <a class="btn btn-outline-dark" href="#" role="button" onclick="clickConfirm({{selectedCourses}})">Editar</a>
+                <!-- TO DO: href is hardcoded for testing, change it -->
+                <a class="btn btn-outline-dark pull-right" href="/programmeOffers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+            </div>
         {{else}}
             <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
+            <div class="divSpacing">
+                <!-- TO DO: href is hardcoded for testing, change it -->
+                <a class="btn btn-outline-dark pull-right" href="/programmeOffers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+            </div>
         {{/if}}
+
     </div>
-    <div class="divSpacing">
-        <a class="btn btn-outline-dark" href="#" role="button" onclick=clickConfirm(selectedCourses)>Editar</a>
-        <!-- TO DO: href is hardcoded for testing, change it -->
-        <a class="btn btn-outline-dark pull-right" href="/programmeOffers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-    </div>
+
 </div>
 
  <!-- TO DO --> 
 <script>
     function clickConfirm(selectedCourses) {
+        console.log
         for(let i = 0; i < selectedCourses.length; i++) {
             console.log(selectedCourses[i].classes)
             for(let j = 0; j < selectedCourses[i].classes.length; j++) {
@@ -38,3 +47,6 @@
         confirm("Tem a certeza que pretende eliminar os items selecionados?");
     }
 </script>
+
+<!--if (this.value=="Close Curtain") this.value = "Open Curtain";
+    else this.value = "Close Curtain"; -->
