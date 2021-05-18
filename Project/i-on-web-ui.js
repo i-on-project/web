@@ -162,46 +162,62 @@ function webui(service) {
 	const router = express.Router();
 	router.use(express.urlencoded({ extended: true })) /// MiddleWare to convert html forms in JSON objects
 
-	/******* Associate the paths with the respective functions *******/
+	/******* Mapping requests to handlers according to the path *******/
 
-	router.get(	'/', 						theWebUI.home			);	/// Home Page
-	router.get(	'/schedule', 				theWebUI.userSchedule	);	/// Schedule Page
-	router.get(	'/calendar', 				theWebUI.userCalendar	);	/// Calendar Page
-	router.get(	'/courses',					theWebUI.userCourses	); 	/// myCourses Page
-	router.get(	'/programme-offers/:id', 	theWebUI.programmeOffers); 	/// programmeOffers Page
+	router.get(	'/', 						theWebUI.home			);	/// Home page
+
+	router.get(	'/programme-offers/:id', 	theWebUI.programmeOffers); 	/// Programme offers page
+	router.get(	'/programme/:id', 			theWebUI.programme		);	/// Programme info page
+
+	router.get(	'/schedule', 				theWebUI.userSchedule	);	/// Users schedule page
+	router.get(	'/calendar', 				theWebUI.userCalendar	);	/// Users calendar page
+	router.get(	'/courses',					theWebUI.userCourses	); 	/// Users courses page
+
+	
 	router.post('/programme-offers/classes',theWebUI.classes		);	/// todo review
-	router.get(	'/programme/:id', 			theWebUI.programme		);	/// programme Page
+
+	
+
+	router.post('/courses', 				theWebUI.finishSelection);	///
+
+	
+	router.get(	'/login',					theWebUI.loginUI		);	/// Login UI page
+	router.get(	'/register',				theWebUI.registerUI		);	/// Register UI page
+
 	router.get(	'/about', 					theWebUI.about			);	/// About Page
 	router.get(	'/settings', 				theWebUI.settings		);	/// Settings Page
-	router.post('/courses', 				theWebUI.finishSelection);
-	router.get(	'/login',					theWebUI.loginUI		);
-	router.get(	'/register',				theWebUI.registerUI		);
 
 	return router;
 }
 
-async function appErrorsToHttpErrors(res, err, defaultError, service) {
-	
-	/// Translating application errors to HTTP errors
-	switch (err) {
-		case error.RESOURCE_NOT_FOUND:
-			await responseFunction(service, res, 404, 'Resource Not Found', 'errorPage');
-			break;
-		default:
-			await responseFunction(service, res, 500, 'An error has occured: ' + defaultError, 'errorPage');
-			break;
-	}
-}
+/******* Helper functions *******/
 
-const getPageCommonInfo = async function(service) {
+/// This function returns data that is common between multiples pages (e.g. programmes to show in navbar)
+async function getPageCommonInfo(service) {
 	return await service.getProgrammesByDegree();
 };
 
-async function responseFunction(service, res, status, msg, page) {
-	const programmesList = await getPageCommonInfo(service);
+async function appErrorsToHttpErrors(res, err, defaultError, service) {
+	
+	switch (err) {
+		case error.RESOURCE_NOT_FOUND:
+			await response(service, res, 404, 'Resource Not Found', 'errorPage');
+			break;
+		default:
+			await response(service, res, 500, 'An error has occured: ' + defaultError, 'errorPage');
+			break;
+	}
+	
+}
+
+async function response(service, res, status, msg, page) {
+
+	const commonInfo = await getPageCommonInfo(service);
 	const answer = {'status': status, 'message': msg};
+	
 	res.statusCode = answer.status;
-	res.render(page, Object.assign(answer, programmesList));
+	res.render(page, Object.assign(answer, commonInfo));
+
 }
 
 module.exports = webui;
