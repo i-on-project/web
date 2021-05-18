@@ -70,7 +70,7 @@ module.exports = function() {
 	const saveUserCoursesAndClasses = async function(body) {
 		try { 
 			// avoid: substitution and repetition
-			for (const prop in body) { /// Iterate over body properties (choosen courses)
+			for (const prop in body) { /// Iterate over body properties (chooen courses)
 				if (body.hasOwnProperty(prop) ) { 
 
 					if(!user.selectedCoursesAndClasses.hasOwnProperty(prop)) { /// If the user has not yet chosen that course 

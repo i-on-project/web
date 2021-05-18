@@ -22,6 +22,32 @@ function webui(service) {
 			}
 		},
 
+		programmeOffers: async function(req, res) {
+			try {
+
+				const commonInfo = await getPageCommonInfo(service);
+				const data = await service.getProgrammeOffers(req.params['id']);
+
+				res.render('programmeOffers', Object.assign(data, commonInfo));
+
+			} catch(err) {
+				await appErrorsToHttpErrors(res, err, 'Failed to show Programme Offers', service);
+			}
+		},
+
+		programme: async function(req, res) {
+			try {
+
+				const commonInfo = await getPageCommonInfo(service);
+				const data = await service.getProgrammeData(req.params['id']);
+
+				res.render('programme', Object.assign(data, commonInfo));
+
+			} catch(err) {
+				await appErrorsToHttpErrors(res, err, 'Failed to show Programme Page', service);
+			}
+		},
+
 		userSchedule: async function(req, res) {
 			try {
 
@@ -61,7 +87,7 @@ function webui(service) {
 			}
 		},
 	
-		classesOfTheSelectedCourses: async function(req, res) {
+		getClassesFromSelectedCourses: async function(req, res) { // todo we must divide this method in two, one that will handle (e.g. save) the selected courses and other that will display classes available for that courses
 			try {
 
 				const commonInfo = await getPageCommonInfo(service);
@@ -74,29 +100,14 @@ function webui(service) {
 			}
 		},
 
-		programmeOffers: async function(req, res) {
+		saveUserChosenClasses: async function(req, res) { 
 			try {
-
-				const commonInfo = await getPageCommonInfo(service);
-				const data = await service.getProgrammeOffers(req.params['id']);
-
-				res.render('programmeOffers', Object.assign(data, commonInfo));
+				
+				await service.selection(req.body);
+				res.redirect('/courses');
 
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show Programme Offers', service);
-			}
-		},
-
-		programme: async function(req, res) {
-			try {
-
-				const commonInfo = await getPageCommonInfo(service);
-				const data = await service.getProgrammeData(req.params['id']);
-
-				res.render('programme', Object.assign(data, commonInfo));
-
-			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show Programme Page', service);
+				await appErrorsToHttpErrors(res, err, 'Failed to show About Page', service);
 			}
 		},
 
@@ -118,17 +129,6 @@ function webui(service) {
 				
 				const commonInfo = await getPageCommonInfo(service);
 				res.render('settings', Object.assign(data, commonInfo));
-
-			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show About Page', service);
-			}
-		},
-
-		finishSelection: async function(req, res) { 
-			try {
-				
-				await service.selection(req.body);
-				res.redirect('/courses');
 
 			} catch(err) {
 				await appErrorsToHttpErrors(res, err, 'Failed to show About Page', service);
@@ -157,6 +157,7 @@ function webui(service) {
 				await appErrorsToHttpErrors(res, err, 'Failed to show Register Page', service);
 			}
 		}
+
 	}
 
 	const router = express.Router();
@@ -164,28 +165,25 @@ function webui(service) {
 
 	/******* Mapping requests to handlers according to the path *******/
 
-	router.get(	'/', 						theWebUI.home			);	/// Home page
+	router.get(	'/', 					theWebUI.home			);	/// Home page
 
-	router.get(	'/programme-offers/:id', 	theWebUI.programmeOffers); 	/// Programme offers page
-	router.get(	'/programme/:id', 			theWebUI.programme		);	/// Programme info page
-
-	router.get(	'/schedule', 				theWebUI.userSchedule	);	/// Users schedule page
-	router.get(	'/calendar', 				theWebUI.userCalendar	);	/// Users calendar page
-	router.get(	'/courses',					theWebUI.userCourses	); 	/// Users courses page
-
+	router.get(	'/programme/:id', 		theWebUI.programme		);	/// Programme info page
+	router.get(	'/programme-offers/:id',theWebUI.programmeOffers); 	/// Programme offers page
 	
-	router.post('/programme-offers/classes',theWebUI.classes		);	/// todo review
+	router.post('/courses',				theWebUI.saveUserChosenCourses	);			/// todo create method
+	router.get(	'/available-classes',	theWebUI.getClassesFromSelectedCourses	);	/// todo list available);	/// todo review
+	router.post('/classes', 			theWebUI.saveUserChosenClasses			);	/// todo review
 
-	
+	router.get(	'/courses',				theWebUI.userCourses	); 	/// Users courses page
+	router.get(	'/schedule', 			theWebUI.userSchedule	);	/// Users schedule page
+	router.get(	'/calendar', 			theWebUI.userCalendar	);	/// Users calendar page
 
-	router.post('/courses', 				theWebUI.finishSelection);	///
+	router.get(	'/about', 				theWebUI.about			);	/// About Page
+	router.get(	'/settings', 			theWebUI.settings		);	/// Settings Page
 
-	
-	router.get(	'/login',					theWebUI.loginUI		);	/// Login UI page
-	router.get(	'/register',				theWebUI.registerUI		);	/// Register UI page
-
-	router.get(	'/about', 					theWebUI.about			);	/// About Page
-	router.get(	'/settings', 				theWebUI.settings		);	/// Settings Page
+	/*** Auth ***/	
+	router.get(	'/login',				theWebUI.loginUI		);	/// Login UI page
+	router.get(	'/register',			theWebUI.registerUI		);	/// Register UI page
 
 	return router;
 }
