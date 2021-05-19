@@ -10,7 +10,7 @@ function webui(service) {
 		home: async function(req, res) {
 			try {
 
-				const commonInfo = await getPageCommonInfo(service);
+				const commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getHome();
 				
 				res.render('home', Object.assign(data, commonInfo));
@@ -25,7 +25,7 @@ function webui(service) {
 		programmeOffers: async function(req, res) {
 			try {
 
-				const commonInfo = await getPageCommonInfo(service);
+				const commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getProgrammeOffers(req.params['id']);
 
 				res.render('programmeOffers', Object.assign(data, commonInfo));
@@ -38,7 +38,7 @@ function webui(service) {
 		programme: async function(req, res) {
 			try {
 
-				const commonInfo = await getPageCommonInfo(service);
+				const commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getProgrammeData(req.params['id']);
 
 				res.render('programme', Object.assign(data, commonInfo));
@@ -51,7 +51,7 @@ function webui(service) {
 		userSchedule: async function(req, res) {
 			try {
 
-				const commonInfo = await getPageCommonInfo(service);
+				const commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getUserSchedule();
 
 				res.render('user-schedule', Object.assign(data, commonInfo));
@@ -64,7 +64,7 @@ function webui(service) {
 		userCalendar: async function(req, res) {
 			try {
 
-				const commonInfo = await getPageCommonInfo(service);
+				const commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getUserCalendar();
 
 				res.render('user-calendar', Object.assign(data, commonInfo));
@@ -77,7 +77,7 @@ function webui(service) {
 		userCourses: async function(req, res) {
 			try {
 				
-				const commonInfo = await getPageCommonInfo(service);
+				const commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getUserCourses();
 
 				res.render('user-courses', Object.assign(data, commonInfo));
@@ -90,7 +90,7 @@ function webui(service) {
 		getClassesFromSelectedCourses: async function(req, res) { // todo we must divide this method in two, one that will handle (e.g. save) the selected courses and other that will display classes available for that courses
 			try {
 
-				const commonInfo = await getPageCommonInfo(service);
+				const commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getClasses(req.body); // todo review and change names
 
 				res.render('classes', Object.assign(data, commonInfo));
@@ -114,7 +114,7 @@ function webui(service) {
 		about: async function(req, res) {
 			try {
 
-				const commonInfo = await getPageCommonInfo(service);
+				const commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getAboutData();
 				
 				res.render('about', Object.assign(data, commonInfo));
@@ -127,7 +127,7 @@ function webui(service) {
 		settings: async function(req, res) { /// Settings Page
 			try {
 				
-				const commonInfo = await getPageCommonInfo(service);
+				const commonInfo = await getPagesCommonInfo(service);
 				res.render('settings', Object.assign(data, commonInfo));
 
 			} catch(err) {
@@ -139,7 +139,7 @@ function webui(service) {
 		loginUI: async function(req, res) {
 			try {
 
-				const commonInfo = await getPageCommonInfo(service);	
+				const commonInfo = await getPagesCommonInfo(service);	
 				res.render('login', Object.assign({'page': 'login'}, commonInfo)); 
 			
 			} catch(err) {
@@ -150,7 +150,7 @@ function webui(service) {
 		registerUI: async function(req, res) {
 			try {
 				
-				const commonInfo = await getPageCommonInfo(service);
+				const commonInfo = await getPagesCommonInfo(service);
 				res.render('register', commonInfo);
 			
 			} catch(err) {
@@ -170,8 +170,8 @@ function webui(service) {
 	router.get(	'/programme/:id', 		theWebUI.programme		);	/// Programme info page
 	router.get(	'/programme-offers/:id',theWebUI.programmeOffers); 	/// Programme offers page
 	
-	router.post('/courses',				theWebUI.saveUserChosenCourses	);			/// todo create method
-	router.get(	'/available-classes',	theWebUI.getClassesFromSelectedCourses	);	/// todo list available);	/// todo review
+	router.post('/courses',				theWebUI.saveUserChosenCourses			);	/// todo create method
+	router.get(	'/available-classes',	theWebUI.getClassesFromSelectedCourses	);	/// todo list available)
 	router.post('/classes', 			theWebUI.saveUserChosenClasses			);	/// todo review
 
 	router.get(	'/courses',				theWebUI.userCourses	); 	/// Users courses page
@@ -191,7 +191,7 @@ function webui(service) {
 /******* Helper functions *******/
 
 /// This function returns data that is common between multiples pages (e.g. programmes to show in navbar)
-async function getPageCommonInfo(service) {
+async function getPagesCommonInfo(service) {
 	return await service.getProgrammesByDegree();
 };
 
@@ -210,7 +210,7 @@ async function appErrorsToHttpErrors(res, err, defaultError, service) {
 
 async function response(service, res, status, msg, page) {
 
-	const commonInfo = await getPageCommonInfo(service);
+	const commonInfo = await getPagesCommonInfo(service);
 	const answer = {'status': status, 'message': msg};
 	
 	res.statusCode = answer.status;
