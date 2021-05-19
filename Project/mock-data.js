@@ -4,7 +4,7 @@ module.exports = function() {
 
 	const loadAllProgrammes = async function() {
 		try {
-			const programmes = await require('./data/programmes');
+			const programmes = getMockData('./data/programmes');
 			return programmes;
 		} catch (err) {
 			// TO DO - Handle errors
@@ -14,7 +14,7 @@ module.exports = function() {
 	const loadAllProgrammeOffers = async function(programmeId) {
 		try {
 			const path = './data/offers/' + programmeId;
-			const programmeOffers = await require(path);
+			const programmeOffers = getMockData(path);
 			return programmeOffers;
 		} catch (err) {
 			// TO DO - Handle errors
@@ -24,7 +24,7 @@ module.exports = function() {
 	const loadProgrammeData = async function(programmeId) {
 		try {
 			const path = './data/programmes/' + programmeId;
-			const programmeData = await require(path);
+			const programmeData = getMockData(path);
 			return programmeData;
 		} catch (err) {
 			// TO DO - Handle errors
@@ -34,7 +34,7 @@ module.exports = function() {
 	const loadCourse = async function(courseId) {
 		try {
 			const path = './data/courses/' + courseId;
-			const course = await require(path);
+			const course = getMockData(path);
 			return course;
 		} catch (err) {
 			// TO DO - Handle errors
@@ -43,7 +43,7 @@ module.exports = function() {
 
 	const loadAboutData = async function() {
 		try {
-			const aboutData = await require('./data/i-on-team');
+			const aboutData = getMockData('./data/i-on-team');
 			return aboutData;
 		} catch (err) {
 			// TO DO - Handle errors
@@ -58,3 +58,8 @@ module.exports = function() {
 		loadAboutData : loadAboutData
 	};
 }
+
+/******* Helper function *******/
+const getMockData = async function(path) {
+	return require(path);
+};
