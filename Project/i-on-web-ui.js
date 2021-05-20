@@ -17,7 +17,7 @@ function webui(service) {
 
 			} catch(err) {
 
-				await appErrorsToHttpErrors(res, err, 'Failed to show Home Page', service);
+				await onErrorResponse(res, err, 'Failed to show Home Page', service);
 
 			}
 		},
@@ -31,7 +31,7 @@ function webui(service) {
 				res.render('programmeOffers', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show Programme Offers', service);
+				await onErrorResponse(res, err, 'Failed to show Programme Offers', service);
 			}
 		},
 
@@ -44,7 +44,7 @@ function webui(service) {
 				res.render('programme', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show Programme Page', service);
+				await onErrorResponse(res, err, 'Failed to show Programme Page', service);
 			}
 		},
 
@@ -57,7 +57,7 @@ function webui(service) {
 				res.render('user-schedule', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show Schedule', service);
+				await onErrorResponse(res, err, 'Failed to show Schedule', service);
 			}
 		},
 
@@ -70,7 +70,7 @@ function webui(service) {
 				res.render('user-calendar', Object.assign(data, commonInfo));
 				
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show Calendar', service);
+				await onErrorResponse(res, err, 'Failed to show Calendar', service);
 			}
 		},
 
@@ -83,7 +83,18 @@ function webui(service) {
 				res.render('user-courses', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show User Courses', service);
+				await onErrorResponse(res, err, 'Failed to show User Courses', service);
+			}
+		},
+
+		saveUserChosenCourses: async function(req, res) { 
+			try {
+				
+				await service.selection(req.body);
+				res.redirect('/courses');
+
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show About Page', service);
 			}
 		},
 	
@@ -96,7 +107,7 @@ function webui(service) {
 				res.render('classes', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show Programme Offers', service);
+				await onErrorResponse(res, err, 'Failed to show Programme Offers', service);
 			}
 		},
 
@@ -107,7 +118,7 @@ function webui(service) {
 				res.redirect('/courses');
 
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show About Page', service);
+				await onErrorResponse(res, err, 'Failed to show About Page', service);
 			}
 		},
 
@@ -120,7 +131,7 @@ function webui(service) {
 				res.render('about', Object.assign(data, commonInfo));
 			
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show About Page', service);
+				await onErrorResponse(res, err, 'Failed to show About Page', service);
 			}
 		},
 
@@ -131,7 +142,7 @@ function webui(service) {
 				res.render('settings', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show About Page', service);
+				await onErrorResponse(res, err, 'Failed to show About Page', service);
 			}
 		},
 
@@ -143,7 +154,7 @@ function webui(service) {
 				res.render('login', Object.assign({'page': 'login'}, commonInfo)); 
 			
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show Login Page', service);
+				await onErrorResponse(res, err, 'Failed to show Login Page', service);
 			}
 		},
 
@@ -154,7 +165,7 @@ function webui(service) {
 				res.render('register', commonInfo);
 			
 			} catch(err) {
-				await appErrorsToHttpErrors(res, err, 'Failed to show Register Page', service);
+				await onErrorResponse(res, err, 'Failed to show Register Page', service);
 			}
 		}
 
@@ -188,6 +199,7 @@ function webui(service) {
 	return router;
 }
 
+
 /******* Helper functions *******/
 
 /// This function returns data that is common between multiples pages (e.g. programmes to show in navbar)
@@ -195,27 +207,23 @@ async function getPagesCommonInfo(service) {
 	return await service.getProgrammesByDegree();
 };
 
-async function appErrorsToHttpErrors(res, err, defaultError, service) {
-	
-	switch (err) {
-		case error.RESOURCE_NOT_FOUND:
-			await response(service, res, 404, 'Resource Not Found', 'errorPage');
-			break;
-		default:
-			await response(service, res, 500, 'An error has occured: ' + defaultError, 'errorPage');
-			break;
-	}
-	
-}
+async function onErrorResponse(res, err, defaultError, commonInfo) {
 
-async function response(service, res, status, msg, page) {
-
-	const commonInfo = await getPagesCommonInfo(service);
-	const answer = {'status': status, 'message': msg};
+	const translatedError = appErrorsToHttpErrors(err, defaultError);
 	
 	res.statusCode = answer.status;
-	res.render(page, Object.assign(answer, commonInfo));
+	res.render(page, Object.assign(translatedError, commonInfo));
 
+}
+
+function appErrorsToHttpErrors(err, defaultError) {
+
+	switch (err) {
+		case error.RESOURCE_NOT_FOUND:
+			return { status: 404, message: 'Resource Not Found' };
+		default:
+			return { status: 500, message: `An error has occured: ${defaultError} errorPage` };
+	}
 }
 
 module.exports = webui;

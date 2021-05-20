@@ -2,43 +2,26 @@
 
 const error = require('./i-on-web-errors.js');
 
-const getAllProgrammes = async function(data){
-	return await data.loadAllProgrammes();
-};
-
 module.exports = function(data) {
 
-	const getHomeContent = async function() {
-		// Test simulating a user
-		const user = await data.loadUser();
+	const getHome = async function(user) {
 		return {user: user, page: 'home'};
 	};
 
-	const getSchedule = async function() {
-		// Test simulating a user
-		const user = await data.loadUser();
+	const getUserSchedule = async function(user) {
 		return {user: user, page: "schedule"};
 	};
 
-	const getCalendar = async function() {
-		// Test simulating a user
-		const user = await data.loadUser();
+	const getUserCalendar = async function(user) {
 		return {user: user, page: "calendar"};
 	};
 
-	const getMyCourses = async function() {
-		// Test simulating a user
-		const user = await data.loadUser();
+	const getUserCourses = async function(user) {
 
 		// Obtain course info to display
 		const coursesIDs = Object.keys(user.selectedCoursesAndClasses);
-		const selectedCourses = []; //
+		const selectedCourses = []; 
 
-		// criar um array
-		// percorrer as keys do selected courses
-		// para cada uma delas acresentar um obj no array
-		// tiravamos a key e colocavamos num obj, as classes..
-		// faziamos load do curso e guardavamos isso
 		for(let i = 0; i < coursesIDs.length; i++) {
 			const course = await data.loadCourseByID(coursesIDs[i]);
 			const newObj = {
@@ -90,7 +73,7 @@ module.exports = function(data) {
 		
 	};
 
-	const getProgrammeOffers = async function(programmeId){
+	const getProgrammeOffers = async function(programmeId, user){
 		const offers = await data.loadAllProgrammeOffers(programmeId);
 
 		const programmeOffersByTerms = offers.entities
@@ -104,26 +87,20 @@ module.exports = function(data) {
 
 		}, {});
 
-		// Test simulating a user
-		const user = await data.loadUser();
-
 		return {user: user, programmeOffersByTerms : programmeOffersByTerms , page: "programmeOffers"};
 	};
 
-	const getProgrammeData = async function(programmeId){
+	const getProgrammeData = async function(programmeId, user){
 		const programme = await data.loadProgrammeData(programmeId);
 		const offers = await getProgrammeOffers(programmeId);
-		// Test simulating a user
-		const user = await data.loadUser();
+
 		return {user: user, programmeOffersByTerms: offers.programmeOffersByTerms, programme: programme.properties};
 	};
 
-	const getAboutData = async function(){
+	const getAboutData = async function(user){
 		const aboutData = await data.loadAboutData();
 		aboutData.projects.map(project => project['image'] = project.name + '.png');
 		
-		// Test simulating a user
-		const user = await data.loadUser();
 		return {
 			user: user,
 			projects: aboutData.projects, 
@@ -133,8 +110,8 @@ module.exports = function(data) {
 		};
 	};
 
-	const getProgrammesByDegree = async function(){
-		const programmes = await getAllProgrammes(data);
+	const getPagesCommonInfo = async function(){
+		const programmes = await data.loadAllProgrammes();
 		// TO DO -> Simplify (do an auxiliar function)
 	
 		const bachelorProgrammes = programmes.entities
@@ -163,15 +140,15 @@ module.exports = function(data) {
 	};
 
 	return {
-		getHomeContent : getHomeContent,
-		getSchedule : getSchedule,
-		getCalendar : getCalendar,
-		getMyCourses : getMyCourses,
+		getHome : getHome,
+		getUserSchedule : getUserSchedule,
+		getUserCalendar : getUserCalendar,
+		getUserCourses : getUserCourses,
 		getClasses : getClasses,
 		getProgrammeOffers : getProgrammeOffers,
 		getProgrammeData : getProgrammeData,
 		getAboutData : getAboutData,
-		getProgrammesByDegree : getProgrammesByDegree,
+		getPagesCommonInfo : getPagesCommonInfo,
 		selection : selection
 	};
 	
