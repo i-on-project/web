@@ -11,7 +11,7 @@ function webui(service) {
 			try {
 
 				const commonInfo = await getPagesCommonInfo(service);
-				const data = await service.getHome();
+				const data = await service.getHome(req.user);
 				
 				res.render('home', Object.assign(data, commonInfo));
 
@@ -22,16 +22,16 @@ function webui(service) {
 			}
 		},
 
-		programmeOffers: async function(req, res) {
+		programmeCalendarTermOffers: async function(req, res) {
 			try {
 
 				const commonInfo = await getPagesCommonInfo(service);
-				const data = await service.getProgrammeOffers(req.params['id']);
+				const data = await service.getProgrammeCalendarTermOffers(req.params['id'], req.user);
 
-				res.render('programmeOffers', Object.assign(data, commonInfo));
+				res.render('programmeCalendarTermOffers', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Programme Offers', service);
+				await onErrorResponse(res, err, 'Failed to show Offers', service);
 			}
 		},
 
@@ -39,7 +39,7 @@ function webui(service) {
 			try {
 
 				const commonInfo = await getPagesCommonInfo(service);
-				const data = await service.getProgrammeData(req.params['id']);
+				const data = await service.getProgrammeData(req.params['id'], req.user);
 
 				res.render('programme', Object.assign(data, commonInfo));
 
@@ -52,7 +52,7 @@ function webui(service) {
 			try {
 
 				const commonInfo = await getPagesCommonInfo(service);
-				const data = await service.getUserSchedule();
+				const data = await service.getUserSchedule(req.user);
 
 				res.render('user-schedule', Object.assign(data, commonInfo));
 
@@ -65,7 +65,7 @@ function webui(service) {
 			try {
 
 				const commonInfo = await getPagesCommonInfo(service);
-				const data = await service.getUserCalendar();
+				const data = await service.getUserCalendar(req.user);
 
 				res.render('user-calendar', Object.assign(data, commonInfo));
 				
@@ -78,7 +78,7 @@ function webui(service) {
 			try {
 				
 				const commonInfo = await getPagesCommonInfo(service);
-				const data = await service.getUserCourses();
+				const data = await service.getUserCourses(req.user);
 
 				res.render('user-courses', Object.assign(data, commonInfo));
 
@@ -90,7 +90,7 @@ function webui(service) {
 		saveUserChosenCourses: async function(req, res) { 
 			try {
 				
-				await service.selection(req.body);
+				await service.saveUserCourses(req.user, req.body);
 				res.redirect('/courses');
 
 			} catch(err) {
@@ -98,11 +98,11 @@ function webui(service) {
 			}
 		},
 	
-		getClassesFromSelectedCourses: async function(req, res) { // todo we must divide this method in two, one that will handle (e.g. save) the selected courses and other that will display classes available for that courses
+		getClassesFromSelectedCourses: async function(req, res) {
 			try {
 
 				const commonInfo = await getPagesCommonInfo(service);
-				const data = await service.getClasses(req.body); // todo review and change names
+				const data = await service.getClasses(req.body, req.user); // todo review and change names
 
 				res.render('classes', Object.assign(data, commonInfo));
 
@@ -114,7 +114,7 @@ function webui(service) {
 		saveUserChosenClasses: async function(req, res) { 
 			try {
 				
-				await service.selection(req.body);
+				await service.saveUserClasses(req.user,req.body);
 				res.redirect('/courses');
 
 			} catch(err) {
@@ -126,7 +126,7 @@ function webui(service) {
 			try {
 
 				const commonInfo = await getPagesCommonInfo(service);
-				const data = await service.getAboutData();
+				const data = await service.getAboutData(req.user);
 				
 				res.render('about', Object.assign(data, commonInfo));
 			
@@ -179,7 +179,7 @@ function webui(service) {
 	router.get(	'/', 					theWebUI.home			);	/// Home page
 
 	router.get(	'/programme/:id', 		theWebUI.programme		);	/// Programme info page
-	router.get(	'/programme-offers/:id',theWebUI.programmeOffers); 	/// Programme offers page
+	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers); 	/// Programme offers page
 	
 	router.post('/courses',				theWebUI.saveUserChosenCourses			);	/// todo create method
 	router.get(	'/available-classes',	theWebUI.getClassesFromSelectedCourses	);	/// todo list available)
