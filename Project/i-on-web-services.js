@@ -9,78 +9,9 @@ module.exports = function(data) {
 			// TO DO - Show user next events
 		}
 
-		return {user: user, page: 'home'};
-	};
-
-	const getUserSchedule = async function(user) {
-		if(user) {
-			// TO DO - Get user schedule
-		}
-
-		return {user: user, page: "schedule"};
-	};
-
-	const getUserCalendar = async function(user) {
-		if(user) {
-			// TO DO - Get user calendar
-		}
-
-		return {user: user, page: "calendar"};
-	};
-
-	const getUserCourses = async function(user) {
-		const userCourses = []; 
-		if(user) {
-			const coursesIDs = Object.keys(user.selectedCoursesAndClasses);
-
-			for(let i = 0; i < coursesIDs.length; i++) {
-				const course = await data.loadCourseByID(coursesIDs[i]);
-				const newObj = {
-					"name": course.entities[0].properties.name,
-					"acronym": course.entities[0].properties.acronym,
-					"classes": user.selectedCoursesAndClasses[coursesIDs[i]],
-					"id": coursesIDs[i]
-				};
-				userCourses.push(newObj);
-			}
-		}
 		return {
 			user: user, 
-			userCourses: userCourses, 
-			page: "myCourses"
-		};
-	};
-
-	const getClasses = async function(selectedCourses, user) {
-
-		// TO DO - Change
-		const coursesIDs = selectedCourses
-			.reduce((res, curr) => res.concat(curr), [])
-			.map(courseId => parseInt(courseId));
-
-		const courses = [];
-		for(let i = 0; i < coursesIDs.length; i++)
-			courses.push(await data.loadCourseByID(coursesIDs[i]));
-
-		const classesByCourses = courses.reduce((response, course) => {
-			
-			const result = course.entities
-			.map(entities => entities.properties)
-			.reduce( (course_classes, course_class) => {
-				course_classes.classes.push(course_class.id);
-				course_classes.name = course_class.name;
-				course_classes.courseId = course_class.courseId;
-				return course_classes;
-			}, {courseId: 0, name: '', classes: []});
-
-			response.push(result);
-
-			return response;
-		}, []);
-
-		return {
-			user: user, 
-			classesByCourses: classesByCourses
+			page: 'home'
 		};
 	};
 
@@ -130,6 +61,96 @@ module.exports = function(data) {
 		};
 	};
 
+	const getUserSchedule = async function(user) {
+		if(user) {
+			// TO DO - Get user schedule
+		}
+
+		return {
+			user: user, 
+			page: "schedule"
+		};
+	};
+
+	const getUserCalendar = async function(user) {
+		if(user) {
+			// TO DO - Get user calendar
+		}
+
+		return {
+			user: user, 
+			page: "calendar"
+		};
+	};
+
+	const getUserCourses = async function(user) {
+		if(user) {
+			const userCourses = []; 
+			const coursesIDs = Object.keys(user.selectedCoursesAndClasses);
+
+			for(let i = 0; i < coursesIDs.length; i++) {
+				const course = await data.loadCourseByID(coursesIDs[i]);
+				const newObj = {
+					"name": course.entities[0].properties.name,
+					"acronym": course.entities[0].properties.acronym,
+					"classes": user.selectedCoursesAndClasses[coursesIDs[i]],
+					"id": coursesIDs[i]
+				};
+				userCourses.push(newObj);
+			}
+		}
+		return {
+			user: user, 
+			userCourses: userCourses, 
+			page: "myCourses"
+		};
+	};
+
+	const saveUserCourses = async function(user, courses){
+		if(user) {
+			await data.saveUserCourses(user.username, courses);
+		}
+	};
+
+	const getClasses = async function(selectedCourses, user) {
+
+		// TO DO - Change
+		const coursesIDs = selectedCourses
+			.reduce((res, curr) => res.concat(curr), [])
+			.map(courseId => parseInt(courseId));
+
+		const courses = [];
+		for(let i = 0; i < coursesIDs.length; i++)
+			courses.push(await data.loadCourseByID(coursesIDs[i]));
+
+		const classesByCourses = courses.reduce((response, course) => {
+			
+			const result = course.entities
+			.map(entities => entities.properties)
+			.reduce( (course_classes, course_class) => {
+				course_classes.classes.push(course_class.id);
+				course_classes.name = course_class.name;
+				course_classes.courseId = course_class.courseId;
+				return course_classes;
+			}, {courseId: 0, name: '', classes: []});
+
+			response.push(result);
+
+			return response;
+		}, []);
+
+		return {
+			user: user, 
+			classesByCourses: classesByCourses
+		};
+	};
+
+	const saveUserClasses = async function(user, classes){
+		if(user) {
+			await data.saveUserClasses(user.username, classes);
+		}
+	};
+
 	const getAboutData = async function(user){
 		const aboutData = await data.loadAboutData();
 		
@@ -156,30 +177,18 @@ module.exports = function(data) {
 		return {bachelor: bachelorProgrammes, master: masterProgrammes};
 	};
 
-	const saveUserCourses = async function(user, courses){
-		if(user) {
-			await data.saveUserCourses(user.username, courses);
-		}
-	};
-
-	const saveUserClasses = async function(user, classes){
-		if(user) {
-			await data.saveUserClasses(user.username, classes);
-		}
-	};
-
 	return {
 		getHome : getHome,
+		getProgrammeCalendarTermOffers : getProgrammeCalendarTermOffers,
+		getProgrammeData : getProgrammeData,
 		getUserSchedule : getUserSchedule,
 		getUserCalendar : getUserCalendar,
 		getUserCourses : getUserCourses,
-		getClasses : getClasses,
-		getProgrammeCalendarTermOffers : getProgrammeCalendarTermOffers,
-		getProgrammeData : getProgrammeData,
-		getAboutData : getAboutData,
-		getPagesCommonInfo : getPagesCommonInfo,
 		saveUserCourses : saveUserCourses,
-		saveUserClasses : saveUserClasses
+		getClasses : getClasses,
+		saveUserClasses : saveUserClasses,		
+		getAboutData : getAboutData,
+		getPagesCommonInfo : getPagesCommonInfo
 	};
 	
 }
