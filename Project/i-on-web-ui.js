@@ -219,6 +219,8 @@ async function onErrorResponse(res, err, defaultError, commonInfo) {
 function appErrorsToHttpErrors(err, defaultError) {
 
 	switch (err) {
+		case error.BAD_REQUEST:
+			return { status: 400, message: 'Bad Request' };
 		case error.RESOURCE_NOT_FOUND:
 			return { status: 404, message: 'Resource Not Found' };
 		default:
