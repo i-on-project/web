@@ -6,21 +6,12 @@ const fetch = require('node-fetch');
 const contentType = 'application/json';
 
 /// Environment variables
-const read_authorization = 'Bearer ' + process.env.CORE_READ_TOKEN;
+const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
 
+const coreRequest = async function(endpoint, expectedStatus, options) {
 
-const coreRequest = async function(uri, method, expectedStatus, reqBody) {
-
-	const response = await fetch(uri, 
-		{
-			method: method,
-			headers: {
-				'Authorization': read_authorization,
-				'Content-Type': contentType
-			},
-			body: reqBody
-		});
+	const response = await fetch(core_url + endpoint, options);
 
 	if(response.status != expectedStatus) throw response.status;
 
@@ -31,8 +22,18 @@ module.exports = function() {
 
 	const loadAllProgrammes = async function () {
 		try {
-			return await coreRequest(core_url + '/v0/programmes/', 'GET', 200);
-		} catch(err) {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+
+			return await coreRequest('/v0/programmes/', 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -44,8 +45,18 @@ module.exports = function() {
 
 	const loadAllProgrammeOffers = async function (programmeId) {
 		try {
-			return await coreRequest(core_url + '/v0/programmes/'+ programmeId, 'GET', 200);	
-		} catch(err) {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+
+			return await coreRequest('/v0/programmes/'+ programmeId, 200, options);	
+
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -57,8 +68,18 @@ module.exports = function() {
 
 	const loadProgrammeData = async function(programmeId) {
 		try {
-			return await coreRequest(core_url + '/v0/programmes/'+ programmeId, 'GET', 200);
-		} catch(err) {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+
+			return await coreRequest('/v0/programmes/'+ programmeId, 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -70,8 +91,18 @@ module.exports = function() {
 
 	const loadCourse = async function(courseId) {
 		try {
-			return await coreRequest(core_url + '/v0/courses/'+ courseId +'/classes/1718i', 'GET', 200); // TO DO - change 
-		} catch (err) {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+
+			return await coreRequest('/v0/courses/'+ courseId +'/classes/1718i', 200, options); // TO DO - change 
+
+		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -83,8 +114,33 @@ module.exports = function() {
 	
 	const loadAboutData = async function () {
 		try {
+		
 			return {}; // Request still not suported by i-on Core
-		} catch(err) {
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const loadAuthenticationMethods = async function () {
+		try {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+			
+			return await coreRequest('/api/auth/methods', 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -99,6 +155,7 @@ module.exports = function() {
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
 		loadCourse : loadCourse,
-		loadAboutData : loadAboutData
+		loadAboutData : loadAboutData,
+		loadAuthenticationMethods : loadAuthenticationMethods
 	};
 }

@@ -11,6 +11,7 @@ module.exports = function(baseUrl) {
 
 	const initializeDatabaseIndexes = async function () { /// Initialize index 'users' in database
 		try {
+			
 			const getResponseUsers = await fetch(`${usersBaseUrl}/`); /// GET request to verify the existence of 'users' index
 			if(getResponseUsers.status != 200 && getResponseUsers.status != 404) throw getResponseUsers.status;
 
@@ -29,8 +30,10 @@ module.exports = function(baseUrl) {
 
 	const getUser = async function (username) { /// Obtain user given the username
 		try {
+
 			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${username}`, 200);
 			return answer._source;
+
 		} catch (err) {
 			switch (err) {
 				case 404: /// Not Found
@@ -106,7 +109,9 @@ module.exports = function(baseUrl) {
 	};
 }
 
-/******* Helper function *******/
+
+/******* Helper functions *******/
+
 const fetchRequest = async function(path, expectedStatusCode, options) {
 	const response = await fetch(path, options);
 	if(response.status != expectedStatusCode) throw response.status;

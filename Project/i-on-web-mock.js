@@ -29,12 +29,19 @@ module.exports = function() {
 		return await dbElastic.getUser(username);
 	};
 
+	const createUser = async function(username) {
+		return await dbElastic.createUser(username);
+	};
+
+	/// add more functions
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
 		loadCourse : loadCourse,
 		loadAboutData : loadAboutData,
-		getUser : getUser
+		getUser : getUser,
+		createUser : createUser
 	};
 }
