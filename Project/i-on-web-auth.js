@@ -38,14 +38,14 @@ module.exports = (app, data) => {
     passport.deserializeUser(refToUser);
     
     return {
-        obtainLoginMethods: async function(req) {
-            const methods = await data.authenticationMethods();
+        getLoginMethods: async function() {
+            return await data.loadAuthenticationMethods();
         },
 
 		login: async function(req, email) {
-			if (email) {
-
-				const user = await data.getUser(email); 
+			
+            if (email) {
+				const user = await data.sendMethodResponse(email); 
 
 				if (user) {
 					req.login(user, (err) => { 
@@ -54,7 +54,8 @@ module.exports = (app, data) => {
 				}
 
 			} else throw error.BAD_REQUEST;
-		},
+		
+        },
 
 		logout: async function(req) {
 			req.logout();

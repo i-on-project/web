@@ -6,19 +6,8 @@ const fetch = require('node-fetch');
 const contentType = 'application/json';
 
 /// Environment variables
-const read_authorization = 'Bearer ' + process.env.CORE_READ_TOKEN;
+const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
-
-/* 
-{
-	method: method,
-	headers: {
-		'Authorization': read_authorization,
-		'Content-Type': contentType
-	},
-	body: reqBody
-}
-*/
 
 const coreRequest = async function(endpoint, expectedStatus, options) {
 
@@ -37,14 +26,14 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: {
-					'Authorization': read_authorization,
+					'Authorization': read_token,
 					'Content-Type': contentType
 				}
 			};
 
 			return await coreRequest('/v0/programmes/', 200, options);
 
-		} catch(err) {
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -60,14 +49,14 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: {
-					'Authorization': read_authorization,
+					'Authorization': read_token,
 					'Content-Type': contentType
 				}
 			};
 
 			return await coreRequest('/v0/programmes/'+ programmeId, 200, options);	
 
-		} catch(err) {
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -83,14 +72,14 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: {
-					'Authorization': read_authorization,
+					'Authorization': read_token,
 					'Content-Type': contentType
 				}
 			};
 
 			return await coreRequest('/v0/programmes/'+ programmeId, 200, options);
 
-		} catch(err) {
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -106,14 +95,14 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: {
-					'Authorization': read_authorization,
+					'Authorization': read_token,
 					'Content-Type': contentType
 				}
 			};
 
 			return await coreRequest('/v0/courses/'+ courseId +'/classes/1718i', 200, options); // TO DO - change 
 
-		} catch (err) {
+		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -125,8 +114,10 @@ module.exports = function() {
 	
 	const loadAboutData = async function () {
 		try {
+		
 			return {}; // Request still not suported by i-on Core
-		} catch(err) {
+
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -138,8 +129,18 @@ module.exports = function() {
 
 	const loadAuthenticationMethods = async function () {
 		try {
-			return await coreRequest('/api/auth/methods', 'GET', 200);
-		} catch(err) {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+			
+			return await coreRequest('/api/auth/methods', 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
