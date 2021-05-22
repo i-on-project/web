@@ -42,16 +42,31 @@ module.exports = (app, data) => {
             return await data.loadAuthenticationMethods();
         },
 
-		login: async function(req, email) {
+		submitMethodResponse: async function(req, email) {
 			
             if (email) {
-				const user = await data.sendMethodResponse(email); 
+				return await data.sendMethodResponse(email); 
 
-				if (user) {
+				/*if (user) {
+					req.login(user, (err) => { 
+						if (err) throw error.SERVICE_FAILURE; /// TO DO: external service error / failure
+					})
+				}*/
+
+			} else throw error.BAD_REQUEST;
+		
+        },
+
+        login: async function(req, pollingResponse) {
+			
+            if (pollingResponse) {
+				// TO DO - save in return await data.sendMethodResponse(email); 
+
+				/*if (user) {
 					req.login(user, (err) => { 
 						if (err) throw error.SERVICE_FAILURE; /// ttodo external service error / failure
 					})
-				}
+				}*/
 
 			} else throw error.BAD_REQUEST;
 		
