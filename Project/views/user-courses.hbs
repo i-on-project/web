@@ -3,8 +3,8 @@
 
     <div class="divSpacing">
 
-        {{#if selectedCourses}} <!-- If the user has selected any courses -->
-            {{#each selectedCourses}} <!-- Iterate all user courses -->
+        {{#if userCourses}} <!-- If the user has selected any courses -->
+            {{#each userCourses}} <!-- Iterate all user courses -->
                 {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->
                     <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
                         {{../this.name}} - {{this}} <input class="pull-right" type="checkbox" style="display:none" id="{{../this.courseId}}+{{this}}" name={{../this.courseId}} value={{this}}>
@@ -29,14 +29,14 @@
 
 </div>
 
- <!-- TO DO --> 
+ <!-- TO DO - Implement --> 
 <script>
-    function clickConfirm(selectedCourses) {
+    function clickConfirm(userCourses) {
         console.log
-        for(let i = 0; i < selectedCourses.length; i++) {
-            console.log(selectedCourses[i].classes)
-            for(let j = 0; j < selectedCourses[i].classes.length; j++) {
-                let x = document.getElementById(selectedCourses[i].courseId + selectedCourses[i].classes[j]);
+        for(let i = 0; i < userCourses.length; i++) {
+            console.log(userCourses[i].classes)
+            for(let j = 0; j < userCourses[i].classes.length; j++) {
+                let x = document.getElementById(userCourses[i].courseId + userCourses[i].classes[j]);
                 if (x.style.display === "none") {
                     x.style.display = "block";
                 } else {
@@ -47,6 +47,3 @@
         confirm("Tem a certeza que pretende eliminar os items selecionados?");
     }
 </script>
-
-<!--if (this.value=="Close Curtain") this.value = "Open Curtain";
-    else this.value = "Close Curtain"; -->

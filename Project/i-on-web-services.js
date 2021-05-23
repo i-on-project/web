@@ -84,8 +84,8 @@ module.exports = function(data) {
 	};
 
 	const getUserCourses = async function(user) {
+		const userCourses = []; 
 		if(user) {
-			const userCourses = []; 
 			const coursesIDs = Object.keys(user.selectedCoursesAndClasses);
 
 			for(let i = 0; i < coursesIDs.length; i++) {
@@ -99,10 +99,11 @@ module.exports = function(data) {
 				userCourses.push(newObj);
 			}
 		}
+
 		return {
 			user: user, 
 			userCourses: userCourses, 
-			page: "myCourses"
+			page: "user-courses"
 		};
 	};
 

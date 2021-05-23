@@ -79,7 +79,7 @@ function webui(service) {
 				
 				const commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getUserCourses(req.user);
-
+			
 				res.render('user-courses', Object.assign(data, commonInfo));
 
 			} catch(err) {
