@@ -9,8 +9,10 @@ function webui(service) {
 
 		home: async function(req, res) {
 			try {
+				
 				const commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getHome(req.user);
+				
 				res.render('home', Object.assign(data, commonInfo));
 
 			} catch(err) {

@@ -152,11 +152,8 @@ module.exports = function(data) {
 	};
 
 	const getAboutData = async function(user){
-		const aboutData = await data.loadAboutData();
-		
-		aboutData.projects.map(project => project['image'] = project.name + '.png');
-		aboutData.department = aboutData.department + '.png'
-		
+		const aboutData = await data.loadAboutData();		
+	
 		return {
 			user: user,
 			aboutData: aboutData
