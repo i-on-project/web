@@ -163,7 +163,7 @@ module.exports = function(data) {
 		};
 	};
 
-	const getPagesCommonInfo = async function(){
+	const getProgrammesByDegree = async function(){
 		const programmes = await data.loadAllProgrammes();
 	
 		const bachelorProgrammes = programmes.entities
@@ -188,7 +188,7 @@ module.exports = function(data) {
 		getClasses : getClasses,
 		saveUserClasses : saveUserClasses,		
 		getAboutData : getAboutData,
-		getPagesCommonInfo : getPagesCommonInfo
+		getProgrammesByDegree : getProgrammesByDegree
 	};
 	
 }

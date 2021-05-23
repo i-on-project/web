@@ -9,10 +9,8 @@ function webui(service) {
 
 		home: async function(req, res) {
 			try {
-
 				const commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getHome(req.user);
-				
 				res.render('home', Object.assign(data, commonInfo));
 
 			} catch(err) {
@@ -211,7 +209,7 @@ async function onErrorResponse(res, err, defaultError, commonInfo) {
 
 	const translatedError = appErrorsToHttpErrors(err, defaultError);
 	
-	res.statusCode = answer.status;
+	res.statusCode = translatedError.status;
 	res.render(page, Object.assign(translatedError, commonInfo));
 
 }
