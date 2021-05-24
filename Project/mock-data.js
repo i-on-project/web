@@ -31,7 +31,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadCourse = async function(courseId) {
+	const loadCourseClassesByCalendarTerm = async function(courseId) {
 		try {
 			const path = './data/courses/' + courseId;
 			const course = getMockData(path);
@@ -54,7 +54,7 @@ module.exports = function() {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
-		loadCourse : loadCourse,
+		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData
 	};
 }

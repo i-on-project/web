@@ -62,11 +62,11 @@ module.exports = function() {
 		return coreResponse;
 	};
 
-	const loadCourse = async function(courseId) {
-		const coreResponse = await coreData.loadCourse(courseId);
+	const loadCourseClassesByCalendarTerm = async function(courseId) {
+		const coreResponse = await coreData.loadCourseClassesByCalendarTerm(courseId);
 
 		/* Adding missing data */
-		const mockDataToBeAdded = await mockData.loadCourseByID(courseId);
+		const mockDataToBeAdded = await mockData.loadCourseClassesByCalendarTerm(courseId);
 
 		const improvedResponse = coreResponse.entities
 		.filter(entities => entities.properties.hasOwnProperty('id'))
@@ -90,7 +90,7 @@ module.exports = function() {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
-		loadCourse : loadCourse,
+		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData
 	};
 }
