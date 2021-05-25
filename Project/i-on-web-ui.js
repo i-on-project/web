@@ -8,82 +8,88 @@ function webui(service) {
 	const theWebUI = {
 
 		home: async function(req, res) {
+			let commonInfo;
 			try {
 				
-				const commonInfo = await getPagesCommonInfo(service);
+				commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getHome(req.user);
 				
 				res.render('home', Object.assign(data, commonInfo));
 
 			} catch(err) {
 
-				await onErrorResponse(res, err, 'Failed to show Home Page', service);
+				await onErrorResponse(res, err, 'Failed to show Home Page', commonInfo);
 
 			}
 		},
 
 		programmeCalendarTermOffers: async function(req, res) {
+			let commonInfo;
 			try {
 
-				const commonInfo = await getPagesCommonInfo(service);
+				commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getProgrammeCalendarTermOffers(req.params['id'], req.user);
 
 				res.render('programmeCalendarTermOffers', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Offers', service);
+				await onErrorResponse(res, err, 'Failed to show Offers', commonInfo);
 			}
 		},
 
 		programme: async function(req, res) {
+			let commonInfo;
 			try {
 
-				const commonInfo = await getPagesCommonInfo(service);
+				commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getProgrammeData(req.params['id'], req.user);
 
 				res.render('programme', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Programme Page', service);
+				await onErrorResponse(res, err, 'Failed to show Programme Page', commonInfo);
 			}
 		},
 
 		userSchedule: async function(req, res) {
+			let commonInfo;
 			try {
 
-				const commonInfo = await getPagesCommonInfo(service);
+				commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getUserSchedule(req.user);
 
 				res.render('user-schedule', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Schedule', service);
+				await onErrorResponse(res, err, 'Failed to show Schedule', commonInfo);
 			}
 		},
 
 		userCalendar: async function(req, res) {
+			let commonInfo;
 			try {
 
-				const commonInfo = await getPagesCommonInfo(service);
+				commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getUserCalendar(req.user);
 
 				res.render('user-calendar', Object.assign(data, commonInfo));
 				
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Calendar', service);
+				await onErrorResponse(res, err, 'Failed to show Calendar', commonInfo);
 			}
 		},
 
 		userCourses: async function(req, res) {
+			let commonInfo;
 			try {
 				
-				const commonInfo = await getPagesCommonInfo(service);
+				commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getUserCourses(req.user);
 			
 				res.render('user-courses', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show User Courses', service);
+				await onErrorResponse(res, err, 'Failed to show User Courses', commonInfo);
 			}
 		},
 
@@ -99,15 +105,16 @@ function webui(service) {
 		},
 	
 		getClassesFromSelectedCourses: async function(req, res) {
+			let commonInfo;
 			try {
 
-				const commonInfo = await getPagesCommonInfo(service);
+				commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getClasses(req.body, req.user); // todo review and change names
 
 				res.render('classes', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Programme Offers', service);
+				await onErrorResponse(res, err, 'Failed to show Programme Offers', commonInfo);
 			}
 		},
 
@@ -123,26 +130,28 @@ function webui(service) {
 		},
 
 		about: async function(req, res) {
+			let commonInfo
 			try {
 
-				const commonInfo = await getPagesCommonInfo(service);
+				commonInfo = await getPagesCommonInfo(service);
 				const data = await service.getAboutData(req.user);
 				
 				res.render('about', Object.assign(data, commonInfo));
 			
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page', service);
+				await onErrorResponse(res, err, 'Failed to show About Page', commonInfo);
 			}
 		},
 
 		settings: async function(req, res) { /// Settings Page
+			let commonInfo;
 			try {
 				
-				const commonInfo = await getPagesCommonInfo(service);
+				commonInfo = await getPagesCommonInfo(service);
 				res.render('settings', Object.assign(data, commonInfo));
 
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page', service);
+				await onErrorResponse(res, err, 'Failed to show About Page', commonInfo);
 			}
 		},
 
@@ -155,17 +164,6 @@ function webui(service) {
 			
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
-			}
-		},
-
-		registerUI: async function(req, res) {
-			let commonInfo;
-			try {
-				commonInfo = await getPagesCommonInfo(service);
-				res.render('register', commonInfo);
-			
-			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Register Page', commonInfo);
 			}
 		}
 
@@ -194,7 +192,6 @@ function webui(service) {
 
 	/*** Auth ***/	
 	router.get(	'/login',				theWebUI.loginUI		);	/// Login UI page
-	router.get(	'/register',			theWebUI.registerUI		);	/// Register UI page
 
 	return router;
 }
