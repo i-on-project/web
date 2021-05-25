@@ -1,6 +1,6 @@
 'use strict'
 
-const data = require('./mock-data.js')();
+const data = require('./core-data.js')();
 
 module.exports = function() {
 
@@ -32,8 +32,15 @@ module.exports = function() {
 		return await data.loadAboutData();
 	};
 
+	/// Authentication methods
 	const loadAuthenticationMethods = async function () {
-		return data.loadAuthenticationMethods();
+		const receivedData = await data.loadAuthenticationMethods();
+
+		const auth_methods = receivedData.map(method => method.type);
+
+		return {
+			"auth_methods" : auth_methods
+		};
 	};
 
 	return {

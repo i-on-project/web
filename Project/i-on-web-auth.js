@@ -13,14 +13,12 @@ module.exports = (app, data) => {
 	}
 	
 	async function refToUser(userRef, done) {
-
 		const user = await data.getUser(userRef);
 		if (user) {
 			done(null, user);
 		} else {
 			done('User not found.');
 		}
-
 	}
 
     /// MW to manage sessions
@@ -38,7 +36,7 @@ module.exports = (app, data) => {
     passport.deserializeUser(refToUser);
     
     return {
-        getLoginMethods: async function() {
+        getAuthenticationMethods: async function() {
             return await data.loadAuthenticationMethods();
         },
 

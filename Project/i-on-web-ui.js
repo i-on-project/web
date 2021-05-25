@@ -3,7 +3,7 @@
 const express = require('express');
 const error = require('./i-on-web-errors.js');
 
-function webui(service) {
+function webui(service, auth) {
 	
 	const theWebUI = {
 
@@ -155,12 +155,66 @@ function webui(service) {
 			}
 		},
 
+
+
 		/******* Authentication Pages *******/
+		getAuthMethods: async function(req, res) {
+			let commonInfo;
+			try {
+
+				commonInfo = await getPagesCommonInfo(service);	
+				const data = await auth.getAuthenticationMethods();
+				
+				res.render(
+					'login',
+					Object.assign(
+						{'page': 'login'},
+						commonInfo,
+						data
+					)
+				); 
+			
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
+			}
+		},
+
 		loginUI: async function(req, res) {
 			let commonInfo;
 			try {
+
 				commonInfo = await getPagesCommonInfo(service);	
-				res.render('login', Object.assign({'page': 'login'}, commonInfo)); 
+				const data = await auth.getAuthenticationMethods();
+				
+				res.render(
+					'login',
+					Object.assign(
+						{'page': 'login'},
+						commonInfo,
+						data
+					)
+				); 
+			
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
+			}
+		},
+
+		login: async function(req, res) {
+			let commonInfo;
+			try {
+
+				commonInfo = await getPagesCommonInfo(service);	
+				const data = await auth.getAuthenticationMethods();
+				
+				res.render(
+					'login',
+					Object.assign(
+						{'page': 'login'},
+						commonInfo,
+						data
+					)
+				); 
 			
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
@@ -190,8 +244,10 @@ function webui(service) {
 	router.get(	'/about', 				theWebUI.about			);	/// About Page
 	router.get(	'/settings', 			theWebUI.settings		);	/// Settings Page
 
-	/*** Auth ***/	
+	/*** Auth ***/
+	router.get(	'/auth-methods',		theWebUI.getAuthMethods	);	/// Authentication methods page
 	router.get(	'/login',				theWebUI.loginUI		);	/// Login UI page
+	router.post('/login',				theWebUI.login			);	/// Submission page
 
 	return router;
 }

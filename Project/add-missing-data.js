@@ -1,6 +1,6 @@
 'use strict'
 
-const data = require('./i-on-web-transform.js')();
+const data = require('./core-data-transformer.js')();
 
 module.exports = function() {
 
@@ -82,7 +82,7 @@ module.exports = function() {
 		return improvedResponse;
 	}
 
-	const loadAboutData = async function () { // ver melhor
+	const loadAboutData = async function () {
 		let response = await data.loadAboutData();
 
 		/* Adding missing data */ 
@@ -91,12 +91,17 @@ module.exports = function() {
 		return response;
 	};
 
+	const loadAuthenticationMethods = async function () {
+		return await data.loadAuthenticationMethods();
+	};
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
-		loadAboutData : loadAboutData
+		loadAboutData : loadAboutData,
+		loadAuthenticationMethods : loadAuthenticationMethods
 	};
 }
 

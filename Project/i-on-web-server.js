@@ -9,9 +9,9 @@ const app = express();
 /***** Run configurations *****/ 
 
 /// Data
-const dataModule = process.env.OPERATION_MODE == "standalone"? './mock-data.js' : './core-data.js';
-const data = require(dataModule)();
-//const data = require('./add-missing-data.js')();
+//const dataModule = process.env.OPERATION_MODE == "standalone"? './mock-data.js' : './core-data.js';
+//const data = require(dataModule)();
+const data = require('./add-missing-data.js')();
 /// Services
 const service = require('./i-on-web-services.js')(data);
 
