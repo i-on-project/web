@@ -36,8 +36,13 @@ module.exports = (app, data) => {
     passport.deserializeUser(refToUser);*/
     
     return {
-        getAuthenticationMethods: async function() {
-            return await data.loadAuthenticationMethods();
+        getAuthenticationTypes: async function() {
+            return data.loadAuthenticationTypes();
+        },
+
+		getAuthMethodFeatures: async function(type) {
+			const receivedData = await data.loadAuthenticationMethodFeatures();
+			return receivedData.auth_methods.find(method => method.type == type);
         }/*,
 
 		submitMethodResponse: async function(req, email) {

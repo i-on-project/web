@@ -127,7 +127,30 @@ module.exports = function() {
 		}
 	};
 
-	const loadAuthenticationMethods = async function () {
+	const loadAuthenticationTypes = async function () {
+		try {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+			
+			return await coreRequest('/api/auth/methods', 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const loadAuthenticationMethodFeatures = async function () {
 		try {
 
 			const options = {
@@ -156,6 +179,7 @@ module.exports = function() {
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
-		loadAuthenticationMethods : loadAuthenticationMethods
+		loadAuthenticationTypes : loadAuthenticationTypes,
+		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures
 	};
 }

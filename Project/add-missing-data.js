@@ -91,8 +91,12 @@ module.exports = function() {
 		return response;
 	};
 
-	const loadAuthenticationMethods = async function () {
-		return await data.loadAuthenticationMethods();
+	const loadAuthenticationTypes = async function () {
+		return await data.loadAuthenticationTypes();
+	};
+
+	const loadAuthenticationMethodFeatures = async function () {
+		return await data.loadAuthenticationMethodFeatures();
 	};
 
 	return {
@@ -101,7 +105,8 @@ module.exports = function() {
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
-		loadAuthenticationMethods : loadAuthenticationMethods
+		loadAuthenticationTypes : loadAuthenticationTypes,
+		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures
 	};
 }
 

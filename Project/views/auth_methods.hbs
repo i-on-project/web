@@ -3,9 +3,9 @@
 		<h2 class="text-center">Métodos de autenticação</h2><br>
 		
         <form>
-			{{#each auth_methods}}
+			{{#each auth_types}}
 				<div class="form-group">
-					<a class="button" href="/login?auth_method={{this}}">{{this}}</a>
+					<a class="button" href="/login?type={{this}}">{{this}}</a>
 				</div>
 			{{/each}}
         </form>

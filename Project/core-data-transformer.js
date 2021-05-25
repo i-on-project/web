@@ -32,10 +32,27 @@ module.exports = function() {
 		return await data.loadAboutData();
 	};
 
-	/// Authentication methods
-	const loadAuthenticationMethods = async function () {
-		const receivedData = await data.loadAuthenticationMethods();
-		const auth_methods = receivedData.map(method => method.type);
+	/******* Authentication *******/ 
+
+	const loadAuthenticationTypes = async function () {
+
+		const receivedData = await data.loadAuthenticationTypes();
+		const auth_types = receivedData.map(method => method.type);
+
+		return {
+			"auth_types" : auth_types
+		};
+	};
+
+	const loadAuthenticationMethodFeatures = async function () {
+
+		const receivedData = await data.loadAuthenticationMethodFeatures();
+		const auth_methods = receivedData.map(method => {
+			return {
+				"allowed_domains": method.allowed_domains,
+				"type": method.type
+			};
+		});
 
 		return {
 			"auth_methods" : auth_methods
@@ -48,6 +65,7 @@ module.exports = function() {
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
-		loadAuthenticationMethods : loadAuthenticationMethods
+		loadAuthenticationTypes : loadAuthenticationTypes,
+		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures
 	};
 }
