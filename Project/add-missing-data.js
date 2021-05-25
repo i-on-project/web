@@ -1,89 +1,94 @@
 'use strict'
 
-const mockData = require('./mock-data.js')();
-const coreData = require('./core-data.js')();
+const data = require('./i-on-web-transform.js')();
 
 module.exports = function() {
 
 	const loadAllProgrammes = async function () {
-		const coreResponse = await coreData.loadAllProgrammes();
+		const response = await data.loadAllProgrammes();
 
 		/* Adding missing data */
-		const mockDataToBeAdded = await mockData.loadAllProgrammes();
-		const improvedResponse = coreResponse.entities
-		.map( entities => {
-			const programme = mockDataToBeAdded.entities
+		const mockDataToBeAdded = getMockData('./data/programmes');
+		
+		const improvedResponse = response
+		.map( programme => {
+			const mockProgramme = mockDataToBeAdded.entities // TO DO - Change
 			.filter( mockEntities => mockEntities.properties.programmeId == entities.properties.programmeId)[0].properties
 			
-			entities.properties["name"] = programme.name;
-			entities.properties["degree"] = programme.degree;
+			programme["name"] = mockProgramme.name;
+			programme["degree"] = mockProgramme.degree;
 
-			return entities;
+			return programme;
 		});
 
-		return {'entities': improvedResponse};
+		return improvedResponse;
 	};
 
 	const loadAllProgrammeOffers = async function (programmeId) {
-		const coreResponse = await coreData.loadAllProgrammeOffers();
+		const response = await data.loadAllProgrammeOffers(programmeId);
 
 		/* Adding missing data */ 
-		const mockDataToBeAdded = await mockData.loadAllProgrammeOffers(programmeId);
-		const improvedResponse = coreResponse.entities
-			.map( entities => {
-				const offer = mockDataToBeAdded.entities
+		const path = './data/offers/' + programmeId;
+		const mockDataToBeAdded = getMockData(path);
+
+		const improvedResponse = response.entities
+			.map( offer => {
+				const mockOffer = mockDataToBeAdded.entities // TO DO - Change
 				.filter( mockEntities => mockEntities.properties.courseId == entities.properties.courseId)[0].properties;
 
-				entities.properties["name"] = offer.name;
-				entities.properties["acronym"] = offer.acronym;
-				entities.properties["optional"] = offer.optional;
-				entities.properties["ects"] = offer.ects;
-				entities.properties["scientificArea"] = offer.scientificArea;
-				return entities;
+				offer["name"] = mockOffer.name;
+				offer["acronym"] = mockOffer.acronym;
+				offer["optional"] = mockOffer.optional;
+				offer["ects"] = mockOffer.ects;
+				offer["scientificArea"] = mockOffer.scientificArea;
+				return offer;
 			})
 
-		return {'entities': improvedResponse};
+		return improvedResponse;
 	};
 
 	const loadProgrammeData = async function (programmeId) {
-		const coreResponse = await coreData.loadProgrammeData(programmeId);
+		const response = await data.loadProgrammeData(programmeId);
 	
 		/* Adding missing data */
-		const mockDataToBeAdded = await mockData.loadProgrammeData(programmeId);
+		const path = './data/programmes/' + programmeId;
+		const mockDataToBeAdded = getMockData(path);
+		
+		// TO DO - Change
+		response.name = mockDataToBeAdded.properties.name;
+		response["department"] = mockDataToBeAdded.properties.department;
+		response["department"] = mockDataToBeAdded.properties.department;
+		response["coordination"] = mockDataToBeAdded.properties.coordination;
+		response["contacts"] = mockDataToBeAdded.properties.contacts;
+		response["sourceLink"] = mockDataToBeAdded.properties.sourceLink;
+		response["description"] = mockDataToBeAdded.properties.description;
 
-		coreResponse.properties.name = mockDataToBeAdded.properties.name;
-		coreResponse.properties["department"] = mockDataToBeAdded.properties.department;
-		coreResponse.properties["department"] = mockDataToBeAdded.properties.department;
-		coreResponse.properties["coordination"] = mockDataToBeAdded.properties.coordination;
-		coreResponse.properties["contacts"] = mockDataToBeAdded.properties.contacts;
-		coreResponse.properties["sourceLink"] = mockDataToBeAdded.properties.sourceLink;
-		coreResponse.properties["description"] = mockDataToBeAdded.properties.description;
-
-		return coreResponse;
+		return response;
 	};
 
 	const loadCourseClassesByCalendarTerm = async function(courseId) {
-		const coreResponse = await coreData.loadCourseClassesByCalendarTerm(courseId);
+		const response = await data.loadCourseClassesByCalendarTerm(courseId);
 
 		/* Adding missing data */
-		const mockDataToBeAdded = await mockData.loadCourseClassesByCalendarTerm(courseId);
+		const path = './data/courses/' + courseId;
+		const mockDataToBeAdded = getMockData(path);
 
-		const improvedResponse = coreResponse.entities
+		const improvedResponse = coreResponse // TO DO - Change
 		.filter(entities => entities.properties.hasOwnProperty('id'))
 		.map( entities => {
 			entities.properties["name"] = mockDataToBeAdded.entities[0].properties.name; 
 			return entities;
 		});
 
-		return {'entities': improvedResponse};
+		return improvedResponse;
 	}
 
 	const loadAboutData = async function () { // ver melhor
-		const coreResponse = await coreData.loadAboutData();
+		const response = await data.loadAboutData();
 		/* Adding missing data */ 
-		const coreResponse = await mockData.loadAboutData();
+		const response = getMockData('./data/i-on-team');
 		
-		return coreResponse;
+		return response;
 	};
 
 	return {

@@ -15,27 +15,44 @@ module.exports = function(data) {
 		};
 	};
 
-	const getProgrammeCalendarTermOffers = async function(programmeId, user){
+	const getProgrammeCalendarTermOffers = async function(programmeId, user){ // TO DO: arg semester info
 		const offers = await data.loadAllProgrammeOffers(programmeId);
 
 		// TO DO - For each offer we shall see if there are any existing class
 		// for that course in the current calendar term
+		const courseIDs = offers.entities
+		.map(entities => entities.properties.courseId)
+		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
 
-		const programmeCalendarTermOffers = termOffers.entities
-		.map(entities => entities.properties)
-		.reduce( (offersByTerms, offer) => {
-			return offer.termNumber.reduce( (offersByTerms, term) => {
-				offersByTerms[term] = offersByTerms[term] || [];
-				offersByTerms[term].push(offer);
-				return offersByTerms;
-			}, offersByTerms);
+		console.log(JSON.stringify(courseIDs))
+		console.log()
 
-		}, {});
+		/*const programmeCalendarTermOffers = [];
+		for(let i = 0; i < courseIDs.length(); i++) {
+			console.log("entrou no gor")
+			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i]);
+			console.log(JSON.stringify(courseClasses))
+			if(courseClasses.entities.length() != 0) programmeCalendarTermOffers.push(courseClasses);
+		}*/
 
+
+		const filteredCoursesId = [];
+		for(let i = 0; i < courseIDs.length; i++) {
+			console.log("1 - entrou no gor")
+			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i]);
+			console.log("2 - " + JSON.stringify(courseClasses))
+			if(courseClasses.entities.length != 0) filteredCoursesId.push(courseIDs[i]);
+		}
+		console.log()
+		console.log("3 - fora do for " + JSON.stringify(filteredCoursesId))
+		const programmeCalendarTermOffers = offers
+		.filter(entity => entity.properties.courseId.includes(filteredCoursesId))
+		
+		console.log(JSON.stringify(programmeCalendarTermOffers))
+		
 		return {
 			user: user,
-			programmeCalendarTermOffers : programmeCalendarTermOffers, 
-			page: "programmeSemesterOffers"
+			programmeCalendarTermOffers : programmeCalendarTermOffers
 		};
 	};
 

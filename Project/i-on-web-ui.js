@@ -148,24 +148,24 @@ function webui(service) {
 
 		/******* Authentication Pages *******/
 		loginUI: async function(req, res) {
+			let commonInfo;
 			try {
-
-				const commonInfo = await getPagesCommonInfo(service);	
+				commonInfo = await getPagesCommonInfo(service);	
 				res.render('login', Object.assign({'page': 'login'}, commonInfo)); 
 			
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Login Page', service);
+				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
 			}
 		},
 
 		registerUI: async function(req, res) {
+			let commonInfo;
 			try {
-				
-				const commonInfo = await getPagesCommonInfo(service);
+				commonInfo = await getPagesCommonInfo(service);
 				res.render('register', commonInfo);
 			
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Register Page', service);
+				await onErrorResponse(res, err, 'Failed to show Register Page', commonInfo);
 			}
 		}
 
