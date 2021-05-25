@@ -12,11 +12,15 @@ const app = express();
 //const dataModule = process.env.OPERATION_MODE == "standalone"? './mock-data.js' : './core-data.js';
 //const data = require(dataModule)();
 const data = require('./add-missing-data.js')();
+
+/// Auth
+const auth = require('./i-on-web-auth.js')(app, data);
+
 /// Services
 const service = require('./i-on-web-services.js')(data);
 
 /// WebUI
-const webui = require('./i-on-web-ui.js')(service);
+const webui = require('./i-on-web-ui.js')(service, auth);
 
 /// Middleware
 app.use(webui);

@@ -31,7 +31,7 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/v0/programmes/', 200, options);
+			return await coreRequest('/api/programmes/', 200, options);
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -54,7 +54,7 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/v0/programmes/'+ programmeId, 200, options);	
+			return await coreRequest('/api/programmes/'+ programmeId, 200, options);	
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -77,7 +77,7 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/v0/programmes/'+ programmeId, 200, options);
+			return await coreRequest('/api/programmes/'+ programmeId, 200, options);
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -100,7 +100,7 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/v0/courses/'+ courseId +'/classes/1718i', 200, options); // TO DO - change 
+			return await coreRequest('/api/courses/'+ courseId +'/classes/1718i', 200, options); // TO DO - change 
 
 		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {

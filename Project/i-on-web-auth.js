@@ -1,14 +1,14 @@
 'use strict'
 
-const passport = require('passport');
-const session = require('express-session');
-const error = require('./i-on-web-errors.js');
+//const passport = require('passport');
+//const session = require('express-session');
+//const error = require('./i-on-web-errors.js');
 
-const FileStore = require('session-file-store')(session); 
+//const FileStore = require('session-file-store')(session); 
 
-module.exports = (app, data) => { 
+module.exports = (app, data) => {
 
-	function userToRef(user, done) {
+	/*function userToRef(user, done) {
 		done(null, user.username);
 	}
 	
@@ -33,23 +33,23 @@ module.exports = (app, data) => {
 	app.use(passport.session());
 
     passport.serializeUser(userToRef);
-    passport.deserializeUser(refToUser);
+    passport.deserializeUser(refToUser);*/
     
     return {
         getAuthenticationMethods: async function() {
             return await data.loadAuthenticationMethods();
-        },
+        }/*,
 
 		submitMethodResponse: async function(req, email) {
 			
             if (email) {
 				return await data.sendMethodResponse(email); 
 
-				/*if (user) {
+			//	if (user) {
 					req.login(user, (err) => { 
 						if (err) throw error.SERVICE_FAILURE; /// TO DO: external service error / failure
 					})
-				}*/
+			//	}
 
 			} else throw error.BAD_REQUEST;
 		
@@ -60,11 +60,11 @@ module.exports = (app, data) => {
             if (pollingResponse) {
 				// TO DO - save in return await data.sendMethodResponse(email); 
 
-				/*if (user) {
+///				if (user) {
 					req.login(user, (err) => { 
 						if (err) throw error.SERVICE_FAILURE; /// ttodo external service error / failure
 					})
-				}*/
+///				}
 
 			} else throw error.BAD_REQUEST;
 		
@@ -75,7 +75,7 @@ module.exports = (app, data) => {
 			req.session.destroy(err => { /// ... todo: replace ...
 				if (err) throw error.SERVICE_FAILURE;
 			})
-		}
+		}*/
 
 	}
 

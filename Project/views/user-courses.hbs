@@ -34,7 +34,7 @@
     function clickConfirm(userCourses) {
 
         for(let i = 0; i < userCourses.length; i++) {
-            console.log(userCourses[i].classes)
+            console.log(userCourses[i].classes) // TO DO: DELETE
             for(let j = 0; j < userCourses[i].classes.length; j++) {
                 let x = document.getElementById(userCourses[i].courseId + userCourses[i].classes[j]);
                 if (x.style.display === "none") {

@@ -155,24 +155,21 @@ function webui(service, auth) {
 			}
 		},
 
-
-
 		/******* Authentication Pages *******/
 		getAuthMethods: async function(req, res) {
 			let commonInfo;
 			try {
-
 				commonInfo = await getPagesCommonInfo(service);	
 				const data = await auth.getAuthenticationMethods();
 				
 				res.render(
-					'login',
+					'auth_methods',
 					Object.assign(
 						{'page': 'login'},
 						commonInfo,
 						data
 					)
-				); 
+				);
 			
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);

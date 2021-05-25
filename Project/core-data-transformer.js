@@ -35,7 +35,6 @@ module.exports = function() {
 	/// Authentication methods
 	const loadAuthenticationMethods = async function () {
 		const receivedData = await data.loadAuthenticationMethods();
-
 		const auth_methods = receivedData.map(method => method.type);
 
 		return {
