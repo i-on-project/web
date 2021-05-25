@@ -8,13 +8,13 @@ module.exports = function() {
 		const response = await data.loadAllProgrammes();
 
 		/* Adding missing data */
-		const mockDataToBeAdded = getMockData('./data/programmes');
-		
+		const mockDataToBeAdded = await getMockData('./data/programmes');
+
 		const improvedResponse = response
 		.map( programme => {
 			const mockProgramme = mockDataToBeAdded.entities // TO DO - Change
-			.filter( mockEntities => mockEntities.properties.programmeId == entities.properties.programmeId)[0].properties
-			
+			.filter( mockEntities => mockEntities.properties.programmeId == programme.programmeId)[0].properties;
+
 			programme["name"] = mockProgramme.name;
 			programme["degree"] = mockProgramme.degree;
 
@@ -29,20 +29,19 @@ module.exports = function() {
 
 		/* Adding missing data */ 
 		const path = './data/offers/' + programmeId;
-		const mockDataToBeAdded = getMockData(path);
+		const mockDataToBeAdded = await getMockData(path);
 
-		const improvedResponse = response.entities
-			.map( offer => {
-				const mockOffer = mockDataToBeAdded.entities // TO DO - Change
-				.filter( mockEntities => mockEntities.properties.courseId == entities.properties.courseId)[0].properties;
+		const improvedResponse = response.map( offer => {
+			const mockOffer = mockDataToBeAdded.entities
+			.filter( mockEntities => mockEntities.properties.courseId == offer.courseId)[0].properties;
 
-				offer["name"] = mockOffer.name;
-				offer["acronym"] = mockOffer.acronym;
-				offer["optional"] = mockOffer.optional;
-				offer["ects"] = mockOffer.ects;
-				offer["scientificArea"] = mockOffer.scientificArea;
-				return offer;
-			})
+			offer["name"] = mockOffer.name;
+			offer["acronym"] = mockOffer.acronym;
+			offer["optional"] = mockOffer.optional;
+			offer["ects"] = mockOffer.ects;
+			offer["scientificArea"] = mockOffer.scientificArea;
+			return offer;
+		})
 
 		return improvedResponse;
 	};
@@ -52,7 +51,7 @@ module.exports = function() {
 	
 		/* Adding missing data */
 		const path = './data/programmes/' + programmeId;
-		const mockDataToBeAdded = getMockData(path);
+		const mockDataToBeAdded = await getMockData(path);
 		
 		// TO DO - Change
 		response.name = mockDataToBeAdded.properties.name;
@@ -71,7 +70,7 @@ module.exports = function() {
 
 		/* Adding missing data */
 		const path = './data/courses/' + courseId;
-		const mockDataToBeAdded = getMockData(path);
+		const mockDataToBeAdded = await getMockData(path);
 
 		const improvedResponse = coreResponse // TO DO - Change
 		.filter(entities => entities.properties.hasOwnProperty('id'))
@@ -84,10 +83,11 @@ module.exports = function() {
 	}
 
 	const loadAboutData = async function () { // ver melhor
-		const response = await data.loadAboutData();
+		let response = await data.loadAboutData();
+
 		/* Adding missing data */ 
-		const response = getMockData('./data/i-on-team');
-		
+		response = await getMockData('./data/i-on-team');
+
 		return response;
 	};
 
@@ -99,3 +99,8 @@ module.exports = function() {
 		loadAboutData : loadAboutData
 	};
 }
+
+/******* Helper function *******/
+const getMockData = async function(path) {
+	return require(path);
+};

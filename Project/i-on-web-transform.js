@@ -1,6 +1,6 @@
 'use strict'
 
-const data = require('./core-data.js');
+const data = require('./mock-data.js')();
 
 module.exports = function() {
 
@@ -17,8 +17,8 @@ module.exports = function() {
 	};
 
 	const loadProgrammeData = async function(programmeId) {
-		const receivedData = await loadProgrammeData(programmeId);
-
+		const receivedData = await data.loadProgrammeData(programmeId);
+	
 		return receivedData.properties;
 	};
 

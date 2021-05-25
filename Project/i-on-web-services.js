@@ -24,31 +24,26 @@ module.exports = function(data) {
 		.map(entities => entities.properties.courseId)
 		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
 
-		console.log(JSON.stringify(courseIDs))
-		console.log()
 
 		/*const programmeCalendarTermOffers = [];
 		for(let i = 0; i < courseIDs.length(); i++) {
-			console.log("entrou no gor")
+
 			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i]);
-			console.log(JSON.stringify(courseClasses))
+
 			if(courseClasses.entities.length() != 0) programmeCalendarTermOffers.push(courseClasses);
 		}*/
 
 
 		const filteredCoursesId = [];
 		for(let i = 0; i < courseIDs.length; i++) {
-			console.log("1 - entrou no gor")
+
 			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i]);
-			console.log("2 - " + JSON.stringify(courseClasses))
+
 			if(courseClasses.entities.length != 0) filteredCoursesId.push(courseIDs[i]);
 		}
-		console.log()
-		console.log("3 - fora do for " + JSON.stringify(filteredCoursesId))
+
 		const programmeCalendarTermOffers = offers
 		.filter(entity => entity.properties.courseId.includes(filteredCoursesId))
-		
-		console.log(JSON.stringify(programmeCalendarTermOffers))
 		
 		return {
 			user: user,
@@ -59,9 +54,8 @@ module.exports = function(data) {
 	const getProgrammeData = async function(programmeId, user){
 		const programme = await data.loadProgrammeData(programmeId);
 		const offers = await data.loadAllProgrammeOffers(programmeId);
-		
-		const offersByAcademicTerms = offers.entities
-		.map(entities => entities.properties)
+
+		const offersByAcademicTerms = offers
 		.reduce( (offersByTerms, offer) => {
 			return offer.termNumber.reduce( (offersByTerms, term) => {
 				offersByTerms[term] = offersByTerms[term] || [];
@@ -74,7 +68,7 @@ module.exports = function(data) {
 		return {
 			user: user, 
 			offersByAcademicTerms: offersByAcademicTerms, 
-			programme: programme.properties
+			programme: programme
 		};
 	};
 
@@ -180,14 +174,12 @@ module.exports = function(data) {
 
 	const getProgrammesByDegree = async function(){
 		const programmes = await data.loadAllProgrammes();
+
+		const bachelorProgrammes = programmes
+		.filter( programme => programme.degree == "bachelor");
 	
-		const bachelorProgrammes = programmes.entities
-		.filter( entities => entities.properties.degree == "bachelor")
-		.map(entities => entities.properties);
-	
-		const masterProgrammes = programmes.entities
-		.filter( entities => entities.properties.degree == "master")
-		.map(entities => entities.properties);
+		const masterProgrammes = programmes
+		.filter( programme => programme.degree == "master");
 
 		return {bachelor: bachelorProgrammes, master: masterProgrammes};
 	};
