@@ -1,6 +1,6 @@
 'use strict'
 
-const data = require('./core-data.js')();
+const data = require('./mock-data.js')();
 
 module.exports = function() {
 
@@ -25,7 +25,13 @@ module.exports = function() {
 	const loadCourseClassesByCalendarTerm = async function(courseId) {
 		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId);
 
-		return receivedData.entities;
+		return receivedData.entities.map(entity => entity.properties)
+		.reduce(function(newResponse, currentClass) {
+			newResponse['courseId'] = currentClass.courseId;
+			newResponse['acronym'] = currentClass.acronym;
+			newResponse.classes.push(currentClass.id);
+			return newResponse;
+		  }, {'classes': []});
 	}
 	
 	const loadAboutData = async function () {

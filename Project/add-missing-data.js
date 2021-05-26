@@ -72,14 +72,9 @@ module.exports = function() {
 		const path = './data/courses/' + courseId;
 		const mockDataToBeAdded = await getMockData(path);
 
-		const improvedResponse = coreResponse // TO DO - Change
-		.filter(entities => entities.properties.hasOwnProperty('id'))
-		.map( entities => {
-			entities.properties["name"] = mockDataToBeAdded.entities[0].properties.name; 
-			return entities;
-		});
-
-		return improvedResponse;
+		//console.log('mockDataToBeAdded----------> ' + JSON.stringify(mockDataToBeAdded.entities[0].properties.name))
+		response['name'] = mockDataToBeAdded.entities[0].properties.name;
+		return response;
 	}
 
 	const loadAboutData = async function () {

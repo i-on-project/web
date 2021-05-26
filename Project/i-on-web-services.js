@@ -17,34 +17,21 @@ module.exports = function(data) {
 
 	const getProgrammeCalendarTermOffers = async function(programmeId, user){ // TO DO: arg semester info
 		const offers = await data.loadAllProgrammeOffers(programmeId);
+		//console.log('offers----------> ' + JSON.stringify(offers))
 
-		// TO DO - For each offer we shall see if there are any existing class
-		// for that course in the current calendar term
-		const courseIDs = offers.entities
-		.map(entities => entities.properties.courseId)
+		const courseIDs = offers
+		.map(offer => offer.courseId)
 		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
-
-
-		/*const programmeCalendarTermOffers = [];
-		for(let i = 0; i < courseIDs.length(); i++) {
-
-			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i]);
-
-			if(courseClasses.entities.length() != 0) programmeCalendarTermOffers.push(courseClasses);
-		}*/
-
 
 		const filteredCoursesId = [];
 		for(let i = 0; i < courseIDs.length; i++) {
-
 			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i]);
-
-			if(courseClasses.entities.length != 0) filteredCoursesId.push(courseIDs[i]);
+			if(courseClasses.classes.length != 0) filteredCoursesId.push(courseIDs[i]);
 		}
 
 		const programmeCalendarTermOffers = offers
-		.filter(entity => entity.properties.courseId.includes(filteredCoursesId))
-		
+		.filter(course => filteredCoursesId.includes(course.courseId))
+
 		return {
 			user: user,
 			programmeCalendarTermOffers : programmeCalendarTermOffers

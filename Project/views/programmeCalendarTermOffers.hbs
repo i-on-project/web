@@ -13,12 +13,11 @@
             <span aria-hidden="true">&times;</span>
         </button>         
     </div>
-    <h3 class="text-center">Plano Curricular</h3>
+    <h3 class="text-center">Unidades Curriculares disponíveis</h3>
     <form method="post" action="/programmeOffers/classes">
     <div class="row row-content">
-    {{#each programmeOffersByTerms}}
+
         <div class="col-md-6 divSpacing">
-            <h4 class="text-center">{{@key}}º Semestre</h4>
             <table class="table table-bordered">
                 <tr>
                     <th>Unidade Curricular</th>
@@ -26,10 +25,10 @@
                     <th class="text-center">Área</th>
                     <th class="text-center">Obrigatória</th>
                     <th class="text-center">
-                        <input type="checkbox" onClick="toggle(this, {{@key}})">
+                        <input type="checkbox" onClick=""><!--TO DO -->
                     </th>
                 </tr>
-                {{#each this}} 
+                    {{#each programmeCalendarTermOffers}}
                     <tr class="border_bottom">
                         <td class="col-md-2">{{this.name}}</td>
                         <td class="col-md-1 text-center">{{this.ects}}</td>
@@ -52,7 +51,7 @@
                 {{/each}}
             </table>
         </div>
-    {{/each}}
+    
     </div>
     <div class="divSpacing text-center">
       <input class="btn btn-dark btn-lg btn-block" type="submit" value="Concluir selecção"/>
