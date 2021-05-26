@@ -82,21 +82,17 @@ module.exports = function(data) {
 
 	const getUserCourses = async function(user) {
 		const userCourses = []; 
-		if(user) {
-			const coursesIDs = Object.keys(user.selectedCoursesAndClasses);
+		//if(user) {
+			const userCoursesAndClasses = await data.loadUserCoursesAndClasses();
 
-			for(let i = 0; i < coursesIDs.length; i++) {
-				const course = await data.loadCourseByID(coursesIDs[i]);
-				const newObj = {
-					"name": course.entities[0].properties.name,
-					"acronym": course.entities[0].properties.acronym,
-					"classes": user.selectedCoursesAndClasses[coursesIDs[i]],
-					"id": coursesIDs[i]
-				};
-				userCourses.push(newObj);
+			const courseIDs = Object.keys(userCoursesAndClasses);
+	
+			for(let i = 0; i < courseIDs.length; i++) {
+				const course = await data.loadCourseClassesByCalendarTerm(courseIDs[i]);
+				course.classes = userCoursesAndClasses[courseIDs[i]];
+				userCourses.push(course)
 			}
-		}
-
+		//}
 		return {
 			user: user, 
 			userCourses: userCourses, 
@@ -105,23 +101,26 @@ module.exports = function(data) {
 	};
 
 	const saveUserCourses = async function(user, courses){
-		if(user) {
+		/*if(user) {
 			await data.saveUserCourses(user.username, courses);
-		}
+		}*/
+		
+		await data.saveUserCourses(user, courses.selectedCourses);
 		return;
 	};
 
-	const getClasses = async function(user) {
+	const getClassesFromSelectedCourses = async function(user) {
 		const classesByCourses = [];
 		//if(user) {
-			const userCourses = await getUserCourses();
+			const userCourses = await data.loadUserCoursesAndClasses();
+	
 			// TO DO - Review
-			const coursesIDs = userCourses.map(course => course.courseId);
+			const coursesIDs = Object.keys(userCourses);
 
-			const coursesIDs = [1, 3, 2];
 			for(let i = 0; i < coursesIDs.length; i++)
 				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i]));
 		//}
+		
 		return {
 			user: user, 
 			classesByCourses: classesByCourses
@@ -129,9 +128,19 @@ module.exports = function(data) {
 	};
 
 	const saveUserClasses = async function(user, classes){
-		if(user) {
-			await data.saveUserClasses(user.username, classes);
-		}
+		//if(user) {
+			
+			const selectedClasses = {};// TO DO - Review
+			for(let prop in classes) { 
+				if(!Array.isArray(classes[prop])) {
+					selectedClasses[prop] = [classes[prop]];
+				} else {
+					selectedClasses[prop] = classes[prop];
+				}
+			}
+
+			await data.saveUserClasses(selectedClasses);
+		//}
 	};
 
 	const getAboutData = async function(user){
@@ -163,7 +172,7 @@ module.exports = function(data) {
 		getUserCalendar : getUserCalendar,
 		getUserCourses : getUserCourses,
 		saveUserCourses : saveUserCourses,
-		getClasses : getClasses,
+		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
 		saveUserClasses : saveUserClasses,		
 		getAboutData : getAboutData,
 		getProgrammesByDegree : getProgrammesByDegree

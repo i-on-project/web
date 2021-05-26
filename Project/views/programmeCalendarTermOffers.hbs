@@ -16,12 +16,13 @@
     <h3 class="text-center">Unidades Curriculares disponíveis</h3>
     <form method="post" action="/courses">
     <div class="row row-content">
-        <div class="col-md-6 divSpacing">
+        <div class="offset-2 col-md-8 divSpacing">
             <table class="table table-bordered">
                 <tr>
                     <th>Unidade Curricular</th>
                     <th class="text-center">ECTS</th>
                     <th class="text-center">Área</th>
+                    <th class="text-center">Semestre</th>
                     <th class="text-center">Obrigatória</th>
                     <th class="text-center">
                         <input type="checkbox" onClick="toggle(this, 'selectedCourses')">
@@ -29,9 +30,10 @@
                 </tr>
                     {{#each programmeCalendarTermOffers}}
                     <tr class="border_bottom">
-                        <td class="col-md-2">{{this.name}}</td>
+                        <td class="col-md-4">{{this.name}}</td>
                         <td class="col-md-1 text-center">{{this.ects}}</td>
                         <td class="col-md-1 text-center">{{this.scientificArea}}</td>
+                        <td class="col-md-1 text-center">{{this.termNumber}}º</td>
                         <td class="col-md-1 text-center">
                             {{#if this.optional}}
                                 <i class="fa fa-times" aria-hidden="true"></i>

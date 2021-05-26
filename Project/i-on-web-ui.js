@@ -95,7 +95,6 @@ function webui(service, auth) {
 
 		saveUserChosenCourses: async function(req, res) { 
 			try {
-				console.log(JSON.stringify(req.body))
 				await service.saveUserCourses(req.user, req.body);
 				res.redirect('/available-classes');
 
@@ -104,12 +103,11 @@ function webui(service, auth) {
 			}
 		},
 	
-		getClassesFromSelectedCourses: async function(req, res) {
+		classesFromSelectedCourses: async function(req, res) {
 			let commonInfo;
 			try {
-
 				commonInfo = await getPagesCommonInfo(service);
-				const data = await service.getClasses(req.user); // todo review and change names
+				const data = await service.getClassesFromSelectedCourses(req.user); // todo review and change names
 
 				res.render('classes', Object.assign(data, commonInfo));
 
@@ -234,7 +232,7 @@ function webui(service, auth) {
 	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers); 	/// Programme offers page
 	
 	router.post('/courses',				theWebUI.saveUserChosenCourses			);	/// todo create method
-	router.get(	'/available-classes',	theWebUI.getClassesFromSelectedCourses	);	/// todo list available)
+	router.get(	'/available-classes',	theWebUI.classesFromSelectedCourses	);	/// todo list available)
 	router.post('/classes', 			theWebUI.saveUserChosenClasses			);	/// todo review
 
 	router.get(	'/courses',				theWebUI.userCourses	); 	/// Users courses page
