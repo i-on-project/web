@@ -2,17 +2,31 @@
 
 const error = require('./i-on-web-errors.js');
 
+const getProgrammesByDegree = async function(data){
+	const programmes = await data.loadAllProgrammes();
+
+	const bachelorProgrammes = programmes
+	.filter( programme => programme.degree == "bachelor");
+
+	const masterProgrammes = programmes
+	.filter( programme => programme.degree == "master");
+
+	return {bachelor: bachelorProgrammes, master: masterProgrammes};
+};
+
 module.exports = function(data) {
 
 	const getHome = async function(user) {
 		if(user) {
 			// TO DO - Show user next events
 		}
-
-		return {
-			user: user, 
-			page: 'home'
-		};
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, 
+			{
+				user: user, 
+				page: 'home'
+			}
+		);
 	};
 
 	const getProgrammeCalendarTermOffers = async function(programmeId, user){ // TO DO: arg semester info
@@ -31,10 +45,11 @@ module.exports = function(data) {
 		const programmeCalendarTermOffers = offers
 		.filter(course => filteredCoursesId.includes(course.courseId))
 
-		return {
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign({
 			user: user,
 			programmeCalendarTermOffers : programmeCalendarTermOffers
-		};
+		}, commonInfo);
 	};
 
 	const getProgrammeData = async function(programmeId, user){
@@ -51,11 +66,12 @@ module.exports = function(data) {
 
 		}, {});
 
-		return {
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
 			user: user, 
 			offersByAcademicTerms: offersByAcademicTerms, 
 			programme: programme
-		};
+		});
 	};
 
 	const getUserSchedule = async function(user) {
@@ -63,10 +79,11 @@ module.exports = function(data) {
 			// TO DO - Get user schedule
 		}
 
-		return {
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
 			user: user, 
 			page: "schedule"
-		};
+		});
 	};
 
 	const getUserCalendar = async function(user) {
@@ -74,15 +91,16 @@ module.exports = function(data) {
 			// TO DO - Get user calendar
 		}
 
-		return {
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
 			user: user, 
 			page: "calendar"
-		};
+		});
 	};
 
 	const getUserCourses = async function(user) {
 		const userCourses = []; 
-		//if(user) {
+		if(user) {
 			const userCoursesAndClasses = await data.loadUserCoursesAndClasses();
 
 			const courseIDs = Object.keys(userCoursesAndClasses);
@@ -92,26 +110,24 @@ module.exports = function(data) {
 				course.classes = userCoursesAndClasses[courseIDs[i]];
 				userCourses.push(course)
 			}
-		//}
-		return {
+		}
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
 			user: user, 
 			userCourses: userCourses, 
 			page: "user-courses"
-		};
+		});
 	};
 
 	const saveUserCourses = async function(user, courses){
-		/*if(user) {
-			await data.saveUserCourses(user.username, courses);
-		}*/
-		
-		await data.saveUserCourses(user, courses.selectedCourses);
-		return;
+		if(user) {
+			await data.saveUserCourses(user.username, courses.selectedCourses);
+		}
 	};
 
 	const getClassesFromSelectedCourses = async function(user) {
 		const classesByCourses = [];
-		//if(user) {
+		if(user) {
 			const userCourses = await data.loadUserCoursesAndClasses();
 	
 			// TO DO - Review
@@ -119,18 +135,19 @@ module.exports = function(data) {
 
 			for(let i = 0; i < coursesIDs.length; i++)
 				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i]));
-		//}
+		}
 		
-		return {
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
 			user: user, 
 			classesByCourses: classesByCourses
-		};
+		});
 	};
 
 	const saveUserClasses = async function(user, classes){
-		//if(user) {
+		if(user) {
 			
-			const selectedClasses = {};// TO DO - Review
+			const selectedClasses = {}; // TO DO - Review
 			for(let prop in classes) { 
 				if(!Array.isArray(classes[prop])) {
 					selectedClasses[prop] = [classes[prop]];
@@ -140,28 +157,17 @@ module.exports = function(data) {
 			}
 
 			await data.saveUserClasses(selectedClasses);
-		//}
+		}
 	};
 
 	const getAboutData = async function(user){
 		const aboutData = await data.loadAboutData();		
 	
-		return {
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
 			user: user,
 			aboutData: aboutData
-		};
-	};
-
-	const getProgrammesByDegree = async function(){
-		const programmes = await data.loadAllProgrammes();
-
-		const bachelorProgrammes = programmes
-		.filter( programme => programme.degree == "bachelor");
-	
-		const masterProgrammes = programmes
-		.filter( programme => programme.degree == "master");
-
-		return {bachelor: bachelorProgrammes, master: masterProgrammes};
+		});
 	};
 
 	return {
@@ -174,8 +180,7 @@ module.exports = function(data) {
 		saveUserCourses : saveUserCourses,
 		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
 		saveUserClasses : saveUserClasses,		
-		getAboutData : getAboutData,
-		getProgrammesByDegree : getProgrammesByDegree
+		getAboutData : getAboutData
 	};
 	
 }
