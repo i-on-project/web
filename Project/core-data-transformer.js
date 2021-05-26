@@ -24,14 +24,19 @@ module.exports = function() {
 
 	const loadCourseClassesByCalendarTerm = async function(courseId) {
 		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId);
+		const courseData = receivedData.entities.find(__ => __).properties;
+		const course = {
+			'courseId' : courseData.courseId,
+			'acronym' : courseData.acronym,
+			'name' : courseData.name,
+			'classes': []
+		} 
 
 		return receivedData.entities.map(entity => entity.properties)
 		.reduce(function(newResponse, currentClass) {
-			newResponse['courseId'] = currentClass.courseId;
-			newResponse['acronym'] = currentClass.acronym;
 			newResponse.classes.push(currentClass.id);
 			return newResponse;
-		  }, {'classes': []});
+		  }, course);
 	}
 	
 	const loadAboutData = async function () {

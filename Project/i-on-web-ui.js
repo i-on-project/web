@@ -184,8 +184,8 @@ function webui(service, auth) {
 	router.get(	'/programme/:id', 		theWebUI.programme		);	/// Programme info page
 	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers); 	/// Programme offers page
 	
-	router.post('/courses',				theWebUI.saveUserChosenCourses			);	/// todo create method
-	router.get(	'/available-classes',	theWebUI.classesFromSelectedCourses	);	/// todo list available)
+	router.post('/courses',				theWebUI.saveUserChosenCourses			);	/// todo review
+	router.get(	'/available-classes',	theWebUI.classesFromSelectedCourses	);		/// Available classes of the selected courses
 	router.post('/classes', 			theWebUI.saveUserChosenClasses			);	/// todo review
 
 	router.get(	'/courses',				theWebUI.userCourses	); 	/// Users courses page
@@ -206,17 +206,12 @@ function webui(service, auth) {
 
 /******* Helper functions *******/
 
-/// This function returns data that is common between multiples pages (e.g. programmes to show in navbar)
-async function getPagesCommonInfo(service) {
-	return await service.getProgrammesByDegree();
-};
-
-async function onErrorResponse(res, err, defaultError, commonInfo) {
+async function onErrorResponse(res, err, defaultError) {
 
 	const translatedError = appErrorsToHttpErrors(err, defaultError);
 	
 	res.statusCode = translatedError.status;
-	res.render(page, Object.assign(translatedError, commonInfo));
+	res.render(page, translatedError);
 
 }
 

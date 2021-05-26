@@ -13,7 +13,7 @@ module.exports = function() {
 		const improvedResponse = response
 		.map( programme => {
 			const mockProgramme = mockDataToBeAdded.entities // TO DO - Change
-			.filter( mockEntities => mockEntities.properties.programmeId == programme.programmeId)[0].properties;
+			.find( mockEntities => mockEntities.properties.programmeId == programme.programmeId).properties;
 
 			programme["name"] = mockProgramme.name;
 			programme["degree"] = mockProgramme.degree;
@@ -33,7 +33,7 @@ module.exports = function() {
 
 		const improvedResponse = response.map( offer => {
 			const mockOffer = mockDataToBeAdded.entities
-			.filter( mockEntities => mockEntities.properties.courseId == offer.courseId)[0].properties;
+			.find( mockEntities => mockEntities.properties.courseId == offer.courseId).properties;
 
 			offer["name"] = mockOffer.name;
 			offer["acronym"] = mockOffer.acronym;
@@ -72,7 +72,7 @@ module.exports = function() {
 		const path = './data/courses/' + courseId;
 		const mockDataToBeAdded = await getMockData(path);
 
-		response['name'] = mockDataToBeAdded.entities[0].properties.name;
+		response['name'] = mockDataToBeAdded.entities.find(__ => __).properties.name;
 		return response;
 	}
 

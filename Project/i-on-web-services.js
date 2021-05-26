@@ -125,12 +125,11 @@ module.exports = function(data) {
 		}
 	};
 
-	const getClassesFromSelectedCourses = async function(user) {
+	const getClassesFromSelectedCourses = async function(user) {// TO DO - Review
 		const classesByCourses = [];
 		if(user) {
 			const userCourses = await data.loadUserCoursesAndClasses();
-	
-			// TO DO - Review
+			
 			const coursesIDs = Object.keys(userCourses);
 
 			for(let i = 0; i < coursesIDs.length; i++)
