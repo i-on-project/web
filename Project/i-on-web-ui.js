@@ -110,9 +110,11 @@ function webui(service, auth) {
 		getAuthTypes: async function(req, res) {
 			let commonInfo;
 			try {
-				
-				commonInfo = await getPagesCommonInfo(service);	
+				console.log('1')
+				//commonInfo = await getPagesCommonInfo(service);	
+				console.log('2')
 				const data = await auth.getAuthenticationTypes();
+				console.log('3')
 				
 				res.render(
 					'auth_methods',
@@ -134,7 +136,7 @@ function webui(service, auth) {
 
 			try {
 
-				commonInfo = await getPagesCommonInfo(service);
+				//commonInfo = await getPagesCommonInfo(service);
 				const data = await auth.getAuthMethodFeatures(args['type']);
 				
 				res.render( /// TO DO: create page
@@ -155,7 +157,7 @@ function webui(service, auth) {
 			let commonInfo;
 			try {
 
-				commonInfo = await getPagesCommonInfo(service);	
+				//commonInfo = await getPagesCommonInfo(service);	
 				const data = await auth.getAuthenticationMethods();
 				
 				res.render(
