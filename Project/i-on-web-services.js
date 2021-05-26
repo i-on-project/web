@@ -17,7 +17,6 @@ module.exports = function(data) {
 
 	const getProgrammeCalendarTermOffers = async function(programmeId, user){ // TO DO: arg semester info
 		const offers = await data.loadAllProgrammeOffers(programmeId);
-		//console.log('offers----------> ' + JSON.stringify(offers))
 
 		const courseIDs = offers
 		.map(offer => offer.courseId)
@@ -109,35 +108,20 @@ module.exports = function(data) {
 		if(user) {
 			await data.saveUserCourses(user.username, courses);
 		}
+		return;
 	};
 
-	const getClasses = async function(selectedCourses, user) {
+	const getClasses = async function(user) {
+		const classesByCourses = [];
+		//if(user) {
+			const userCourses = await getUserCourses();
+			// TO DO - Review
+			const coursesIDs = userCourses.map(course => course.courseId);
 
-		// TO DO - Change
-		const coursesIDs = selectedCourses
-			.reduce((res, curr) => res.concat(curr), [])
-			.map(courseId => parseInt(courseId));
-
-		const courses = [];
-		for(let i = 0; i < coursesIDs.length; i++)
-			courses.push(await data.loadCourseByID(coursesIDs[i]));
-
-		const classesByCourses = courses.reduce((response, course) => {
-			
-			const result = course.entities
-			.map(entities => entities.properties)
-			.reduce( (course_classes, course_class) => {
-				course_classes.classes.push(course_class.id);
-				course_classes.name = course_class.name;
-				course_classes.courseId = course_class.courseId;
-				return course_classes;
-			}, {courseId: 0, name: '', classes: []});
-
-			response.push(result);
-
-			return response;
-		}, []);
-
+			const coursesIDs = [1, 3, 2];
+			for(let i = 0; i < coursesIDs.length; i++)
+				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i]));
+		//}
 		return {
 			user: user, 
 			classesByCourses: classesByCourses

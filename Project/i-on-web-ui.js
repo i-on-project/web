@@ -95,9 +95,9 @@ function webui(service, auth) {
 
 		saveUserChosenCourses: async function(req, res) { 
 			try {
-				
+				console.log(JSON.stringify(req.body))
 				await service.saveUserCourses(req.user, req.body);
-				res.redirect('/courses');
+				res.redirect('/available-classes');
 
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page', service);
@@ -109,7 +109,7 @@ function webui(service, auth) {
 			try {
 
 				commonInfo = await getPagesCommonInfo(service);
-				const data = await service.getClasses(req.body, req.user); // todo review and change names
+				const data = await service.getClasses(req.user); // todo review and change names
 
 				res.render('classes', Object.assign(data, commonInfo));
 
