@@ -11,10 +11,14 @@ const core_url = process.env.CORE_URL;
 const client_id = "22dd1551-db23-481b-acde-d286440388a5"; /// TO DO: In future renove dev client id to production on .. process.env.CORE_CLIENT_ID | 
 
 const coreRequest = async function(endpoint, expectedStatus, options) {
-
+	// core_url + endpoint
 	const response = await fetch(core_url + endpoint, options);
 
 	if(response.status != expectedStatus) throw response.status;
+
+	const metadata = response.headers;
+
+	console.log(" Metadata -> " + JSON.stringify(metadata.get('last-modified')));
 
 	return response.json();
 };
@@ -32,7 +36,9 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/api/programmes/', 200, options);
+			const data = await coreRequest('/api/programmes/', 200, options);
+
+			return data;
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {

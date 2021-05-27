@@ -1,6 +1,6 @@
 'use strict'
 
-const data = require('./mock-data.js')();
+const data = require('./core-data.js')();
 
 module.exports = function() {
 
