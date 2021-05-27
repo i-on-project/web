@@ -20,10 +20,14 @@ const auth = require('./i-on-web-auth.js')(app, data);
 const service = require('./i-on-web-services.js')(data);
 
 /// WebUI
-const webui = require('./i-on-web-ui.js')(service, auth);
+const webUI = require('./i-on-web-ui.js')(service, auth);
+
+/// Auth WebAPI
+const webAuthApi = require('./i-on-web-auth-api')(auth);
 
 /// Middleware
-app.use(webui);
+app.use('/auth-api', webAuthApi);
+app.use(webUI);
 app.use('/dependecies', express.static('node_modules'));
 app.use('/public', express.static('static-files'));
 app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)

@@ -22,7 +22,7 @@
 </div>
 
 <script>
-    function submitFunction() {
+    async function submitFunction() {
         // Deactivate button
         const button = document.querySelector('#submit-button');
         button.disabled = true;
@@ -37,8 +37,22 @@
             '</div>' + 
         '</div>'
 
-        // 
-        const email = document.querySelector('#email').value;
-        console.log("login hbs Email: " + email);
+        // Request to auth api
+        const data = {
+            'email' : document.querySelector('#email').value
+        };
+
+        const response = await fetch("/auth-api/email", {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data), // body data type must match "Content-Type" header
+        });
+
+        console.log("response: " + response.json()); // parses JSON response into native JavaScript objects
+
+        console.log("login hbs Email: " + data);
+
     }
 </script>

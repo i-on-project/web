@@ -110,11 +110,8 @@ function webui(service, auth) {
 		getAuthTypes: async function(req, res) {
 			let commonInfo;
 			try {
-				console.log('1')
 				//commonInfo = await getPagesCommonInfo(service);	
-				console.log('2')
 				const data = await auth.getAuthenticationTypes();
-				console.log('3')
 				
 				res.render(
 					'auth_methods',
