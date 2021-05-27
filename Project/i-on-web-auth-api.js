@@ -13,8 +13,8 @@ function webapi(auth) {
 			try {
 				const data = await auth.submitInstitutionalEmail(body.email);
                 console.log("web api data: " + JSON.stringify(data));
-                res.setHeader('Set-Cookie', ['auth_req_id=' + data.auth_req_id, 'expires_in=' + data.expires_in], 'Expires=' + new Date(Date.now() + data.expires_in), 'HttpOnly'); /// TO DO: confirm it, same site and other security issues
-                res.json();
+                res.setHeader('Set-Cookie', ['auth_req_id=' + data.auth_req_id, 'expires_in=' + data.expires_in], 'Expires=' + new Date(Date.now() + data.expires_in)); /// TO DO: confirm it, same site and other security issues, hash ou something? , 'HttpOnly'
+                res.send({})
 			} catch(err) {
                 console.log("erro -> " + err);
 				//await onErrorResponse(res, err, 'Failed to show Home Page');

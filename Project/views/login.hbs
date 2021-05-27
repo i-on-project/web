@@ -50,9 +50,15 @@
             body: JSON.stringify(data), // body data type must match "Content-Type" header
         });
 
-        console.log("response: " + JSON.stringify(response.json())); // parses JSON response into native JavaScript objects
+        console.log("cookies -> " + document.cookie);
 
-        console.log("login hbs Email: " + JSON.stringify(data));
 
     }
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
 </script>
