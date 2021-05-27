@@ -50,9 +50,9 @@
             body: JSON.stringify(data), // body data type must match "Content-Type" header
         });
 
-        console.log("response: " + response.json()); // parses JSON response into native JavaScript objects
+        console.log("response: " + JSON.stringify(response.json())); // parses JSON response into native JavaScript objects
 
-        console.log("login hbs Email: " + data);
+        console.log("login hbs Email: " + JSON.stringify(data));
 
     }
 </script>

@@ -7,14 +7,17 @@ function webapi(auth) {
 	
 	const theWebAPI = {
 
-		submitEmail: async function(req, res) {
+		submitInstitutionalEmail: async function(req, res) {
             const body = req.body; /// Extrair os parâmetros
             console.log("body: " + JSON.stringify(body));
 			try {
-				//const data = await auth.submitEmail(body.email);
-                res.json({ 'resposta': "teste" });
+				const data = await auth.submitInstitutionalEmail(body.email);
+                console.log("web api data: " + JSON.stringify(data));
+                res.setHeader('Set-Cookie', ['auth_req_id=' + data.auth_req_id, 'expires_in=' + data.expires_in], 'Expires=' + new Date(Date.now() + data.expires_in), 'HttpOnly'); /// TO DO: confirm it, same site and other security issues
+                res.json();
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Home Page');
+                console.log("erro -> " + err);
+				//await onErrorResponse(res, err, 'Failed to show Home Page');
 			}
 		}
 
@@ -25,7 +28,7 @@ function webapi(auth) {
 
 	/******* Mapping requests to handlers according to the path *******/
 
-	router.post('/email', 					theWebAPI.submitEmail			);	/// Home page
+	router.post('/email', 					theWebAPI.submitInstitutionalEmail			);	/// Home page
 
 	return router;
 }

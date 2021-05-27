@@ -8,6 +8,7 @@ const contentType = 'application/json';
 /// Environment variables
 const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
+const client_id = "22dd1551-db23-481b-acde-d286440388a5"; /// TO DO: In future renove dev client id to production on .. process.env.CORE_CLIENT_ID | 
 
 const coreRequest = async function(endpoint, expectedStatus, options) {
 
@@ -173,6 +174,36 @@ module.exports = function() {
 		}
 	};
 
+	const submitInstitutionalEmail = async function(email) {
+		try {
+			
+			const options = {
+				method: 'POST',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				},
+				body: JSON.stringify({
+					"scope": "profile",
+					"type": "email",
+					"client_id": client_id,
+					"notification_method": "POLL",
+					"email": email
+				})
+			};
+			
+			return await coreRequest('/api/auth/methods', 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -180,6 +211,7 @@ module.exports = function() {
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadAuthenticationTypes : loadAuthenticationTypes,
-		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures
+		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
+		submitInstitutionalEmail : submitInstitutionalEmail
 	};
 }

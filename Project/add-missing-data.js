@@ -93,6 +93,10 @@ module.exports = function() {
 		return await data.loadAuthenticationMethodFeatures();
 	};
 
+	const submitInstitutionalEmail = function(email) {
+		return data.submitInstitutionalEmail(email);
+	};
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -100,7 +104,8 @@ module.exports = function() {
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadAuthenticationTypes : loadAuthenticationTypes,
-		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures
+		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
+		submitInstitutionalEmail : submitInstitutionalEmail
 	};
 }
 

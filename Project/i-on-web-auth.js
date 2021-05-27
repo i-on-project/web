@@ -43,8 +43,11 @@ module.exports = (app, data) => {
 		getAuthMethodFeatures: async function(type) {
 			const receivedData = await data.loadAuthenticationMethodFeatures();
 			return receivedData.auth_methods.find(method => method.type == type);
-        }/*,
+        },
 
+		submitInstitutionalEmail: function(email) {
+			return data.submitInstitutionalEmail(email);
+        }/*,
 		submitMethodResponse: async function(req, email) {
 			
             if (email) {
