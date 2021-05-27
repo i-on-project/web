@@ -1,25 +1,61 @@
 'use strict'
 
-const data = require('./core-data.js')();
+const data = require('./mock-data.js')();
 
 module.exports = function() {
 
 	const loadAllProgrammes = async function () {
 		const receivedData = await data.loadAllProgrammes();
 
-		return receivedData.entities.map(entities => entities.properties);
+		return receivedData.entities
+		.map(entities => entities.properties)
+		.reduce(function(response, currentProgramme) {
+			const programme = {
+				"programmeId": currentProgramme.programmeId,
+				"acronym": currentProgramme.acronym,
+				"name": currentProgramme.name,
+				"degree": currentProgramme.degree
+			}
+			response.push(programme);
+			return response;
+		}, []);
 	};
 
 	const loadAllProgrammeOffers = async function(programmeId) {
 		const receivedData = await data.loadAllProgrammeOffers(programmeId);
 
-		return receivedData.entities.map(entities => entities.properties);
+		return receivedData.entities
+		.map(entities => entities.properties)
+		.reduce(function(response, currentCourse) {
+			const course = {
+				"acronym": currentCourse.acronym,
+				"name": currentCourse.name,
+				"courseId": currentCourse.courseId,
+				"id": currentCourse.id,
+				"termNumber": currentCourse.termNumber,
+				"optional": currentCourse.optional,
+				"ects": currentCourse.ects,
+				"scientificArea": currentCourse.scientificArea
+			}
+			response.push(course);
+			return response;
+		}, []);;
 	};
 
 	const loadProgrammeData = async function(programmeId) {
 		const receivedData = await data.loadProgrammeData(programmeId);
 	
-		return receivedData.properties;
+		return {
+			"id": receivedData.properties.id,
+			"name": receivedData.properties.name,
+			"acronym": receivedData.properties.acronym,
+			"termSize": receivedData.properties.termSize,
+			"department": receivedData.properties.department,
+			"coordination": receivedData.properties.coordination,
+			"contacts": receivedData.properties.contacts,
+			"sourceLink": receivedData.properties.sourceLink,
+			"description": receivedData.properties.description,
+		};
 	};
 
 	const loadCourseClassesByCalendarTerm = async function(courseId) {
