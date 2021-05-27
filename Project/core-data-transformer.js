@@ -79,6 +79,24 @@ module.exports = function() {
 		}
 	};
 
+	const pollingCore = async function(authForPoll) {
+		const receivedData = await data.pollingCore(authForPoll);
+		
+		return receivedData.hasOwnProperty("access_token") ? 
+		{
+			"access_token": receivedData.access_token,
+			"token_type": receivedData.token_type,
+			"refresh_token": receivedData.refresh_token,
+			"expires_in": receivedData.expires_in,
+			"id_token": receivedData.id_token
+		} :
+		{
+			"error" : receivedData.error,
+			"error_description" : receivedData.error_description
+		}
+
+	};
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -87,6 +105,7 @@ module.exports = function() {
 		loadAboutData : loadAboutData,
 		loadAuthenticationTypes : loadAuthenticationTypes,
 		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
-		submitInstitutionalEmail : submitInstitutionalEmail
+		submitInstitutionalEmail : submitInstitutionalEmail,
+		pollingCore : pollingCore
 	};
 }

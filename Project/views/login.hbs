@@ -51,10 +51,10 @@
             body: JSON.stringify(data),
         });
 
-        const data = await response.json();
+        const authData = await response.json();
 
-        const auth_req_id = data.auth_req_id;
-        const counter = data.expires_in;
+        const auth_req_id = authData.auth_req_id;
+        let counter = authData.expires_in;
 
         const polling_uri = `/auth-api/${auth_req_id}/poll`
 
@@ -62,18 +62,24 @@
         console.log("-> " + counter + " -> " + auth_req_id + " -> " + polling_uri  );
 
 
-        setInterval(() => {
+        const pollingLoop = setInterval(async () => {
 
-            counter--;
-            console.log("-> " + counter);
+            counter-=5;
+            console.log("counter -> " + counter);
 
             const pollingResponse = await fetch(polling_uri);
-
-            if(pollResponse.status === 200)
+            console.log("status -> " + pollingResponse.status)
+            
+            if(pollingResponse.status === 200) {
                 console.log("-> sucesso");
+                clearInterval(pollingLoop);
+            }
 
-            if (counter === 0)
+            if (counter === 0) {
                 console.log("Auth limit time exceeded");
+                console.log("-> sucesso");
+                clearInterval(pollingLoop);
+            }
 
         }, 5000); // TO DO
 

@@ -36,7 +36,7 @@ module.exports = (app, data) => {
     passport.deserializeUser(refToUser);*/
     
     return {
-        getAuthenticationTypes: async function() {
+        getAuthenticationTypes: function() {
             return data.loadAuthenticationTypes();
         },
 
@@ -47,7 +47,22 @@ module.exports = (app, data) => {
 
 		submitInstitutionalEmail: function(email) {
 			return data.submitInstitutionalEmail(email);
-        }/*,
+        }, 
+
+		pollingCore: async function(authForPoll) {
+			const receivedData = await data.pollingCore(authForPoll);
+			console.log("receivedData -> " + JSON.stringify(receivedData));
+
+			return receivedData.hasOwnProperty("access_token") ? 
+			{
+				"polling_success" : true
+			} :
+			{
+				"polling_success" : false
+			}
+		}
+		
+		/*,
 		submitMethodResponse: async function(req, email) {
 			
             if (email) {

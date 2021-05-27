@@ -8,7 +8,7 @@ function webapi(auth) {
 	const theWebAPI = {
 
 		submitInstitutionalEmail: async function(req, res) {
-            const body = req.body; /// Extrair os parâmetros
+            const body = req.body;
             console.log("body: " + JSON.stringify(body));
 			try {
 				const data = await auth.submitInstitutionalEmail(body.email);
@@ -21,14 +21,16 @@ function webapi(auth) {
 			}
 		},
 
-		pollCore: async function(req, res) {
-            const body = req.body; /// Extrair os parâmetros
-            console.log("body: " + JSON.stringify(body));
+		pollingCore: async function(req, res) {
+            const params = req.params;
+
 			try {
-				const data = await auth.submitInstitutionalEmail(body.email);
-                console.log("web api data: " + JSON.stringify(data));
-                //res.setHeader('Set-Cookie', ['auth_req_id=' + data.auth_req_id, 'expires_in=' + data.expires_in], 'Expires=' + new Date(Date.now() + data.expires_in)); /// TO DO: confirm it, same site and other security issues, hash ou something? , 'HttpOnly'
-                res.json(data);
+				console.log("chegou")
+				const data = await auth.pollingCore(params['authId']);
+                console.log("web api polling: " + JSON.stringify(data));
+                if(data.polling_success) {
+					res.json(data);
+				} else res.status(202).json(data);
 			} catch(err) {
                 console.log("erro -> " + err);
 				//await onErrorResponse(res, err, 'Failed to show Home Page');
@@ -42,7 +44,8 @@ function webapi(auth) {
 
 	/******* Mapping requests to handlers according to the path *******/
 
-	router.post('/email', 					theWebAPI.submitInstitutionalEmail			);	/// Home page
+	router.post('/email', 			theWebAPI.submitInstitutionalEmail	);	///
+	router.get('/:authId/poll',		theWebAPI.pollingCore				);	///
 
 	return router;
 }

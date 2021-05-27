@@ -204,6 +204,33 @@ module.exports = function() {
 		}
 	};
 
+	const pollingCore = async function(authForPoll) {
+		try {
+			
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+			
+			const response = await fetch(core_url + `/api/auth/request/${authForPoll}/poll`, options);
+
+			console.log("status in core -> " + response.status);
+		
+			return response.json();
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -212,6 +239,7 @@ module.exports = function() {
 		loadAboutData : loadAboutData,
 		loadAuthenticationTypes : loadAuthenticationTypes,
 		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
-		submitInstitutionalEmail : submitInstitutionalEmail
+		submitInstitutionalEmail : submitInstitutionalEmail,
+		pollingCore : pollingCore
 	};
 }

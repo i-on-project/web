@@ -97,6 +97,10 @@ module.exports = function() {
 		return data.submitInstitutionalEmail(email);
 	};
 
+	const pollingCore = function(authForPoll) {
+		return data.pollingCore(authForPoll);
+	};
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -105,7 +109,8 @@ module.exports = function() {
 		loadAboutData : loadAboutData,
 		loadAuthenticationTypes : loadAuthenticationTypes,
 		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
-		submitInstitutionalEmail : submitInstitutionalEmail
+		submitInstitutionalEmail : submitInstitutionalEmail,
+		pollingCore : pollingCore
 	};
 }
 
