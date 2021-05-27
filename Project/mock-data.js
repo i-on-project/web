@@ -43,19 +43,36 @@ module.exports = function() {
 
 	const loadAboutData = async function() {
 		try {
-			const aboutData = getMockData('./data/i-on-team');
-			return aboutData;
+			return getMockData('./data/i-on-team');
 		} catch (err) {
 			// TO DO - Handle errors
 		}
 	};
 
+	const loadCourseEventCalendar = async function(courseId, semester) {
+		try {
+			return getMockData('./data/classes/1718i' + courseId);
+		} catch (err) {
+			// TO DO - Handle errors
+		}
+	};
+	
+	const loadClassSchedule = async function(courseId, classId, semester) {
+		try {
+			return getMockData('./data/classes/1718i' + courseId + '/' + classId);
+		} catch (err) {
+			// TO DO - Handle errors
+		}
+	};
+	
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
-		loadAboutData : loadAboutData
+		loadAboutData : loadAboutData,
+		loadCourseEventCalendar : loadCourseEventCalendar,
+		loadClassSchedule : loadClassSchedule
 	};
 }
 
