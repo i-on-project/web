@@ -29,7 +29,9 @@
         button.disabled = true;
 
         // Notificate the user that authentication is in progress
-        document.querySelector("#loading").innerHTML += 
+        const loading = document.querySelector("#loading");
+        
+        loading.innerHTML += 
         ' <br><br> ' + 
         ' <div class="d-flex justify-content-center"> ' + 
             ' <p> Autenticação em progresso ..</p> ' + 
@@ -72,12 +74,13 @@
             
             if(pollingResponse.status === 200) {
                 console.log("-> sucesso");
+                loading.innerHTML = "<p>Autenticação realizada com sucesso !</p>"
                 clearInterval(pollingLoop);
             }
 
             if (counter === 0) {
                 console.log("Auth limit time exceeded");
-                console.log("-> sucesso");
+                loading.innerHTML = "<p>Tempo para autenticação excedido !</p>"
                 clearInterval(pollingLoop);
             }
 
