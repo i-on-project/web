@@ -23,6 +23,7 @@
 
 <script>
     async function submitFunction() {
+
         // Deactivate button
         const button = document.querySelector('#submit-button');
         button.disabled = true;
@@ -37,28 +38,51 @@
             '</div>' + 
         '</div>'
 
-        // Request to auth api
+        // Request to auth api to obtain auth_req_id and expiration
         const data = {
             'email' : document.querySelector('#email').value
         };
 
         const response = await fetch("/auth-api/email", {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
+            body: JSON.stringify(data),
         });
 
-        console.log("cookies -> " + document.cookie);
+        const data = await response.json();
 
+        const auth_req_id = data.auth_req_id;
+        const counter = data.expires_in;
+
+        const polling_uri = `/auth-api/${auth_req_id}/poll`
+
+        // Polling loop
+        console.log("-> " + counter + " -> " + auth_req_id + " -> " + polling_uri  );
+
+
+        setInterval(() => {
+
+            counter--;
+            console.log("-> " + counter);
+
+            const pollingResponse = await fetch(polling_uri);
+
+            if(pollResponse.status === 200)
+                console.log("-> sucesso");
+
+            if (counter === 0)
+                console.log("Auth limit time exceeded");
+
+        }, 5000); // TO DO
 
     }
 
-    function getCookie(name) {
+    /*function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
-    }
+    }*/
 
 </script>
