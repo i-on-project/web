@@ -1,6 +1,6 @@
 'use strict'
 
-const error = require('./covida-errors.js');
+const error = require('./i-on-web-errors.js');
 const fetch = require('node-fetch');
 
 const contentType = 'application/json';
@@ -28,10 +28,10 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const getUser = async function (username) { /// Obtain user given the username
+	const getUser = async function (email) { /// Obtain user given the email
 		try {
 
-			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${username}`, 200);
+			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 200);
 			return answer._source;
 
 		} catch (err) {
@@ -44,17 +44,18 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const createUser = async function (username) { /// Saving a new user in the database
+	const createUser = async function (email, auth_req_id) { /// Saving a new user in the database
 		try {
 
-			await fetchRequest(`${usersBaseUrl}/_doc/${username}`, 404); /// Verify if the username doesn't already exists in the database
+			await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 404); /// Verify if the username doesn't already exists in the database
+			// TO DO - Try and use a elasticsearch script in order to avoid the previous request
 
 			const options = {
 				method: 'PUT', 
 				headers: { "Content-Type": contentType },
-				body: JSON.stringify({'username': username, 'selectedCoursesAndClasses': {}})
+				body: JSON.stringify({'email': email, 'auth_req_id': auth_req_id})
 			};
-			await fetchRequest(`${usersBaseUrl}/_doc/${username}`, 201, options);
+			await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 201, options);
 
 		} catch (err) {
 			switch (err) {
@@ -64,35 +65,17 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const storeUserCourses = async function (username, courses) {
+	const saveUserTokens = async function (email, auth_req_id, tokens) { 
 		try {
-			// TO DO
-		} catch (err) {
-			switch (err) {
-				default: /// Internal Server Error and others..
-					throw error.SERVICE_FAILURE;
-			}
-		}
-	};
+			const options = {
+				method: 'PUT',
+				headers: { "Content-Type": contentType },
+				body: JSON.stringify(Object.assign({'email': email, 'auth_req_id': auth_req_id}, tokens))
+			};
+			await fetchRequest(`${usersBaseUrl}/_doc/${email}/`, 200, options);
 
-	const storeUserClasses = async function(username, classes) { 
-		try {
-			// TO DO
 		} catch (err) {
 			switch (err) {
-				default: /// Internal Server Error and others..
-					throw error.SERVICE_FAILURE;
-			}
-		}
-	};
-
-	const deleteClass = async function(username, courseClass) {
-		try {
-			// TO DO
-		} catch (err) {
-			switch (err) {
-				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error and others..
 					throw error.SERVICE_FAILURE;
 			}
@@ -103,9 +86,7 @@ module.exports = function(baseUrl) {
 		initializeDatabaseIndexes : initializeDatabaseIndexes,
 		getUser : getUser,
 		createUser : createUser,
-		storeUserCourses : storeUserCourses,
-		storeUserClasses : storeUserClasses,
-		deleteClass : deleteClass
+		saveUserTokens : saveUserTokens
 	};
 }
 

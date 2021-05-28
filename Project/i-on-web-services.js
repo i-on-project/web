@@ -14,7 +14,7 @@ const getProgrammesByDegree = async function(data){
 	return {bachelor: bachelorProgrammes, master: masterProgrammes};
 };
 
-module.exports = function(data) {
+module.exports = function(data, database) {
 
 	const getHome = async function(user) {
 		if(user) {

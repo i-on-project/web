@@ -1,19 +1,19 @@
 'use strict'
 
-//const passport = require('passport');
-//const session = require('express-session');
-//const error = require('./i-on-web-errors.js');
+const passport = require('passport');
+const session = require('express-session');
+const error = require('./i-on-web-errors.js');
 
-//const FileStore = require('session-file-store')(session); 
+const FileStore = require('session-file-store')(session); 
 
-module.exports = (app, data) => {
+module.exports = (app, data, database) => {
 
-	/*function userToRef(user, done) {
-		done(null, user.username);
+	function userToRef(user, done) {
+		done(null, user.email);
 	}
 	
 	async function refToUser(userRef, done) {
-		const user = await data.getUser(userRef);
+		const user = await database.getUser(userRef);
 		if (user) {
 			done(null, user);
 		} else {
@@ -25,7 +25,7 @@ module.exports = (app, data) => {
     app.use(session({
 		resave: true,              
 		saveUninitialized: false,  
-		secret: 'secret',   
+		secret: 'secret',   // TO DO - Generate random string
 		store: new FileStore()     
     }))
     
@@ -33,7 +33,7 @@ module.exports = (app, data) => {
 	app.use(passport.session());
 
     passport.serializeUser(userToRef);
-    passport.deserializeUser(refToUser);*/
+    passport.deserializeUser(refToUser);
     
     return {
         getAuthenticationTypes: function() {
@@ -45,20 +45,27 @@ module.exports = (app, data) => {
 			return receivedData.auth_methods.find(method => method.type == type);
         },
 
-		submitInstitutionalEmail: function(email) {
-			return data.submitInstitutionalEmail(email);
+		submitInstitutionalEmail: async function(req, email) {
+			const response = await data.submitInstitutionalEmail(email);
+			await database.createUser(email, response.auth_req_id);
+			const user = await database.getUser(email);
+			req.login(user, (err) => {
+				if (err) throw error.SERVICE_FAILURE;
+			})
+			return response;
         }, 
 
-		pollingCore: async function(authForPoll) {
+		pollingCore: async function(user, authForPoll) {
 			const receivedData = await data.pollingCore(authForPoll);
-			console.log("receivedData -> " + JSON.stringify(receivedData));
-
-			return receivedData.hasOwnProperty("access_token") ? 
-			{
-				"polling_success" : true
-			} :
-			{
-				"polling_success" : false
+			if(receivedData.hasOwnProperty("access_token")) {
+				await database.saveUserTokens(user.email, authForPoll, receivedData);
+				return {
+					"polling_success" : true
+				};
+			} else {
+				return {
+					"polling_success" : false
+				};
 			}
 		}
 		

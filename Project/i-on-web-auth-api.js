@@ -9,10 +9,8 @@ function webapi(auth) {
 
 		submitInstitutionalEmail: async function(req, res) {
             const body = req.body;
-            console.log("body: " + JSON.stringify(body));
 			try {
-				const data = await auth.submitInstitutionalEmail(body.email);
-                console.log("web api data: " + JSON.stringify(data));
+				const data = await auth.submitInstitutionalEmail(req, body.email);
                 //res.setHeader('Set-Cookie', ['auth_req_id=' + data.auth_req_id, 'expires_in=' + data.expires_in], 'Expires=' + new Date(Date.now() + data.expires_in)); /// TO DO: confirm it, same site and other security issues, hash ou something? , 'HttpOnly'
                 res.json(data);
 			} catch(err) {
@@ -25,9 +23,7 @@ function webapi(auth) {
             const params = req.params;
 
 			try {
-				console.log("chegou")
-				const data = await auth.pollingCore(params['authId']);
-                console.log("web api polling: " + JSON.stringify(data));
+				const data = await auth.pollingCore(req.user, params['authId']);
                 if(data.polling_success) {
 					res.json(data);
 				} else res.status(202).json(data);
