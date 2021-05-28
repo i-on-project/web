@@ -20,6 +20,10 @@ class Cache {
 
     }
 
+    set(key, value) {
+        this.cache.set(key, value);
+    }
+
     del(keys) {
         this.cache.del(keys);
     }
@@ -46,4 +50,4 @@ class Cache {
 }
 
 
-export default Cache;
+module.exports = Cache

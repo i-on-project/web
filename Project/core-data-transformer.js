@@ -5,9 +5,19 @@ const data = require('./core-data.js')();
 module.exports = function() {
 
 	const loadAllProgrammes = async function () {
-		const receivedData = await data.loadAllProgrammes();
+		console.log("\n[Tranformer] - Passing by...");
+		const rawData = await data.loadAllProgrammes();
 
-		return receivedData.entities
+		/*** Metadata ***/
+		const headers = rawData.headers;
+		const metadata = {
+			"lastModified" : headers.get('last-modified') /// TO DO: Convert to epoch 
+		}
+
+		/*** Data ***/
+		const payload = await rawData.json();
+
+		const transformedData = payload.entities
 		.map(entities => entities.properties)
 		.reduce(function(response, currentProgramme) {
 			const programme = {
@@ -19,6 +29,11 @@ module.exports = function() {
 			response.push(programme);
 			return response;
 		}, []);
+		console.log("\n[Tranformer] - Returning transformed data...");
+		return {
+			"data" : transformedData,
+			"metadata" : metadata
+		}
 	};
 
 	const loadAllProgrammeOffers = async function(programmeId) {

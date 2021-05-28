@@ -5,14 +5,17 @@ const data = require('./core-data-transformer.js')();
 module.exports = function() {
 
 	const loadAllProgrammes = async function () {
+		console.log("\n[Add Missing Data] - Passing by add missing data... ");
 		const response = await data.loadAllProgrammes();
-
-		/* Adding missing data */
+		console.log("\n[Add Missing Data] - Received info: " + JSON.stringify(response));
+		/*** Adding missing data ***/
 		const mockDataToBeAdded = await getMockData('./data/programmes');
 
-		const improvedResponse = response
+		const improvedMetadata = response.metadata['lastModified'] = '1622207500'; /// Fri, 28 May 2021 13:11:40 GMT
+
+		const improvedData = response.data
 		.map( programme => {
-			const mockProgramme = mockDataToBeAdded.entities // TO DO - Change
+			const mockProgramme = mockDataToBeAdded.entities
 			.find( mockEntities => mockEntities.properties.programmeId == programme.programmeId).properties;
 
 			programme["name"] = mockProgramme.name;
@@ -21,7 +24,11 @@ module.exports = function() {
 			return programme;
 		});
 
-		return improvedResponse;
+
+		return {
+			"data" : improvedData,
+			"metadata" : improvedMetadata
+		}
 	};
 
 	const loadAllProgrammeOffers = async function (programmeId) {

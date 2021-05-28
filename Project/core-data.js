@@ -16,10 +16,6 @@ const coreRequest = async function(endpoint, expectedStatus, options) {
 
 	if(response.status != expectedStatus) throw response.status;
 
-	const metadata = response.headers;
-
-	console.log(" Metadata -> " + JSON.stringify(metadata.get('last-modified')));
-
 	return response.json();
 };
 
@@ -36,9 +32,12 @@ module.exports = function() {
 				}
 			};
 
-			const data = await coreRequest('/api/programmes/', 200, options);
+			console.log("\n[CORE-DATA] - Making request ...");
+			const response = await fetch(core_url + '/api/programmes/', options);
+			if(response.status != 200) throw response.status;
+			console.log("\n[CORE-DATA] - Returning response ...");
 
-			return data;
+			return response;
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
