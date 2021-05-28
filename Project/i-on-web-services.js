@@ -21,6 +21,7 @@ module.exports = function(data, database) {
 			// TO DO - Show user next events
 		}
 		const commonInfo = await getProgrammesByDegree(data);
+		console.log(`[Services] - Received: ${JSON.stringify(commonInfo)}`)
 		return Object.assign(commonInfo, 
 			{
 				user: user, 

@@ -13,7 +13,7 @@ async function configuration() {
     /// Database
     const storageCreator = require('./i-on-web-db-elastic.js');
     const database = storageCreator('http://localhost:9200'); // TO DO - Make it generic
-    await database.initializeDatabaseIndexes(); /// Método auxiliar para inicialização do indice na database
+    //await database.initializeDatabaseIndexes(); /// Método auxiliar para inicialização do indice na database
  
     /// Data
     //const dataModule = process.env.OPERATION_MODE == "standalone"? './mock-data.js' : './core-data.js';

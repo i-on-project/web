@@ -10,6 +10,7 @@ function webui(service, auth) {
 		home: async function(req, res) {
 			try {
 				const data = await service.getHome(req.user);
+				console.log(`[WebUi] - Received: ${JSON.stringify(data)}`)
 				res.render('home', data);
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Home Page');

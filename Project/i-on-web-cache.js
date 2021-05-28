@@ -8,14 +8,15 @@ module.exports = function() {
 
 	const loadAllProgrammes = async function() {
 		console.log("\n[Cache] - Passing by... ");
-		const response = await data.loadAllProgrammes();
-        console.log("\n[Cache] - received info: " + JSON.stringify(response));
 
-		await myCache.set('programmes', response);
-		const programmes = await myCache.get('programmes');
+		const programmes = await myCache.get(
+			"programmes", 
+			data.loadAllProgrammes 
+		)
+
 		console.log('\n[Cache] - stored in cache: ' + JSON.stringify(programmes));
 
-		return response.data;
+		return programmes.data;
 	};
 
 	const loadAllProgrammeOffers = async function(programmeId) {
