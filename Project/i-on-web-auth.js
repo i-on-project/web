@@ -24,7 +24,7 @@ module.exports = (app, data, database) => {
     /// MW to manage sessions
     app.use(session({
 		resave: true,              
-		saveUninitialized: false,  
+		saveUninitialized: true,  
 		secret: 'secret',   // TO DO - Generate random string
 		store: new FileStore()     
     }))
@@ -34,7 +34,7 @@ module.exports = (app, data, database) => {
 
     passport.serializeUser(userToRef);
     passport.deserializeUser(refToUser);
-    
+    	
     return {
         getAuthenticationTypes: function() {
             return data.loadAuthenticationTypes();
@@ -48,10 +48,10 @@ module.exports = (app, data, database) => {
 		submitInstitutionalEmail: async function(req, email) {
 			const response = await data.submitInstitutionalEmail(email);
 			await database.createUser(email, response.auth_req_id);
-			const user = await database.getUser(email);
+			/*const user = await database.getUser(email);
 			req.login(user, (err) => {
 				if (err) throw error.SERVICE_FAILURE;
-			})
+			})*/
 			return response;
         }, 
 
@@ -69,37 +69,7 @@ module.exports = (app, data, database) => {
 			}
 		}
 		
-		/*,
-		submitMethodResponse: async function(req, email) {
-			
-            if (email) {
-				return await data.sendMethodResponse(email); 
-
-			//	if (user) {
-					req.login(user, (err) => { 
-						if (err) throw error.SERVICE_FAILURE; /// TO DO: external service error / failure
-					})
-			//	}
-
-			} else throw error.BAD_REQUEST;
-		
-        },
-
-        login: async function(req, pollingResponse) {
-			
-            if (pollingResponse) {
-				// TO DO - save in return await data.sendMethodResponse(email); 
-
-///				if (user) {
-					req.login(user, (err) => { 
-						if (err) throw error.SERVICE_FAILURE; /// ttodo external service error / failure
-					})
-///				}
-
-			} else throw error.BAD_REQUEST;
-		
-        },
-
+		/*
 		logout: async function(req) {
 			req.logout();
 			req.session.destroy(err => { /// ... todo: replace ...

@@ -1,13 +1,12 @@
 <br><div class="row justify-content-center">
     <div class="col-md-4">
 		<h2 class="text-center">Iniciar sessão</h2><br>
-		
-        <form action="/login" method="POST">
 
+        <form action="/login" method="POST">
 			<!-- Email -->
             <div class="form-group">
                 <label class="col-form-labels">Email institucional:</label>
-                <input type="text" id="email" class="form-control" required/>
+                <input type="text" class="form-control" id="email">
                 <p>Dominios disponiveis: {{this.allowed_domains}}</p>
             </div>
 
@@ -15,7 +14,7 @@
             <div class="form-group">
 				<button type="submit" class="form-control btn btn-dark" id="submit-button" onclick="submitFunction()">Iniciar sessão</button>
             </div>
-
+            
             <div id="loading"></div>
         </form>
     </div>
@@ -33,11 +32,12 @@
         
         loading.innerHTML += 
         ' <br><br> ' + 
-        ' <div class="d-flex justify-content-center"> ' + 
-            ' <p> Autenticação em progresso ..</p> ' + 
-            ' <div class="spinner-border" role="status">' + 
-                '<span class="sr-only">Loading...</span>' +
-            '</div>' + 
+        ' <div class="row justify-content-center"> ' + 
+            //' <p> Autenticação em progresso ..</p>' + 
+            '<div class="divSpacing lds-roller" role="status"><div></div><div></div><div></div><div>' +
+            //' <div class="spinner-border" role="status">' + 
+            //'<span class="sr-only">Loading...</span>' +
+            //'</div>' +
         '</div>'
 
         // Request to auth api to obtain auth_req_id and expiration
@@ -87,11 +87,5 @@
         }, 5000); // TO DO
 
     }
-
-    /*function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }*/
 
 </script>
