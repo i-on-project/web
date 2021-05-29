@@ -16,13 +16,12 @@ class Cache {
     }
 
     /**
-     * Get the value of the specified key. If key exists, return the cached value. 
-     * Else, get a new value from the store function, and set a new value in the cache service. 
-     * The store function promises the flexibility we need when we store the value.
+     * Get the value of the specified key. If a value is cached then it shall be returned. 
+     * Else, get a new value from the fetchNewData function, and set a new value in the cache service.
      * @param {*} key cache key to check.
      * @param {*} fetchNewData function to fetch data if it isn't cached
      * @param {*} ttl time to live in seconds to cache data if it isn't cached
-     * @returns A promise of the value stored in the key 
+     * @returns a promise of the value stored in the key 
      */
     async get(key, fetchNewData, ttl) {
 
@@ -60,10 +59,6 @@ class Cache {
             }
         }
 
-    }
-
-    flush() {
-        this.cache.flushAll();
     }
 
 }

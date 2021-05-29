@@ -37,9 +37,11 @@ module.exports = function(data, database) {
 		.map(offer => offer.courseId)
 		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
 
+		const calendarTerm = "1718v"; // TO DO
+
 		const filteredCoursesId = [];
 		for(let i = 0; i < courseIDs.length; i++) {
-			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i]);
+			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm) ;
 			if(courseClasses.classes.length != 0) filteredCoursesId.push(courseIDs[i]);
 		}
 

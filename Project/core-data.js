@@ -95,7 +95,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId) {
+	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm) {
 		try {
 
 			const options = {
@@ -106,7 +106,7 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/api/courses/'+ courseId +'/classes/1718i', 200, options); // TO DO - change 
+			return await coreRequest('/api/courses/'+ courseId +'/classes/' + calendarTerm, 200, options); // TO DO - change 
 
 		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {

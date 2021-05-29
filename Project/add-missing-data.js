@@ -72,8 +72,8 @@ module.exports = function() {
 		return response;
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId) {
-		const response = await data.loadCourseClassesByCalendarTerm(courseId);
+	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
+		const response = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm) ;
 
 		/* Adding missing data */
 		const path = './data/courses/' + courseId;

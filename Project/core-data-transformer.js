@@ -73,8 +73,8 @@ module.exports = function() {
 		};
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId) {
-		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId);
+	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
+		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm) ;
 		const courseData = receivedData.entities.find(__ => __).properties;
 		const course = {
 			'courseId' : courseData.courseId,
