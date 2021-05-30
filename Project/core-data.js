@@ -1,33 +1,18 @@
 'use strict'
 
 const error = require('./i-on-web-errors.js');
-const mockData = require('./mock-data.js')();
 const fetch = require('node-fetch'); 
 
 const contentType = 'application/json';
 
 /// Environment variables
-const read_authorization = 'Bearer ' + process.env.CORE_READ_TOKEN;
+const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
+const client_id = "22dd1551-db23-481b-acde-d286440388a5"; /// TO DO: In future renove dev client id to production on .. process.env.CORE_CLIENT_ID | 
 
-// Test simulating a user (to delete)
-const user = {
-	username: "user",
-	password: "123",
-	selectedCoursesAndClasses: {} /// {"1": ["1D", "1N", ..], "2": []}
-};
-
-const coreRequest = async function(uri, method, expectedStatus, reqBody) {
-
-	const response = await fetch(uri, 
-		{
-			method: method,
-			headers: {
-				'Authorization': read_authorization,
-				'Content-Type': contentType
-			},
-			body: reqBody
-		});
+const coreRequest = async function(endpoint, expectedStatus, options) {
+	// core_url + endpoint
+	const response = await fetch(core_url + endpoint, options);
 
 	if(response.status != expectedStatus) throw response.status;
 
@@ -38,25 +23,23 @@ module.exports = function() {
 
 	const loadAllProgrammes = async function () {
 		try {
-			const receivedData = await coreRequest(core_url + '/v0/programmes/', 'GET', 200);
-	
-			/* Adding missing data */
-			const responseMockData = await mockData.loadAllProgrammes();
-			const responseWithAddedData = receivedData.entities
-			.map( entities => {
-				const programme = responseMockData.entities
-				.filter( mockEntities => mockEntities.properties.programmeId == entities.properties.programmeId)[0].properties
-				
-				entities.properties["name"] = programme.name;
-				entities.properties["degree"] = programme.degree;
 
-				return entities;
-			});
-			const response = {'entities': responseWithAddedData};
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+
+			console.log("\n[CORE-DATA] - Making request ...");
+			const response = await fetch(core_url + '/api/programmes/', options);
+			if(response.status != 200) throw response.status;
+			console.log("\n[CORE-DATA] - Returning response ...");
 
 			return response;
 
-		} catch(err) {
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -68,30 +51,18 @@ module.exports = function() {
 
 	const loadAllProgrammeOffers = async function (programmeId) {
 		try {
-			const receivedData = await coreRequest(core_url + '/v0/programmes/'+ programmeId, 'GET', 200);
 
-			/* Adding missing data */ 
-			const responseMockData = await mockData.loadAllProgrammeOffers(programmeId);
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
 
-			const responseWithAddedData = receivedData.entities
-			.map( entities => {
-				const offer = responseMockData.entities
-				.filter( mockEntities => mockEntities.properties.courseId == entities.properties.courseId)[0].properties;
+			return await coreRequest('/api/programmes/'+ programmeId, 200, options);	
 
-				entities.properties["name"] = offer.name;
-				entities.properties["acronym"] = offer.acronym;
-				entities.properties["optional"] = offer.optional;
-				entities.properties["ects"] = offer.ects;
-				entities.properties["scientificArea"] = offer.scientificArea;
-				return entities;
-			});
-
-			const response = {'entities': responseWithAddedData};
-
-			return response;
-
-		
-		} catch(err) {
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -101,24 +72,20 @@ module.exports = function() {
 		}
 	};
 
-	const loadProgrammeData = async function (programmeId) {
+	const loadProgrammeData = async function(programmeId) {
 		try {
-			const receivedData = await coreRequest(core_url + '/v0/programmes/'+ programmeId, 'GET', 200);
-		
-			/* Adding missing data */
-			const responseMockData = await mockData.loadProgrammeData(programmeId);
 
-			receivedData.properties.name = responseMockData.properties.name;
-			receivedData.properties["department"] = responseMockData.properties.department;
-			receivedData.properties["department"] = responseMockData.properties.department;
-			receivedData.properties["coordination"] = responseMockData.properties.coordination;
-			receivedData.properties["contacts"] = responseMockData.properties.contacts;
-			receivedData.properties["sourceLink"] = responseMockData.properties.sourceLink;
-			receivedData.properties["description"] = responseMockData.properties.description;
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
 
-			return receivedData;
+			return await coreRequest('/api/programmes/'+ programmeId, 200, options);
 
-		} catch(err) {
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -128,25 +95,20 @@ module.exports = function() {
 		}
 	};
 
-	const loadCourseByID = async function(courseId) {
+	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm) {
 		try {
-			const receivedData = await coreRequest(core_url + '/v0/courses/'+ courseId +'/classes/1718i', 'GET', 200); // TO DO - change 
 
-			/* Adding missing data */
-			const responseMockData = await mockData.loadCourseByID(courseId);
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
 
-			const responseWithAddedData = receivedData.entities
-			.filter(entities => entities.properties.hasOwnProperty('id'))
-			.map( entities => {
-				entities.properties["name"] = responseMockData.entities[0].properties.name; 
-				return entities;
-			});
+			return await coreRequest('/api/courses/'+ courseId +'/classes/' + calendarTerm, 200, options); // TO DO - change 
 
-			const response = {'entities': responseWithAddedData};
-
-			return response;
-
-		} catch (err) {
+		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -155,11 +117,13 @@ module.exports = function() {
 			}
 		}
 	}
+	
 	const loadAboutData = async function () {
 		try {
-			/* Adding missing data */ 
-			return await mockData.loadAboutData();
-		} catch(err) {
+		
+			return {}; // Request still not suported by i-on Core
+
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -169,36 +133,105 @@ module.exports = function() {
 		}
 	};
 
-	
-	// Test functions (to delete)
-	const loadUser = async function() {
+	const loadAuthenticationTypes = async function () {
 		try {
-			return user;
-		} catch (err) {
-			// TO DO - Handle errors
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+			
+			return await coreRequest('/api/auth/methods', 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
 		}
 	};
 
-	const saveUserCoursesAndClasses = async function(body) {
-		try { 
-			// avoid: substitution and repetition
-			for (const prop in body) { /// Iterate over body properties (choosen courses)
-				if (body.hasOwnProperty(prop) ) { 
+	const loadAuthenticationMethodFeatures = async function () {
+		try {
 
-					if(!user.selectedCoursesAndClasses.hasOwnProperty(prop)) { /// If the user has not yet chosen that course 
-						user.selectedCoursesAndClasses[prop] = body[prop];
-					} else { /// If the user has already chosen classes from that course, then it will be added to the array (we filter classes first to avoid repetitions)
-						const newClasses = body[prop]
-						.filter(
-							courseClass => !user.selectedCoursesAndClasses[prop].includes(courseClass)
-						);
-						user.selectedCoursesAndClasses[prop] = user.selectedCoursesAndClasses[prop].concat(newClasses);
-					} 
-			
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
 				}
+			};
+			
+			return await coreRequest('/api/auth/methods', 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
 			}
-		} catch (err) {
-			// TO DO - Handle errors
+		}
+	};
+
+	const submitInstitutionalEmail = async function(email) {
+		try {
+			const options = {
+				method: 'POST',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				},
+				body: JSON.stringify({
+					"scope": "profile",
+					"type": "email",
+					"client_id": client_id,
+					"notification_method": "POLL",
+					"email": email
+				})
+			};
+			
+			return await coreRequest('/api/auth/methods', 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const pollingCore = async function(authForPoll) {
+		try {
+			
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+			
+			const response = await fetch(core_url + `/api/auth/request/${authForPoll}/poll`, options);
+
+			console.log("status in core -> " + response.status);
+		
+			return response.json();
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
 		}
 	};
 
@@ -206,9 +239,11 @@ module.exports = function() {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
-		loadCourseByID : loadCourseByID,
+		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
-		saveUserCoursesAndClasses : saveUserCoursesAndClasses,
-		loadUser : loadUser
+		loadAuthenticationTypes : loadAuthenticationTypes,
+		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
+		submitInstitutionalEmail : submitInstitutionalEmail,
+		pollingCore : pollingCore
 	};
 }

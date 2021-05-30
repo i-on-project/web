@@ -46,33 +46,36 @@
 					<li id="calendar" class="nav-item">
 						<a href="/calendar" class="nav-link"><i class="fa fa-fw fa-calendar fa-lg" aria-hidden="true"></i>Calendário</a>
 					</li>
-					<li id="myCourses" class="nav-item">
+					<li id="user-courses" class="nav-item">
 						<a href="/courses" class="nav-link"><i class="fa fa-fw fa-book fa-lg" aria-hidden="true"></i>As minhas disciplinas</a>
 					</li>
 					<li id="programmes" class="nav-item">
+						
 						<div class="dropdown">
 
 							<a class="nav-link" href="#" data-bs-toggle="dropdown"><i class="fa fa-fw fa-university fa-lg" aria-hidden="true"></i>Cursos</a>
-	
-
-							<ul class="dropdown-menu multi-level" role="menu">
-								<li class="dropdown-submenu">
-									<a  class="dropdown-item" href="#">Licenciaturas</a>
-									<ul class="dropdown-menu">
-										{{#each bachelor}}
-                							<li class="dropdown-item"><a href="/programme/{{this.programmeId}}">{{this.acronym}}</a></li>
-            							{{/each}}
+							{{#if bachelor}}
+								{{#if master}}
+									<ul class="dropdown-menu multi-level" role="menu">
+										<li class="dropdown-submenu">
+											<a  class="dropdown-item" href="#">Licenciaturas</a>
+											<ul class="dropdown-menu">
+												{{#each bachelor}}
+													<li class="dropdown-item"><a href="/programme/{{this.programmeId}}">{{this.acronym}}</a></li>
+												{{/each}}
+											</ul>
+										</li>
+										<li class="dropdown-submenu">
+											<a  class="dropdown-item" href="#">Mestrados</a>
+											<ul class="dropdown-menu">
+												{{#each master}}
+													<li class="dropdown-item"><a href="/programme/{{this.programmeId}}">{{this.acronym}}</a></li>
+												{{/each}}
+											</ul>
+										</li>
 									</ul>
-								</li>
-								<li class="dropdown-submenu">
-									<a  class="dropdown-item" href="#">Mestrados</a>
-									<ul class="dropdown-menu">
-										{{#each master}}
-                							<li class="dropdown-item"><a href="/programme/{{this.programmeId}}">{{this.acronym}}</a></li>
-            							{{/each}}
-									</ul>
-								</li>
-							</ul>
+								{{/if}}
+							{{/if}}
 						</div>
 					</li>
 
@@ -92,7 +95,7 @@
 					  	{{#if user}}
 							<a href="/logout" class="nav-link"><i class="fa fa-fw fa-sign-out fa-lg" aria-hidden="true"></i>Sair</a>
 						{{else}}
-							<a id="login" href="/login" class="nav-link"><i class="fa fa-fw fa-sign-in fa-lg" aria-hidden="true"></i>Iniciar sessão</a>
+							<a id="login" href="/auth-methods" class="nav-link"><i class="fa fa-fw fa-sign-in fa-lg" aria-hidden="true"></i>Iniciar sessão</a>
 						{{/if}}
 					</li>
 				</ul>

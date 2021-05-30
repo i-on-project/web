@@ -1,12 +1,14 @@
 {
 	"department": "ADEETC",
+	"departmentImage": "ADEETC.png",
 	"projects": [
 		{
 			"name": "web",
 			"students": [
 				{"student": "Catarina Palma LEIRT 20/21"},
 				{"student": "Ricardo Severino LEIRT 20/21"}
-			]
+			],
+			"image": "web.png"
 		},
 		{
 			"name": "android",
@@ -14,7 +16,8 @@
 				{"student": "Diogo Santos LEIC 19/20"},
 				{"student": "João Silva LEIC 19/20"},
 				{"student": "João Tiago LEIRT 20/21"}
-			]
+			],
+			"image": "android.png"
 		},
 		{
 			"name": "core",
@@ -23,7 +26,8 @@
 				{"student": "João Pereira LEIC 19/20"},
 				{"student": "Jorge Brown LEIC 19/20"},
 				{"student": "Ricardo Margalhau LEIC 20/21"}
-			]
+			],
+			"image": "core.png"
 		},
 		{
 			"name": "integration",
@@ -32,7 +36,8 @@
 				{"student": "Samuel Costa LEIC 19/20"},
 				{"student": "Cristiano Morgado LEIC 20/21"},
 				{"student": "Ricardo Canto LEIC 20/21"}
-			]
+			],
+			"image": "integration.png"
 		},
 		{
 			"name": "codegarten",
@@ -40,7 +45,8 @@
 				{"student": "Diogo Sousa LEIC 20/21"},
 				{"student": "João Moura LEIC 20/21"},
 				{"student": "Tiago David LEIC 20/21"}
-			]
+			],
+			"image": "codegarten.png"
 		}
 	],
 

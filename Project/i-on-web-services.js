@@ -2,99 +2,52 @@
 
 const error = require('./i-on-web-errors.js');
 
-const getAllProgrammes = async function(data){
-	return await data.loadAllProgrammes();
-};
+module.exports = function(data, database) {
 
-module.exports = function(data) {
-
-	const getHomeContent = async function() {
-		// Test simulating a user
-		const user = await data.loadUser();
-		return {user: user, page: 'home'};
-	};
-
-	const getSchedule = async function() {
-		// Test simulating a user
-		const user = await data.loadUser();
-		return {user: user, page: "schedule"};
-	};
-
-	const getCalendar = async function() {
-		// Test simulating a user
-		const user = await data.loadUser();
-		return {user: user, page: "calendar"};
-	};
-
-	const getMyCourses = async function() {
-		// Test simulating a user
-		const user = await data.loadUser();
-
-		// Obtain course info to display
-		const coursesIDs = Object.keys(user.selectedCoursesAndClasses);
-		const selectedCourses = []; //
-
-		// criar um array
-		// percorrer as keys do selected courses
-		// para cada uma delas acresentar um obj no array
-		// tiravamos a key e colocavamos num obj, as classes..
-		// faziamos load do curso e guardavamos isso
-		for(let i = 0; i < coursesIDs.length; i++) {
-			const course = await data.loadCourseByID(coursesIDs[i]);
-			const newObj = {
-				"name": course.entities[0].properties.name,
-				"acronym": course.entities[0].properties.acronym,
-				"classes": user.selectedCoursesAndClasses[coursesIDs[i]],
-				"id": coursesIDs[i]
-			};
-			selectedCourses.push(newObj);
+	const getHome = async function(user) {
+		if(user) {
+			// TO DO - Show user next events
 		}
-
-		return {
-			username: user.username, 
-			selectedCourses: selectedCourses, 
-			page: "myCourses"
-		};
+		const commonInfo = await getProgrammesByDegree(data);
+		console.log(`[Services] - Received: ${JSON.stringify(commonInfo)}`)
+		return Object.assign(commonInfo, 
+			{
+				user: user, 
+				page: 'home'
+			}
+		);
 	};
 
-	const getClasses = async function(body) {
-		// TO DO - Change/Simplify
-		const coursesIDs = Object.values(body) // {"3":"4","4":["3","1"],"5":["2","5","6"]}
-			.reduce((res, curr) => res.concat(curr), []) // ["4",["3","1"],["2","5","6"]]
-			.map(courseId => parseInt(courseId)) // [4, 3, 1, 2, 5, 6]
-			.filter(courseId => courseId != 0); // TO DO - Change
-
-		// TO DO - Simplify the following code
-		const courses = [];
-		for(let i = 0; i < coursesIDs.length; i++)
-			courses.push(await data.loadCourseByID(coursesIDs[i]));
-
-		const classesByCourses = courses.reduce((response, course) => {
-			
-			const result = course.entities
-			.map(entities => entities.properties)
-			.reduce( (course_classes, course_class) => {
-				course_classes.classes.push(course_class.id);
-				course_classes.name = course_class.name;
-				course_classes.courseId = course_class.courseId;
-				return course_classes;
-			}, {courseId: 0, name: '', classes: []});
-			response.push(result)
-			return response;
-		}, []);
-		
-		// Test simulating a user
-		const user = await data.loadUser();
-
-		return {user: user, selectedCourses : classesByCourses};
-		
-	};
-
-	const getProgrammeOffers = async function(programmeId){
+	const getProgrammeCalendarTermOffers = async function(programmeId, user){ // TO DO: arg semester info
 		const offers = await data.loadAllProgrammeOffers(programmeId);
 
-		const programmeOffersByTerms = offers.entities
-		.map(entities => entities.properties)
+		const courseIDs = offers
+		.map(offer => offer.courseId)
+		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
+
+		const calendarTerm = "1718v"; // TO DO
+
+		const filteredCoursesId = [];
+		for(let i = 0; i < courseIDs.length; i++) {
+			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm) ;
+			if(courseClasses.classes.length != 0) filteredCoursesId.push(courseIDs[i]);
+		}
+
+		const programmeCalendarTermOffers = offers
+		.filter(course => filteredCoursesId.includes(course.courseId))
+
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign({
+			user: user,
+			programmeCalendarTermOffers : programmeCalendarTermOffers
+		}, commonInfo);
+	};
+
+	const getProgrammeData = async function(programmeId, user){
+		const programme = await data.loadProgrammeData(programmeId);
+		const offers = await data.loadAllProgrammeOffers(programmeId);
+
+		const offersByAcademicTerms = offers
 		.reduce( (offersByTerms, offer) => {
 			return offer.termNumber.reduce( (offersByTerms, term) => {
 				offersByTerms[term] = offersByTerms[term] || [];
@@ -104,75 +57,133 @@ module.exports = function(data) {
 
 		}, {});
 
-		// Test simulating a user
-		const user = await data.loadUser();
-
-		return {user: user, programmeOffersByTerms : programmeOffersByTerms , page: "programmeOffers"};
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
+			user: user, 
+			offersByAcademicTerms: offersByAcademicTerms, 
+			programme: programme
+		});
 	};
 
-	const getProgrammeData = async function(programmeId){
-		const programme = await data.loadProgrammeData(programmeId);
-		const offers = await getProgrammeOffers(programmeId);
-		// Test simulating a user
-		const user = await data.loadUser();
-		return {user: user, programmeOffersByTerms: offers.programmeOffersByTerms, programme: programme.properties};
+	const getUserSchedule = async function(user) {
+		if(user) {
+			// TO DO - Get user schedule
+		}
+
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
+			user: user, 
+			page: "schedule"
+		});
 	};
 
-	const getAboutData = async function(){
-		const aboutData = await data.loadAboutData();
-		aboutData.projects.map(project => project['image'] = project.name + '.png');
-		
-		// Test simulating a user
-		const user = await data.loadUser();
-		return {
-			user: user,
-			projects: aboutData.projects, 
-			teachers: aboutData.teachers,
-			department: aboutData.department,
-			departmentImage: aboutData.department + '.png'
-		};
+	const getUserCalendar = async function(user) {
+		if(user) {
+			// TO DO - Get user calendar
+		}
+
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
+			user: user, 
+			page: "calendar"
+		});
 	};
 
-	const getProgrammesByDegree = async function(){
-		const programmes = await getAllProgrammes(data);
-		// TO DO -> Simplify (do an auxiliar function)
+	const getUserCourses = async function(user) {
+		const userCourses = []; 
+		if(user) {
+			const userCoursesAndClasses = await data.loadUserCoursesAndClasses();
+
+			const courseIDs = Object.keys(userCoursesAndClasses);
 	
-		const bachelorProgrammes = programmes.entities
-		.filter( entities => entities.properties.degree == "bachelor")
-		.map(entities => entities.properties);
-	
-		const masterProgrammes = programmes.entities
-		.filter( entities => entities.properties.degree == "master")
-		.map(entities => entities.properties);
-
-		return {bachelor: bachelorProgrammes, master: masterProgrammes};
+			for(let i = 0; i < courseIDs.length; i++) {
+				const course = await data.loadCourseClassesByCalendarTerm(courseIDs[i]);
+				course.classes = userCoursesAndClasses[courseIDs[i]];
+				userCourses.push(course)
+			}
+		}
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
+			user: user, 
+			userCourses: userCourses, 
+			page: "user-courses"
+		});
 	};
 
-	const selection = async function(body){
+	const saveUserCourses = async function(user, courses){
+		if(user) {
+			await database.saveUserCourses(user.username, courses.selectedCourses);
+		}
+	};
 
-			/// Before: {"1":"1N", "2":["1D","2D"]}
-
-			const newBody = Object.fromEntries(Object.entries(body).map(([k, v]) => {
-				const values = Array.isArray(v) ? v : [v]; 
-				return [k, values];
-			})); 
+	const getClassesFromSelectedCourses = async function(user) {// TO DO - Review
+		const classesByCourses = [];
+		if(user) {
+			const userCourses = await data.loadUserCoursesAndClasses();
 			
-			/// After: {"1":["1N"], "2":["1D","2D"]}
+			const coursesIDs = Object.keys(userCourses);
 
-		await data.saveUserCoursesAndClasses(newBody);
+			for(let i = 0; i < coursesIDs.length; i++)
+				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i]));
+		}
+		
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
+			user: user, 
+			classesByCourses: classesByCourses
+		});
+	};
+
+	const saveUserClasses = async function(user, classes){
+		if(user) {
+			
+			const selectedClasses = {}; // TO DO - Review
+			for(let prop in classes) { 
+				if(!Array.isArray(classes[prop])) {
+					selectedClasses[prop] = [classes[prop]];
+				} else {
+					selectedClasses[prop] = classes[prop];
+				}
+			}
+
+			await database.saveUserClasses(selectedClasses);
+		}
+	};
+
+	const getAboutData = async function(user){
+		const aboutData = await data.loadAboutData();		
+	
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
+			user: user,
+			aboutData: aboutData
+		});
 	};
 
 	return {
-		getHomeContent : getHomeContent,
-		getSchedule : getSchedule,
-		getCalendar : getCalendar,
-		getMyCourses : getMyCourses,
-		getClasses : getClasses,
-		getProgrammeOffers : getProgrammeOffers,
+		getHome : getHome,
+		getProgrammeCalendarTermOffers : getProgrammeCalendarTermOffers,
 		getProgrammeData : getProgrammeData,
-		getAboutData : getAboutData,
-		getProgrammesByDegree : getProgrammesByDegree,
-		selection : selection
+		getUserSchedule : getUserSchedule,
+		getUserCalendar : getUserCalendar,
+		getUserCourses : getUserCourses,
+		saveUserCourses : saveUserCourses,
+		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
+		saveUserClasses : saveUserClasses,		
+		getAboutData : getAboutData
 	};
 	
 }
+
+/******* Helper function *******/
+const getProgrammesByDegree = async function(data){
+	const programmes = await data.loadAllProgrammes();
+
+	const bachelorProgrammes = programmes
+	.filter( programme => programme.degree == "bachelor");
+
+	const masterProgrammes = programmes
+	.filter( programme => programme.degree == "master");
+
+	return {bachelor: bachelorProgrammes, master: masterProgrammes};
+};
