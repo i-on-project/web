@@ -2,7 +2,7 @@
 
 const data = require('./add-missing-data.js')();
 const Cache = require('./cache.js');
-const myCache = new Cache(60 * 60 * 24); /// 1 Day
+const myCache = new Cache(60); /// 1 Day
 
 /******* Helper function *******/
 // TO DO - simplify
@@ -37,14 +37,31 @@ module.exports = function() {
 	const loadAllProgrammes = async function() {
 		console.log("\n[Cache] - Passing by... ");
 
-		const programmes = await getData(
+		/*const programmes = await getData(
 			"programmes", 
 			data.loadAllProgrammes 
-		)
+		)*/
 
-		console.log('\n[Cache] - stored in cache: ' + JSON.stringify(programmes));
+		const key = "programmes";
+		let value = myCache.get(key);
+		
+		if(!value) {										/// Value does not exists
+			value = await data.loadAllProgrammes();
+			myCache.set(key, value);
+			console.log("\n[Cache] - Value does not exists")
+		} else if (myCache.hasExpired(key)) {		/// Value already exists but expired -> conditional request
+			value = await data.loadAllProgrammes(value.metadata.lastModified);
+			if(value.data) {
+				myCache.set(key, value);
+			}
+			console.log("\n[Cache] - Value already exists but expired -> conditional request")
+		} else {
+			console.log("\n[Cache] - Value exists")
+		}
 
-		return programmes.data; // TO DO - remove .data
+		console.log('\n[Cache] - stored in cache: ' + JSON.stringify(value));
+
+		return value.data; // TO DO - remove .data
 	};
 
 	const loadAllProgrammeOffers = async function(programmeId) {

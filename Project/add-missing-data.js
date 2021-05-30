@@ -8,11 +8,12 @@ module.exports = function() {
 		console.log("\n[Add Missing Data] - Passing by add missing data... ");
 		const response = await data.loadAllProgrammes();
 		console.log("\n[Add Missing Data] - Received info: " + JSON.stringify(response));
+
 		/*** Adding missing data ***/
 		const mockDataToBeAdded = await getMockData('./data/programmes');
 
 		response.metadata = {
-			'lastModified': 1625377719544 //1622207500 - Fri, 28 May 2021 13:11:40 GMT
+			'lastModified': 1622207500000 // Fri, 28 May 2021 13:11:40 GMT
 		};
 
 		const improvedMetadata = response.metadata;
@@ -28,11 +29,10 @@ module.exports = function() {
 			return programme;
 		});
 
-		return improvedData;
-	/*	return {
+		return {
 			"data" : improvedData,
 			"metadata" : improvedMetadata
-		}*/
+		}
 	};
 
 	const loadAllProgrammeOffers = async function (programmeId) {

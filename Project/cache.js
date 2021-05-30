@@ -6,11 +6,10 @@ class Cache {
         this.cache = new NodeCache({ stdTTL: ttlSeconds, useClones: false, deleteOnExpire: false});
     }
 
-    /**
-     * Check if a key is cached.
-     * @param {*} key cache key to check.
-     * @returns boolean indicating if the key is cached.
-     */
+    hasExpired(key) {
+        return ( Date.now() - this.cache.getTtl(key) ) > 0;
+    }
+
     has(key) {
         return this.cache.has(key);
     }
