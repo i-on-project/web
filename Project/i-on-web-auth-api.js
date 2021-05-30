@@ -2,6 +2,7 @@
 
 const express = require('express');
 const error = require('./i-on-web-errors.js');
+const crypto = require('crypto');
 
 function webapi(auth) {
 	
@@ -17,7 +18,7 @@ function webapi(auth) {
 					.update(body.email) 
 					.digest('hex');
 
-				res.setHeader('Set-Cookie', ['State=' + hmac], 'Expires=' + new Date(Date.now() + data.expires_in)); /// TO DO: confirm it, same site and other security issues, hash ou something? , 'HttpOnly'
+				res.setHeader('Set-Cookie', ['Identifier=' + body.email, 'Mac=' + hmac], 'Expires=' + new Date(Date.now() + data.expires_in)); /// TO DO: confirm it, same site and other security issues, hash ou something? , 'HttpOnly'
 				res.json(data);
 			} catch(err) {
                 console.log("erro -> " + err);
@@ -28,8 +29,10 @@ function webapi(auth) {
 		pollingCore: async function(req, res) {
             const params = req.params;
 
+			
 			try {
-				const data = await auth.pollingCore(req, getCookies(req).email, params['authId']);
+				if(!isCookieValid(req)) throw error.SERVICE_FAILURE; // TO DO - Change
+				const data = await auth.pollingCore(req, getCookies(req).Identifier, params['authId']);
                 if(data.polling_success) {
 					res.json(data);
 				} else res.status(202).json(data);
@@ -90,28 +93,23 @@ const getCookies = (req) => {
     return parsedCookies;
 };
 
-const isCookieValid = (req, resp, responseFunction) => {
+const isCookieValid = (req) => {
 
-    const parsedCookies = getAppCookies(req, resp);
+    const parsedCookies = getCookies(req);
+
     if(!parsedCookies) {
-        responseFunction(false);
+        return false;
     } else {
         const cookie1 = parsedCookies['Mac'];
         const id = parsedCookies['Identifier'];
 
         if(!cookie1 || !id) {
-            responseFunction(false)
+            return false;
         } else {
             const hmac = crypto.createHmac('sha256', 'changeit');
             const cookie2 = hmac.update(id).digest('hex');
 
-            if(cookie1 !== cookie2) {
-                responseFunction(false);
-            } else {
-                database.searchSessionID(id, (result) => {
-                    responseFunction(result);
-                })
-            }
+            return cookie1 === cookie2;
         }
     }
 };

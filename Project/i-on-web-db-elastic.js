@@ -28,6 +28,7 @@ module.exports = function(baseUrl) {
 		}
 	};
 
+
 	const getUser = async function (email) { /// Obtain user given the email
 		try {
 
@@ -53,7 +54,7 @@ module.exports = function(baseUrl) {
 			const options = {
 				method: 'PUT', 
 				headers: { "Content-Type": contentType },
-				body: JSON.stringify({'email': email, 'auth_req_id': auth_req_id})
+				body: JSON.stringify({'email': email, 'auth_req_id': auth_req_id, 'username': email.slice(0, email.indexOf("@"))})
 			};
 			await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 201, options);
 
@@ -70,7 +71,7 @@ module.exports = function(baseUrl) {
 			const options = {
 				method: 'PUT',
 				headers: { "Content-Type": contentType },
-				body: JSON.stringify(Object.assign({'email': email, 'auth_req_id': auth_req_id}, tokens))
+				body: JSON.stringify(Object.assign({'email': email, 'auth_req_id': auth_req_id, 'username': email.slice(0, email.indexOf("@"))}, tokens))
 			};
 			await fetchRequest(`${usersBaseUrl}/_doc/${email}/`, 200, options);
 

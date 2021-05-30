@@ -61,7 +61,7 @@ module.exports = (app, data, database) => {
 					if (err) throw error.SERVICE_FAILURE;
 				})
 				
-				await database.saveUserTokens(user.email, authForPoll, receivedData);
+				await database.saveUserTokens(email, authForPoll, receivedData);
 				return {
 					"polling_success" : true
 				};
