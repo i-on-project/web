@@ -4,14 +4,16 @@ const data = require('./core-data-transformer.js')();
 
 module.exports = function() {
 
-	const loadAllProgrammes = async function () {
+	const loadAllProgrammes = async function (test) {
+		console.log("Received parameters: " + JSON.stringify(test))
 		console.log("\n[Add Missing Data] - Passing by add missing data... ");
 		const response = await data.loadAllProgrammes();
 		console.log("\n[Add Missing Data] - Received info: " + JSON.stringify(response));
 		/*** Adding missing data ***/
 		const mockDataToBeAdded = await getMockData('./data/programmes');
 
-		const improvedMetadata = response.metadata['lastModified'] = '1622207500'; /// Fri, 28 May 2021 13:11:40 GMT
+		response.metadata['lastModified'] = '1622207500'; /// Fri, 28 May 2021 13:11:40 GMT
+		const improvedMetadata = response.metadata['lastModified'];
 
 		const improvedData = response.data
 		.map( programme => {
@@ -31,7 +33,8 @@ module.exports = function() {
 		}
 	};
 
-	const loadAllProgrammeOffers = async function (programmeId) {
+	const loadAllProgrammeOffers = async function (programmeId, test) {
+		console.log("Received parameters: " + JSON.stringify(programmeId) + ' ' + JSON.stringify(test))
 		const response = await data.loadAllProgrammeOffers(programmeId);
 
 		/* Adding missing data */ 

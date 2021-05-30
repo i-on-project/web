@@ -2,14 +2,43 @@
 
 const data = require('./add-missing-data.js')();
 const Cache = require('./cache.js');
-const myCache = new Cache(60 * 60 * 24); /// 1 Day
+//const myCache = new Cache(60 * 60 * 24); /// 1 Day
+const myCache = new Cache();
+
+/******* Helper function *******/
+// TO DO - simplify
+const getData = async function(key, fetchNewData) {
+	const value = myCache.get(key);
+	
+	if (value) { /// If value was cached
+
+		console.log("[Cache-ttl] - " + myCache.getTtl(key))
+		if(myCache.getTtl(key) && myCache.getTtl(key) > 0) { /// If ttl hasn't expired
+			console.log("[Cache-Get] - the data was cached and ttl hasn't expired.. ")
+			return Promise.resolve(value);
+		} else { /// If ttl has expired
+			console.log("[Cache-Get] - the data was cached and ttl has expired.. ")
+			const dataToBeCached = await fetchNewData("test");//value.metadata['last-modified']
+			myCache.set(key, dataToBeCached);
+			return dataToBeCached;
+		}
+
+	} else { /// If value wasn't cached
+		console.log("[Cache-Get] - the data wasnt cached.. ")
+		const dataToBeCached = await fetchNewData();
+		myCache.set(key, dataToBeCached, 60);
+		console.log("[Cache-ttl Else] - " + myCache.getTtl(key))
+		return dataToBeCached;
+	}
+
+}
 
 module.exports = function() {
 
 	const loadAllProgrammes = async function() {
 		console.log("\n[Cache] - Passing by... ");
 
-		const programmes = await myCache.get(
+		const programmes = await getData(
 			"programmes", 
 			data.loadAllProgrammes 
 		)
@@ -22,7 +51,7 @@ module.exports = function() {
 	const loadAllProgrammeOffers = async function(programmeId) {
 		console.log("\n[Cache] - Passing by... ");
 
-		const programmeOffers = await myCache.get(
+		const programmeOffers = await getData(
 			programmeId + "offers", 
 			data.loadAllProgrammeOffers(programmeId) 
 		)
@@ -35,7 +64,7 @@ module.exports = function() {
 	const loadProgrammeData = async function(programmeId) {
 		console.log("\n[Cache] - Passing by... ");
 
-		const programmeData = await myCache.get(
+		const programmeData = await getData(
 			programmeId, 
 			data.loadProgrammeData(programmeId) 
 		)
@@ -48,7 +77,7 @@ module.exports = function() {
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm) {
 		console.log("\n[Cache] - Passing by... ");
 
-		const programmeData = await myCache.get(
+		const programmeData = await getData(
 			courseId + calendarTerm, 
 			data.loadCourseClassesByCalendarTerm(programmeId, calendarTerm)  
 		)
@@ -61,7 +90,7 @@ module.exports = function() {
 	const loadAboutData = async function() {
 		console.log("\n[Cache] - Passing by... ");
 
-		const aboutData = await myCache.get(
+		const aboutData = await getData(
 			"about", 
 			data.loadAboutData
 		)

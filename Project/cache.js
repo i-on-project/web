@@ -3,7 +3,8 @@ const NodeCache = require( "node-cache" );
 class Cache {
     
     constructor(ttlSeconds) {
-        this.cache = new NodeCache({ stdTTL: ttlSeconds, checkperiod: ttlSeconds * 0.2, useClones: false });
+        //this.cache = new NodeCache({ stdTTL: ttlSeconds, useClones: false,  deleteOnExpire: false});
+        this.cache = new NodeCache({ stdTTL: 60});
     }
 
     /**
@@ -15,37 +16,22 @@ class Cache {
         return this.cache.has(key);
     }
 
-    /**
-     * Get the value of the specified key. If a value is cached then it shall be returned. 
-     * Else, get a new value from the fetchNewData function, and set a new value in the cache service.
-     * @param {*} key cache key to check.
-     * @param {*} fetchNewData function to fetch data if it isn't cached
-     * @param {*} ttl time to live in seconds to cache data if it isn't cached
-     * @returns a promise of the value stored in the key 
-     */
-    async get(key, fetchNewData, ttl) {
-
-        const value = this.cache.get(key);
-        if (value) {
-            console.log("[Cache-Get] - the data was cached.. ")
-            return Promise.resolve(value);
-        }
-
-        console.log("[Cache-Get] - the data wasnt cached.. ")
-        const dataToBeCached = await fetchNewData();
-        this.cache.set(key, dataToBeCached, ttl);
-        return dataToBeCached;
-
+    get(key) {
+        return this.cache.get(key);
     }
 
-    set(key, value) {
-        return this.cache.set(key, value);
+    set(key, value, ttl) {
+        return this.cache.set(key, value, ttl);
     }
 
     del(keys) {
         this.cache.del(keys);
     }
 
+    getTtl(key) {
+        return this.cache.getTtl(key);
+    }
+/*
     delStartWith(startStr = '') {
 
         if (!startStr) {
@@ -59,7 +45,7 @@ class Cache {
             }
         }
 
-    }
+    }*/
 
 }
 

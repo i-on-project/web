@@ -48,10 +48,10 @@ module.exports = (app, data, database) => {
 		submitInstitutionalEmail: async function(req, email) {
 			const response = await data.submitInstitutionalEmail(email);
 			await database.createUser(email, response.auth_req_id);
-			/*const user = await database.getUser(email);
+			const user = await database.getUser(email); // TO DO
 			req.login(user, (err) => {
 				if (err) throw error.SERVICE_FAILURE;
-			})*/
+			})
 			return response;
         }, 
 

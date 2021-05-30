@@ -2,18 +2,6 @@
 
 const error = require('./i-on-web-errors.js');
 
-const getProgrammesByDegree = async function(data){
-	const programmes = await data.loadAllProgrammes();
-
-	const bachelorProgrammes = programmes
-	.filter( programme => programme.degree == "bachelor");
-
-	const masterProgrammes = programmes
-	.filter( programme => programme.degree == "master");
-
-	return {bachelor: bachelorProgrammes, master: masterProgrammes};
-};
-
 module.exports = function(data, database) {
 
 	const getHome = async function(user) {
@@ -186,3 +174,16 @@ module.exports = function(data, database) {
 	};
 	
 }
+
+/******* Helper function *******/
+const getProgrammesByDegree = async function(data){
+	const programmes = await data.loadAllProgrammes();
+
+	const bachelorProgrammes = programmes
+	.filter( programme => programme.degree == "bachelor");
+
+	const masterProgrammes = programmes
+	.filter( programme => programme.degree == "master");
+
+	return {bachelor: bachelorProgrammes, master: masterProgrammes};
+};
