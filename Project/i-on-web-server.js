@@ -18,7 +18,7 @@ async function configuration() {
     /// Data
     //const dataModule = process.env.OPERATION_MODE == "standalone"? './mock-data.js' : './core-data.js';
     //const data = require(dataModule)();
-    const data = require('./i-on-web-cache.js')();
+    const data = require('./add-missing-data.js')();
 
     /// Auth
     const auth = require('./i-on-web-auth.js')(app, data, database);

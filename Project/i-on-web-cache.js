@@ -2,8 +2,7 @@
 
 const data = require('./add-missing-data.js')();
 const Cache = require('./cache.js');
-//const myCache = new Cache(60 * 60 * 24); /// 1 Day
-const myCache = new Cache();
+const myCache = new Cache(60 * 60 * 24); /// 1 Day
 
 /******* Helper function *******/
 // TO DO - simplify
@@ -11,14 +10,14 @@ const getData = async function(key, fetchNewData) {
 	const value = myCache.get(key);
 	
 	if (value) { /// If value was cached
-
 		console.log("[Cache-ttl] - " + myCache.getTtl(key))
-		if(myCache.getTtl(key) && myCache.getTtl(key) > 0) { /// If ttl hasn't expired
+		
+		if(myCache.getTtl(key) && myCache.getTtl(key) > value.metadata['lastModified']) { /// If ttl hasn't expired
 			console.log("[Cache-Get] - the data was cached and ttl hasn't expired.. ")
 			return Promise.resolve(value);
 		} else { /// If ttl has expired
 			console.log("[Cache-Get] - the data was cached and ttl has expired.. ")
-			const dataToBeCached = await fetchNewData("test");//value.metadata['last-modified']
+			const dataToBeCached = await fetchNewData("test");//value.metadata['lastModified']
 			myCache.set(key, dataToBeCached);
 			return dataToBeCached;
 		}
@@ -26,7 +25,7 @@ const getData = async function(key, fetchNewData) {
 	} else { /// If value wasn't cached
 		console.log("[Cache-Get] - the data wasnt cached.. ")
 		const dataToBeCached = await fetchNewData();
-		myCache.set(key, dataToBeCached, 60);
+		myCache.set(key, dataToBeCached);
 		console.log("[Cache-ttl Else] - " + myCache.getTtl(key))
 		return dataToBeCached;
 	}

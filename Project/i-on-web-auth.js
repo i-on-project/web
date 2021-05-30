@@ -23,12 +23,13 @@ module.exports = (app, data, database) => {
 
     /// MW to manage sessions
     app.use(session({
-		resave: true,              
-		saveUninitialized: true,  
+		resave: false,              
+		saveUninitialized: false,  
 		secret: 'secret',   // TO DO - Generate random string
-		store: new FileStore()     
+		store: new FileStore(),
+		name: 'id',   
     }))
-    
+
     app.use(passport.initialize());
 	app.use(passport.session());
 
@@ -45,19 +46,21 @@ module.exports = (app, data, database) => {
 			return receivedData.auth_methods.find(method => method.type == type);
         },
 
-		submitInstitutionalEmail: async function(req, email) {
+		submitInstitutionalEmail: async function(email) {
 			const response = await data.submitInstitutionalEmail(email);
 			await database.createUser(email, response.auth_req_id);
-			const user = await database.getUser(email); // TO DO
-			req.login(user, (err) => {
-				if (err) throw error.SERVICE_FAILURE;
-			})
 			return response;
         }, 
 
-		pollingCore: async function(user, authForPoll) {
+		pollingCore: async function(req, email, authForPoll) {
 			const receivedData = await data.pollingCore(authForPoll);
 			if(receivedData.hasOwnProperty("access_token")) {
+				const user = await database.getUser(email);
+
+				req.login(user, (err) => {
+					if (err) throw error.SERVICE_FAILURE;
+				})
+				
 				await database.saveUserTokens(user.email, authForPoll, receivedData);
 				return {
 					"polling_success" : true

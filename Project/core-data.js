@@ -181,7 +181,6 @@ module.exports = function() {
 
 	const submitInstitutionalEmail = async function(email) {
 		try {
-			
 			const options = {
 				method: 'POST',
 				headers: {

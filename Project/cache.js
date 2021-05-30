@@ -3,8 +3,7 @@ const NodeCache = require( "node-cache" );
 class Cache {
     
     constructor(ttlSeconds) {
-        //this.cache = new NodeCache({ stdTTL: ttlSeconds, useClones: false,  deleteOnExpire: false});
-        this.cache = new NodeCache({ stdTTL: 60});
+        this.cache = new NodeCache({ stdTTL: ttlSeconds, useClones: false, deleteOnExpire: false});
     }
 
     /**
@@ -20,8 +19,8 @@ class Cache {
         return this.cache.get(key);
     }
 
-    set(key, value, ttl) {
-        return this.cache.set(key, value, ttl);
+    set(key, value) {
+        return this.cache.set(key, value);
     }
 
     del(keys) {
@@ -31,21 +30,6 @@ class Cache {
     getTtl(key) {
         return this.cache.getTtl(key);
     }
-/*
-    delStartWith(startStr = '') {
-
-        if (!startStr) {
-            return;
-        }
-
-        const keys = this.cache.keys();
-        for (const key of keys) {
-            if (key.indexOf(startStr) === 0) {
-            this.del(key);
-            }
-        }
-
-    }*/
 
 }
 

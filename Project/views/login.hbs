@@ -76,6 +76,7 @@
                 console.log("-> sucesso");
                 loading.innerHTML = "<p>Autenticação realizada com sucesso !</p>"
                 clearInterval(pollingLoop);
+                window.location.replace('/');
             }
 
             if (counter === 0) {

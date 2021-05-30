@@ -123,7 +123,7 @@ module.exports = function() {
 
 	const submitInstitutionalEmail = async function(email) {
 		const receivedData = await data.submitInstitutionalEmail(email);
-		
+
 		return {
 			"auth_req_id": receivedData.auth_req_id,
 			"expires_in": receivedData.expires_in

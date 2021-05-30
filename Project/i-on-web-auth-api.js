@@ -10,9 +10,15 @@ function webapi(auth) {
 		submitInstitutionalEmail: async function(req, res) {
             const body = req.body;
 			try {
-				const data = await auth.submitInstitutionalEmail(req, body.email);
+				const data = await auth.submitInstitutionalEmail(body.email);
                 //res.setHeader('Set-Cookie', ['auth_req_id=' + data.auth_req_id, 'expires_in=' + data.expires_in], 'Expires=' + new Date(Date.now() + data.expires_in)); /// TO DO: confirm it, same site and other security issues, hash ou something? , 'HttpOnly'
-                res.json(data);
+				const hmac = crypto
+					.createHmac('sha256', 'changeit') // TO DO
+					.update(body.email) 
+					.digest('hex');
+
+				res.setHeader('Set-Cookie', ['State=' + hmac], 'Expires=' + new Date(Date.now() + data.expires_in)); /// TO DO: confirm it, same site and other security issues, hash ou something? , 'HttpOnly'
+				res.json(data);
 			} catch(err) {
                 console.log("erro -> " + err);
 				//await onErrorResponse(res, err, 'Failed to show Home Page');
@@ -23,7 +29,7 @@ function webapi(auth) {
             const params = req.params;
 
 			try {
-				const data = await auth.pollingCore(req.user, params['authId']);
+				const data = await auth.pollingCore(req, getCookies(req).email, params['authId']);
                 if(data.polling_success) {
 					res.json(data);
 				} else res.status(202).json(data);
@@ -69,6 +75,46 @@ function appErrorsToHttpErrors(err, defaultError) {
 			return { status: 500, message: `An error has occured: ${defaultError} errorPage` };
 	}
 }
+
+const getCookies = (req) => {
+    if(!req.headers.cookie) return null;
+
+    const rawCookies = req.headers.cookie.split('; ');
+
+    const parsedCookies = {}; 
+
+    rawCookies.forEach(rawCookie => {
+        const parsedCookie = rawCookie.split('=');
+        parsedCookies[parsedCookie[0]] = parsedCookie[1];
+    });
+    return parsedCookies;
+};
+
+const isCookieValid = (req, resp, responseFunction) => {
+
+    const parsedCookies = getAppCookies(req, resp);
+    if(!parsedCookies) {
+        responseFunction(false);
+    } else {
+        const cookie1 = parsedCookies['Mac'];
+        const id = parsedCookies['Identifier'];
+
+        if(!cookie1 || !id) {
+            responseFunction(false)
+        } else {
+            const hmac = crypto.createHmac('sha256', 'changeit');
+            const cookie2 = hmac.update(id).digest('hex');
+
+            if(cookie1 !== cookie2) {
+                responseFunction(false);
+            } else {
+                database.searchSessionID(id, (result) => {
+                    responseFunction(result);
+                })
+            }
+        }
+    }
+};
 
 module.exports = webapi;
 

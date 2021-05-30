@@ -112,7 +112,7 @@ module.exports = function(data, database) {
 
 	const saveUserCourses = async function(user, courses){
 		if(user) {
-			await data.saveUserCourses(user.username, courses.selectedCourses);
+			await database.saveUserCourses(user.username, courses.selectedCourses);
 		}
 	};
 
@@ -146,7 +146,7 @@ module.exports = function(data, database) {
 				}
 			}
 
-			await data.saveUserClasses(selectedClasses);
+			await database.saveUserClasses(selectedClasses);
 		}
 	};
 

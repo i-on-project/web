@@ -4,16 +4,18 @@ const data = require('./core-data-transformer.js')();
 
 module.exports = function() {
 
-	const loadAllProgrammes = async function (test) {
-		console.log("Received parameters: " + JSON.stringify(test))
+	const loadAllProgrammes = async function () {
 		console.log("\n[Add Missing Data] - Passing by add missing data... ");
 		const response = await data.loadAllProgrammes();
 		console.log("\n[Add Missing Data] - Received info: " + JSON.stringify(response));
 		/*** Adding missing data ***/
 		const mockDataToBeAdded = await getMockData('./data/programmes');
 
-		response.metadata['lastModified'] = '1622207500'; /// Fri, 28 May 2021 13:11:40 GMT
-		const improvedMetadata = response.metadata['lastModified'];
+		response.metadata = {
+			'lastModified': 1625377719544 //1622207500 - Fri, 28 May 2021 13:11:40 GMT
+		};
+
+		const improvedMetadata = response.metadata;
 
 		const improvedData = response.data
 		.map( programme => {
@@ -26,15 +28,14 @@ module.exports = function() {
 			return programme;
 		});
 
-
-		return {
+		return improvedData;
+	/*	return {
 			"data" : improvedData,
 			"metadata" : improvedMetadata
-		}
+		}*/
 	};
 
-	const loadAllProgrammeOffers = async function (programmeId, test) {
-		console.log("Received parameters: " + JSON.stringify(programmeId) + ' ' + JSON.stringify(test))
+	const loadAllProgrammeOffers = async function (programmeId) {
 		const response = await data.loadAllProgrammeOffers(programmeId);
 
 		/* Adding missing data */ 
@@ -95,12 +96,12 @@ module.exports = function() {
 		return response;
 	};
 
-	const loadAuthenticationTypes = async function () {
-		return await data.loadAuthenticationTypes();
+	const loadAuthenticationTypes = function () {
+		return data.loadAuthenticationTypes();
 	};
 
-	const loadAuthenticationMethodFeatures = async function () {
-		return await data.loadAuthenticationMethodFeatures();
+	const loadAuthenticationMethodFeatures = function () {
+		return data.loadAuthenticationMethodFeatures();
 	};
 
 	const submitInstitutionalEmail = function(email) {
