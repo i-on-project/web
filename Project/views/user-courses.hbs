@@ -1,0 +1,49 @@
+<div class="container-fluid pageBeginning">
+    <h3 class="text-center">As minhas disciplinas</h3>
+
+    <div class="divSpacing">
+
+        {{#if userCourses}} <!-- If the user has selected any courses -->
+            {{#each userCourses}} <!-- Iterate all user courses -->
+                {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->
+                    <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
+                        {{../this.name}} - {{this}} <input class="pull-right" type="checkbox" style="display:none" id="{{../this.courseId}}+{{this}}" name={{../this.courseId}} value={{this}}>
+                    </div>
+                {{/each}}
+            {{/each}}
+            
+            <div class="divSpacing">
+                <a class="btn btn-outline-dark" href="#" role="button" onclick="clickConfirm({{selectedCourses}})">Editar</a>
+                <!-- TO DO: href is hardcoded for testing, change it -->
+                <a class="btn btn-outline-dark pull-right" href="/programme-offers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+            </div>
+        {{else}}
+            <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
+            <div class="divSpacing">
+                <!-- TO DO: href is hardcoded for testing, change it -->
+                <a class="btn btn-outline-dark pull-right" href="/programme-offers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+            </div>
+        {{/if}}
+
+    </div>
+
+</div>
+
+ <!-- TO DO - Implement --> 
+<script>
+    function clickConfirm(userCourses) {
+
+        for(let i = 0; i < userCourses.length; i++) {
+            console.log(userCourses[i].classes) // TO DO: DELETE
+            for(let j = 0; j < userCourses[i].classes.length; j++) {
+                let x = document.getElementById(userCourses[i].courseId + userCourses[i].classes[j]);
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+        }
+        confirm("Tem a certeza que pretende eliminar os items selecionados?");
+    }
+</script>

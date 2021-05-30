@@ -3,172 +3,228 @@
 const express = require('express');
 const error = require('./i-on-web-errors.js');
 
-const getProgrammesList = async function(service){
-	return await service.getProgrammesByDegree();
-};
-
-function webui(service) {
+function webui(service, auth) {
 	
 	const theWebUI = {
 
-		home: async function(req, res) { /// Home Page
+		home: async function(req, res) {
 			try {
-				const programmesList = await getProgrammesList(service);
-				const data = await service.getHomeContent();
-				
-				res.render('home', Object.assign(data, programmesList));
+				const data = await service.getHome(req.user);
+				console.log(`[WebUi] - Received: ${JSON.stringify(data)}`)
+				res.render('home', data);
 			} catch(err) {
-				await onError(res, err, 'Failed to show Home Page', service);
+				await onErrorResponse(res, err, 'Failed to show Home Page');
 			}
 		},
 
-		schedule: async function(req, res) { /// Schedule Page
+		programmeCalendarTermOffers: async function(req, res) {
 			try {
-				const programmesList = await getProgrammesList(service);
-				const data = await service.getSchedule();
-				res.render('schedule', Object.assign(data, programmesList));
+				const data = await service.getProgrammeCalendarTermOffers(req.params['id'], req.user);
+				res.render('programmeCalendarTermOffers', data);
 			} catch(err) {
-				await onError(res, err, 'Failed to show Schedule', service);
+				await onErrorResponse(res, err, 'Failed to show Offers');
 			}
 		},
 
-		calendar: async function(req, res) { /// Calendar Page
+		programme: async function(req, res) {
 			try {
-				const programmesList = await getProgrammesList(service);
-				const data = await service.getCalendar();
-				res.render('calendar', Object.assign(data, programmesList));
+				const data = await service.getProgrammeData(req.params['id'], req.user);
+				res.render('programme', data);
 			} catch(err) {
-				await onError(res, err, 'Failed to show Calendar', service);
+				await onErrorResponse(res, err, 'Failed to show Programme Page');
 			}
 		},
 
-		myCourses: async function(req, res) { /// myCourses Page
+		userSchedule: async function(req, res) {
 			try {
-				const programmesList = await getProgrammesList(service);
-				const data = await service.getMyCourses();
-				res.render('myCourses', Object.assign(data, programmesList));
+				const data = await service.getUserSchedule(req.user);
+				res.render('user-schedule', data);
 			} catch(err) {
-				await onError(res, err, 'Failed to show User Courses', service);
+				await onErrorResponse(res, err, 'Failed to show Schedule');
+			}
+		},
+
+		userCalendar: async function(req, res) {
+			try {
+				const data = await service.getUserCalendar(req.user);
+				res.render('user-calendar', data);
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show Calendar');
+			}
+		},
+
+		userCourses: async function(req, res) {
+			try {
+				const data = await service.getUserCourses(req.user);
+				res.render('user-courses', data);
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show User Courses');
+			}
+		},
+
+		saveUserChosenCourses: async function(req, res) { 
+			try {
+				await service.saveUserCourses(req.user, req.body);
+				res.redirect('/available-classes');
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
 		},
 	
-		classes: async function(req, res) { /// classes Page
+		classesFromSelectedCourses: async function(req, res) {
 			try {
-				const programmesList = await getProgrammesList(service);
-				const data = await service.getClasses(req.body);
-				res.render('classes', Object.assign(data, programmesList));
+				const data = await service.getClassesFromSelectedCourses(req.user); // todo review and change names
+				res.render('classes',data);
 			} catch(err) {
-				await onError(res, err, 'Failed to show Programme Offers', service);
+				await onErrorResponse(res, err, 'Failed to show Programme Offers');
 			}
 		},
 
-		programmeOffers: async function(req, res) { /// programmeOffers Page
+		saveUserChosenClasses: async function(req, res) { 
 			try {
-				const programmesList = await getProgrammesList(service);
-				const data = await service.getProgrammeOffers(req.params['id']);
-				res.render('programmeOffers', Object.assign(data, programmesList));
+				await service.saveUserClasses(req.user,req.body);
+				res.redirect('/courses');
 			} catch(err) {
-				await onError(res, err, 'Failed to show Programme Offers', service);
+				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
 		},
 
-		programme: async function(req, res) { /// Programme Page
+		about: async function(req, res) {
 			try {
-				const programmesList = await getProgrammesList(service);
-				const data = await service.getProgrammeData(req.params['id']);
-				res.render('programme', Object.assign(data, programmesList));
+				const data = await service.getAboutData(req.user);
+				res.render('about', data);
 			} catch(err) {
-				await onError(res, err, 'Failed to show Programme Page', service);
-			}
-		},
-
-		about: async function(req, res) { /// About Page
-			try {
-				const programmesList = await getProgrammesList(service);
-				const data = await service.getAboutData();
-				res.render('about', Object.assign(data, programmesList));
-			} catch(err) {
-				await onError(res, err, 'Failed to show About Page', service);
+				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
 		},
 
 		settings: async function(req, res) { /// Settings Page
 			try {
-				res.render('settings');
+				// TO DO
+				res.render('settings', data);
 			} catch(err) {
-				await onError(res, err, 'Failed to show About Page', service);
-			}
-		},
-
-		finishSelection: async function(req, res) { 
-			try {
-				await service.selection(req.body);
-				res.redirect('/courses');
-			} catch(err) {
-				await onError(res, err, 'Failed to show About Page', service);
+				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
 		},
 
 		/******* Authentication Pages *******/
-		loginUI: async function(req, res) {
+		getAuthTypes: async function(req, res) {
+			let commonInfo;
 			try {
-				const programmesList = await getProgrammesList(service);	
-				res.render('login', Object.assign({'page': 'login'}, programmesList)); 
+				//commonInfo = await getPagesCommonInfo(service);	
+				const data = await auth.getAuthenticationTypes();
+				
+				res.render(
+					'auth_methods',
+					Object.assign(
+						{'page': 'login'},
+						commonInfo,
+						data
+					)
+				);
+			
 			} catch(err) {
-				await onError(res, err, 'Failed to show Login Page', service);
+				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
 			}
 		},
 
-		registerUI: async function(req, res) {
+		loginUI: async function(req, res) {
+			const args = req.query;
+			let commonInfo;
+
 			try {
-				const programmesList = await getProgrammesList(service);
-				res.render('register', programmesList);
+
+				//commonInfo = await getPagesCommonInfo(service);
+				const data = await auth.getAuthMethodFeatures(args['type']);
+				
+				res.render( /// TO DO: create page
+					'login',
+					Object.assign(
+						{'page': 'login'},
+						commonInfo,
+						data
+					)
+				);
+			
 			} catch(err) {
-				await onError(res, err, 'Failed to show Login Page', service);
+				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
+			}
+		},
+
+		login: async function(req, res) {
+			let commonInfo;
+			try {
+
+				//commonInfo = await getPagesCommonInfo(service);	
+				const data = await auth.getAuthenticationMethods();
+				
+				res.render(
+					'login',
+					Object.assign(
+						{'page': 'login'},
+						commonInfo,
+						data
+					)
+				); 
+			
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
 			}
 		}
+
 	}
 
 	const router = express.Router();
 	router.use(express.urlencoded({ extended: true })) /// MiddleWare to convert html forms in JSON objects
 
-	/******* Associate the paths with the respective functions *******/
-	router.get('/', theWebUI.home);	/// Home Page
-	router.get('/schedule', theWebUI.schedule);	/// Schedule Page
-	router.get('/calendar', theWebUI.calendar);	/// Calendar Page
-	router.get('/courses', theWebUI.myCourses); /// myCourses Page
-	router.get('/programmeOffers/:id', theWebUI.programmeOffers); /// programmeOffers Page
-	router.post('/programmeOffers/classes', theWebUI.classes);
-	router.get('/programme/:id', theWebUI.programme); /// programme Page
-	router.get('/about', theWebUI.about); /// About Page
-	router.get('/settings', theWebUI.settings); /// Settings Page
-	router.post('/courses', theWebUI.finishSelection);
+	/******* Mapping requests to handlers according to the path *******/
 
-	/*** Associate the paths with the respective authentication functions ***/
-	router.get('/login', theWebUI.loginUI);
-	router.get('/register', theWebUI.registerUI);
+	router.get(	'/', 					theWebUI.home			);	/// Home page
+
+	router.get(	'/programme/:id', 		theWebUI.programme		);	/// Programme info page
+	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers); 	/// Programme offers page
+	
+	router.post('/courses',				theWebUI.saveUserChosenCourses			);	/// todo review
+	router.get(	'/available-classes',	theWebUI.classesFromSelectedCourses	);		/// Available classes of the selected courses
+	router.post('/classes', 			theWebUI.saveUserChosenClasses			);	/// todo review
+
+	router.get(	'/courses',				theWebUI.userCourses	); 	/// Users courses page
+	router.get(	'/schedule', 			theWebUI.userSchedule	);	/// Users schedule page
+	router.get(	'/calendar', 			theWebUI.userCalendar	);	/// Users calendar page
+
+	router.get(	'/about', 				theWebUI.about			);	/// About Page
+	router.get(	'/settings', 			theWebUI.settings		);	/// Settings Page
+
+	/*** Auth ***/
+	router.get(	'/auth-methods',		theWebUI.getAuthTypes	);	/// Authentication methods page
+	router.get(	'/login',				theWebUI.loginUI		);	/// Login UI page
+	router.post('/login',				theWebUI.login			);	/// Submission page
 
 	return router;
 }
 
-async function onError(res, err, defaultError, service) {
+
+/******* Helper functions *******/
+
+async function onErrorResponse(res, err, defaultError) {
+
+	const translatedError = appErrorsToHttpErrors(err, defaultError);
 	
-	/// Translating application errors to HTTP erros
-	switch (err) {
-		case error.RESOURCE_NOT_FOUND:
-			await responseFunction(service, res, 404, 'Resource Not Found', 'errorPage');
-			break;
-		default:
-			await responseFunction(service, res, 500, 'An error has occured: ' + defaultError, 'errorPage');
-			break;
-	}
+	res.statusCode = translatedError.status;
+	res.render(page, translatedError);
+
 }
 
-async function responseFunction(service, res, status, msg, page) {
-	const programmesList = await getProgrammesList(service);
-	const answer = {'status': status, 'message': msg};
-	res.statusCode = answer.status;
-	res.render(page, Object.assign(answer, programmesList));
+function appErrorsToHttpErrors(err, defaultError) {
+
+	switch (err) {
+		case error.BAD_REQUEST:
+			return { status: 400, message: 'Bad Request' };
+		case error.RESOURCE_NOT_FOUND:
+			return { status: 404, message: 'Resource Not Found' };
+		default:
+			return { status: 500, message: `An error has occured: ${defaultError} errorPage` };
+	}
 }
 
 module.exports = webui;

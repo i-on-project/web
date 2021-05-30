@@ -1,0 +1,82 @@
+{
+  "properties": {
+    "subComponents": [
+      {
+        "properties": {
+          "dtstamp": {
+            "value": "2020-01-01T16:35:30Z"
+          },
+          "summary": {
+            "value": "[SL]: Assignment #1"
+          },
+          "description": {
+            "value": "The first assignment. The goal is to implement a CLI..."
+          },
+          "due": {
+            "value": "2021-04-08T23:59:00Z"
+          }
+        }
+      },
+      {
+        "properties": {
+          "dtstamp": {
+            "value": "2020-01-01T16:35:30Z"
+          },
+          "summary": {
+            "value": "[SL]: Assignment #2"
+          },
+          "description": {
+            "value": "The second assignment. The goal is to implement a Web Client for the API..."
+          },
+          "due": {
+            "value": "2021-06-20T23:59:00Z"
+          }
+        }
+      },
+      {
+        "properties": {
+          "dtstamp": {
+            "value": "2020-01-01T16:35:30Z"
+          },
+          "summary": {
+            "value": "1st Exam SL"
+          },
+          "description": {
+            "value": "Normal season exam for SL-1718v"
+          },
+          "dtstart": {
+            "value": "2020-06-10T18:00:00Z"
+          },
+          "dtend": {
+            "value": "2020-06-10T19:30:00Z"
+          },
+          "location": {
+            "value": "A.2.5"
+          }
+        }
+      },
+      {
+        "properties": {
+          "dtstamp": {
+            "value": "2020-01-01T16:35:30Z"
+          },
+          "summary": {
+            "value": "2nd Exam SL"
+          },
+          "description": {
+            "value": "Second season exam for SL-1718v"
+          },
+          "dtstart": {
+            "value": "2020-06-24T10:00:00Z"
+          },
+          "dtend": {
+            "value": "2020-07-24T12:30:00Z"
+          },
+          "location": {
+            "value": "F.1.2"
+          }
+        }
+      }
+    ]
+  }
+}

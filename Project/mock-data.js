@@ -1,19 +1,10 @@
 'use strict'
 
-const programmes = require('./data/programmes');
-const about = require('./data/i-on-team');
-
-// Test simulating a user (to delete)
-const user = {
-	username: "user",
-	password: "123",
-	selectedCoursesAndClasses: {} /// {"1": ["1D", "1N", ..], "2": []}
-};
-
 module.exports = function() {
 
 	const loadAllProgrammes = async function() {
 		try {
+			const programmes = getMockData('./data/programmes');
 			return programmes;
 		} catch (err) {
 			// TO DO - Handle errors
@@ -23,8 +14,8 @@ module.exports = function() {
 	const loadAllProgrammeOffers = async function(programmeId) {
 		try {
 			const path = './data/offers/' + programmeId;
-			const offers = require(path);
-			return offers;
+			const programmeOffers = getMockData(path);
+			return programmeOffers;
 		} catch (err) {
 			// TO DO - Handle errors
 		}
@@ -33,70 +24,59 @@ module.exports = function() {
 	const loadProgrammeData = async function(programmeId) {
 		try {
 			const path = './data/programmes/' + programmeId;
-			const programme = require(path);
-			return programme;
+			const programmeData = getMockData(path);
+			return programmeData;
 		} catch (err) {
 			// TO DO - Handle errors
 		}
 	};
 
-	const loadCourseByID = async function(courseId) {
+	const loadCourseClassesByCalendarTerm = async function(courseId) {
 		try {
 			const path = './data/courses/' + courseId;
-			const course = require(path);
+			const course = getMockData(path);
 			return course;
 		} catch (err) {
 			// TO DO - Handle errors
 		}
 	};
+
 	const loadAboutData = async function() {
 		try {
-			return about;
+			return getMockData('./data/i-on-team');
 		} catch (err) {
 			// TO DO - Handle errors
 		}
 	};
 
-	// Test functions (to delete)
-	const loadUser = async function() {
+	const loadCourseEventCalendar = async function(courseId, semester) {
 		try {
-			return user;
+			return getMockData('./data/classes/1718i' + courseId);
 		} catch (err) {
 			// TO DO - Handle errors
 		}
 	};
-
-/// {"1": ["1D", "1N", ..], "2": []}
-	const saveUserCoursesAndClasses = async function(body) {
-		try { 
-			// avoid: substitution and repetition
-			for (const prop in body) { /// Iterate over body properties (choosen courses)
-				if (body.hasOwnProperty(prop) ) { 
-
-					if(!user.selectedCoursesAndClasses.hasOwnProperty(prop)) { /// If the user has not yet chosen that course 
-						user.selectedCoursesAndClasses[prop] = body[prop];
-					} else { /// If the user has already chosen classes from that course, then it will be added to the array (we filter classes first to avoid repetitions)
-						const newClasses = body[prop]
-						.filter(
-							courseClass => !user.selectedCoursesAndClasses[prop].includes(courseClass)
-						);
-						user.selectedCoursesAndClasses[prop] = user.selectedCoursesAndClasses[prop].concat(newClasses);
-					} 
-			
-				}
-			}
+	
+	const loadClassSchedule = async function(courseId, classId, semester) {
+		try {
+			return getMockData('./data/classes/1718i' + courseId + '/' + classId);
 		} catch (err) {
 			// TO DO - Handle errors
 		}
 	};
-
+	
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
-		loadCourseByID : loadCourseByID,
+		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
-		loadUser : loadUser,
-		saveUserCoursesAndClasses : saveUserCoursesAndClasses
+		loadCourseEventCalendar : loadCourseEventCalendar,
+		loadClassSchedule : loadClassSchedule
 	};
 }
+
+/******* Helper function *******/
+const getMockData = async function(path) {
+	return require(path);
+};

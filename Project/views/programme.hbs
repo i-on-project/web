@@ -29,11 +29,11 @@
       </div>
    </div>
    <hr class="solid">
-   <a class="btn btn-outline-dark pull-right" href="/programmeOffers/{{this.programme.id}}" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a><br>
+   <a class="btn btn-outline-dark pull-right" href="/programme-offers/{{this.programme.id}}" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a><br>
    <div class="container-fluid divSpacing">
       <h3 class="text-center">Plano Curricular</h3>
       <div class="row row-content">
-      {{#each programmeOffersByTerms}}
+      {{#each offersByAcademicTerms}}
          <div class="col-md-6 divSpacing">
                <h4 class="text-center">{{@key}}º Semestre</h4>
                <table class="table table-bordered">
