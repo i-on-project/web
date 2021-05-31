@@ -4,16 +4,19 @@ const data = require('./core-data-transformer.js')();
 
 module.exports = function() {
 
-	const loadAllProgrammes = async function () {
-		console.log("\n[Add Missing Data] - Passing by add missing data... ");
-		const response = await data.loadAllProgrammes();
+	const loadAllProgrammes = async function (pleaseWork, lastModified) {
+		console.log("\n[Add Missing Data] - Passing by add missing data... " + "id: " + pleaseWork + "LM: " + lastModified);
+		const utcTime = lastModified ? new Date(lastModified * 1000) : undefined;
+		const response = await data.loadAllProgrammes(utcTime);
+
+		if(!response) return; /// The resource has not been modified since the given date
 		console.log("\n[Add Missing Data] - Received info: " + JSON.stringify(response));
 
 		/*** Adding missing data ***/
 		const mockDataToBeAdded = await getMockData('./data/programmes');
 
 		response.metadata = {
-			'lastModified': 1622207500000 // Fri, 28 May 2021 13:11:40 GMT
+			'lastModified': 1622207500 // Fri, 28 May 2021 13:11:40 GMT
 		};
 
 		const improvedMetadata = response.metadata;
@@ -28,7 +31,7 @@ module.exports = function() {
 
 			return programme;
 		});
-
+		console.log("\n[Add Missing Data] -returning ..")
 		return {
 			"data" : improvedData,
 			"metadata" : improvedMetadata

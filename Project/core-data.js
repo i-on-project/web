@@ -8,7 +8,7 @@ const contentType = 'application/json';
 /// Environment variables
 const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
-const client_id = "22dd1551-db23-481b-acde-d286440388a5"; /// TO DO: In future renove dev client id to production on .. process.env.CORE_CLIENT_ID | 
+const client_id = process.env.CORE_CLIENT_ID; /// TO DO: In future remove dev client id
 
 const coreRequest = async function(endpoint, expectedStatus, options) {
 	// core_url + endpoint
@@ -21,29 +21,33 @@ const coreRequest = async function(endpoint, expectedStatus, options) {
 
 module.exports = function() {
 
-	const loadAllProgrammes = async function () {
+	const loadAllProgrammes = async function (lastModified) {
+		console.log(`\n[CORE-DATA] lm: ${lastModified}`)
 		try {
 
 			const options = {
 				method: 'GET',
 				headers: {
 					'Authorization': read_token,
-					'Content-Type': contentType
+					'Content-Type': contentType,
+					'If-Modified-Since': lastModified
 				}
 			};
 
 			console.log("\n[CORE-DATA] - Making request ...");
 			const response = await fetch(core_url + '/api/programmes/', options);
-			if(response.status != 200) throw response.status;
-			console.log("\n[CORE-DATA] - Returning response ...");
+			console.log("\n[CORE-DATA] - Received response...");
+			if(response.status !== 200 && response.status !== 304) throw response.status;
+
+			console.log("\n[CORE-DATA] - Status code passed, returning response ... " + typeof response.status);
 
 			return response;
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
-				case 404: /// Not Found
+				case 404:	/// Not Found
 					throw error.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				default:	/// Internal Server Error
 					throw error.SERVICE_FAILURE;
 			}
 		}

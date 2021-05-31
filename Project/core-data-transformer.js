@@ -4,15 +4,11 @@ const data = require('./core-data.js')();
 
 module.exports = function() {
 
-	const loadAllProgrammes = async function () {
+	const loadAllProgrammes = async function (lastModified) {
 		console.log("\n[Tranformer] - Passing by...");
-		const rawData = await data.loadAllProgrammes();
+		const rawData = await data.loadAllProgrammes(lastModified);
 
-		/*** Metadata ***/
-		const headers = rawData.headers;
-		const metadata = {
-			"lastModified" : headers.get('last-modified') /// TO DO: Convert to epoch 
-		}
+		if(!rawData.status === 304) return;	/// The resource has not been modified since the given date
 
 		/*** Data ***/
 		const payload = await rawData.json();
@@ -29,6 +25,19 @@ module.exports = function() {
 			response.push(programme);
 			return response;
 		}, []);
+
+		/*** Metadata ***/
+		const headers = rawData.headers;
+		
+		let date = new Date( headers.get('last-modified') );
+		if(date)
+			date =  date.getTime()/1000;	/// Date in epoch seconds
+			
+		const metadata = {
+			"lastModified" :  date /// TO DO: Convert to epoch 
+		}
+		
+
 		console.log("\n[Tranformer] - Returning transformed data...");
 		return {
 			"data" : transformedData,

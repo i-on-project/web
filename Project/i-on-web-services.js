@@ -177,7 +177,8 @@ module.exports = function(data, database) {
 
 /******* Helper function *******/
 const getProgrammesByDegree = async function(data){
-	const programmes = await data.loadAllProgrammes();
+	const resp = await data.loadAllProgrammes();
+	const programmes = resp.data;
 
 	const bachelorProgrammes = programmes
 	.filter( programme => programme.degree == "bachelor");
