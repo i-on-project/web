@@ -4,10 +4,12 @@ FROM node:14
 ARG OPERATION_MODE
 ARG CORE_URL
 ARG CORE_READ_TOKEN
+ARG CORE_CLIENT_ID
 
 ENV OPERATION_MODE=$OPERATION_MODE
 ENV CORE_URL=$CORE_URL
 ENV CORE_READ_TOKEN=$CORE_READ_TOKEN
+ENV CORE_CLIENT_ID=$CORE_CLIENT_ID
 
 # Create a directory to hold the application code inside the image, this will be the working directory for the application
 WORKDIR /web

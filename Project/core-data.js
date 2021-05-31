@@ -8,7 +8,7 @@ const contentType = 'application/json';
 /// Environment variables
 const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
-const client_id = "22dd1551-db23-481b-acde-d286440388a5"; /// TO DO: In future renove dev client id to production on .. process.env.CORE_CLIENT_ID | 
+const client_id = process.env.CORE_CLIENT_ID; /// TO DO: In future renove dev client id
 
 const coreRequest = async function(endpoint, expectedStatus, options) {
 	// core_url + endpoint
