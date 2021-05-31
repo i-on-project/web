@@ -70,15 +70,14 @@ module.exports = (app, data, database) => {
 					"polling_success" : false
 				};
 			}
-		}
+		},
 		
-		/*
 		logout: async function(req) {
 			req.logout();
-			req.session.destroy(err => { /// ... todo: replace ...
+			req.session.destroy(err => { /// TO DO : replace ...
 				if (err) throw error.SERVICE_FAILURE;
 			})
-		}*/
+		}
 
 	}
 

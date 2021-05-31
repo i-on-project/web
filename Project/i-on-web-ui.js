@@ -170,8 +170,16 @@ function webui(service, auth) {
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
 			}
-		}
+		}, 
 
+		logout: async function(req, res) {
+			try {
+				await auth.logout(req);	
+				res.redirect('/'); 
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
+			}
+		},
 	}
 
 	const router = express.Router();
@@ -199,6 +207,7 @@ function webui(service, auth) {
 	router.get(	'/auth-methods',		theWebUI.getAuthTypes	);	/// Authentication methods page
 	router.get(	'/login',				theWebUI.loginUI		);	/// Login UI page
 	router.post('/login',				theWebUI.login			);	/// Submission page
+	router.get('/logout',				theWebUI.logout			);
 
 	return router;
 }
