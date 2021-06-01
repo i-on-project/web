@@ -3,8 +3,8 @@
 
     <div class="divSpacing">
 
-        {{#if userCourses}} <!-- If the user has selected any courses -->
-            {{#each userCourses}} <!-- Iterate all user courses -->
+        {{#if userCoursesAndClasses}} <!-- If the user has selected any courses -->
+            {{#each userCoursesAndClasses}} <!-- Iterate all user courses -->
                 {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->
                     <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
                         {{../this.name}} - {{this}} <input class="pull-right" type="checkbox" style="display:none" id="{{../this.courseId}}+{{this}}" name={{../this.courseId}} value={{this}}>

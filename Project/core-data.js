@@ -273,7 +273,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadUserSubscribedClassInCourse = function(user, courseId) {
+	const loadUserSubscribedClassesInCourse = async function(user, courseId) {
 		try {
 			const options = {
 				method: 'GET',
@@ -307,6 +307,6 @@ module.exports = function() {
 		pollingCore : pollingCore,
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassInCourse : loadUserSubscribedClassInCourse
+		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse
 	};
 }

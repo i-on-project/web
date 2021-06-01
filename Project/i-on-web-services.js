@@ -89,24 +89,23 @@ module.exports = function(data, database) {
 	};
 
 	const getUserCourses = async function(user) {
-		const userCourses = []; 
+		const userCoursesAndClasses = []; 
 		if(user) {
 			const calendarTerm = '1718v'; // TO DO
-			const userCourses = await data.loadUserSubscribedCourses();
-
+			const userCourses = await data.loadUserSubscribedCourses(user);
 			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
-			/*const courseIDs = Object.keys(userCoursesAndClasses);
-	
-			for(let i = 0; i < courseIDs.length; i++) {
-				const course = await data.loadCourseClassesByCalendarTerm(courseIDs[i]);
-				course.classes = userCoursesAndClasses[courseIDs[i]];
-				userCourses.push(course)
-			}*/
+			
+			for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
+				const course = await data.loadCourseClassesByCalendarTerm(userCoursesOfPresentCalendarTerm[i].courseId , calendarTerm)
+				const classes = await data.loadUserSubscribedClassesInCourse(user, userCoursesOfPresentCalendarTerm[i].courseId);
+				course.classes = classes;
+				userCoursesAndClasses.push(course);
+			}
 		}
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			user: user, 
-			userCourses: userCourses, 
+			userCoursesAndClasses: userCoursesAndClasses, 
 			page: "user-courses"
 		});
 	};

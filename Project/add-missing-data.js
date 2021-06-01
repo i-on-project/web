@@ -109,8 +109,8 @@ module.exports = function() {
 		return data.loadUserSubscribedCourses(user);
 	}
 
-	const loadUserSubscribedClassInCourse = function(user, courseId) {
-		return data.loadUserSubscribedClassInCourse(user, courseId);
+	const loadUserSubscribedClassesInCourse = function(user, courseId) {
+		return data.loadUserSubscribedClassesInCourse(user, courseId);
 	}
 
 	return {
@@ -125,7 +125,7 @@ module.exports = function() {
 		pollingCore : pollingCore,
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassInCourse : loadUserSubscribedClassInCourse;
+		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse
 	};
 }
 

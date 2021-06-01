@@ -160,8 +160,15 @@ module.exports = function() {
 		}, []);
 	}
 
-	const loadUserSubscribedClassInCourse = function(user, courseId) {
-		return data.loadUserSubscribedClassInCourse(user, courseId);
+	const loadUserSubscribedClassesInCourse = async function(user, courseId) {//entities.properties.sectionId
+		const receivedData = await data.loadUserSubscribedClassesInCourse(user, courseId);
+
+		return receivedData.entities		
+		.map(entities => entities.properties)
+		.reduce(function(response, currentClass) {
+			response.push(currentClass.sectionId);
+			return response;
+		}, []);
 	}
 
 	return {
@@ -176,6 +183,6 @@ module.exports = function() {
 		pollingCore : pollingCore,
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassInCourse : loadUserSubscribedClassInCourse
+		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse
 	};
 }
