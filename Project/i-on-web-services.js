@@ -91,15 +91,17 @@ module.exports = function(data, database) {
 	const getUserCourses = async function(user) {
 		const userCourses = []; 
 		if(user) {
-			const userCoursesAndClasses = await data.loadUserCoursesAndClasses();
+			const calendarTerm = '1718v'; // TO DO
+			const userCourses = await data.loadUserSubscribedCourses();
 
-			const courseIDs = Object.keys(userCoursesAndClasses);
+			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
+			/*const courseIDs = Object.keys(userCoursesAndClasses);
 	
 			for(let i = 0; i < courseIDs.length; i++) {
 				const course = await data.loadCourseClassesByCalendarTerm(courseIDs[i]);
 				course.classes = userCoursesAndClasses[courseIDs[i]];
 				userCourses.push(course)
-			}
+			}*/
 		}
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
@@ -109,27 +111,16 @@ module.exports = function(data, database) {
 		});
 	};
 
-	const saveUserCourses = async function(user, courses){
-		if(user) {
-			// TO DO - Change since the access token will no longer be in the database but instead will arrive in a cookie on request
-			for(let i = 0; i < courses.selectedCourses.length; i++) {
-				await data.saveUserCourses(user, courses.selectedCourses[i]);
-			}
-		}
-		return courses.selectedCourses;
-	};
-
-	const getClassesFromSelectedCourses = async function(user) {// TO DO - Review
+	const getClassesFromSelectedCourses = async function(user, coursesIDs) {
 		const classesByCourses = [];
 		if(user) {
-			const userCourses = await data.loadUserCoursesAndClasses();
-			
-			const coursesIDs = Object.keys(userCourses);
-
-			for(let i = 0; i < coursesIDs.length; i++)
-				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i]));
+			if(Array.isArray(coursesIDs)) {
+				for(let i = 0; i < coursesIDs.length; i++)
+					classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i], '1718i')); // TO DO - remove harcoded calendarTerm
+			} else {
+				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs, '1718i'));
+			}
 		}
-		
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			user: user, 
@@ -137,19 +128,17 @@ module.exports = function(data, database) {
 		});
 	};
 
-	const saveUserClasses = async function(user, classes){
+	const saveUserChosenCoursesAndClasses = async function(user, selectedClassesAndCourses){
 		if(user) {
-			
-			const selectedClasses = {}; // TO DO - Review
-			for(let prop in classes) { 
-				if(!Array.isArray(classes[prop])) {
-					selectedClasses[prop] = [classes[prop]];
+			for(let courseId in selectedClassesAndCourses) {
+				if(Array.isArray(selectedClassesAndCourses[courseId])) {
+					for(let i = 0; i < selectedClassesAndCourses[courseId].length; i++) 
+						await data.saveUserChosenCoursesAndClasses(user, courseId, selectedClassesAndCourses[courseId][i]);
 				} else {
-					selectedClasses[prop] = classes[prop];
+					await data.saveUserChosenCoursesAndClasses(user, courseId, selectedClassesAndCourses[courseId]);
 				}
 			}
-
-			await database.saveUserClasses(selectedClasses);
+			
 		}
 	};
 
@@ -170,9 +159,8 @@ module.exports = function(data, database) {
 		getUserSchedule : getUserSchedule,
 		getUserCalendar : getUserCalendar,
 		getUserCourses : getUserCourses,
-		saveUserCourses : saveUserCourses,
 		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
-		saveUserClasses : saveUserClasses,		
+		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,		
 		getAboutData : getAboutData
 	};
 	

@@ -63,6 +63,7 @@ module.exports = function() {
 
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
 		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm) ;
+		
 		const courseData = receivedData.entities.find(__ => __).properties;
 		const course = {
 			'courseId' : courseData.courseId,
@@ -71,7 +72,9 @@ module.exports = function() {
 			'classes': []
 		} 
 
-		return receivedData.entities.map(entity => entity.properties)
+		return receivedData.entities
+		.filter(entity => entity.properties.hasOwnProperty('id'))
+		.map(entity => entity.properties)
 		.reduce(function(newResponse, currentClass) {
 			newResponse.classes.push(currentClass.id);
 			return newResponse;
@@ -136,8 +139,29 @@ module.exports = function() {
 
 	};
 
-	const saveUserCourses = function(user, courseId) {
-		return data.saveUserCourses(user, courseId);
+	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {
+		return data.saveUserChosenCoursesAndClasses(user, courseId, classSection);
+	}
+
+	const loadUserSubscribedCourses = async function(user) {
+		const receivedData = await data.loadUserSubscribedCourses(user);
+
+		return receivedData.entities		
+		.map(entities => entities.properties)
+		.reduce(function(response, currentCourse) {
+			const course = {
+				"id": currentCourse.id,
+				"courseId": currentCourse.courseId,
+				"acronym": currentCourse.courseAcr,
+				"calendarTerm": currentCourse.calendarTerm
+			}
+			response.push(course);
+			return response;
+		}, []);
+	}
+
+	const loadUserSubscribedClassInCourse = function(user, courseId) {
+		return data.loadUserSubscribedClassInCourse(user, courseId);
 	}
 
 	return {
@@ -150,6 +174,8 @@ module.exports = function() {
 		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
-		saveUserCourses : saveUserCourses
+		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
+		loadUserSubscribedCourses : loadUserSubscribedCourses,
+		loadUserSubscribedClassInCourse : loadUserSubscribedClassInCourse
 	};
 }

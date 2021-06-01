@@ -60,32 +60,20 @@ function webui(service, auth) {
 				await onErrorResponse(res, err, 'Failed to show User Courses');
 			}
 		},
-
-		saveUserChosenCourses: async function(req, res) { 
-			try {
-				const selectedCoursesIds = await service.saveUserCourses(req.user, req.body);
-				const query = 'coursesIds?'
-				for(let i = 0; i < selectedCoursesIds.length; i++)
-					query = query + "id=" + selectedCoursesIds[i] + '&'
-				
-				res.redirect('/available-classes' + query);
-			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page');
-			}
-		},
 	
 		classesFromSelectedCourses: async function(req, res) {
 			try {
-				const data = await service.getClassesFromSelectedCourses(req.user); // todo review and change names
+				console.log('params ' + JSON.stringify(req.query['id']))
+				const data = await service.getClassesFromSelectedCourses(req.user, req.query['id']);
 				res.render('classes',data);
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Programme Offers');
 			}
 		},
 
-		saveUserChosenClasses: async function(req, res) { 
+		saveUserChosenCoursesAndClasses: async function(req, res) { 
 			try {
-				await service.saveUserClasses(req.user,req.body);
+				await service.saveUserChosenCoursesAndClasses(req.user,req.body);
 				res.redirect('/courses');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
@@ -195,9 +183,8 @@ function webui(service, auth) {
 	router.get(	'/programme/:id', 		theWebUI.programme		);	/// Programme info page
 	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers); 	/// Programme offers page
 	
-	router.post('/courses',				theWebUI.saveUserChosenCourses			);	/// todo review
 	router.get(	'/available-classes',	theWebUI.classesFromSelectedCourses	);		/// Available classes of the selected courses
-	router.post('/classes', 			theWebUI.saveUserChosenClasses			);	/// todo review
+	router.post('/classes', 			theWebUI.saveUserChosenCoursesAndClasses);	/// todo review
 
 	router.get(	'/courses',				theWebUI.userCourses	); 	/// Users courses page
 	router.get(	'/schedule', 			theWebUI.userSchedule	);	/// Users schedule page

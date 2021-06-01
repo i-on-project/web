@@ -15,7 +15,7 @@
     </div>
     <h3 class="text-center">Unidades Curriculares disponíveis</h3>
     {{#if programmeCalendarTermOffers}}
-        <form method="post" action="/courses">
+        <form method="GET" action="/available-classes">
         <div class="row row-content">
             <div class="offset-2 col-md-8 divSpacing">
                 <table class="table table-bordered">
@@ -44,9 +44,9 @@
                             </td>
                             <td class="col-md-1 text-center">
                                 {{#if this.optional}}
-                                    <input type="checkbox" value={{this.courseId}}>
+                                    <input type="checkbox" name="id" value={{this.courseId}}>
                                 {{else}}
-                                    <input type="checkbox" name="selectedCourses" value={{this.courseId}}>
+                                    <input type="checkbox" name="id" value={{this.courseId}}>
                                 {{/if}}
                             </td>
                         </tr>
@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="divSpacing text-center">
-        <input class="btn btn-dark btn-lg btn-block" type="submit" value="Concluir selecção"/>
+        <button type="submit" class="btn btn-dark btn-lg btn-block">Concluir selecção</button>
         </div>
         </form>
     {{else}}

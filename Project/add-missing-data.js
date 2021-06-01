@@ -101,8 +101,16 @@ module.exports = function() {
 		return data.pollingCore(authForPoll);
 	};
 
-	const saveUserCourses = function(user, courseId) {
-		return data.saveUserCourses(user, courseId);
+	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {
+		return data.saveUserChosenCoursesAndClasses(user, courseId, classSection);
+	}
+
+	const loadUserSubscribedCourses = function(user) {
+		return data.loadUserSubscribedCourses(user);
+	}
+
+	const loadUserSubscribedClassInCourse = function(user, courseId) {
+		return data.loadUserSubscribedClassInCourse(user, courseId);
 	}
 
 	return {
@@ -115,7 +123,9 @@ module.exports = function() {
 		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
-		saveUserCourses : saveUserCourses
+		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
+		loadUserSubscribedCourses : loadUserSubscribedCourses,
+		loadUserSubscribedClassInCourse : loadUserSubscribedClassInCourse;
 	};
 }
 

@@ -215,8 +215,6 @@ module.exports = function() {
 			
 			const response = await fetch(core_url + `/api/auth/request/${authForPoll}/poll`, options);
 
-			console.log("status in core -> " + response.status);
-		
 			return response.json();
 
 		} catch(err) { /// TO DO:  Add more error handling
@@ -229,7 +227,7 @@ module.exports = function() {
 		}
 	};
 
-	const saveUserCourses = async function(user, courseId) {
+	const saveUserChosenCoursesAndClasses = async function(user, courseId, classSection) {
 		try {
 			const options = {
 				method: 'PUT',
@@ -239,7 +237,7 @@ module.exports = function() {
 				}
 			};
 
-			const response = await fetch(core_url + '/api/users/classes/' + courseId, options);
+			const response = await fetch(core_url + '/api/users/classes/' + courseId + '/' + classSection, options);
 		
 			if(response.status != 201 && response.status != 204) throw response.status; // TO DO - handle the status code
 
@@ -253,6 +251,50 @@ module.exports = function() {
 		}
 	};
 
+	const loadUserSubscribedCourses = async function(user) {
+		try {
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': user.token_type + ' ' + user.access_token,
+					'Content-Type': contentType
+				}
+			};
+
+			return await coreRequest('/api/users/classes/', 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const loadUserSubscribedClassInCourse = function(user, courseId) {
+		try {
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': user.token_type + ' ' + user.access_token,
+					'Content-Type': contentType
+				}
+			};
+
+			return await coreRequest('/api/users/classes/' + courseId, 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -263,6 +305,8 @@ module.exports = function() {
 		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
-		saveUserCourses : saveUserCourses
+		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
+		loadUserSubscribedCourses : loadUserSubscribedCourses,
+		loadUserSubscribedClassInCourse : loadUserSubscribedClassInCourse
 	};
 }
