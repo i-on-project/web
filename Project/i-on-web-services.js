@@ -9,7 +9,6 @@ module.exports = function(data, database) {
 			// TO DO - Show user next events
 		}
 		const commonInfo = await getProgrammesByDegree(data);
-		console.log(`[Services] - Received: ${JSON.stringify(commonInfo)}`)
 		return Object.assign(commonInfo, 
 			{
 				user: user, 
@@ -112,8 +111,12 @@ module.exports = function(data, database) {
 
 	const saveUserCourses = async function(user, courses){
 		if(user) {
-			await database.saveUserCourses(user.username, courses.selectedCourses);
+			// TO DO - Change since the access token will no longer be in the database but instead will arrive in a cookie on request
+			for(let i = 0; i < courses.selectedCourses.length; i++) {
+				await data.saveUserCourses(user, courses.selectedCourses[i]);
+			}
 		}
+		return courses.selectedCourses;
 	};
 
 	const getClassesFromSelectedCourses = async function(user) {// TO DO - Review
@@ -177,6 +180,7 @@ module.exports = function(data, database) {
 
 /******* Helper function *******/
 const getProgrammesByDegree = async function(data){
+
 	const programmes = await data.loadAllProgrammes();
 
 	const bachelorProgrammes = programmes

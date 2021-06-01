@@ -21,8 +21,7 @@ const coreRequest = async function(endpoint, expectedStatus, options) {
 
 module.exports = function() {
 
-	const loadAllProgrammes = async function (lastModified) {
-		console.log(`\n[CORE-DATA] lm: ${lastModified}`)
+	const loadAllProgrammes = async function () {
 		try {
 
 			const options = {
@@ -30,18 +29,9 @@ module.exports = function() {
 				headers: {
 					'Authorization': read_token,
 					'Content-Type': contentType,
-					'If-Modified-Since': lastModified
 				}
 			};
-
-			console.log("\n[CORE-DATA] - Making request ...");
-			const response = await fetch(core_url + '/api/programmes/', options);
-			console.log("\n[CORE-DATA] - Received response...");
-			if(response.status !== 200 && response.status !== 304) throw response.status;
-
-			console.log("\n[CORE-DATA] - Status code passed, returning response ... " + typeof response.status);
-
-			return response;
+			return await coreRequest('/api/programmes/', 200, options);	
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -192,7 +182,7 @@ module.exports = function() {
 					'Content-Type': contentType
 				},
 				body: JSON.stringify({
-					"scope": "profile",
+					"scope": "profile classes",
 					"type": "email",
 					"client_id": client_id,
 					"notification_method": "POLL",
@@ -239,6 +229,30 @@ module.exports = function() {
 		}
 	};
 
+	const saveUserCourses = async function(user, courseId) {
+		try {
+			const options = {
+				method: 'PUT',
+				headers: {
+					'Authorization': user.token_type + ' ' + user.access_token,
+					'Content-Type': contentType
+				}
+			};
+
+			const response = await fetch(core_url + '/api/users/classes/' + courseId, options);
+		
+			if(response.status != 201 && response.status != 204) throw response.status; // TO DO - handle the status code
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -248,6 +262,7 @@ module.exports = function() {
 		loadAuthenticationTypes : loadAuthenticationTypes,
 		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
-		pollingCore : pollingCore
+		pollingCore : pollingCore,
+		saveUserCourses : saveUserCourses
 	};
 }

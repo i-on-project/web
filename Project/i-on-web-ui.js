@@ -10,7 +10,6 @@ function webui(service, auth) {
 		home: async function(req, res) {
 			try {
 				const data = await service.getHome(req.user);
-				console.log(`[WebUi] - Received: ${JSON.stringify(data)}`)
 				res.render('home', data);
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Home Page');
@@ -64,8 +63,12 @@ function webui(service, auth) {
 
 		saveUserChosenCourses: async function(req, res) { 
 			try {
-				await service.saveUserCourses(req.user, req.body);
-				res.redirect('/available-classes');
+				const selectedCoursesIds = await service.saveUserCourses(req.user, req.body);
+				const query = 'coursesIds?'
+				for(let i = 0; i < selectedCoursesIds.length; i++)
+					query = query + "id=" + selectedCoursesIds[i] + '&'
+				
+				res.redirect('/available-classes' + query);
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
 			}

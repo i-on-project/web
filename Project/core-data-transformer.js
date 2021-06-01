@@ -5,19 +5,10 @@ const data = require('./core-data.js')();
 module.exports = function() {
 
 	const loadAllProgrammes = async function () {
-		console.log("\n[Tranformer] - Passing by...");
-		const rawData = await data.loadAllProgrammes();
 
-		/*** Metadata ***/
-		const headers = rawData.headers;
-		const metadata = {
-			"lastModified" : headers.get('last-modified') /// TO DO: Convert to epoch 
-		}
+		const receivedData = await data.loadAllProgrammes();
 
-		/*** Data ***/
-		const payload = await rawData.json();
-
-		const transformedData = payload.entities
+		const transformedData = receivedData.entities
 		.map(entities => entities.properties)
 		.reduce(function(response, currentProgramme) {
 			const programme = {
@@ -29,11 +20,8 @@ module.exports = function() {
 			response.push(programme);
 			return response;
 		}, []);
-		console.log("\n[Tranformer] - Returning transformed data...");
-		return {
-			"data" : transformedData,
-			"metadata" : metadata
-		}
+
+		return transformedData;
 	};
 
 	const loadAllProgrammeOffers = async function(programmeId) {
@@ -148,6 +136,10 @@ module.exports = function() {
 
 	};
 
+	const saveUserCourses = function(user, courseId) {
+		return data.saveUserCourses(user, courseId);
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -157,6 +149,7 @@ module.exports = function() {
 		loadAuthenticationTypes : loadAuthenticationTypes,
 		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
-		pollingCore : pollingCore
+		pollingCore : pollingCore,
+		saveUserCourses : saveUserCourses
 	};
 }

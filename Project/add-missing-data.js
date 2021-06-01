@@ -5,19 +5,12 @@ const data = require('./core-data-transformer.js')();
 module.exports = function() {
 
 	const loadAllProgrammes = async function () {
-		console.log("\n[Add Missing Data] - Passing by add missing data... ");
 		const response = await data.loadAllProgrammes();
-		console.log("\n[Add Missing Data] - Received info: " + JSON.stringify(response));
+
 		/*** Adding missing data ***/
 		const mockDataToBeAdded = await getMockData('./data/programmes');
 
-		response.metadata = {
-			'lastModified': 1625377719544 //1622207500 - Fri, 28 May 2021 13:11:40 GMT
-		};
-
-		const improvedMetadata = response.metadata;
-
-		const improvedData = response.data
+		const improvedData = response
 		.map( programme => {
 			const mockProgramme = mockDataToBeAdded.entities
 			.find( mockEntities => mockEntities.properties.programmeId == programme.programmeId).properties;
@@ -29,10 +22,6 @@ module.exports = function() {
 		});
 
 		return improvedData;
-	/*	return {
-			"data" : improvedData,
-			"metadata" : improvedMetadata
-		}*/
 	};
 
 	const loadAllProgrammeOffers = async function (programmeId) {
@@ -112,6 +101,10 @@ module.exports = function() {
 		return data.pollingCore(authForPoll);
 	};
 
+	const saveUserCourses = function(user, courseId) {
+		return data.saveUserCourses(user, courseId);
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -121,7 +114,8 @@ module.exports = function() {
 		loadAuthenticationTypes : loadAuthenticationTypes,
 		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
-		pollingCore : pollingCore
+		pollingCore : pollingCore,
+		saveUserCourses : saveUserCourses
 	};
 }
 
