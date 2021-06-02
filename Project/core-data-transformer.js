@@ -185,9 +185,27 @@ module.exports = function() {
 
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
 		const receivedData = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection);
-		console.log('receivedData ' + JSON.stringify(receivedData));
 
-		return receivedData;		
+		return receivedData.properties.subComponents		
+		.map(subcomponent => subcomponent.properties)
+		.reduce(function(response, currentClassSection) {
+			const classSection = {
+				'startDate': currentClassSection.dtstart.value.substring(
+					currentClassSection.dtstart.value.lastIndexOf("T") + 1, 
+					currentClassSection.dtstart.value.lastIndexOf("Z")
+				),
+				'endDate': currentClassSection.dtend.value.substring(
+					currentClassSection.dtend.value.lastIndexOf("T") + 1, 
+					currentClassSection.dtend.value.lastIndexOf("Z")
+				),
+				'location': currentClassSection.location.value.split("Room ")[1],
+				'weekday': currentClassSection.rrule.value.substring(
+					currentClassSection.rrule.value.lastIndexOf("=") + 1
+				)
+			};
+			response.push(classSection);
+			return response;
+		}, []);		
 	}
 
 	return {

@@ -65,12 +65,31 @@ module.exports = function(data, database) {
 	};
 
 	const getUserSchedule = async function(user) {
+		let schedule = [];
 		if(user) {
-			// TO DO - Get user schedule
+			const calendarTerm = '1718v'; // TO DO
+			const userCourses = await data.loadUserSubscribedCourses(user);
+			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
+
+			for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
+				const courseId = userCoursesOfPresentCalendarTerm[i].courseId;
+				const classes = await data.loadUserSubscribedClassesInCourse(user, courseId);
+
+				for(let j = 0; j < classes.length; j++) {
+					const classSectionSchedule = await data.loadClassSectionSchedule(courseId, calendarTerm, classes[j])
+					
+					schedule = classSectionSchedule.map(classSection => {
+						classSection['acronym'] = userCoursesOfPresentCalendarTerm[i].acronym;
+						classSection['classSection'] = classes[j];
+						return classSection;
+					});
+				}
+			}
 		}
 
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
+			schedule: schedule,
 			user: user, 
 			page: "schedule"
 		});

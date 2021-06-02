@@ -1,15 +1,50 @@
 <div class="container-fluid pageBeginning">
     <h3 class="text-center">Horário</h3>
     <div class="divSpacing">
-        {{#if myCourses}}
-
+        {{#if schedule}}
+            <br>
+            <table border="5" cellspacing="0" align="center">
+                <!-- TO DO - Make it generic -->
+                <tr>
+                    <td align="center" height="50" width="100"><b>Dia/Período</b></td>
+                    <td align="center" height="50" width="100"><b>Segunda</b></td>
+                    <td align="center" height="50" width="50"><b>Sala</b></td>
+                    <td align="center" height="50" width="100"><b>Terça</b></td>
+                    <td align="center" height="50" width="50"><b>Sala</b></td>
+                    <td align="center" height="50" width="100"><b>Quarta</b></td>
+                    <td align="center" height="50" width="50"><b>Sala</b></td>
+                    <td align="center" height="50" width="100"><b>Quinta</b></td>
+                    <td align="center" height="50" width="50"><b>Sala</b></td>
+                    <td align="center" height="50" width="100"><b>Sexta</b></td>
+                    <td align="center" height="50" width="50"><b>Sala</b></td>
+                    <td align="center" height="50" width="100"><b>Sabádo</b></td>
+                    <td align="center" height="50" width="50"><b>Sala</b></td>
+                </tr>
+                {{#each schedule}}
+                <tr>
+                    <td align="center" height="50"><b>{{this.startDate}}-{{this.endDate}}</b></td>
+                    <td align="center" height="50"><b></b></td>
+                    <td align="center" height="50"><b></b></td>
+                    <td align="center" height="50"><b></b></td>
+                    <td align="center" height="50"><b></b></td>
+                    <td align="center" height="50"><b></b>{{this.acronym}} [{{this.classSection}}]</td>
+                    <td align="center" height="50"><b></b>{{this.location}}</td>
+                    <td align="center" height="50"><b></b></td>
+                    <td align="center" height="50"><b></b></td>
+                    <td align="center" height="50"><b></b></td>
+                    <td align="center" height="50"><b></b></td>
+                    <td align="center" height="50"><b></b></td>
+                    <td align="center" height="50"><b></b></td>
+                </tr>
+                {{/each}}
+            </table>
         {{else}}
             <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
         {{/if}}
     </div>
-    <br>
+  <!--  <br>
     <table border="5" cellspacing="0" align="center">
-        <!-- TO DO - Make it generic -->
+        
         <tr>
             <td align="center" height="50" width="100"><b>Dia/Período</b></td>
             <td align="center" height="50" width="100"><b>Segunda</b></td>
@@ -175,5 +210,5 @@
             <td align="center" height="50"><b></b></td>
             <td align="center" height="50"><b></b></td>
         </tr>
-    </table>
+    </table>-->
 </div>

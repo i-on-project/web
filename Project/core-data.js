@@ -377,11 +377,12 @@ module.exports = function() {
 				method: 'GET',
 				headers: {
 					'Authorization': read_token,
-					'Content-Type': contentType
+					'Accept': 'application/vnd.siren+json'
 				}
 			};
 	
-			return await coreRequest('/api/courses/'+ courseId +'/classes/' + calendarTerm + '/' + classSection + '/calendar', 200, options); // TO DO - change 
+
+			return await coreRequest('/api/courses/'+ courseId +'/classes/' + '1718i' + '/' + classSection + '/calendar', 200, options); // TO DO - change 
 
 		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {
