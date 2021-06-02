@@ -13,9 +13,9 @@ const client_id = process.env.CORE_CLIENT_ID; /// TO DO: In future remove dev cl
 const coreRequest = async function(endpoint, expectedStatus, options) {
 	// core_url + endpoint
 	const response = await fetch(core_url + endpoint, options);
-
+	
 	if(response.status != expectedStatus) throw response.status;
-
+	
 	return response.json();
 };
 
@@ -293,7 +293,55 @@ module.exports = function() {
 					throw error.SERVICE_FAILURE;
 			}
 		}
-	}
+	};
+
+	const deleteUserClass = async function(user, courseId, classSection) {
+		try {
+			const options = {
+				method: 'DELETE',
+				headers: {
+					'Authorization': user.token_type + ' ' + user.access_token,
+					'Content-Type': contentType
+				}
+			};
+		
+			const response = await fetch(core_url + '/api/users/classes/' + courseId + '/' + classSection, options);
+
+			if(response.status != 204) throw response.status; // TO DO - handle the status code
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const deleteUserCourse = async function(user, courseId) {
+		try {
+			const options = {
+				method: 'DELETE',
+				headers: {
+					'Authorization': user.token_type + ' ' + user.access_token,
+					'Content-Type': contentType
+				}
+			};
+
+			const response = await fetch(core_url + '/api/users/classes/' + courseId, options);
+
+			if(response.status != 204) throw response.status; // TO DO - handle the status code
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
 
 	return {
         loadAllProgrammes : loadAllProgrammes,
@@ -307,6 +355,8 @@ module.exports = function() {
 		pollingCore : pollingCore,
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse
+		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		deleteUserClass : deleteUserClass,
+		deleteUserCourse : deleteUserCourse
 	};
 }

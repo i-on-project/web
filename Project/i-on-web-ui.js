@@ -60,12 +60,29 @@ function webui(service, auth) {
 				await onErrorResponse(res, err, 'Failed to show User Courses');
 			}
 		},
-	
+
+		userCoursesEditUI: async function(req, res) {
+			try {
+				const data = await service.getUserCourses(req.user);
+				res.render('user-courses-edit', data);
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show User Courses');
+			}
+		},
+
+		userCoursesEdit: async function(req, res) {
+			try {
+				await service.editUserCourses(req.user, req.body);
+				res.redirect('/courses');
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show User Courses');
+			}
+		},
+
 		classesFromSelectedCourses: async function(req, res) {
 			try {
-				console.log('params ' + JSON.stringify(req.query['id']))
 				const data = await service.getClassesFromSelectedCourses(req.user, req.query['id']);
-				res.render('classes',data);
+				res.render('classes', data);
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Programme Offers');
 			}
@@ -187,6 +204,8 @@ function webui(service, auth) {
 	router.post('/classes', 			theWebUI.saveUserChosenCoursesAndClasses);	/// todo review
 
 	router.get(	'/courses',				theWebUI.userCourses	); 	/// Users courses page
+	router.get(	'/courses/edit',		theWebUI.userCoursesEditUI	);
+	router.post('/courses/edit',		theWebUI.userCoursesEdit	);
 	router.get(	'/schedule', 			theWebUI.userSchedule	);	/// Users schedule page
 	router.get(	'/calendar', 			theWebUI.userCalendar	);	/// Users calendar page
 

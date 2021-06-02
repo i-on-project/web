@@ -110,6 +110,23 @@ module.exports = function(data, database) {
 		});
 	};
 
+	const editUserCourses = async function(user, selectedCoursesAndClassesToDelete) {
+		if(user) {
+			for(let courseId in selectedCoursesAndClassesToDelete) {
+				if(Array.isArray(selectedCoursesAndClassesToDelete[courseId])) {
+					for(let i = 0; i < selectedCoursesAndClassesToDelete[courseId].length; i++)
+						await data.deleteUserClass(user, courseId, selectedCoursesAndClassesToDelete[courseId][i]);
+				} else {
+					await data.deleteUserClass(user, courseId, selectedCoursesAndClassesToDelete[courseId]);
+
+				}
+				const classes = await data.loadUserSubscribedClassesInCourse(user, courseId);
+				if(classes.length === 0)
+					await data.deleteUserCourse(user, courseId);
+			}
+		}
+	}
+
 	const getClassesFromSelectedCourses = async function(user, coursesIDs) {
 		const classesByCourses = [];
 		if(user) {
@@ -158,6 +175,7 @@ module.exports = function(data, database) {
 		getUserSchedule : getUserSchedule,
 		getUserCalendar : getUserCalendar,
 		getUserCourses : getUserCourses,
+		editUserCourses : editUserCourses,
 		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,		
 		getAboutData : getAboutData

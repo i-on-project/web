@@ -113,6 +113,14 @@ module.exports = function() {
 		return data.loadUserSubscribedClassesInCourse(user, courseId);
 	}
 
+	const deleteUserClass = function(user, courseId, classSection) {
+		return data.deleteUserClass(user, courseId, classSection);
+	}
+
+	const deleteUserCourse = function(user, courseId) {
+		return data.deleteUserCourse(user, courseId);
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -125,7 +133,9 @@ module.exports = function() {
 		pollingCore : pollingCore,
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse
+		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		deleteUserClass : deleteUserClass,
+		deleteUserCourse : deleteUserCourse
 	};
 }
 
