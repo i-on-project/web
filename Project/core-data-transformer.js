@@ -179,6 +179,17 @@ module.exports = function() {
 		return data.deleteUserCourse(user, courseId);
 	}
 
+	const editUser = function(user, newUsername) {
+		return data.editUser(user, newUsername);
+	}
+
+	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
+		const receivedData = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection);
+		console.log('receivedData ' + JSON.stringify(receivedData));
+
+		return receivedData;		
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -193,6 +204,8 @@ module.exports = function() {
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
 		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse
+		deleteUserCourse : deleteUserCourse,
+		editUser : editUser,
+		loadClassSectionSchedule : loadClassSectionSchedule
 	};
 }

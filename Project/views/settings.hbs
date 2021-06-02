@@ -5,16 +5,43 @@
     </div>
 
     <div class="row row-content align-items-center divSpacing">
-        <div class="col-12 col-sm-6">
-            <h5>Nome de utilizador: </h5>
-  
+        <div class="col-12 col-sm-2">
+            <h5>Nome de utilizador: </h5>       
+            <p>{{user.username}}</p>
         </div>
-        <div class="col col-sm-6">
-            <h5>Linguagem</h5>
-                <input type="checkbox" id="languageCheckbox">
-                <label for="languageCheckbox">Inglês</label>
-                <input type="checkbox" id="languageCheckbox">
-                <label for="languageCheckbox">Português</label>
-         </div>
+        <div class="col-12">
+            <button id="editButton" onclick=edit() class="btn btn-outline-dark">Editar</button>     
+            <form method="POST" action="/settings" style="display:none"> 
+                <input type="text" class="form-control" name="newUsername">
+                <button type="submit" class="btn btn-outline-dark">Guardar alterações</button>
+            </form>  
+            
+            <button id="backButton" onclick=back() style="display:none" class="btn btn-outline-dark">Cancelar</button>     
+        </div>
     </div>
 </div>
+
+<script>
+
+    function edit(){
+        let editButton = document.getElementById("editButton");
+        editButton.style.display = "none";
+
+        let backButton = document.getElementById("backButton");
+        backButton.style.display = "block";
+
+        let settingsForm = document.getElementById("settingsForm");
+        settingsForm.style.display = "block";
+    }
+
+    function back(){
+        let editButton = document.getElementById("editButton");
+        editButton.style.display = "block";
+
+        let backButton = document.getElementById("backButton");
+        backButton.style.display = "none";
+        
+        let settingsForm = document.getElementById("settingsForm");
+        settingsForm.style.display = "none";
+    }
+</script>

@@ -343,6 +343,56 @@ module.exports = function() {
 		}
 	};
 
+	const editUser = async function(user, newUsername) {
+		try {
+			const options = {
+				method: 'PUT',
+				headers: {
+					'Authorization': user.token_type + ' ' + user.access_token,
+					'Content-Type': contentType
+				},
+				body: {
+					"name": newUsername
+				}
+			};
+
+			const response = await fetch(core_url + '/api/users', options);
+
+			if(response.status != 204) throw response.status; // TO DO - handle the status code
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
+		try {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
+	
+			return await coreRequest('/api/courses/'+ courseId +'/classes/' + calendarTerm + '/' + classSection + '/calendar', 200, options); // TO DO - change 
+
+		} catch (err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -357,6 +407,8 @@ module.exports = function() {
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
 		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse
+		deleteUserCourse : deleteUserCourse,
+		editUser : editUser,
+		loadClassSectionSchedule : loadClassSectionSchedule
 	};
 }

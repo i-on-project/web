@@ -168,6 +168,24 @@ module.exports = function(data, database) {
 		});
 	};
 
+	const getSettingsPage = async function(user){
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
+			user: user
+		});
+	};
+	
+	const editSettings = async function(user, newUsername) {
+		if(user) {
+			console.log('newUsername ---------> ' + newUsername.name)
+			await data.editUser(user, newUsername.name);
+		}
+		const commonInfo = await getProgrammesByDegree(data);
+		return Object.assign(commonInfo, {
+			user: user
+		});
+	};
+
 	return {
 		getHome : getHome,
 		getProgrammeCalendarTermOffers : getProgrammeCalendarTermOffers,
@@ -178,7 +196,9 @@ module.exports = function(data, database) {
 		editUserCourses : editUserCourses,
 		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,		
-		getAboutData : getAboutData
+		getAboutData : getAboutData,
+		getSettingsPage : getSettingsPage,
+		editSettings : editSettings
 	};
 	
 }

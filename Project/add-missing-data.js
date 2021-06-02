@@ -121,6 +121,14 @@ module.exports = function() {
 		return data.deleteUserCourse(user, courseId);
 	}
 
+	const editUser = function(user, newUsername) {
+		return data.editUser(user, newUsername);
+	}
+
+	const loadClassSectionSchedule = function(courseId, calendarTerm, classSection) {
+		return data.loadClassSectionSchedule(courseId, calendarTerm, classSection);
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -135,7 +143,9 @@ module.exports = function() {
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
 		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse
+		deleteUserCourse : deleteUserCourse,
+		editUser : editUser,
+		loadClassSectionSchedule : loadClassSectionSchedule
 	};
 }
 

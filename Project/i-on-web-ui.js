@@ -108,8 +108,17 @@ function webui(service, auth) {
 
 		settings: async function(req, res) { /// Settings Page
 			try {
-				// TO DO
+				const data = await service.getSettingsPage(req.user);
 				res.render('settings', data);
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show About Page');
+			}
+		},
+
+		editSettings: async function(req, res) {
+			try {
+				await service.editSettings(req.user, req.body);
+				res.redirect('/settings')
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
@@ -210,7 +219,8 @@ function webui(service, auth) {
 	router.get(	'/calendar', 			theWebUI.userCalendar	);	/// Users calendar page
 
 	router.get(	'/about', 				theWebUI.about			);	/// About Page
-	router.get(	'/settings', 			theWebUI.settings		);	/// Settings Page
+	router.get('/settings', 			theWebUI.settings		);  /// Settings Page
+	router.post('/settings', 			theWebUI.editSettings	);
 
 	/*** Auth ***/
 	router.get(	'/auth-methods',		theWebUI.getAuthTypes	);	/// Authentication methods page
