@@ -1,22 +1,30 @@
-<div class="container-fluid">
+<div class="container-fluid pageBeginning">
     
     <div class="row row-content justify-content-center">
         <h3>Definições</h3>
     </div>
 
-    <div class="row row-content align-items-center divSpacing">
-        <div class="col-12 col-sm-2">
-            <h5>Nome de utilizador: </h5>       
-            <p>{{user.username}}</p>
-        </div>
-        <div class="col-12">
-            <button id="editButton" onclick=edit() class="btn btn-outline-dark">Editar</button>     
-            <form method="POST" action="/settings" style="display:none"> 
-                <input type="text" class="form-control" name="newUsername">
-                <button type="submit" class="btn btn-outline-dark">Guardar alterações</button>
-            </form>  
-            
-            <button id="backButton" onclick=back() style="display:none" class="btn btn-outline-dark">Cancelar</button>     
+    <div class="container"></div>
+        <div class="row row-content align-items-center divSpacing">
+            <div class="col-12 col-sm-2">
+                <h5>Nome de utilizador: </h5>       
+                <p>{{user.username}}</p>
+            </div>
+            <div class="col-12">
+                <button id="editButton" onclick=edit() class="btn btn-outline-dark">Editar perfil</button>  
+
+                <form id="settingsForm" method="POST" action="/settings" style="display:none">
+                
+                    <label class="col-sm-2 col-form-label">Nome de utilizador:</label><br>
+                    <input type="text" class="form-control col-sm-5" name="description" required>
+                    <br>
+                    <button type="submit" class="btn btn-dark">Guardar alterações</button>
+                    <button  type="button" onclick=back() class="btn btn-outline-dark">Cancelar</button>  
+                     
+                </form><br>
+
+                  
+            </div>
         </div>
     </div>
 </div>
@@ -24,24 +32,13 @@
 <script>
 
     function edit(){
-        let editButton = document.getElementById("editButton");
-        editButton.style.display = "none";
-
-        let backButton = document.getElementById("backButton");
-        backButton.style.display = "block";
-
-        let settingsForm = document.getElementById("settingsForm");
-        settingsForm.style.display = "block";
+        $('#editButton').hide();
+        $('#settingsForm').show();
     }
 
-    function back(){
-        let editButton = document.getElementById("editButton");
-        editButton.style.display = "block";
-
-        let backButton = document.getElementById("backButton");
-        backButton.style.display = "none";
-        
-        let settingsForm = document.getElementById("settingsForm");
-        settingsForm.style.display = "none";
+    function back() {
+        $('#editButton').show();
+        $('#settingsForm').hide();
     }
+
 </script>

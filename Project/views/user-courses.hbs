@@ -1,30 +1,70 @@
 <div class="container-fluid pageBeginning">
+
     <h3 class="text-center">As minhas disciplinas</h3>
 
     <div class="divSpacing">
 
         {{#if userCoursesAndClasses}} <!-- If the user has selected any courses -->
-            {{#each userCoursesAndClasses}} <!-- Iterate all user courses -->
-                {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->
-                    <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
-                        {{../this.name}} - {{this}} <input class="pull-right" type="checkbox" style="display:none">
-                    </div>
-                {{/each}}
-            {{/each}}
+   
             
-            <div class="divSpacing">
-                <a class="btn btn-outline-dark" href="/courses/edit" role="button">Editar</a>
+            <form method="POST" action="/courses/edit">
+
+                {{#each userCoursesAndClasses}} <!-- Iterate all user courses -->
+                    {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->
+                        <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
+                            {{../this.name}} - {{this}} 
+                            <input class="pull-right toDeleteCheckBoxes" type="checkbox" style="display:none" name={{../this.courseId}} value={{this}}>
+                        </div>
+                    {{/each}}
+                {{/each}}
+
+                <div id="editing" class="divSpacing" style="display:none">
+                    <button type="button" onclick=back() class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</button>
+                    <button type="submit" onclick=clickConfirm() class="btn btn-outline-dark">Guardar alterações</button>
+                    <!-- TO DO: href is hardcoded for testing, change it -->
+                    <button type="button" class="btn btn-outline-dark pull-right" href="/programme-offers/1">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+                </div>
+
+            </form> 
+
+            <div id="notEditing" class="divSpacing">
+                <button onclick=edit() class="btn btn-outline-dark">Editar</a>
                 <!-- TO DO: href is hardcoded for testing, change it -->
-                <a class="btn btn-outline-dark pull-right" href="/programme-offers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                <button class="btn btn-outline-dark pull-right" href="/programme-offers/1">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
             </div>
+
         {{else}}
+
             <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
             <div class="divSpacing">
                 <!-- TO DO: href is hardcoded for testing, change it -->
                 <a class="btn btn-outline-dark pull-right" href="/programme-offers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
             </div>
+
         {{/if}}
 
     </div>
 
 </div>
+
+
+<script>
+
+    function edit(){
+        console.log("1")
+        $('#notEditing').hide();
+        $('#editing').show();
+        $('.toDeleteCheckBoxes').show();
+    }
+
+    function back() {
+        console.log("2")
+        $('#notEditing').show();
+        $('#editing').hide();
+        $('.toDeleteCheckBoxes').hide();
+    }
+
+    function clickConfirm() {
+        confirm("Tem a certeza que pretende eliminar os items selecionados?");
+    }
+</script>
