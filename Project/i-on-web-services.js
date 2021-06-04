@@ -43,9 +43,10 @@ module.exports = function(data, database) {
 	};
 
 	const getProgrammeData = async function(programmeId, user){
+
 		const programme = await data.loadProgrammeData(programmeId);
 		const offers = await data.loadAllProgrammeOffers(programmeId);
-
+	
 		const offersByAcademicTerms = offers
 		.reduce( (offersByTerms, offer) => {
 			return offer.termNumber.reduce( (offersByTerms, term) => {
@@ -196,7 +197,6 @@ module.exports = function(data, database) {
 	
 	const editSettings = async function(user, newUsername) {
 		if(user) {
-			console.log('newUsername ---------> ' + newUsername.name)
 			await data.editUser(user, newUsername.name);
 		}
 		const commonInfo = await getProgrammesByDegree(data);
