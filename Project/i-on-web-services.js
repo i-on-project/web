@@ -71,23 +71,31 @@ module.exports = function(data, database) {
 			const calendarTerm = '1718v'; // TO DO
 			const userCourses = await data.loadUserSubscribedCourses(user);
 			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
-
+			
 			for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
 				const courseId = userCoursesOfPresentCalendarTerm[i].courseId;
 				const classes = await data.loadUserSubscribedClassesInCourse(user, courseId);
 
 				for(let j = 0; j < classes.length; j++) {
 					const classSectionSchedule = await data.loadClassSectionSchedule(courseId, calendarTerm, classes[j])
-					
-					schedule = classSectionSchedule.map(classSection => {
+
+					schedule = schedule.concat(classSectionSchedule.map(classSection => {
 						classSection['acronym'] = userCoursesOfPresentCalendarTerm[i].acronym;
 						classSection['classSection'] = classes[j];
 						return classSection;
-					});
+					}));
 				}
 			}
 		}
+		/*schedule = [
+			{"startDate":"10:00","endDate":"12:30","location":"G.2.1","weekday":"MO","acronym":"SL","classSection":"1D"},
+			{"startDate":"10:00","endDate":"12:30","location":"G.2.4","weekday":"WE","acronym":"SL","classSection":"1D"},
+			{"startDate":"08:00","endDate":"11:00","location":"G.2.1","weekday":"TU","acronym":"DAW","classSection":"2D"},
+			{"startDate":"09:00","endDate":"12:00","location":"C.2.4","weekday":"FR","acronym":"GAP","classSection":"3D"},
+			{"startDate":"10:00","endDate":"13:00","location":"C.2.4","weekday":"FR","acronym":"PI","classSection":"1D"}]*/
 
+			
+		console.log("test --> " + JSON.stringify(schedule));
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			schedule: schedule,

@@ -192,11 +192,11 @@ module.exports = function() {
 			const classSection = {
 				'startDate': currentClassSection.dtstart.value.substring(
 					currentClassSection.dtstart.value.lastIndexOf("T") + 1, 
-					currentClassSection.dtstart.value.lastIndexOf("Z")
+					currentClassSection.dtstart.value.lastIndexOf(":")
 				),
 				'endDate': currentClassSection.dtend.value.substring(
 					currentClassSection.dtend.value.lastIndexOf("T") + 1, 
-					currentClassSection.dtend.value.lastIndexOf("Z")
+					currentClassSection.dtend.value.lastIndexOf(":")
 				),
 				'location': currentClassSection.location.value.split("Room ")[1],
 				'weekday': currentClassSection.rrule.value.substring(
