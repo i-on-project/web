@@ -5,7 +5,6 @@
     <div class="divSpacing">
 
         {{#if userCoursesAndClasses}} <!-- If the user has selected any courses -->
-   
             
             <form method="POST" action="/courses/edit">
 
@@ -19,23 +18,29 @@
                 {{/each}}
 
                 <div id="editing" class="divSpacing" style="display:none">
+                    <!-- Back button -->
                     <button type="button" onclick=back() class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</button>
-                    <button type="submit" onclick=clickConfirm() class="btn btn-outline-dark">Guardar alterações</button>
-                    <!-- TO DO: href is hardcoded for testing, change it -->
-                    <button type="button" class="btn btn-outline-dark pull-right" href="/programme-offers/1">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+     
+                    <!-- Choose more classes button -->
+                    <a type="button" class="btn btn-outline-dark pull-right" href="/programme-offers/1">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                                               <!-- TO DO: href is hardcoded for testing, change it -->
+
+                    <!-- Save button -->
+                    <button type="submit" onclick=clickConfirm() class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remover turmas</button>
                 </div>
 
-            </form> 
-
-            <div id="notEditing" class="divSpacing">
-                <button onclick=edit() class="btn btn-outline-dark">Editar</a>
+                <div id="notEditing" class="divSpacing">
+                    <button type="button" onclick=edit() class="btn btn-outline-dark">Editar</a>
+                 </div>
                 <!-- TO DO: href is hardcoded for testing, change it -->
-                <button class="btn btn-outline-dark pull-right" href="/programme-offers/1">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-            </div>
 
+            </form>
+
+   
         {{else}}
 
             <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
+
             <div class="divSpacing">
                 <!-- TO DO: href is hardcoded for testing, change it -->
                 <a class="btn btn-outline-dark pull-right" href="/programme-offers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
