@@ -297,7 +297,6 @@ hr.solid {
 
 /* Schedule  */
 
-
 .schedule{
   margin:1rem .5rem;
   background-color: #D3D3D3;
@@ -311,7 +310,6 @@ hr.solid {
 
 /*   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); */
   grid-template-columns: [time] 100px
-    [sunday] minmax(auto, auto) 
     [monday] minmax(auto, auto) 
     [tuesday] minmax(auto, auto) 
     [wednesday] minmax(auto, auto) 
@@ -413,7 +411,6 @@ hr.solid {
   border: 2px solid #61bd4f;
 }
 
-.schedule-sunday { grid-column: sunday / span 1; }
 .schedule-monday { grid-column: monday / span 1; }
 .schedule-tuesday { grid-column: tuesday / span 1; }
 .schedule-wednesday { grid-column: wednesday / span 1; }
@@ -421,7 +418,7 @@ hr.solid {
 .schedule-friday { grid-column: friday / span 1; }
 .schedule-saturday { grid-column: saturday / span 1; }
 
-.schedule-row-from-sunday { grid-column: sunday / span 7;}
+.schedule-row-from-monday { grid-column: monday / span 6;}
 /* .schedule-row-to-saturday { grid-column-end: saturday; } */
 
 .time-from-s { grid-row-start: s; }
@@ -504,7 +501,6 @@ hr.solid {
       display: inline-grid;
       overflow: hidden;
       grid-template-columns: [time] 40px
-        [sunday] minmax(auto, 125px) 
         [monday] minmax(auto, 125px) 
         [tuesday] minmax(auto, 125px) 
         [wednesday] minmax(auto, 125px) 
