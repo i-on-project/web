@@ -208,6 +208,47 @@ module.exports = function() {
 		}, []);		
 	}
 
+	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm) {
+		const receivedData = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
+	
+		return receivedData.properties.subComponents		
+		.reduce(function(response, currentEvent) {
+			let event = {
+				"event": currentEvent.properties.summary.value
+			}
+
+			if(currentEvent.type === "todo") { // The event is e.g. an assignment
+				event["date"] = currentEvent.properties.due.value.substring( 0,
+						currentEvent.properties.due.value.lastIndexOf("T")
+					);
+				event["time"] = currentEvent.properties.due.value.substring(currentEvent.properties.due.value.lastIndexOf("T") + 1,
+						currentEvent.properties.due.value.lastIndexOf(":")
+					);
+
+				response.assignments.push(event);
+
+			} else if (currentEvent.type === "event") { // The event is e.g. an exam or test
+				event["date"] = currentEvent.properties.dtstart.value.substring( 0,
+						currentEvent.properties.dtstart.value.lastIndexOf("T")
+					);
+				event["starTime"] = currentEvent.properties.dtstart.value.substring(currentEvent.properties.dtstart.value.lastIndexOf("T") + 1,
+					currentEvent.properties.dtstart.value.lastIndexOf(":")
+				);
+				event["endTime"] = currentEvent.properties.dtend.value.substring(currentEvent.properties.dtend.value.lastIndexOf("T") + 1,
+					currentEvent.properties.dtend.value.lastIndexOf(":")
+				);
+				event["location"] = currentEvent.properties.location.value.split("Room ")[1];
+
+				response.testsAndExams.push(event);
+			}
+
+			return response;
+		}, {
+			"assignments": [],
+			"testsAndExams": []
+		});		
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -224,6 +265,7 @@ module.exports = function() {
 		deleteUserClass : deleteUserClass,
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadClassSectionSchedule : loadClassSectionSchedule
+		loadClassSectionSchedule : loadClassSectionSchedule,
+		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm
 	};
 }

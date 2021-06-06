@@ -9,8 +9,11 @@ module.exports = function(data, database) {
 			// TO DO - Show user next events
 		}
 		const commonInfo = await getProgrammesByDegree(data);
+		const events = await getUserCalendar(user);
+
 		return Object.assign(commonInfo, 
 			{
+				events: events.events,
 				user: user, 
 				page: 'home'
 			}
@@ -94,8 +97,6 @@ module.exports = function(data, database) {
 			{"startDate":"09:00","endDate":"12:00","location":"C.2.4","weekday":"FR","acronym":"GAP","classSection":"3D"},
 			{"startDate":"10:00","endDate":"13:00","location":"C.2.4","weekday":"FR","acronym":"PI","classSection":"1D"}]*/
 
-			
-		console.log("test --> " + JSON.stringify(schedule));
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			schedule: schedule,
@@ -105,12 +106,28 @@ module.exports = function(data, database) {
 	};
 
 	const getUserCalendar = async function(user) {
+		let events = {
+			"assignments": [],
+			"testsAndExams": []
+		};
+
 		if(user) {
 			// TO DO - Get user calendar
+			const calendarTerm = '1718v'; // TO DO
+			const userCourses = await data.loadUserSubscribedCourses(user);
+			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
+
+			for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
+				const courseId = userCoursesOfPresentCalendarTerm[i].courseId;
+				const courseEvents = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
+				events.assignments = events.assignments.concat(courseEvents.assignments);
+				events.testsAndExams = events.testsAndExams.concat(courseEvents.testsAndExams);
+			}
 		}
 
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
+			events: events,
 			user: user, 
 			page: "calendar"
 		});

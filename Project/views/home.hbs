@@ -11,8 +11,40 @@
             Para usufruires de todas estas funcionalidades apenas tens de te autenticar na nossa aplicação.</p>
         </div>
     </div>
-
-    <div class="row row-content justify-content-center">
+    
+    {{#if user}}
+        <div class="row row-content justify-content-center">
+            <h3>Próximos eventos</h3>
+        </div>
+        <div class="row row-content">
+            <div class="col-12 col-sm-6">
+                <h4 class="text-center">Trabalhos</h4>
+                {{#each events.assignments}}
+                    <div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+                        <h5>{{this.event}}</h5>
+                        <p><strong>Data de Entrega:</strong> {{this.date}}         <strong>Hora:</strong> {{this.time}}</p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>         
+                    </div>
+                {{/each}}
+            </div>
+            <div class="col col-sm-6">
+                <h4 class="text-center">Testes e Exames</h4>
+                {{#each events.testsAndExams}}
+                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                        <h5>{{this.event}}</h5>
+                        <p><strong>Data:</strong> {{this.date}}         <strong>Duração:</strong> {{this.starTime}}-{{this.endTime}}         <strong>Sala:</strong> {{this.location}}</p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>         
+                    </div>            
+        {{/each}}
+            </div>
+        </div>
+    {{/if}}
+    
+    <div class="row row-content justify-content-center divSpacing">
         <h3>Cursos</h3>
     </div>
 

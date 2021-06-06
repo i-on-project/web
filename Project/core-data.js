@@ -394,6 +394,30 @@ module.exports = function() {
 		}
 	}
 
+	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm) {
+		try {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Accept': 'application/vnd.siren+json'
+				}
+			};
+	
+
+			return await coreRequest('/api/courses/'+ courseId +'/classes/' + '1718v' + '/calendar', 200, options); // TO DO - change 
+
+		} catch (err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -410,6 +434,7 @@ module.exports = function() {
 		deleteUserClass : deleteUserClass,
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadClassSectionSchedule : loadClassSectionSchedule
+		loadClassSectionSchedule : loadClassSectionSchedule,
+		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm
 	};
 }

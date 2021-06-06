@@ -129,6 +129,10 @@ module.exports = function() {
 		return data.loadClassSectionSchedule(courseId, calendarTerm, classSection);
 	}
 
+	const loadCourseEventsInCalendarTerm = function(courseId, calendarTerm) {
+		return data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -145,7 +149,8 @@ module.exports = function() {
 		deleteUserClass : deleteUserClass,
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadClassSectionSchedule : loadClassSectionSchedule
+		loadClassSectionSchedule : loadClassSectionSchedule,
+		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm
 	};
 }
 

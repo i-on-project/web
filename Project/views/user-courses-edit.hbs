@@ -14,7 +14,7 @@
             
             <div class="divSpacing">
                 <a class="btn btn-outline-dark" href="/courses" role="button"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</a>
-                <button type="submit" onclick=clickConfirm() class="btn btn-outline-dark">Guardar alterações</button>
+                <button type="submit"  onsubmit="return confirm('Do you really want to submit the form?');" class="btn btn-outline-dark">Guardar alterações</button>
                 <!-- TO DO: href is hardcoded for testing, change it -->
                 <a class="btn btn-outline-dark pull-right" href="/programme-offers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
             </div>
@@ -34,6 +34,6 @@
  <!-- TO DO - Implement --> 
 <script>
     function clickConfirm() {
-        confirm("Tem a certeza que pretende eliminar os items selecionados?");
+        return confirm("Tem a certeza que pretende eliminar os items selecionados?");
     }
 </script>
