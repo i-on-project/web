@@ -24,12 +24,11 @@ async function configuration() {
         data = require('./mock-data.js')();
     } else {
         const core = require('./core-data.js')();
-
         /// Decorators
         const coreTransformer = require('./core-data-transformer.js')(core);
-        //const addMissingData = require('./add-missing-data.js')(coreTransformer);
+        const addMissingData = require('./add-missing-data.js')(coreTransformer);
         //data = require('./i-on-web-cache.js')(addMissingData);
-        data = require('./add-missing-data.js')(coreTransformer); 
+        data = require('./add-missing-data.js')(addMissingData); 
     }
 
     /// Auth

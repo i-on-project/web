@@ -130,7 +130,7 @@ function webui(service, auth) {
 			try {
 				//commonInfo = await getPagesCommonInfo(service);	
 				const data = await auth.getAuthenticationTypes();
-				
+
 				res.render(
 					'auth_methods',
 					Object.assign(
@@ -150,7 +150,7 @@ function webui(service, auth) {
 			let commonInfo;
 
 			try {
-
+				
 				//commonInfo = await getPagesCommonInfo(service);
 				const data = await auth.getAuthMethodFeatures(args['type']);
 				
