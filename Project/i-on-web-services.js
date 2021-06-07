@@ -9,7 +9,7 @@ module.exports = function(data, database) {
 			// TO DO - Show user next events
 		}
 		const commonInfo = await getProgrammesByDegree(data);
-		const events = await getUserCalendar(user);
+		const events = await getUserEvents(user);
 
 		return Object.assign(commonInfo, 
 			{
@@ -27,7 +27,7 @@ module.exports = function(data, database) {
 		.map(offer => offer.courseId)
 		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
 
-		const calendarTerm = "1718v"; // TO DO
+		const calendarTerm = await getCurrentCalendarTerm(data);
 
 		const filteredCoursesId = [];
 		for(let i = 0; i < courseIDs.length; i++) {
@@ -71,7 +71,7 @@ module.exports = function(data, database) {
 	const getUserSchedule = async function(user) {
 		let schedule = [];
 		if(user) {
-			const calendarTerm = '1718v'; // TO DO
+			const calendarTerm = await getCurrentCalendarTerm(data);
 			const userCourses = await data.loadUserSubscribedCourses(user);
 			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
 			
@@ -90,6 +90,7 @@ module.exports = function(data, database) {
 				}
 			}
 		}
+		// Test
 		/*schedule = [
 			{"startDate":"10:00","endDate":"12:30","location":"G.2.1","weekday":"MO","acronym":"SL","classSection":"1D"},
 			{"startDate":"10:00","endDate":"12:30","location":"G.2.4","weekday":"WE","acronym":"SL","classSection":"1D"},
@@ -105,15 +106,14 @@ module.exports = function(data, database) {
 		});
 	};
 
-	const getUserCalendar = async function(user) {
+	const getUserEvents = async function(user) {
 		let events = {
 			"assignments": [],
 			"testsAndExams": []
 		};
 
 		if(user) {
-			// TO DO - Get user calendar
-			const calendarTerm = '1718v'; // TO DO
+			const calendarTerm = await getCurrentCalendarTerm(data);
 			const userCourses = await data.loadUserSubscribedCourses(user);
 			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
 
@@ -136,7 +136,7 @@ module.exports = function(data, database) {
 	const getUserCourses = async function(user) {
 		const userCoursesAndClasses = []; 
 		if(user) {
-			const calendarTerm = '1718v'; // TO DO
+			const calendarTerm = await getCurrentCalendarTerm(data);
 			const userCourses = await data.loadUserSubscribedCourses(user);
 			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
 			
@@ -235,7 +235,7 @@ module.exports = function(data, database) {
 		getProgrammeCalendarTermOffers : getProgrammeCalendarTermOffers,
 		getProgrammeData : getProgrammeData,
 		getUserSchedule : getUserSchedule,
-		getUserCalendar : getUserCalendar,
+		getUserEvents : getUserEvents,
 		getUserCourses : getUserCourses,
 		editUserCourses : editUserCourses,
 		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
@@ -248,6 +248,12 @@ module.exports = function(data, database) {
 }
 
 /******* Helper function *******/
+
+const getCurrentCalendarTerm = async function(data) { 
+	return '1718v'; // TO DO
+}
+
+
 const getProgrammesByDegree = async function(data){
 
 	const programmes = await data.loadAllProgrammes();

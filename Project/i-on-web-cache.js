@@ -32,7 +32,7 @@ const getData = async function(key, fetchNewData) {
 
 }
 
-module.exports = function() {
+module.exports = function(data) {
 
 	const loadAllProgrammes = async function() {
 		console.log("\n[Cache] - Passing by... ");

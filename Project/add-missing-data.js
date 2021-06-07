@@ -1,8 +1,6 @@
 'use strict'
 
-const data = require('./core-data-transformer.js')();
-
-module.exports = function() {
+module.exports = function(data) {
 
 	const loadAllProgrammes = async function () {
 		const response = await data.loadAllProgrammes();

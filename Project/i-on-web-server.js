@@ -13,12 +13,24 @@ async function configuration() {
     /// Database
     const storageCreator = require('./i-on-web-db-elastic.js');
     const database = storageCreator('http://localhost:9200'); // TO DO - Make it generic
-    await database.initializeDatabaseIndexes(); /// Método auxiliar para inicialização do indice na database
+    await database.initializeDatabaseIndexes();               /// Initialize elastic indexes
  
     /// Data
-    //const dataModule = process.env.OPERATION_MODE == "standalone"? './mock-data.js' : './core-data.js';
-    //const data = require(dataModule)();
-    const data = require('./add-missing-data.js')();
+    //const dataModule = process.env.OPERATION_MODE == "standalone" ? './mock-data.js' : './core-data.js';
+
+    let data;
+
+    if(process.env.OPERATION_MODE === "standalone") {
+        data = require('./mock-data.js')();
+    } else {
+        const core = require('./core-data.js')();
+
+        /// Decorators
+        const coreTransformer = require('./core-data-transformer.js')(core);
+        //const addMissingData = require('./add-missing-data.js')(coreTransformer);
+        //data = require('./i-on-web-cache.js')(addMissingData);
+        data = require('./add-missing-data.js')(coreTransformer); 
+    }
 
     /// Auth
     const auth = require('./i-on-web-auth.js')(app, data, database);
@@ -35,8 +47,10 @@ async function configuration() {
     /// Middleware
     app.use('/auth-api', webAuthApi);
     app.use(webUI);
+
     app.use('/dependecies', express.static('node_modules'));
     app.use('/public', express.static('static-files'));
+    
     app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)
 
     app.listen(port);

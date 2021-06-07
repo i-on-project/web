@@ -45,7 +45,7 @@ function webui(service, auth) {
 
 		userCalendar: async function(req, res) {
 			try {
-				const data = await service.getUserCalendar(req.user);
+				const data = await service.getUserEvents(req.user);
 				res.render('user-calendar', data);
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Calendar');
