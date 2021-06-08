@@ -83,12 +83,8 @@ module.exports = function(data) {
 		return response;
 	};
 
-	const loadAuthenticationTypes = function () {
-		return data.loadAuthenticationTypes();
-	};
-
-	const loadAuthenticationMethodFeatures = function () {
-		return data.loadAuthenticationMethodFeatures();
+	const loadAuthenticationMethodsAndFeatures = function () {
+		return data.loadAuthenticationMethodsAndFeatures();
 	};
 
 	const submitInstitutionalEmail = function(email) {
@@ -137,8 +133,7 @@ module.exports = function(data) {
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
-		loadAuthenticationTypes : loadAuthenticationTypes,
-		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
+		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,

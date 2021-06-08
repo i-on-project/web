@@ -1,92 +1,136 @@
-<br><div class="row justify-content-center">
+<br><div id="showAllMethods" class="row justify-content-center">
     <div class="col-md-4">
-		<h2 class="text-center">Iniciar sessão</h2><br>
-
-        <form action="/login" method="POST">
-			<!-- Email -->
-            <div class="form-group">
-                <label class="col-form-labels">Email institucional:</label>
-                <input type="text" class="form-control" id="email">
-                <p>Dominios disponiveis: {{this.allowed_domains}}</p>
-            </div>
-
-			<!-- Submit button -->
-            <div class="form-group">
-				<button type="submit" class="form-control btn btn-dark" id="submit-button" onclick="submitFunction()">Iniciar sessão</button>
-            </div>
-            
-            <div id="loading"></div>
+		<h2 class="text-center">Métodos de autenticação</h2><br>
+		
+        <form>
+			{{#each this}}
+				<div class="form-group">
+					<a class="button" onclick=showSpecifiedMethod('{{this}}')>{{this.type}}</a>
+				</div>
+			{{/each}}
         </form>
+
     </div>
 </div>
 
 <script>
-    async function submitFunction() {
 
-        // Deactivate button
-        const button = document.querySelector('#submit-button');
-        button.disabled = true;
+	function showSpecifiedMethod(method) {
+        console.log("showSpecifiedMethod-->" + method.type)
+        $('#showAllMethods').hide();
+        $(`#${method.type}`).show();
+    }
 
-        // Notificate the user that authentication is in progress
-        const loading = document.querySelector("#loading");
-        
-        loading.innerHTML += 
-        ' <br><br> ' + 
-        ' <div class="row justify-content-center"> ' + 
-            //' <p> Autenticação em progresso ..</p>' + 
-            '<div class="divSpacing lds-roller" role="status"><div></div><div></div><div></div><div>' +
-            //' <div class="spinner-border" role="status">' + 
-            //'<span class="sr-only">Loading...</span>' +
-            //'</div>' +
-        '</div>'
-
-        // Request to auth api to obtain auth_req_id and expiration
-        const data = {
-            'email' : document.querySelector('#email').value
-        };
-
-        const response = await fetch("/auth-api/email", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data),
-        });
-
-        const authData = await response.json();
-
-        const auth_req_id = authData.auth_req_id;
-        let counter = authData.expires_in;
-
-        const polling_uri = `/auth-api/${auth_req_id}/poll`
-
-        // Polling loop
-        console.log("-> " + counter + " -> " + auth_req_id + " -> " + polling_uri  );
-
-
-        const pollingLoop = setInterval(async () => {
-
-            counter-=5;
-            console.log("counter -> " + counter);
-
-            const pollingResponse = await fetch(polling_uri);
-            console.log("status -> " + pollingResponse.status)
-            
-            if(pollingResponse.status === 200) {
-                console.log("-> sucesso");
-                loading.innerHTML = "<p>Autenticação realizada com sucesso !</p>"
-                clearInterval(pollingLoop);
-                window.location.replace('/');
-            }
-
-            if (counter === 0) {
-                console.log("Auth limit time exceeded");
-                loading.innerHTML = "<p>Tempo para autenticação excedido !</p>"
-                clearInterval(pollingLoop);
-            }
-
-        }, 5000); // TO DO
-
+    function back(type) {
+		console.log("BACK-->" + type)
+        $('#showAllMethods').show();
+        $(`#${type}`).hide();
     }
 
 </script>
+
+<div id="email" class="row justify-content-center" style="display:none">
+
+    <div class="col-md-4">
+
+        <h2 class="text-center">Iniciar sessão</h2><br>
+
+        <form id="submitedEmail">
+
+            <!-- Email -->
+            <div class="form-group">
+                <label class="col-form-labels">Email institucional:</label>
+                <input type="text" class="form-control" id="emailValue">
+                <p>Dominios disponiveis: {{this.allowed_domains}}</p>
+            </div>
+
+            <!-- Submit button -->
+            <div class="form-group">
+                <button type="submit" class="form-control btn btn-dark" id="submit-button" onclick="submitFunction()">Iniciar sessão</button>
+            </div>
+
+            <!-- Back button -->
+            <br><button type="button" onclick=back('email') class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar às opções de autenticação</button>
+
+            <!-- Div that will contain loading icon -->
+            <div id="loading"></div>
+
+        </form>
+        
+    </div>
+
+    <!-- Script to submit email to web-auth-aou and polling -->
+	<script>
+		async function submitFunction() {
+
+			// Deactivate button
+			const button = document.querySelector('#submit-button');
+			button.disabled = true;
+
+			// Notificate the user that authentication is in progress
+			const loading = document.querySelector("#loading");
+			
+			loading.innerHTML += 
+			' <br><br> ' + 
+			' <div class="row justify-content-center"> ' + 
+				//' <p> Autenticação em progresso ..</p>' + 
+				'<div class="divSpacing lds-roller" role="status"><div></div><div></div><div></div><div>' +
+				//' <div class="spinner-border" role="status">' + 
+				//'<span class="sr-only">Loading...</span>' +
+				//'</div>' +
+			'</div>'
+
+			// Request to auth api to obtain auth_req_id and expiration
+			const data = {
+				'email' : document.querySelector('#emailValue').value
+			};
+
+            console.log("inside -> " + JSON.stringify(data));
+
+			const response = await fetch("/auth-api/email", {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data),
+			});
+
+			const authData = await response.json();
+
+			const auth_req_id = authData.auth_req_id;
+			let counter = authData.expires_in;
+
+			const polling_uri = `/auth-api/${auth_req_id}/poll`
+
+			// Polling loop
+			console.log("-> " + counter + " -> " + auth_req_id + " -> " + polling_uri  );
+
+
+			const pollingLoop = setInterval(async () => {
+
+				counter-=5;
+				console.log("counter -> " + counter);
+
+				const pollingResponse = await fetch(polling_uri);
+				console.log("status -> " + pollingResponse.status)
+				
+				if(pollingResponse.status === 200) {
+					console.log("-> sucesso");
+					loading.innerHTML = "<p>Autenticação realizada com sucesso !</p>"
+					clearInterval(pollingLoop);
+					window.location.replace('/');
+				}
+
+				if (counter === 0) {
+					console.log("Auth limit time exceeded");
+					loading.innerHTML = "<p>Tempo para autenticação excedido !</p>"
+					clearInterval(pollingLoop);
+				}
+
+			}, 5000); // TO DO
+
+		}
+	</script>
+
+</div>
+

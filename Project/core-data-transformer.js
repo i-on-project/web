@@ -85,29 +85,8 @@ module.exports = function(data) {
 
 	/******* Authentication *******/ 
 
-	const loadAuthenticationTypes = async function () {
-
-		const receivedData = await data.loadAuthenticationTypes();
-		const auth_types = receivedData.map(method => method.type);
-
-		return {
-			"auth_types" : auth_types
-		};
-	};
-
-	const loadAuthenticationMethodFeatures = async function () {
-
-		const receivedData = await data.loadAuthenticationMethodFeatures();
-		const auth_methods = receivedData.map(method => {
-			return {
-				"allowed_domains": method.allowed_domains,
-				"type": method.type
-			};
-		});
-
-		return {
-			"auth_methods" : auth_methods
-		};
+	const loadAuthenticationMethodsAndFeatures = async function () {
+		return data.loadAuthenticationMethodsAndFeatures();
 	};
 
 	const submitInstitutionalEmail = async function(email) {
@@ -253,8 +232,7 @@ module.exports = function(data) {
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
-		loadAuthenticationTypes : loadAuthenticationTypes,
-		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
+		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,

@@ -11,6 +11,7 @@ function webapi(auth) {
 		submitInstitutionalEmail: async function(req, res) {
             const body = req.body;
 			try {
+				console.log("->" + JSON.stringify(body));
 				const data = await auth.submitInstitutionalEmail(body.email);
                 //res.setHeader('Set-Cookie', ['auth_req_id=' + data.auth_req_id, 'expires_in=' + data.expires_in], 'Expires=' + new Date(Date.now() + data.expires_in)); /// TO DO: confirm it, same site and other security issues, hash ou something? , 'HttpOnly'
 				const hmac = crypto
@@ -29,7 +30,6 @@ function webapi(auth) {
 		pollingCore: async function(req, res) {
             const params = req.params;
 
-			
 			try {
 				if(!isCookieValid(req)) throw error.SERVICE_FAILURE; // TO DO - Change
 				const data = await auth.pollingCore(req, getCookies(req).Identifier, params['authId']);

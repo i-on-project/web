@@ -125,35 +125,14 @@ function webui(service, auth) {
 		},
 
 		/******* Authentication Pages *******/
-		getAuthTypes: async function(req, res) {
-			let commonInfo;
-			try {
-				//commonInfo = await getPagesCommonInfo(service);	
-				const data = await auth.getAuthenticationTypes();
-
-				res.render(
-					'auth_methods',
-					Object.assign(
-						{'page': 'login'},
-						commonInfo,
-						data
-					)
-				);
-			
-			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
-			}
-		},
-
 		loginUI: async function(req, res) {
-			const args = req.query;
 			let commonInfo;
 
 			try {
 				
 				//commonInfo = await getPagesCommonInfo(service);
-				const data = await auth.getAuthMethodFeatures(args['type']);
-				
+				const data = await auth.getAuthMethodsAndFeatures();
+				console.log("-> " + JSON.stringify(data));
 				res.render( /// TO DO: create page
 					'login',
 					Object.assign(
@@ -223,9 +202,7 @@ function webui(service, auth) {
 	router.post('/settings', 			theWebUI.editSettings	);
 
 	/*** Auth ***/
-	router.get(	'/auth-methods',		theWebUI.getAuthTypes	);	/// Authentication methods page
-	router.get(	'/login',				theWebUI.loginUI		);	/// Login UI page
-	router.post('/login',				theWebUI.login			);	/// Submission page
+	router.get(	'/login',				theWebUI.loginUI			);	/// Login UI page
 	router.get('/logout',				theWebUI.logout			);
 
 	return router;
