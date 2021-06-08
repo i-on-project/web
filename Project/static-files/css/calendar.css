@@ -1,0 +1,504 @@
+/* Calendar Style */
+
+.blue.lighten-3 {
+	background-color: #81d4fa !important
+}
+
+.z-depth-2 {
+	-webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3)
+}
+
+.side-nav span.badge {
+	margin-top: calc(24px - 11px)
+}
+.side-nav .collapsible,
+.side-nav.fixed .collapsible {
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none
+}
+
+.side-nav .collapsible li,
+.side-nav.fixed .collapsible li {
+	padding: 0
+}
+
+.side-nav .collapsible-header,
+.side-nav.fixed .collapsible-header {
+	background-color: transparent;
+	border: none;
+	line-height: inherit;
+	height: inherit;
+	padding: 0 16px
+}
+
+.side-nav .collapsible-header:hover,
+.side-nav.fixed .collapsible-header:hover {
+	background-color: rgba(0, 0, 0, 0.05)
+}
+
+.side-nav .collapsible-header i,
+.side-nav.fixed .collapsible-header i {
+	line-height: inherit
+}
+
+.side-nav .collapsible-body,
+.side-nav.fixed .collapsible-body {
+	border: 0;
+	background-color: #fff
+}
+
+.side-nav .collapsible-body li a,
+.side-nav.fixed .collapsible-body li a {
+	padding: 0 23.5px 0 31px
+}
+.side-nav {
+	position: fixed;
+	width: 300px;
+	left: 0;
+	top: 0;
+	margin: 0;
+	-webkit-transform: translateX(-100%);
+	transform: translateX(-100%);
+	height: 100%;
+	height: calc(100% + 60px);
+	height: -moz-calc(100%);
+	padding-bottom: 60px;
+	background-color: #fff;
+	z-index: 999;
+	overflow-y: auto;
+	will-change: transform;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-webkit-transform: translateX(-105%);
+	transform: translateX(-105%)
+}
+
+.side-nav.right-aligned {
+	right: 0;
+	-webkit-transform: translateX(105%);
+	transform: translateX(105%);
+	left: auto;
+	-webkit-transform: translateX(100%);
+	transform: translateX(100%)
+}
+
+.side-nav .collapsible {
+	margin: 0
+}
+
+.side-nav li {
+	float: none;
+	line-height: 48px
+}
+
+.side-nav li.active {
+	background-color: rgba(0, 0, 0, 0.05)
+}
+
+.side-nav li>a {
+	color: rgba(0, 0, 0, 0.87);
+	display: block;
+	font-size: 14px;
+	font-weight: 500;
+	height: 48px;
+	line-height: 48px;
+	padding: 0 32px
+}
+
+.side-nav li>a:hover {
+	background-color: rgba(0, 0, 0, 0.05)
+}
+
+.side-nav li>a.btn,
+.side-nav li>a.btn-large,
+.side-nav li>a.btn-large,
+.side-nav li>a.btn-flat,
+.side-nav li>a.btn-floating {
+	margin: 10px 15px
+}
+
+.side-nav li>a.btn,
+.side-nav li>a.btn-large,
+.side-nav li>a.btn-large,
+.side-nav li>a.btn-floating {
+	color: #fff
+}
+
+.side-nav li>a.btn-flat {
+	color: #343434
+}
+
+.side-nav li>a.btn:hover,
+.side-nav li>a.btn-large:hover,
+.side-nav li>a.btn-large:hover {
+	background-color: #2bbbad
+}
+
+.side-nav li>a.btn-floating:hover {
+	background-color: #26a69a
+}
+
+.side-nav li>a>i,
+.side-nav li>a>[class^="mdi-"],
+.side-nav li>a li>a>[class*="mdi-"],
+.side-nav li>a>i.material-icons {
+	float: left;
+	height: 48px;
+	line-height: 48px;
+	margin: 0 32px 0 0;
+	width: 24px;
+	color: rgba(0, 0, 0, 0.54)
+}
+
+.side-nav .divider {
+	margin: 8px 0 0 0
+}
+
+.side-nav .subheader {
+	cursor: initial;
+	pointer-events: none;
+	color: rgba(0, 0, 0, 0.54);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 48px
+}
+
+.side-nav .subheader:hover {
+	background-color: transparent
+}
+
+.side-nav .user-view,
+.side-nav .userView {
+	position: relative;
+	padding: 32px 32px 0;
+	margin-bottom: 8px
+}
+
+.side-nav .user-view>a,
+.side-nav .userView>a {
+	height: auto;
+	padding: 0
+}
+
+.side-nav .user-view>a:hover,
+.side-nav .userView>a:hover {
+	background-color: transparent
+}
+
+.side-nav .user-view .background,
+.side-nav .userView .background {
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: -1
+}
+
+.side-nav .user-view .circle,
+.side-nav .user-view .name,
+.side-nav .user-view .email,
+.side-nav .userView .circle,
+.side-nav .userView .name,
+.side-nav .userView .email {
+	display: block
+}
+
+.side-nav .user-view .circle,
+.side-nav .userView .circle {
+	height: 64px;
+	width: 64px
+}
+
+.side-nav .user-view .name,
+.side-nav .user-view .email,
+.side-nav .userView .name,
+.side-nav .userView .email {
+	font-size: 14px;
+	line-height: 24px
+}
+
+.side-nav .user-view .name,
+.side-nav .userView .name {
+	margin-top: 16px;
+	font-weight: 500
+}
+
+.side-nav .user-view .email,
+.side-nav .userView .email {
+	padding-bottom: 16px;
+	font-weight: 400
+}
+
+.drag-target {
+	height: 100%;
+	width: 10px;
+	position: fixed;
+	top: 0;
+	z-index: 998
+}
+
+.side-nav.fixed {
+	left: 0;
+	-webkit-transform: translateX(0);
+	transform: translateX(0);
+	position: fixed
+}
+
+.side-nav.fixed.right-aligned {
+	right: 0;
+	left: auto
+}
+
+@media only screen and (max-width: 992px) {
+	.side-nav.fixed {
+		-webkit-transform: translateX(-105%);
+		transform: translateX(-105%)
+	}
+	.side-nav.fixed.right-aligned {
+		-webkit-transform: translateX(105%);
+		transform: translateX(105%)
+	}
+	.side-nav a {
+		padding: 0 16px
+	}
+	.side-nav .user-view,
+	.side-nav .userView {
+		padding: 16px 16px 0
+	}
+}
+
+.side-nav .collapsible-body>ul:not(.collapsible)>li.active,
+.side-nav.fixed .collapsible-body>ul:not(.collapsible)>li.active {
+	background-color: #ee6e73
+}
+
+.side-nav .collapsible-body>ul:not(.collapsible)>li.active a,
+.side-nav.fixed .collapsible-body>ul:not(.collapsible)>li.active a {
+	color: #fff
+}
+
+.side-nav .collapsible-body {
+	padding: 0
+}
+
+.calendar-wrapper {
+   height: auto;
+   max-width: 800px;
+   margin: 0 auto;
+}
+
+.calendar-header {
+   background-color: rgba(18, 15, 25, 0.25);
+   height: 100%;
+   padding: 20px;
+   color: #fff;
+   font-family: 'Roboto', sans-serif;
+   font-weight: 300;
+   position: relative;
+}
+
+.header-title {
+   padding-left: 15%;
+}
+
+.header-background {
+   background-image: url(/public/images/isel_ipl.jpg);
+   height: 200px;
+   background-position: center right;
+   background-size: cover;
+}
+
+.calendar-content {
+   background-color: #fff;
+   padding: 20px;
+   padding-left: 15%;
+   padding-right: 15%;
+   overflow: hidden;
+}
+
+.event-mark {
+   width: 5px;
+   height: 5px;
+   background-color: teal;
+   border-radius: 100px;
+   position: absolute;
+   left: 46%;
+   top: 70%;
+}
+
+.sidebar-wrapper {
+   color: #fff;
+   background-color: #343a40 !important;
+   padding-top: 40px;
+   padding-bottom: 20px;
+   font-family: 'Roboto', sans-serif;
+   font-weight: 300;
+   padding-left: 0;
+   padding-right: 0;
+}
+
+.sidebar-title {
+   padding: 50px 6% 50px 12%;
+}
+
+.sidebar-title h4 {
+   margin-top: 0;
+}
+
+.sidebar-events {
+   overflow-x: hidden;
+   overflow-y: hidden;
+   margin-bottom: 70px;
+}
+
+.empty-message {
+   font-size: 1.2rem;
+   padding: 15px 6% 15px 12%;
+}
+
+.eventCard {
+   background-color: #fff;
+   color: black;
+   padding: 12px 24px 12px 24px;
+   border-bottom: 1px solid #E5E5E5;
+   white-space: nowrap;
+   position: relative;
+   animation: slideInDown 0.5s;
+}
+
+.eventCard-header {
+   font-weight: bold;
+}
+
+.eventCard-description {
+   color: grey;
+}
+
+.eventCard-mark-wrapper {
+   position: absolute;
+   right: 0;
+   top: 0;
+   height: 100%;
+   width: 60px;
+   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 25%, rgba(255, 255, 255, 1) 100%);
+}
+
+.eventCard-mark {
+   width: 8px;
+   height: 8px;
+   background-color: #343a40;
+   border-radius: 100px;
+   position: absolute;
+   left: 50%;
+   top: 45%;
+}
+
+.day-mark {
+   width: 7px;
+   height: 7px;
+   background-color: #343a40;
+   border-radius: 100px;
+   position: absolute;
+   left: 47%;
+   top: 67%;
+}
+
+.content-wrapper {
+   padding-top: 20px;
+   padding-bottom: 50px;
+   margin-left: 300px;
+}
+
+#table-body .col:hover {
+   cursor: pointer;
+   background-color: #E0E0E0;
+}
+
+.empty-day:hover {
+   cursor: default !important;
+   background-color: #fff !important;
+}
+
+#table-body .row .col {
+   padding: .75rem;
+}
+
+#table-body .col {
+   border: 1px solid transparent;
+}
+
+#table-body .row {
+   margin-bottom: 0;
+}
+
+#table-body .col {
+   padding-top: 1.3rem !important;
+   padding-bottom: 1.3rem !important;
+}
+
+#calendar-table {
+   text-align: center;
+}
+
+.prev-button {
+   position: absolute;
+   cursor: pointer;
+   left: 0%;
+   top: 35%;
+   color: grey !important;
+}
+
+.prev-button i {
+   font-size: 4em;
+}
+
+.next-button {
+   position: absolute;
+   cursor: pointer;
+   right: 0%;
+   top: 35%;
+   color: grey !important;
+}
+
+.next-button i {
+   font-size: 4em;
+}
+
+@media (max-width:992px) {
+  .content-wrapper {
+     margin-left: 0;
+  }
+  .calendar-wrapper {
+     margin-top: 80px;
+  }
+  .sidebar-wrapper {
+     background-color: #EEEEEE !important;
+  }
+  .sidebar-title {
+     background-color: #343a40 !important;
+  }
+  .empty-message {
+     color: black;
+  }
+}
+
+@media (max-width:767px) {
+  .calendar-content {
+     padding-left: 5%;
+     padding-right: 5%;
+  }
+  body .row {
+     margin-bottom: 0;
+  }
+}
+
+@media (max-width:450px) {
+  .content-wrapper {
+     padding-left: 0;
+     padding-right: 0;
+  }
+}

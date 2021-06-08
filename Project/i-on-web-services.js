@@ -126,7 +126,7 @@ module.exports = function(data, database) {
 		}
 
 		events = {
-			"assignments": [{"event": "Teste de GAP", "date":"2021-06-11" , "time":"19:00"}],
+			"assignments": [{"event": "Anos da catarina", "date":"2021-06-11" , "time":"13:30"}],
 			"testsAndExams": []
 		};
 

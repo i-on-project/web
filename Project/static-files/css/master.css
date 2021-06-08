@@ -1,0 +1,7 @@
+/* CSS files to import */
+
+@import "/public/css/common.css";
+@import "/public/css/errors.css";
+@import "/public/css/loading.css";
+@import "/public/css/schedule.css";
+@import "/public/css/calendar.css";
