@@ -127,9 +127,9 @@ function webui(service, auth) {
 		/******* Authentication Pages *******/
 		loginUI: async function(req, res) {
 			let commonInfo;
-
+			console.log("1")
 			try {
-				
+				console.log("1")
 				//commonInfo = await getPagesCommonInfo(service);
 				const data = await auth.getAuthMethodsAndFeatures();
 				console.log("-> " + JSON.stringify(data));
@@ -141,32 +141,11 @@ function webui(service, auth) {
 						data
 					)
 				);
-			
+				console.log("1")
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
 			}
 		},
-
-		login: async function(req, res) {
-			let commonInfo;
-			try {
-
-				//commonInfo = await getPagesCommonInfo(service);	
-				const data = await auth.getAuthenticationMethods();
-				
-				res.render(
-					'login',
-					Object.assign(
-						{'page': 'login'},
-						commonInfo,
-						data
-					)
-				); 
-			
-			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
-			}
-		}, 
 
 		logout: async function(req, res) {
 			try {

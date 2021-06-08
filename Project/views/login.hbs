@@ -5,7 +5,7 @@
         <form>
 			{{#each this}}
 				<div class="form-group">
-					<a class="button" onclick=showSpecifiedMethod('{{this}}')>{{this.type}}</a>
+					<a class="button" onclick=showSpecifiedMethod('{{this.type}}')>{{this.type}}</a>
 				</div>
 			{{/each}}
         </form>
@@ -15,10 +15,10 @@
 
 <script>
 
-	function showSpecifiedMethod(method) {
-        console.log("showSpecifiedMethod-->" + method.type)
+	function showSpecifiedMethod(type) {
+        console.log("showSpecifiedMethod-->" + type)
         $('#showAllMethods').hide();
-        $(`#${method.type}`).show();
+        $(`#${type}`).show();
     }
 
     function back(type) {
