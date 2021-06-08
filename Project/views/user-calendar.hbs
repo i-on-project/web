@@ -11,11 +11,6 @@
 </div>-->
 
 
-
-
-
-
-
    <div class="main-wrapper">
 
       <div class="sidebar-wrapper z-depth-2 side-nav fixed" id="sidebar">
@@ -288,30 +283,31 @@
 
    }
 
-   addEventButton.onclick = function (e) { //mudar-isto deixa de ser função e passa a ser só código a correr
+   let assignments = [];
+     
+   {{#each events.assignments}}
+         assignments.push({
+            'event'     : '{{this.event}}',
+            'date'      : '{{this.date}}',
+            'time'      : '{{this.time}}'
+         });
+   {{/each}}
 
-      let assignments = [];
-      {{#each this.events.assignments}}
-            assignments.push({
-               'event'     : '{{this.startDate}}',
-               'date'       : '{{this.endDate}}',
-               'time'      : '{{this.location}}'
-            });
-      {{/each}}
+  
+   assignments.forEach(assignment => {
+      const title = assignment.event;
+      const desc = assignment.event + " até às " + assignment.time;
+      const receivedDate = assignment.date.split('-')
+      const date = new Date(receivedDate[0], receivedDate[1]-1, receivedDate[2]);
+      addEvent(title, desc, date);
 
-      assignments.forEach(assignment => {
-         const title = assignment.event;
-         const desc = assignment.event + " até às " + assignment.time;
+      });
+ 
+   showEvents();
 
-         const date = new Date(); // TO DO CONVERT RECEIVED DATE A CREATE A NEW DATE
-         addEvent(title, desc, date);
-       });
-     // addEvent(title, desc); //aqui passando um titulo e discrição ele adiciona o evento
-      showEvents();
+      if (!selectedDayBlock.querySelector(".day-mark")) {
+        selectedDayBlock.appendChild(document.createElement("div")).className = "day-mark";
+      }
 
-      //if (!selectedDayBlock.querySelector(".day-mark")) {
-        // selectedDayBlock.appendChild(document.createElement("div")).className = "day-mark";
-      //}
-
-   }
+   
 </script>
