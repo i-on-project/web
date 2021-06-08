@@ -125,6 +125,11 @@ module.exports = function(data, database) {
 			}
 		}
 
+		events = {
+			"assignments": [{"event": "Teste de GAP", "date":"2021-06-11" , "time":"19:00"}],
+			"testsAndExams": []
+		};
+
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			events: events,
