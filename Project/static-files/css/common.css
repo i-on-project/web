@@ -139,3 +139,7 @@ hr.solid {
   color: white;
 }
 
+/* Bold text */
+.boldText {
+  font-weight: bold;
+}

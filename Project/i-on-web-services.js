@@ -91,12 +91,12 @@ module.exports = function(data, database) {
 			}
 		}
 		// Test
-		/*schedule = [
+		schedule = [
 			{"startDate":"10:00","endDate":"12:30","location":"G.2.1","weekday":"MO","acronym":"SL","classSection":"1D"},
 			{"startDate":"10:00","endDate":"12:30","location":"G.2.4","weekday":"WE","acronym":"SL","classSection":"1D"},
 			{"startDate":"08:00","endDate":"11:00","location":"G.2.1","weekday":"TU","acronym":"DAW","classSection":"2D"},
 			{"startDate":"09:00","endDate":"12:00","location":"C.2.4","weekday":"FR","acronym":"GAP","classSection":"3D"},
-			{"startDate":"10:00","endDate":"13:00","location":"C.2.4","weekday":"FR","acronym":"PI","classSection":"1D"}]*/
+			{"startDate":"10:00","endDate":"13:00","location":"C.2.4","weekday":"FR","acronym":"PI","classSection":"1D"}]
 
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
@@ -125,9 +125,15 @@ module.exports = function(data, database) {
 			}
 		}
 
+		// Test
 		events = {
-			"assignments": [{"event": "Anos da catarina", "date":"2021-06-11" , "time":"13:30"}],
-			"testsAndExams": []
+			"assignments": [{"event": "Trabalho de GAP", "date":"2021-06-11" , "time":"13:30"}, 
+			{"event": "Trabalho de CN", "date":"2021-06-11", "time":"19:30"}, 
+			{"event": "Trabalho de DAW", "date":"2021-06-11", "time":"18:30"}, 
+			{"event": "Trabalho de PI", "date":"2021-06-11", "time":"18:30"}, 
+			{"event": "Trabalho de SS", "date":"2021-06-11", "time":"18:30"}, 
+			{"event": "Trabalho de AC", "date":"2021-06-11", "time":"18:30"}],
+			"testsAndExams": [{"event": "Teste de GAP", "date":"2021-06-11" , "starTime":"10:30", "endTime":"12:30", "location":"G.2.14"}]
 		};
 
 		const commonInfo = await getProgrammesByDegree(data);

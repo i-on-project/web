@@ -6,33 +6,33 @@
         <div class="schedule">
             
             <div class="schedule_header">
-                <span class="dl">Time</span>
+                <span class="dl boldText">Time</span>
                 <span class="ds">Ti</span>
             </div>  
 
             <!-- Week days-->
             <div class="schedule_header schedule-monday">
-                <span class="dl">Segunda</span>
+                <span class="dl boldText">Segunda</span>
                 <span class="ds">M</span>
             </div>
             <div class="schedule_header schedule-tuesday">
-                <span class="dl">Terça</span>
+                <span class="dl boldText">Terça</span>
                 <span class="ds">T</span>
             </div>
             <div class="schedule_header schedule-wednesday">
-                <span class="dl">Quarta</span>
+                <span class="dl boldText">Quarta</span>
                 <span class="ds">W</span>
             </div>
             <div class="schedule_header schedule-thursday">
-                <span class="dl">Quinta</span>
+                <span class="dl boldText">Quinta</span>
                 <span class="ds">Th</span>
             </div>
             <div class="schedule_header schedule-friday">
-                <span class="dl">Sexta</span>
+                <span class="dl boldText">Sexta</span>
                 <span class="ds">F</span>
             </div>
             <div class="schedule_header schedule-saturday">
-                <span class="dl">Sábado</span>
+                <span class="dl boldText">Sábado</span>
                 <span class="ds">Sa</span>
             </div>
             <!-- ./Week days-->
@@ -161,32 +161,29 @@
                 });
             {{/each}}
 
-            console.log("itemsSchedule -> " + JSON.stringify(itemsSchedule))
 
             itemsSchedule = itemsSchedule.map(classSection => {
                 return {
                     'keyfrom': convertTimeInterval(classSection['startDate']),
                     'keyto': convertTimeInterval(classSection['endDate']),
-                    'text': `${classSection['acronym']}[${classSection['classSection']}] - Sala: ${classSection['location']}`,
+                    'text': `${classSection['acronym']}[${classSection['classSection']}]`,
+                    'location': `${classSection['location']}`,
                     'bg': getAcrColor(classSection['acronym']),
                     'days': [convertAcrToWeekday( classSection['weekday'] )]
                 }
             });
 
-            console.log("itemsSchedule2 -> " + JSON.stringify(itemsSchedule))
-
             itemsSchedule.forEach(function(sitem, index) {
 
-                // console.log(index,sitem)
                 sitem.days.forEach(function(sday, dindex) {
-                    // console.log(sday, dindex)
                     $(".schedule").append(
                     '<div class="schedule-item'
                     +' schedule-'+ sday
                     +' time-from-'+ sitem.keyfrom
                     +' time-to-'+sitem.keyto
-                    +' bg-'+sitem.bg+'">' /*tiramos  nt bg-'+sitem.bg+'">*/
-                    +sitem.text
+                    +' bg-'+sitem.bg+'">' /*used to be  nt bg-'+sitem.bg+'">*/
+                    + sitem.text + '<br>'
+                    + sitem.location
                     +'</div>'
                     )
 
@@ -290,7 +287,6 @@
             }
 
             function getAcrColor(acr) {
-                console.log('--> ' + acr);
                 // If the class already has an associated color, return it 
                 if(acrColors.hasOwnProperty(acr))
                     return acrColors[acr];

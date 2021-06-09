@@ -127,21 +127,17 @@ function webui(service, auth) {
 		/******* Authentication Pages *******/
 		loginUI: async function(req, res) {
 			let commonInfo;
-			console.log("1")
 			try {
-				console.log("1")
 				//commonInfo = await getPagesCommonInfo(service);
 				const data = await auth.getAuthMethodsAndFeatures();
-				console.log("-> " + JSON.stringify(data));
 				res.render( /// TO DO: create page
 					'login',
 					Object.assign(
 						{'page': 'login'},
 						commonInfo,
-						data
+						{'data': data}
 					)
 				);
-				console.log("1")
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
 			}

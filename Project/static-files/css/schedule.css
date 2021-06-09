@@ -13,12 +13,21 @@
   
   /*   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); */
     grid-template-columns: [time] 100px
+      [monday] minmax(190px, 190px) 
+      [tuesday] minmax(190px, 190px) 
+      [wednesday] minmax(190px, 190px) 
+      [thursday]minmax(190px, 190px) 
+      [friday] minmax(190px, 190px) 
+      [saturday] minmax(190px, 190px) ;
+
+      /*
       [monday] minmax(auto, auto) 
       [tuesday] minmax(auto, auto) 
       [wednesday] minmax(auto, auto) 
       [thursday]minmax(auto, auto) 
       [friday] minmax(auto, auto) 
       [saturday] minmax(auto, auto) ;
+      */
   
     grid-template-rows: [header] auto
       [s] 40px
@@ -58,8 +67,8 @@
     position: relative;
     padding: 0.5rem 1rem;
     border: 1px solid #000;
-  /*  background-color: white;   */
-    color: #17394d;
+    background-color: #343a40;
+    color: white;
     text-align: center;
   }
   
@@ -67,7 +76,8 @@
     position: relative;
     padding: 0.5rem 0.25rem;
     border: 1px solid #000;
-    color: #17394d;
+    background-color: #343a40;
+    color: white;
     font-weight: bold;
     text-align: center;
   }
@@ -77,9 +87,11 @@
   }
   
   .schedule-item{
-    background-color: white;
-    border-radius: .25rem;
-    box-shadow: 0 1px 0 rgba(9,45,66,.25); /* Originally in comment */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: .25rem; 
     padding: .5rem;
     margin: .25em;
   }
@@ -264,7 +276,7 @@
       } */
     
     .grid-last{
-      height:98px;
+      height: 98px;
     }
   
   }

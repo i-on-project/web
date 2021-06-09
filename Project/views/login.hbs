@@ -1,28 +1,30 @@
 <br><div id="showAllMethods" class="row justify-content-center">
+	
     <div class="col-md-4">
 		<h2 class="text-center">Métodos de autenticação</h2><br>
 		
-        <form>
-			{{#each this}}
-				<div class="form-group">
-					<a class="button" onclick=showSpecifiedMethod('{{this.type}}')>{{this.type}}</a>
-				</div>
+		<div class="divSpacing">
+			{{#each this.data}}
+					<!--<a class="button" onclick=showSpecifiedMethod('{{this.type}}')>{{this.type}}</a>-->
+					<a class="btn btn-outline-dark btn-lg" role="button" onclick=showSpecifiedMethod('{{this.type}}') id="{{this.type}}button"></a>
 			{{/each}}
-        </form>
-
+		</div>
     </div>
 </div>
 
 <script>
+	/// Specific presentation for email authentication method
+	const email = document.querySelector("#emailbutton");			
+	email.innerHTML += '<i class="fa fa-envelope-o" aria-hidden="true"></i>  Email Institucional';
+
+	/// If necessary, more presentations for authentication methods can be added here ...
 
 	function showSpecifiedMethod(type) {
-        console.log("showSpecifiedMethod-->" + type)
         $('#showAllMethods').hide();
         $(`#${type}`).show();
     }
 
     function back(type) {
-		console.log("BACK-->" + type)
         $('#showAllMethods').show();
         $(`#${type}`).hide();
     }
@@ -41,7 +43,7 @@
             <div class="form-group">
                 <label class="col-form-labels">Email institucional:</label>
                 <input type="text" class="form-control" id="emailValue">
-                <p>Dominios disponiveis: {{this.allowed_domains}}</p>
+                <p>Domínios disponíveis: </p>
             </div>
 
             <!-- Submit button -->
@@ -50,8 +52,7 @@
             </div>
 
             <!-- Back button -->
-            <br><button type="button" onclick=back('email') class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar às opções de autenticação</button>
-
+           <br><button type="button" onclick=back('email') class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar às opções de autenticação</button>
             <!-- Div that will contain loading icon -->
             <div id="loading"></div>
 
@@ -85,8 +86,6 @@
 				'email' : document.querySelector('#emailValue').value
 			};
 
-            console.log("inside -> " + JSON.stringify(data));
-
 			const response = await fetch("/auth-api/email", {
 				method: 'POST',
 				headers: {
@@ -103,27 +102,21 @@
 			const polling_uri = `/auth-api/${auth_req_id}/poll`
 
 			// Polling loop
-			console.log("-> " + counter + " -> " + auth_req_id + " -> " + polling_uri  );
-
 
 			const pollingLoop = setInterval(async () => {
 
 				counter-=5;
-				console.log("counter -> " + counter);
 
 				const pollingResponse = await fetch(polling_uri);
-				console.log("status -> " + pollingResponse.status)
-				
+
 				if(pollingResponse.status === 200) {
-					console.log("-> sucesso");
-					loading.innerHTML = "<p>Autenticação realizada com sucesso !</p>"
+					loading.innerHTML = "<p>Autenticação realizada com sucesso!</p>"
 					clearInterval(pollingLoop);
 					window.location.replace('/');
 				}
 
 				if (counter === 0) {
-					console.log("Auth limit time exceeded");
-					loading.innerHTML = "<p>Tempo para autenticação excedido !</p>"
+					loading.innerHTML = "<p>Tempo para autenticação excedido!</p>"
 					clearInterval(pollingLoop);
 				}
 

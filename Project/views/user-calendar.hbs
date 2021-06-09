@@ -1,81 +1,64 @@
+<div class="main-wrapper">
 
-<!--<div class="container-fluid pageBeginning">
-    <h3 class="text-center">Calendário</h3>
-    <div class="divSpacing">
-        {{#if myCourses}}
+   <div class="sidebar-wrapper z-depth-2 side-nav fixed" id="sidebar">
 
-        {{else}}
-            <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
-        {{/if}}
-    </div>
-</div>-->
-
-
-   <div class="main-wrapper">
-
-      <div class="sidebar-wrapper z-depth-2 side-nav fixed" id="sidebar">
-
-        <div class="sidebar-title">
-          <h4>Eventos</h4>
-          <h5 id="eventDayName">Data</h5>
-        </div>
-        <div class="sidebar-events" id="sidebarEvents">
-          <div class="empty-message">Não existem eventos.</div>
-        </div>
-
+      <div class="sidebar-title">
+         <h4>Eventos</h4>
+         <h5 id="eventDayName">Data</h5>
+      </div>
+      <div class="sidebar-events" id="sidebarEvents">
+         <div class="empty-message">Não existem eventos.</div>
       </div>
 
-      <div class="content-wrapper">
+   </div>
 
-          <div class="calendar-wrapper z-depth-2">
+   <div class="content-wrapper">
 
-            <div class="header-background">
-              <div class="calendar-header">
+         <div class="calendar-wrapper z-depth-2">
 
-                <a class="prev-button" id="prev">
-                  <i class="material-icons">keyboard_arrow_left</i>
-                </a>
-                <a class="next-button" id="next">
-                  <i class="material-icons">keyboard_arrow_right</i>
-                </a>
+         <div class="header-background">
+            <div class="calendar-header">
 
-                <div class="row header-title">
+               <a class="prev-button" id="prev">
+               <i class="material-icons">keyboard_arrow_left</i>
+               </a>
+               <a class="next-button" id="next">
+               <i class="material-icons">keyboard_arrow_right</i>
+               </a>
 
-                  <div class="header-text">
-                    <h3 id="month-name"></h3>
-                    <h5 id="todayDayName"></h5>
-                  </div>
+               <div class="row header-title">
 
-                </div>
-              </div>
+               <div class="header-text">
+                  <h3 id="month-name"></h3>
+                  <h5 id="todayDayName"></h5>
+               </div>
+
+               </div>
             </div>
+         </div>
 
-            <div class="calendar-content">
-              <div id="calendar-table" class="calendar-cells">
+         <div class="calendar-content">
+            <div id="calendar-table" class="calendar-cells">
 
-                <div id="table-header">
-                  <div class="row">
-                    <div class="col">Segunda</div>
-                    <div class="col">Terça</div>
-                    <div class="col">Quarta</div>
-                    <div class="col">Quinta</div>
-                    <div class="col">Sexta</div>
-                    <div class="col">Sábado</div>
-                    <div class="col">Domingo</div>
-                  </div>
-                </div>
+               <div id="table-header">
+               <div class="row">
+                  <div class="col boldText">Segunda</div>
+                  <div class="col boldText">Terça</div>
+                  <div class="col boldText">Quarta</div>
+                  <div class="col boldText">Quinta</div>
+                  <div class="col boldText">Sexta</div>
+                  <div class="col boldText">Sábado</div>
+                  <div class="col boldText">Domingo</div>
+               </div>
+               </div>
 
-                <div id="table-body" class=""></div>
+               <div id="table-body" class=""></div>
 
-              </div>
             </div>
          </div>
       </div>
    </div>
-
-
-
-
+</div>
 
 
 <script>
@@ -273,16 +256,16 @@
 
       selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), parseInt(e.target.innerHTML));
 
-      showEvents();
-
       document.getElementById("eventDayName").innerHTML = selectedDate.toLocaleString("pt-PT", {
          month: "long",
          day: "numeric",
          year: "numeric"
       });
 
+      showEvents();
    }
 
+   /* User assignments */
    let assignments = [];
      
    {{#each events.assignments}}
@@ -296,18 +279,39 @@
   
    assignments.forEach(assignment => {
       const title = assignment.event;
-      const desc = assignment.event + " até às " + assignment.time;
-      const receivedDate = assignment.date.split('-')
+      const desc = "Até às " + assignment.time;
+      const receivedDate = assignment.date.split('-');
       const date = new Date(receivedDate[0], receivedDate[1]-1, receivedDate[2]);
       addEvent(title, desc, date);
 
       });
  
-   showEvents();
+  /* User tests and exams */
+   let testsAndExams = [];
+     
+   {{#each events.testsAndExams}}
+         testsAndExams.push({
+            'event'     : '{{this.event}}',
+            'date'      : '{{this.date}}',
+            'starTime'  : '{{this.starTime}}',
+            'endTime'   : '{{this.endTime}}',
+            'location'  : '{{this.location}}'
+         });
+   {{/each}}
 
-      if (!selectedDayBlock.querySelector(".day-mark")) {
-        selectedDayBlock.appendChild(document.createElement("div")).className = "day-mark";
-      }
+  
+   testsAndExams.forEach(testsAndExams => {
+      const title = testsAndExams.event;
+      const desc = "Das " + testsAndExams.starTime  + " às " + testsAndExams.endTime + " no " + testsAndExams.location;
+      const receivedDate = testsAndExams.date.split('-');
+      const date = new Date(receivedDate[0], receivedDate[1]-1, receivedDate[2]);
+      addEvent(title, desc, date);
+
+      });
+
+   if (!selectedDayBlock.querySelector(".day-mark")) {
+      selectedDayBlock.appendChild(document.createElement("div")).className = "day-mark";
+   }
 
    
 </script>
