@@ -28,6 +28,20 @@ module.exports = function(baseUrl) {
 		}
 	};
 
+	const firstTimeUser = async function (email) {
+		try {
+			const response = await fetch(`${usersBaseUrl}/_doc/${email}`);
+			if(response.status == 404) { return true; }
+			else if(response.status == 200) { return false; }
+			else { throw response.status; }
+
+		} catch (err) {
+			switch (err) {
+				default: /// Internal Server Error and others..
+					throw error.SERVICE_FAILURE;
+			}
+		}	
+	};
 
 	const getUser = async function (email) { /// Obtain user given the email
 		try {
@@ -45,16 +59,18 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const createUser = async function (email, auth_req_id) { /// Saving a new user in the database
+	const createUser = async function (email, programme, tokens) { /// Saving a new user in the database
 		try {
-
-			await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 404); /// Verify if the username doesn't already exists in the database
-			// TO DO - Try and use a elasticsearch script in order to avoid the previous request
-
 			const options = {
 				method: 'PUT', 
 				headers: { "Content-Type": contentType },
-				body: JSON.stringify({'email': email, 'auth_req_id': auth_req_id, 'username': email.slice(0, email.indexOf("@"))})
+				body: JSON.stringify(Object.assign(
+					{
+						'email': email,
+					 	'username': email.slice(0, email.indexOf("@")),
+						'programme': programme
+					},
+					tokens))
 			};
 			await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 201, options);
 
@@ -66,14 +82,76 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const saveUserTokens = async function (email, auth_req_id, tokens) { 
+	const updateUserTokens = async function (email, tokens) { // TO DO
 		try {
 			const options = {
-				method: 'PUT',
+				method: 'POST',
 				headers: { "Content-Type": contentType },
-				body: JSON.stringify(Object.assign({'email': email, 'auth_req_id': auth_req_id, 'username': email.slice(0, email.indexOf("@"))}, tokens))
+				body: JSON.stringify({
+					"script" : {
+					  "source": "ctx._source.access_token = params.access_token; ctx._source.token_type = params.token_type; ctx._source.expires_in = params.expires_in; ctx._source.refresh_token = params.refresh_token; ctx._source.id_token = params.id_token",
+					  "lang": "painless",
+					  "params" : {
+						"access_token" : tokens.access_token,
+						"token_type" : tokens.token_type,
+						"refresh_token" : tokens.refresh_token,
+						"expires_in" : tokens.expires_in,
+						"id_token" : tokens.id_token
+					  }
+					}
+				  })
 			};
-			await fetchRequest(`${usersBaseUrl}/_doc/${email}/`, 200, options);
+			await fetchRequest(`${usersBaseUrl}/_update/${email}/`, 200, options);
+
+		} catch (err) {
+			switch (err) {
+				default: /// Internal Server Error and others..
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const changeUsername = async function (email, newUsername) { // TO DO
+		try {
+			const options = {
+				method: 'POST',
+				headers: { "Content-Type": contentType },
+				body: JSON.stringify({
+					"script" : {
+					  "source": "ctx._source.username = params.newUsername",
+					  "lang": "painless",
+					  "params" : {
+						"newUsername" : newUsername
+					  }
+					}
+				  })
+			};
+			await fetchRequest(`${usersBaseUrl}/_update/${email}/`, 200, options);
+
+		} catch (err) {
+			switch (err) {
+				default: /// Internal Server Error and others..
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const changeUserProgramme = async function (email, newProgramme) { // TO DO
+		try {
+			const options = {
+				method: 'POST',
+				headers: { "Content-Type": contentType },
+				body: JSON.stringify({
+					"script" : {
+					  "source": "ctx._source.programme = params.newProgramme",
+					  "lang": "painless",
+					  "params" : {
+						"newProgramme" : newProgramme
+					  }
+					}
+				  })
+			};
+			await fetchRequest(`${usersBaseUrl}/_update/${email}/`, 200, options);
 
 		} catch (err) {
 			switch (err) {
@@ -85,9 +163,12 @@ module.exports = function(baseUrl) {
 
 	return {
 		initializeDatabaseIndexes : initializeDatabaseIndexes,
+		firstTimeUser : firstTimeUser,
 		getUser : getUser,
 		createUser : createUser,
-		saveUserTokens : saveUserTokens
+		updateUserTokens : updateUserTokens,
+		changeUsername : changeUsername,
+		changeUserProgramme : changeUserProgramme
 	};
 }
 

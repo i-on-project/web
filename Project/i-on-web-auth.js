@@ -26,7 +26,7 @@ module.exports = (app, data, database) => {
 		resave: false,              
 		saveUninitialized: false,  
 		secret: 'secret',   // TO DO - Generate random string
-		store: new FileStore(),
+		store: new FileStore({logFn: function(){}}),
 		name: 'id',   
     }))
 
@@ -42,28 +42,29 @@ module.exports = (app, data, database) => {
         },
 
 		submitInstitutionalEmail: async function(email) {
-			const response = await data.submitInstitutionalEmail(email);
-			await database.createUser(email, response.auth_req_id);
-			return response;
+			return data.submitInstitutionalEmail(email);
         }, 
 
 		pollingCore: async function(req, email, authForPoll) {
 			const receivedData = await data.pollingCore(authForPoll);
 			if(receivedData.hasOwnProperty("access_token")) {
+				//delete email cookie and request user emails from core ow that we have the access token
+
+				const firstTimeUser = await database.firstTimeUser(email);
+				if(firstTimeUser) {
+					await database.createUser(email, 1, receivedData);
+				} else {
+					await database.updateUserTokens(email, receivedData);
+				}
 				const user = await database.getUser(email);
 
 				req.login(user, (err) => {
 					if (err) throw error.SERVICE_FAILURE;
 				})
-				
-				await database.saveUserTokens(email, authForPoll, receivedData);
-				return {
-					"polling_success" : true
-				};
+			
+				return true;
 			} else {
-				return {
-					"polling_success" : false
-				};
+				return false;
 			}
 		},
 		

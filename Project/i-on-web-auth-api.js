@@ -13,8 +13,7 @@ function webapi(auth) {
 			try {
 				console.log("->" + JSON.stringify(body));
 				const data = await auth.submitInstitutionalEmail(body.email);
-                //res.setHeader('Set-Cookie', ['auth_req_id=' + data.auth_req_id, 'expires_in=' + data.expires_in], 'Expires=' + new Date(Date.now() + data.expires_in)); /// TO DO: confirm it, same site and other security issues, hash ou something? , 'HttpOnly'
-				const hmac = crypto
+                const hmac = crypto
 					.createHmac('sha256', 'changeit') // TO DO
 					.update(body.email) 
 					.digest('hex');
@@ -33,9 +32,9 @@ function webapi(auth) {
 			try {
 				if(!isCookieValid(req)) throw error.SERVICE_FAILURE; // TO DO - Change
 				const data = await auth.pollingCore(req, getCookies(req).Identifier, params['authId']);
-                if(data.polling_success) {
-					res.json(data);
-				} else res.status(202).json(data);
+                if(data) {
+					res.json();
+				} else res.status(202).json();
 			} catch(err) {
                 console.log("erro -> " + err);
 				//await onErrorResponse(res, err, 'Failed to show Home Page');
