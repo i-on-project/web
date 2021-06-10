@@ -111,41 +111,17 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const changeUsername = async function (email, newUsername) {
+	const editUser = async function (email, newUsername, newProgramme) {
 		try {
 			const options = {
 				method: 'POST',
 				headers: { "Content-Type": contentType },
 				body: JSON.stringify({
 					"script" : {
-					  "source": "ctx._source.username = params.newUsername",
+					  "source": "ctx._source.username = params.newUsername; ctx._source.programme = params.newProgramme",
 					  "lang": "painless",
 					  "params" : {
-						"newUsername" : newUsername
-					  }
-					}
-				  })
-			};
-			await fetchRequest(`${usersBaseUrl}/_update/${email}/`, 200, options);
-
-		} catch (err) {
-			switch (err) {
-				default: /// Internal Server Error and others..
-					throw error.SERVICE_FAILURE;
-			}
-		}
-	};
-
-	const changeUserProgramme = async function (email, newProgramme) { 
-		try {
-			const options = {
-				method: 'POST',
-				headers: { "Content-Type": contentType },
-				body: JSON.stringify({
-					"script" : {
-					  "source": "ctx._source.programme = params.newProgramme",
-					  "lang": "painless",
-					  "params" : {
+						"newUsername" : newUsername,
 						"newProgramme" : newProgramme
 					  }
 					}
@@ -167,8 +143,7 @@ module.exports = function(baseUrl) {
 		getUser : getUser,
 		createUser : createUser,
 		updateUserTokens : updateUserTokens,
-		changeUsername : changeUsername,
-		changeUserProgramme : changeUserProgramme
+		editUser : editUser
 	};
 }
 

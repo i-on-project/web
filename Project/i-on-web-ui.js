@@ -90,7 +90,7 @@ function webui(service, auth) {
 
 		saveUserChosenCoursesAndClasses: async function(req, res) { 
 			try {
-				await service.saveUserChosenCoursesAndClasses(req.user,req.body);
+				await service.saveUserChosenCoursesAndClasses(req.user, req.body);
 				res.redirect('/courses');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
@@ -118,7 +118,7 @@ function webui(service, auth) {
 		editSettings: async function(req, res) {
 			try {
 				await service.editSettings(req.user, req.body);
-				res.redirect('/settings')
+				res.redirect('/settings');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
@@ -158,23 +158,23 @@ function webui(service, auth) {
 
 	/******* Mapping requests to handlers according to the path *******/
 
-	router.get(	'/', 					theWebUI.home			);	/// Home page
+	router.get(	'/', 					theWebUI.home							);	/// Home page
 
-	router.get(	'/programme/:id', 		theWebUI.programme		);	/// Programme info page
-	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers); 	/// Programme offers page
+	router.get(	'/programme/:id', 		theWebUI.programme						);	/// Programme info page
+	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers	); 	/// Programme offers page
 	
-	router.get(	'/available-classes',	theWebUI.classesFromSelectedCourses	);		/// Available classes of the selected courses
+	router.get(	'/available-classes',	theWebUI.classesFromSelectedCourses		);		/// Available classes of the selected courses
 	router.post('/classes', 			theWebUI.saveUserChosenCoursesAndClasses);	/// todo review
 
-	router.get(	'/courses',				theWebUI.userCourses	); 	/// Users courses page
-	router.get(	'/courses/edit',		theWebUI.userCoursesEditUI	);
-	router.post('/courses/edit',		theWebUI.userCoursesEdit	);
-	router.get(	'/schedule', 			theWebUI.userSchedule	);	/// Users schedule page
-	router.get(	'/calendar', 			theWebUI.userCalendar	);	/// Users calendar page
+	router.get(	'/courses',				theWebUI.userCourses					); 	/// Users courses page
+	router.get(	'/courses/edit',		theWebUI.userCoursesEditUI				);
+	router.post('/courses/edit',		theWebUI.userCoursesEdit				);
+	router.get(	'/schedule', 			theWebUI.userSchedule					);	/// Users schedule page
+	router.get(	'/calendar', 			theWebUI.userCalendar					);	/// Users calendar page
 
-	router.get(	'/about', 				theWebUI.about			);	/// About Page
-	router.get('/settings', 			theWebUI.settings		);  /// Settings Page
-	router.post('/settings', 			theWebUI.editSettings	);
+	router.get(	'/about', 				theWebUI.about							);	/// About Page
+	router.get( '/settings', 			theWebUI.settings						);  /// Settings Page
+	router.post('/settings', 			theWebUI.editSettings					);
 
 	/*** Auth ***/
 	router.get(	'/login',				theWebUI.loginUI			);	/// Login UI page

@@ -21,10 +21,12 @@
                     <!-- Back button -->
                     <button type="button" onclick=back() class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</button>
      
-                    <!-- Choose more classes button -->
-                    <a type="button" class="btn btn-outline-dark pull-right" href="/programme-offers/1">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-                                               <!-- TO DO: href is hardcoded for testing, change it -->
-
+                    {{#if user.programme}}
+                        <!-- Choose more classes button -->
+                        <a type="button" class="btn btn-outline-dark pull-right" href="/programme-offers/{{user.programme}}">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                    {{else}}
+                        <a type="button" class="btn btn-outline-dark pull-right" href="/settings">Selecionar curso <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                    {{/if}}
                     <!-- Save button -->
                     <button type="submit" onclick=clickConfirm() class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remover turmas</button>
                 </div>

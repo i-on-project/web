@@ -4,28 +4,41 @@
         <h3>Definições</h3>
     </div>
 
-    <div class="container"></div>
-        <div class="row row-content align-items-center divSpacing">
-            <div class="col-12 col-sm-2">
-                <h5>Nome de utilizador: </h5>       
-                <p>{{user.username}}</p>
-            </div>
-            <div class="col-12">
-                <button id="editButton" onclick=edit() class="btn btn-outline-dark">Editar perfil</button>  
 
-                <form id="settingsForm" method="POST" action="/settings" style="display:none">
-                
-                    <label class="col-sm-2 col-form-label">Nome de utilizador:</label><br>
-                    <input type="text" class="form-control col-sm-5" name="description" required>
-                    <br>
-                    <button type="submit" class="btn btn-dark">Guardar alterações</button>
-                    <button  type="button" onclick=back() class="btn btn-outline-dark">Cancelar</button>  
-                     
-                </form><br>
-
-                  
-            </div>
+    <div class="row row-content align-items-center divSpacing">
+        <div class="offset-1 col-12 col-sm-5">
+            <h5>Nome de utilizador: </h5>       
+            <p>{{user.username}}</p>
         </div>
+        <div class="col col-sm">
+            <h5>Curso do utilizador: </h5>
+            <p>{{user.programme}}</p>
+        </div>
+    </div>
+    <div class="form-group divSpacing">
+        <button id="editButton" onclick=edit() class="btn btn-outline-dark pull-right">Editar perfil</button>  
+
+        <form method="POST" action="/settings" id="settingsDiv" style="display:none">
+            <!-- <div class="offset-1 col-sm-3 divSpacing">-->
+                <label class="col-form-label">Nome de utilizador:</label><br>
+                <input type="text" class="form-control" name="newUsername" value={{user.username}} required>      
+           <!-- </div>
+            <div class="offset-1 col-sm-4 row row-content divSpacing">-->
+                <label class="col-form-label">Curso do utilizador: </label><br>
+                <select class="form-control" name="newProgramme">
+                    {{#each bachelor}}
+                        <option value={{this.programmeId}}>{{this.acronym}} ({{this.name}})</option>
+                    {{/each}}
+                    {{#each master}}
+                        <option value={{this.programmeId}}>{{this.acronym}} ({{this.name}})</option>
+                    {{/each}}
+                </select>
+           <!-- </div>
+            <div class="offset-1 divSpacing">-->
+                <button type="submit" href="/settings" class="btn btn-dark pull-right">Guardar alterações</button>
+                <button  type="button" onclick=back() class="btn btn-outline-dark pull-right">Cancelar</button> 
+            <!-- </div>-->
+        </form>
     </div>
 </div>
 
@@ -33,12 +46,13 @@
 
     function edit(){
         $('#editButton').hide();
-        $('#settingsForm').show();
+        $('#settingsDiv').show();
+
     }
 
     function back() {
         $('#editButton').show();
-        $('#settingsForm').hide();
-    }
+        $('#settingsDiv').hide();
 
+    }
 </script>

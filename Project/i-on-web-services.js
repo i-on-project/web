@@ -232,9 +232,10 @@ module.exports = function(data, database) {
 		});
 	};
 	
-	const editSettings = async function(user, newUsername) {
+	const editSettings = async function(user, newSettings) {
 		if(user) {
-			await data.editUser(user, newUsername.name);
+			await data.editUser(user, newSettings.newUsername);
+			await database.editUser(user.email, newSettings.newUsername, Number(newSettings.newProgramme));
 		}
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {

@@ -379,9 +379,9 @@ module.exports = function() {
 					'Authorization': user.token_type + ' ' + user.access_token,
 					'Content-Type': contentType
 				},
-				body: {
+				body: JSON.stringify({
 					"name": newUsername
-				}
+				})
 			};
 
 			const response = await fetch(core_url + '/api/users', options);
