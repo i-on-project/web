@@ -11,15 +11,8 @@ function webapi(auth) {
 		submitInstitutionalEmail: async function(req, res) {
             const body = req.body;
 			try {
-				console.log("->" + JSON.stringify(body));
 				const data = await auth.submitInstitutionalEmail(body.email);
-                const hmac = crypto
-					.createHmac('sha256', 'changeit') // TO DO
-					.update(body.email) 
-					.digest('hex');
-
-				res.setHeader('Set-Cookie', ['Identifier=' + body.email, 'Mac=' + hmac], 'Expires=' + new Date(Date.now() + data.expires_in)); /// TO DO: confirm it, same site and other security issues, hash ou something? , 'HttpOnly'
-				res.json(data);
+               	res.json(data);
 			} catch(err) {
                 console.log("erro -> " + err);
 				//await onErrorResponse(res, err, 'Failed to show Home Page');
@@ -30,8 +23,7 @@ function webapi(auth) {
             const params = req.params;
 
 			try {
-				if(!isCookieValid(req)) throw error.SERVICE_FAILURE; // TO DO - Change
-				const data = await auth.pollingCore(req, getCookies(req).Identifier, params['authId']);
+				const data = await auth.pollingCore(req, params['authId']);
                 if(data) {
 					res.json();
 				} else res.status(202).json();
@@ -77,41 +69,6 @@ function appErrorsToHttpErrors(err, defaultError) {
 			return { status: 500, message: `An error has occured: ${defaultError} errorPage` };
 	}
 }
-
-const getCookies = (req) => {
-    if(!req.headers.cookie) return null;
-
-    const rawCookies = req.headers.cookie.split('; ');
-
-    const parsedCookies = {}; 
-
-    rawCookies.forEach(rawCookie => {
-        const parsedCookie = rawCookie.split('=');
-        parsedCookies[parsedCookie[0]] = parsedCookie[1];
-    });
-    return parsedCookies;
-};
-
-const isCookieValid = (req) => {
-
-    const parsedCookies = getCookies(req);
-
-    if(!parsedCookies) {
-        return false;
-    } else {
-        const cookie1 = parsedCookies['Mac'];
-        const id = parsedCookies['Identifier'];
-
-        if(!cookie1 || !id) {
-            return false;
-        } else {
-            const hmac = crypto.createHmac('sha256', 'changeit');
-            const cookie2 = hmac.update(id).digest('hex');
-
-            return cookie1 === cookie2;
-        }
-    }
-};
 
 module.exports = webapi;
 

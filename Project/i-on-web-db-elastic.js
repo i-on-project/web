@@ -82,7 +82,7 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const updateUserTokens = async function (email, tokens) { // TO DO
+	const updateUserTokens = async function (email, tokens) {
 		try {
 			const options = {
 				method: 'POST',
@@ -111,7 +111,7 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const changeUsername = async function (email, newUsername) { // TO DO
+	const changeUsername = async function (email, newUsername) {
 		try {
 			const options = {
 				method: 'POST',
@@ -136,7 +136,7 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const changeUserProgramme = async function (email, newProgramme) { // TO DO
+	const changeUserProgramme = async function (email, newProgramme) { 
 		try {
 			const options = {
 				method: 'POST',

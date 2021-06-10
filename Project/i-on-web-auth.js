@@ -45,20 +45,20 @@ module.exports = (app, data, database) => {
 			return data.submitInstitutionalEmail(email);
         }, 
 
-		pollingCore: async function(req, email, authForPoll) {
-			const receivedData = await data.pollingCore(authForPoll);
-			if(receivedData.hasOwnProperty("access_token")) {
-				//delete email cookie and request user emails from core ow that we have the access token
-
-				const firstTimeUser = await database.firstTimeUser(email);
+		pollingCore: async function(req, authForPoll) {
+			const receivedTokens = await data.pollingCore(authForPoll);
+			if(receivedTokens.hasOwnProperty("access_token")) {
+		
+				const user = await data.loadUser(receivedTokens);
+				const firstTimeUser = await database.firstTimeUser(user.email);
 				if(firstTimeUser) {
-					await database.createUser(email, 1, receivedData);
+					await database.createUser(user.email, 1, receivedTokens);
 				} else {
-					await database.updateUserTokens(email, receivedData);
+					await database.updateUserTokens(user.email, receivedTokens);
 				}
-				const user = await database.getUser(email);
+				const i_on_web_user = await database.getUser(user.email);
 
-				req.login(user, (err) => {
+				req.login(i_on_web_user, (err) => {
 					if (err) throw error.SERVICE_FAILURE;
 				})
 			

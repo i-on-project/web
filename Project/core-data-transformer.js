@@ -137,83 +137,6 @@ module.exports = function(data) {
 		return await data.loadAboutData();
 	};
 
-	/******* Authentication *******/ 
-
-	const loadAuthenticationMethodsAndFeatures = async function () {
-		return data.loadAuthenticationMethodsAndFeatures();
-	};
-
-	const submitInstitutionalEmail = async function(email) {
-		const receivedData = await data.submitInstitutionalEmail(email);
-
-		return {
-			"auth_req_id": receivedData.auth_req_id,
-			"expires_in": receivedData.expires_in
-		}
-	};
-
-	const pollingCore = async function(authForPoll) {
-		const receivedData = await data.pollingCore(authForPoll);
-		
-		return receivedData.hasOwnProperty("access_token") ? 
-		{
-			"access_token": receivedData.access_token,
-			"token_type": receivedData.token_type,
-			"refresh_token": receivedData.refresh_token,
-			"expires_in": receivedData.expires_in,
-			"id_token": receivedData.id_token
-		} :
-		{
-			"error" : receivedData.error,
-			"error_description" : receivedData.error_description
-		}
-
-	};
-
-	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {
-		return data.saveUserChosenCoursesAndClasses(user, courseId, classSection);
-	}
-
-	const loadUserSubscribedCourses = async function(user) {
-		const receivedData = await data.loadUserSubscribedCourses(user);
-
-		return receivedData.entities		
-		.map(entities => entities.properties)
-		.reduce(function(response, currentCourse) {
-			const course = {
-				"id": currentCourse.id,
-				"courseId": currentCourse.courseId,
-				"acronym": currentCourse.courseAcr,
-				"calendarTerm": currentCourse.calendarTerm
-			}
-			response.push(course);
-			return response;
-		}, []);
-	}
-
-	const loadUserSubscribedClassesInCourse = async function(user, courseId) {//entities.properties.sectionId
-		const receivedData = await data.loadUserSubscribedClassesInCourse(user, courseId);
-
-		return receivedData.entities		
-		.map(entities => entities.properties)
-		.reduce(function(response, currentClass) {
-			response.push(currentClass.sectionId);
-			return response;
-		}, []);
-	}
-
-	const deleteUserClass = function(user, courseId, classSection) {
-		return data.deleteUserClass(user, courseId, classSection);
-	}
-
-	const deleteUserCourse = function(user, courseId) {
-		return data.deleteUserCourse(user, courseId);
-	}
-
-	const editUser = function(user, newUsername) {
-		return data.editUser(user, newUsername);
-	}
-
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
 		const receivedData = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection);
 
@@ -280,22 +203,120 @@ module.exports = function(data) {
 		});		
 	}
 
+	/******* Authentication *******/ 
+
+	const loadAuthenticationMethodsAndFeatures = async function () {
+		return data.loadAuthenticationMethodsAndFeatures();
+	};
+
+	const submitInstitutionalEmail = async function(email) {
+		const receivedData = await data.submitInstitutionalEmail(email);
+
+		return {
+			"auth_req_id": receivedData.auth_req_id,
+			"expires_in": receivedData.expires_in
+		}
+	};
+
+	const pollingCore = async function(authForPoll) {
+		const receivedData = await data.pollingCore(authForPoll);
+		
+		return receivedData.hasOwnProperty("access_token") ? 
+		{
+			"access_token": receivedData.access_token,
+			"token_type": receivedData.token_type,
+			"refresh_token": receivedData.refresh_token,
+			"expires_in": receivedData.expires_in,
+			"id_token": receivedData.id_token
+		} :
+		{
+			"error" : receivedData.error,
+			"error_description" : receivedData.error_description
+		}
+
+	};
+
+	/* User related methods */
+
+	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {
+		return data.saveUserChosenCoursesAndClasses(user, courseId, classSection);
+	}
+
+	const loadUserSubscribedCourses = async function(user) {
+		const receivedData = await data.loadUserSubscribedCourses(user);
+
+		return receivedData.entities		
+		.map(entities => entities.properties)
+		.reduce(function(response, currentCourse) {
+			const course = {
+				"id": currentCourse.id,
+				"courseId": currentCourse.courseId,
+				"acronym": currentCourse.courseAcr,
+				"calendarTerm": currentCourse.calendarTerm
+			}
+			response.push(course);
+			return response;
+		}, []);
+	}
+
+	const loadUserSubscribedClassesInCourse = async function(user, courseId) {//entities.properties.sectionId
+		const receivedData = await data.loadUserSubscribedClassesInCourse(user, courseId);
+
+		return receivedData.entities		
+		.map(entities => entities.properties)
+		.reduce(function(response, currentClass) {
+			response.push(currentClass.sectionId);
+			return response;
+		}, []);
+	}
+
+	const deleteUserClass = function(user, courseId, classSection) {
+		return data.deleteUserClass(user, courseId, classSection);
+	}
+
+	const deleteUserCourse = function(user, courseId) {
+		return data.deleteUserCourse(user, courseId);
+	}
+
+	const editUser = function(user, newUsername) {
+		return data.editUser(user, newUsername);
+	}
+
+	const loadUser = async function(tokens) {
+		const receivedData = await data.loadUser(tokens);
+		return {
+			'email': receivedData.properties.email,
+			'username': receivedData.properties.name
+		};
+	}
+	/* Return Example:
+	* {
+	*	'email': 'A12345@alunos.isel.pt',
+	*	'username': 'João'
+	* }
+	*/
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
+		loadClassSectionSchedule : loadClassSectionSchedule,
+		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
+
+		/* Authentication related methods */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
+
+		/* User related methods */
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
 		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
 		deleteUserClass : deleteUserClass,
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadClassSectionSchedule : loadClassSectionSchedule,
-		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm
+		loadUser : loadUser
 	};
 }

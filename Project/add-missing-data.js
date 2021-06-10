@@ -83,6 +83,16 @@ module.exports = function(data) {
 		return response;
 	};
 
+	const loadClassSectionSchedule = function(courseId, calendarTerm, classSection) {
+		return data.loadClassSectionSchedule(courseId, calendarTerm, classSection);
+	}
+
+	const loadCourseEventsInCalendarTerm = function(courseId, calendarTerm) {
+		return data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
+	}
+
+	/* Authentication related methods */
+
 	const loadAuthenticationMethodsAndFeatures = function () {
 		return data.loadAuthenticationMethodsAndFeatures();
 	};
@@ -94,6 +104,8 @@ module.exports = function(data) {
 	const pollingCore = function(authForPoll) {
 		return data.pollingCore(authForPoll);
 	};
+
+	/* User related methods */
 
 	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {
 		return data.saveUserChosenCoursesAndClasses(user, courseId, classSection);
@@ -119,12 +131,8 @@ module.exports = function(data) {
 		return data.editUser(user, newUsername);
 	}
 
-	const loadClassSectionSchedule = function(courseId, calendarTerm, classSection) {
-		return data.loadClassSectionSchedule(courseId, calendarTerm, classSection);
-	}
-
-	const loadCourseEventsInCalendarTerm = function(courseId, calendarTerm) {
-		return data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
+	const loadUser = function(tokens) {
+		return data.loadUser(tokens);
 	}
 
 	return {
@@ -133,17 +141,22 @@ module.exports = function(data) {
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
+		loadClassSectionSchedule : loadClassSectionSchedule,
+		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
+
+		/* Authentication related methods */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
+
+		/* User related methods */
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
 		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
 		deleteUserClass : deleteUserClass,
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadClassSectionSchedule : loadClassSectionSchedule,
-		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm
+		loadUser : loadUser
 	};
 }
 

@@ -100,7 +100,7 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/api/courses/'+ courseId +'/classes/' + calendarTerm, 200, options); // TO DO - change 
+			return await coreRequest('/api/courses/'+ courseId +'/classes/' + calendarTerm, 200, options);
 
 		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -126,6 +126,55 @@ module.exports = function() {
 			}
 		}
 	};
+
+	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
+		try {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Accept': 'application/vnd.siren+json'
+				}
+			};
+	
+
+			return await coreRequest('/api/courses/'+ courseId +'/classes/' + calendarTerm + '/' + classSection + '/calendar', 200, options); 
+
+		} catch (err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	}
+
+	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm) {
+		try {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': read_token,
+					'Accept': 'application/vnd.siren+json'
+				}
+			};
+
+			return await coreRequest('/api/courses/'+ courseId +'/classes/' + calendarTerm + '/calendar', 200, options);
+
+		} catch (err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw error.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw error.SERVICE_FAILURE;
+			}
+		}
+	}
+
+	/* Authentication related methods */
 
 	const loadAuthenticationMethodsAndFeatures = async function () {
 		try {
@@ -191,7 +240,7 @@ module.exports = function() {
 			};
 			
 			const response = await fetch(core_url + `/api/auth/request/${authForPoll}/poll`, options);
-
+			// TO DO: Check response status code
 			return response.json();
 
 		} catch(err) { /// TO DO:  Add more error handling
@@ -203,6 +252,8 @@ module.exports = function() {
 			}
 		}
 	};
+
+	/* User related methods */
 
 	const saveUserChosenCoursesAndClasses = async function(user, courseId, classSection) {
 		try {
@@ -347,21 +398,19 @@ module.exports = function() {
 		}
 	};
 
-	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
+	const loadUser = async function(tokens) {
 		try {
 
 			const options = {
 				method: 'GET',
 				headers: {
-					'Authorization': read_token,
-					'Accept': 'application/vnd.siren+json'
+					'Authorization': tokens.token_type + ' ' + tokens.access_token
 				}
 			};
-	
 
-			return await coreRequest('/api/courses/'+ courseId +'/classes/' + '1718i' + '/' + classSection + '/calendar', 200, options); // TO DO - change 
+			return await coreRequest('/api/users', 200, options);
 
-		} catch (err) { /// TO DO:  Add more error handling
+		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
 					throw error.RESOURCE_NOT_FOUND;
@@ -369,31 +418,7 @@ module.exports = function() {
 					throw error.SERVICE_FAILURE;
 			}
 		}
-	}
-
-	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm) {
-		try {
-
-			const options = {
-				method: 'GET',
-				headers: {
-					'Authorization': read_token,
-					'Accept': 'application/vnd.siren+json'
-				}
-			};
-	
-
-			return await coreRequest('/api/courses/'+ courseId +'/classes/' + '1718v' + '/calendar', 200, options); // TO DO - change 
-
-		} catch (err) { /// TO DO:  Add more error handling
-			switch (err) {
-				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
-			}
-		}
-	}
+	};
 
 	return {
         loadAllProgrammes : loadAllProgrammes,
@@ -401,16 +426,21 @@ module.exports = function() {
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
+		loadClassSectionSchedule : loadClassSectionSchedule,
+		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
+
+		/* Authentication related methods */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
+
+		/* User related methods */
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
 		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
 		deleteUserClass : deleteUserClass,
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadClassSectionSchedule : loadClassSectionSchedule,
-		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm
+		loadUser : loadUser
 	};
 }
