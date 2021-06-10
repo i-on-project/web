@@ -28,4 +28,4 @@ jobs:
         - name: Install dependencies
           run: npm install --prefix ./Project
         - name: "Run Test"
-          run: npm test
+          run: npm test --prefix ./Project
