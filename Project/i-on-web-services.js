@@ -26,12 +26,12 @@ module.exports = function(data, database) {
 		const courseIDs = offers
 		.map(offer => offer.courseId)
 		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
-
+		console.log()
 		const calendarTerm = await getCurrentCalendarTerm(data);
 
 		const filteredCoursesId = [];
 		for(let i = 0; i < courseIDs.length; i++) {
-			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm) ;
+			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm);
 			if(courseClasses.classes.length != 0) filteredCoursesId.push(courseIDs[i]);
 		}
 
@@ -49,7 +49,7 @@ module.exports = function(data, database) {
 
 		const programme = await data.loadProgrammeData(programmeId);
 		const offers = await data.loadAllProgrammeOffers(programmeId);
-	
+
 		const offersByAcademicTerms = offers
 		.reduce( (offersByTerms, offer) => {
 			return offer.termNumber.reduce( (offersByTerms, term) => {
@@ -193,6 +193,7 @@ module.exports = function(data, database) {
 				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs, '1718i'));
 			}
 		}
+
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			user: user, 

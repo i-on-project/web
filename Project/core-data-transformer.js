@@ -21,6 +21,22 @@ module.exports = function(data) {
 
 		return transformedData;
 	};
+	/* Return Example:
+	* [{
+	*	'programmeId': 3
+	*	'acronym': "LEIRT"
+	*	'name': "Licenciatura em Engenharia Informática, Redes e Telecomunicações"
+	*	'degree': "bachelor"
+	* }, 
+	* ...
+	* {
+	*	'programmeId': 2
+	*	'acronym': "MEIC"
+	*	'name': "Licenciatura em Informática e de Computadores"
+	*	'degree': "bachelor"
+	* }]
+	*/
+
 
 	const loadAllProgrammeOffers = async function(programmeId) {
 		const receivedData = await data.loadAllProgrammeOffers(programmeId);
@@ -42,6 +58,30 @@ module.exports = function(data) {
 			return response;
 		}, []);;
 	};
+	/* Return Example:
+	* [{
+	*	'acronym': 'PI',
+	*	'name': 'Programação na Internet',
+	*	'courseId': 5,
+	*	'id': 3,
+	*	'termNumber': [5],
+	*	'optional': false,
+	*	'ects': 6,
+	*	'scientificArea': 'IC'
+	* }, 
+	* ...
+	* {
+	*	'acronym': 'CN',
+	*	'name': 'Computação na Nuvem',
+	*	'courseId': 9,
+	*	'id': 7,
+	*	'termNumber': [6],
+	*	'optional': false,
+	*	'ects': 6,
+	*	'scientificArea': 'IC'
+	* }]
+	*/
+
 
 	const loadProgrammeData = async function(programmeId) {
 		const receivedData = await data.loadProgrammeData(programmeId);
@@ -58,6 +98,20 @@ module.exports = function(data) {
 			"description": receivedData.properties.description,
 		};
 	};
+	/* Return Example:
+	* {
+	*	'id': '3',
+	*	'name': 'Licenciatura em Engenharia Informática, Redes e Telecomunicações',
+	*	'acronym': 'LEIRT',
+	*	'termSize': 6,
+	*	'department': 'ADEETC',
+	*	'coordination': ,
+	*	'contacts': ,
+	*	'sourceLink': ,
+	*	'description': 
+	* }
+	*/
+
 
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
 		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm) ;

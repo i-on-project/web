@@ -3,10 +3,9 @@
 
     {{#if schedule}}
 
-        <div class="schedule">
-            
+        <div class="schedule schedulepdf">
             <div class="schedule_header">
-                <span class="dl boldText">Time</span>
+                <span class="dl boldText">Hora</span>
                 <span class="ds">Ti</span>
             </div>  
 
@@ -137,9 +136,8 @@
             <!-- ./Grid Columns-->
 
         </div>
-
+        <button class="btn btn-outline-dark" id="create_pdf">Obter em PDF</button>
         <script>
-    
             /*
             $(document).ready(function () { 
                 ... code ...
@@ -333,7 +331,6 @@
                     )     
                 }
             */
-                
         </script>
 
     {{else}}
@@ -345,3 +342,41 @@
     {{/if}}
 
 </div>
+
+
+
+<script>  
+    (function () {  
+        const schedulepdf = $('.schedulepdf');  
+        const cache_width = schedulepdf.width(2000); 
+        const a4 = [1000, 1000];//[595.28, 841.89]; // for a4 size paper width and height  
+
+        $('#create_pdf').on('click', function () {  
+            $('body').scrollTop(0);  
+            createPDF();  
+        });  
+        //create pdf  
+        function createPDF() {  
+            getCanvas().then(function (canvas) {  
+                const img = canvas.toDataURL("image/png");  
+                const doc = new jsPDF({  
+                     unit: 'px',  
+                     format: 'a4'  
+                 });  
+                doc.addImage(img, 'JPEG', 20, 20);  
+                doc.save('Horário.pdf');  
+                schedulepdf.width(2000);  
+            });  
+        }  
+
+        // create canvas object  
+        function getCanvas() {  
+            schedulepdf.width(2000).css('max-width', 'none');  
+            return html2canvas(schedulepdf, {  
+                imageTimeout: 2000,  
+                removeContainer: true  
+            });  
+        }  
+
+    }());  
+</script>  

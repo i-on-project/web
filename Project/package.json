@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "npm run lite",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "lite": "lite-server"
   },
   "keywords": [],
@@ -17,11 +17,13 @@
   "dependencies": {
     "bootstrap": "4.6.0",
     "bootstrap-icons": "1.4.1",
+    "chai": "^4.3.4",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "font-awesome": "4.7.0",
     "hbs": "^4.1.1",
     "jquery": "3.5.1",
+    "mocha": "^9.0.0",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
     "passport": "^0.4.1",
