@@ -1,0 +1,145 @@
+body { 
+  padding-top: 85px;
+  background-color: #D3D3D3;
+}
+
+.pageBeginning {
+  padding-top: 20px;
+}
+
+footer {
+  margin-top: 40px;
+}
+
+.pageFinalSection {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.logo-image{
+  width: 170px;
+  height: 170px;
+  border-radius: 25%;
+  overflow: hidden;
+  margin-top: -55px;
+  margin-bottom: -55px;
+}
+
+.nav-link{
+  font-size: large /* <font size="4"> */
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  -webkit-border-radius: 0 6px 6px 6px;
+  -moz-border-radius: 0 6px 6px;
+  border-radius: 0 6px 6px 6px;
+}
+
+.dropdown:hover>.dropdown-menu {  /* Menu */
+  display: block;
+  background-color: #D3D3D3;
+}
+
+.dropdown-submenu:hover>.dropdown-menu { /* Submenu */
+  display: block;
+  background-color: #D3D3D3;
+}
+
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #343a40; /* Default arrow color */
+  margin-top: 5px;
+  margin-right: -10px;
+}
+
+.dropdown-item>a:active { 
+  color: white;
+}
+
+.dropdown-submenu:hover>a:after {
+  border-left-color: DarkGrey; /* Arrow color when hovered over */
+}
+
+.dropdown-submenu:hover {
+  background-color: #343a40;
+}
+
+.dropdown-item:hover{
+  background-color: #343a40;
+  color: white;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  -webkit-border-radius: 6px 0 6px 6px;
+  -moz-border-radius: 6px 0 6px 6px;
+  border-radius: 6px 0 6px 6px;
+}
+
+/* Table style */
+th {
+  background-color: #343a40;
+  color: white;
+}
+
+tr {
+  background-color: #D3D3D3;
+  color: black;
+}
+
+tr.border_bottom td {
+	border-bottom: 1px solid black;
+}
+
+.tableDetails {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+/* Padding space between div and previous element */
+.divSpacing {
+  padding-top: 30px;
+}
+
+/* Solid border */
+hr.solid {
+  border-top: 3px solid #bbb;
+}
+
+/* Selected Courses display boxes */
+.boxes {
+  text-align: left;
+  width: 400px;
+  border-radius:10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: #343a40;
+  align-items: center;
+  margin: auto;
+  margin-bottom: 15px;
+  color: white;
+}
+
+/* Bold text */
+.boldText {
+  font-weight: bold;
+}

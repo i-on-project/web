@@ -1,0 +1,75 @@
+<div class="container-fluid pageBeginning">
+
+    <h3 class="text-center">As minhas disciplinas</h3>
+
+    <div class="divSpacing">
+
+        {{#if userCoursesAndClasses}} <!-- If the user has selected any courses -->
+            
+            <form method="POST" action="/courses/edit">
+
+                {{#each userCoursesAndClasses}} <!-- Iterate all user courses -->
+                    {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->
+                        <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
+                            {{../this.name}} - {{this}} 
+                            <input class="pull-right toDeleteCheckBoxes" type="checkbox" style="display:none" name={{../this.courseId}} value={{this}}>
+                        </div>
+                    {{/each}}
+                {{/each}}
+
+                <div id="editing" class="divSpacing" style="display:none">
+                    <!-- Back button -->
+                    <button type="button" onclick=back() class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</button>
+     
+                    {{#if user.programme}}
+                        <!-- Choose more classes button -->
+                        <a type="button" class="btn btn-outline-dark pull-right" href="/programme-offers/{{user.programme}}">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                    {{else}}
+                        <a type="button" class="btn btn-outline-dark pull-right" href="/settings">Selecionar curso <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                    {{/if}}
+                    <!-- Save button -->
+                    <button type="submit" onclick=clickConfirm() class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remover turmas</button>
+                </div>
+
+                <div id="notEditing" class="divSpacing">
+                    <button type="button" onclick=edit() class="btn btn-outline-dark">Editar</a>
+                 </div>
+                <!-- TO DO: href is hardcoded for testing, change it -->
+
+            </form>
+
+   
+        {{else}}
+
+            <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
+
+            <div class="divSpacing">
+                <!-- TO DO: href is hardcoded for testing, change it -->
+                <a class="btn btn-outline-dark pull-right" href="/programme-offers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+            </div>
+
+        {{/if}}
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function edit(){
+        $('#notEditing').hide();
+        $('#editing').show();
+        $('.toDeleteCheckBoxes').show();
+    }
+
+    function back() {
+        $('#notEditing').show();
+        $('#editing').hide();
+        $('.toDeleteCheckBoxes').hide();
+    }
+
+    function clickConfirm() {
+        confirm("Tem a certeza que pretende eliminar os items selecionados?");
+    }
+</script>

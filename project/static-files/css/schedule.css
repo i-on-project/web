@@ -1,0 +1,284 @@
+/* Schedule Style */
+
+.schedule{
+    margin:1rem .5rem;
+    background-color: #D3D3D3;
+    border-radius: .2rem;
+    padding: .5rem;
+    display: grid;
+    width: auto;
+    grid-gap: 0;
+    overflow: hidden;
+    justify-self: center;
+  
+  /*   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); */
+    grid-template-columns: [time] 100px
+      [monday] minmax(190px, 190px) 
+      [tuesday] minmax(190px, 190px) 
+      [wednesday] minmax(190px, 190px) 
+      [thursday]minmax(190px, 190px) 
+      [friday] minmax(190px, 190px) 
+      [saturday] minmax(190px, 190px) ;
+
+      /*
+      [monday] minmax(auto, auto) 
+      [tuesday] minmax(auto, auto) 
+      [wednesday] minmax(auto, auto) 
+      [thursday]minmax(auto, auto) 
+      [friday] minmax(auto, auto) 
+      [saturday] minmax(auto, auto) ;
+      */
+  
+    grid-template-rows: [header] auto
+      [s] 40px
+      [sf] 40px
+      [st] 40px
+      [sff] 40px
+      [e] 40px
+      [ef] 40px
+      [et] 40px
+      [eff] 40px
+      [n] 40px
+      [nf] 40px
+      [nt] 40px
+      [nff] 40px
+      [a] 40px
+      [af] 40px
+      [at] 40px
+      [aff] 40px
+      [b] 40px
+      [bf] 40px
+      [bt] 40px
+      [bff] 40px
+      [c] 40px
+      [cf] 40px
+      [ct] 40px
+      [cff] 40px
+      [d] 40px
+      [df] 40px
+      [dt] 40px
+      [dff] 40px;    
+  }
+  
+  .schedule_header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0.5rem 1rem;
+    border: 1px solid #000;
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+  }
+  
+  .schedule_time{
+    position: relative;
+    padding: 0.5rem 0.25rem;
+    border: 1px solid #000;
+    background-color: #343a40;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .grid{
+    border:1px solid #000; 
+  }
+  
+  .schedule-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: .25rem; 
+    padding: .5rem;
+    margin: .25em;
+  }
+  
+  .bg-red {
+    background: #eb5a46b8;
+    color: #8e3224;
+    border: 2px solid #b95344;
+  }
+  
+  .bg-blue {
+    background: #08b7d29e;
+    color: #104a53;
+    border: 2px solid #157786;
+  }
+  
+  .bg-purple {
+    background: #a251bfb8;
+    color: #633673;
+    border: 2px solid #a24cc1;
+  }
+  
+  .bg-yellow {
+    background: #f0d50794;
+    color: #847927;
+    border: 2px solid #e1c700;
+  }
+  
+  .bg-green {
+    background: #61bd4fa1;
+    color: #3c882d;
+    border: 2px solid #61bd4f;
+  }
+  
+  .schedule-monday { grid-column: monday / span 1; }
+  .schedule-tuesday { grid-column: tuesday / span 1; }
+  .schedule-wednesday { grid-column: wednesday / span 1; }
+  .schedule-thursday { grid-column: thursday / span 1; }
+  .schedule-friday { grid-column: friday / span 1; }
+  .schedule-saturday { grid-column: saturday / span 1; }
+  
+  .schedule-row-from-monday { grid-column: monday / span 6;}
+  /* .schedule-row-to-saturday { grid-column-end: saturday; } */
+  
+  .time-from-s { grid-row-start: s; }
+  .time-from-sf { grid-row-start: sf; }
+  .time-from-st { grid-row-start: st; }
+  .time-from-sff { grid-row-start: sff; }
+  
+  .time-from-e { grid-row-start: e; }
+  .time-from-ef { grid-row-start: ef; }
+  .time-from-et { grid-row-start: et; }
+  .time-from-eff { grid-row-start: eff; }
+  
+  .time-from-n { grid-row-start: n; }
+  .time-from-nf { grid-row-start: nf; }
+  .time-from-nt { grid-row-start: nt; }
+  .time-from-nff { grid-row-start: nff; }
+  
+  .time-from-a { grid-row-start: a; }
+  .time-from-af { grid-row-start: af; }
+  .time-from-at { grid-row-start: at; }
+  .time-from-aff { grid-row-start: aff; }
+  
+  .time-from-b { grid-row-start: b; }
+  .time-from-bf { grid-row-start: bf; }
+  .time-from-bt { grid-row-start: bt; }
+  .time-from-bff { grid-row-start: bff; }
+  
+  .time-from-c { grid-row-start: c; }
+  .time-from-cf { grid-row-start: cf; }
+  .time-from-ct { grid-row-start: ct; }
+  .time-from-cff { grid-row-start: cff; }
+  
+  .time-from-d { grid-row-start: d; }
+  .time-from-df { grid-row-start: df; }
+  .time-from-dt { grid-row-start: dt; }
+  .time-from-dff { grid-row-start: dff; }
+  
+  
+  /*  End */
+  .time-to-s { grid-row-end: s; }
+  .time-to-sf { grid-row-end: sf; }
+  .time-to-st { grid-row-end: st; }
+  .time-to-sff { grid-row-end: sff; }
+  
+  .time-to-e { grid-row-end: e; }
+  .time-to-ef { grid-row-end: ef; }
+  .time-to-et { grid-row-end: et; }
+  .time-to-eff { grid-row-end: eff; }
+  
+  .time-to-n { grid-row-end: n; }
+  .time-to-nf { grid-row-end: nf; }
+  .time-to-nt { grid-row-end: nt; }
+  .time-to-nff { grid-row-end: nff; }
+  
+  .time-to-a { grid-row-end: a; }
+  .time-to-af { grid-row-end: af; }
+  .time-to-at { grid-row-end: at; }
+  .time-to-aff { grid-row-end: aff; }
+  
+  .time-to-b { grid-row-end: b; }
+  .time-to-bf { grid-row-end: bf; }
+  .time-to-bt { grid-row-end: bt; }
+  .time-to-bff { grid-row-end: bff; }
+  
+  .time-to-c { grid-row-end: c; }
+  .time-to-cf { grid-row-end: cf; }
+  .time-to-ct { grid-row-end: ct; }
+  .time-to-cff { grid-row-end: cff; }
+  
+  .time-to-d { grid-row-end: d; }
+  .time-to-df { grid-row-end: df; }
+  .time-to-dt { grid-row-end: dt; }
+  .time-to-dff { grid-row-end: dff; }
+  
+  .ds{
+    display: none;
+  }
+  @media (max-width: 800px) {
+    .schedule{
+        display: inline-grid;
+        overflow: hidden;
+        grid-template-columns: [time] 40px
+          [monday] minmax(auto, 125px) 
+          [tuesday] minmax(auto, 125px) 
+          [wednesday] minmax(auto, 125px) 
+          [thursday]minmax(auto, 125px) 
+          [friday] minmax(auto, 125px) 
+          [saturday] minmax(auto, 125px) ;
+        grid-template-rows: [header] 40px
+          [s] 40px 49px
+          [sf] 40px 49px
+          [st] 40px 49px
+          [sff] 40px 49px
+          [e] 40px 49px
+          [ef] 40px 49px
+          [et] 40px 49px
+          [eff] 40px 49px
+          [n] 40px 49px
+          [nf] 40px 49px
+          [nt] 40px 49px
+          [nff] 40px 49px
+          [a] 40px 49px
+          [af] 40px 49px
+          [at] 40px 49px
+          [aff] 40px 49px
+          [b] 40px 49px
+          [bf] 40px 49px
+          [bt] 40px 49px
+          [bff] 40px 49px
+          [c] 40px 49px
+          [cf] 40px 49px
+          [ct] 40px 49px
+          [cff] 40px 49px
+          [d] 40px 49px
+          [df] 40px 49px
+          [dt] 40px 49px
+          [dff] 40px 49px;
+      }
+    
+      .schedule_time {
+        -ms-transform: rotate(-90deg) translate(-100px);
+        -webkit-transform: rotate(-90deg) translate(-100px);
+        transform: rotate(-90deg) translate(-100px);
+        -webkit-transform-origin: left 50%;
+        -ms-transform-origin: left 50%;
+        transform-origin: left top;
+        width:90px;
+      }
+      
+      .dl {
+         display:none;
+      }
+    
+      .ds{
+        display: block;
+      }
+  
+      /* .schedule-item {
+        height: 70px;
+      } */
+    
+    .grid-last{
+      height: 98px;
+    }
+  
+  }
+  
+  
