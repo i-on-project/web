@@ -3,52 +3,54 @@
 /// Port definition
 const port = process.env.PORT || 8080;
 
+/// Express framework
 const express = require('express');
 const app = express();
 
-/***** Run configurations *****/ 
+async function configurations() {
 
-async function configuration() {
+    /// Paths
+    const presentationLayerPath  = './presentation-layer';
+    const businessLogicLayerPath = './business-logic-layer';
+    const dataAccessLayerPath    = './data-access-layer';
 
     /// Database
-    const storageCreator = require('./i-on-web-db-elastic.js');
+    const storageCreator = require(`${dataAccessLayerPath}/i-on-web-db-elastic.js`);
     const database = storageCreator('http://localhost:9200'); // TO DO - Make it generic
     await database.initializeDatabaseIndexes();               /// Initialize elastic indexes
  
     /// Data
-    //const dataModule = process.env.OPERATION_MODE == "standalone" ? './mock-data.js' : './core-data.js';
-
     let data;
 
     if(process.env.OPERATION_MODE === "standalone") {
-        data = require('./data-access-layer/mock-data.js')();
+        data = require(`${dataAccessLayerPath}/mock-data.js`)();
     } else {
-        const core = require('./data-access-layer/core-data.js')();
+        const core = require(`${dataAccessLayerPath}/core-data.js`)();
+
         /// Decorators
         const coreTransformer = require('./core-data-transformer.js')(core);
         const addMissingData = require('./add-missing-data.js')(coreTransformer);
-        //data = require('./i-on-web-cache.js')(addMissingData);
-        data = require('./add-missing-data.js')(addMissingData); 
+        data = addMissingData; // require('./i-on-web-cache.js')(addMissingData); // ... add cache ...
     }
 
     /// Auth
-    const auth = require('./i-on-web-auth.js')(app, data, database);
+    const auth = require(`${businessLogicLayerPath}/i-on-web-auth.js`)(app, data, database);
 
     /// Services
-    const service = require('./i-on-web-services.js')(data, database);
+    const service = require(`${businessLogicLayerPath}/i-on-web-services.js`)(data, database);
 
     /// WebUI
-    const webUI = require('./presentation-layer/i-on-web-ui.js')(service, auth);
+    const webUI = require(`${presentationLayerPath}/i-on-web-ui.js`)(service, auth);
 
     /// Auth WebAPI
-    const webAuthApi = require('./presentation-layer/i-on-web-auth-api')(auth);
+    const webAuthApi = require(`${presentationLayerPath}/i-on-web-auth-api`)(auth);
 
-    /// Middleware
+    /// Middlewares
     app.use('/auth-api', webAuthApi);
     app.use(webUI);
 
     app.use('/dependecies', express.static('node_modules'));
-    app.use('/public', express.static('static-files'));
+    app.use('/public',      express.static('static-files'));
     
     app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)
 
@@ -57,4 +59,4 @@ async function configuration() {
 
 };
 
-configuration();
+configurations();

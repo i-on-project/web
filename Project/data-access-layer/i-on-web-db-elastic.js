@@ -1,6 +1,6 @@
 'use strict'
 
-const internalErrors = require('./common/i-on-web-errors.js');
+const internalErrors = require('../common/i-on-web-errors.js');
 const fetch = require('node-fetch');
 
 const contentType = 'application/json';

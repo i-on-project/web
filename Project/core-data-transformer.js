@@ -3,9 +3,9 @@
 module.exports = function(data) {
 
 	const loadAllProgrammes = async function () {
-
+		console.log("CDT")
 		const receivedData = await data.loadAllProgrammes();
-
+		console.log("CDT - response received")
 		const transformedData = receivedData.entities
 		.map(entities => entities.properties)
 		.reduce(function(response, currentProgramme) {
@@ -19,6 +19,7 @@ module.exports = function(data) {
 			return response;
 		}, []);
 
+		console.log("CDT - returning")
 		return transformedData;
 	};
 	/* Return Example:

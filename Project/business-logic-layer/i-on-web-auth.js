@@ -2,7 +2,7 @@
 
 const passport = require('passport');
 const session = require('express-session');
-const internalErrors = require('./common/i-on-web-errors.js');
+const internalErrors = require('../common/i-on-web-errors.js');
 
 const FileStore = require('session-file-store')(session); 
 

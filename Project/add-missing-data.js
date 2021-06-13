@@ -3,11 +3,13 @@
 module.exports = function(data) {
 
 	const loadAllProgrammes = async function () {
+		console.log("AMD")
 		const response = await data.loadAllProgrammes();
+		console.log("AMD - response received")
 
 		/*** Adding missing data ***/
-		const mockDataToBeAdded = await getMockData('./data/programmes');
-
+		const mockDataToBeAdded = await getMockData('/programmes');
+	
 		const improvedData = response
 		.map( programme => {
 			const mockProgramme = mockDataToBeAdded.entities
@@ -19,6 +21,7 @@ module.exports = function(data) {
 			return programme;
 		});
 
+		console.log("AMD - returning")
 		return improvedData;
 	};
 
@@ -26,7 +29,7 @@ module.exports = function(data) {
 		const response = await data.loadAllProgrammeOffers(programmeId);
 
 		/* Adding missing data */ 
-		const path = './data/offers/' + programmeId;
+		const path = '/offers/' + programmeId;
 		const mockDataToBeAdded = await getMockData(path);
 
 		const improvedResponse = response.map( offer => {
@@ -48,7 +51,7 @@ module.exports = function(data) {
 		const response = await data.loadProgrammeData(programmeId);
 	
 		/* Adding missing data */
-		const path = './data/programmes/' + programmeId;
+		const path = '/programmes/' + programmeId;
 		const mockDataToBeAdded = await getMockData(path);
 		
 		// TO DO - Change
@@ -67,7 +70,7 @@ module.exports = function(data) {
 		const response = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm) ;
 
 		/* Adding missing data */
-		const path = './data/courses/' + courseId;
+		const path = '/courses/' + courseId;
 		const mockDataToBeAdded = await getMockData(path);
 
 		response['name'] = mockDataToBeAdded.entities.find(__ => __).properties.name;
@@ -78,7 +81,7 @@ module.exports = function(data) {
 		let response = await data.loadAboutData();
 
 		/* Adding missing data */ 
-		response = await getMockData('./data/i-on-team');
+		response = await getMockData('/i-on-team');
 
 		return response;
 	};
@@ -160,7 +163,9 @@ module.exports = function(data) {
 	};
 }
 
-/******* Helper function *******/
+/******* Helper functions *******/
+
+const mockDataPath = './mock-data';
 const getMockData = async function(path) {
-	return require(path);
+	return require(mockDataPath + path);
 };

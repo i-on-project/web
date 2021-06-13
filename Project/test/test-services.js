@@ -1,7 +1,7 @@
 'use strict'
 
 const expect = require('chai').expect
-const serviceCreator = require('../i-on-web-services.js');
+const serviceCreator = require('../business-logic-layer/i-on-web-services.js');
 const internalErrors = require('../common/i-on-web-errors.js');
 
 describe('Services', function () {
