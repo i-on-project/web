@@ -1,8 +1,8 @@
 'use strict'
 
 const express = require('express');
-const internalErrors = require('./common/i-on-web-errors.js');
-const crypto = require('crypto');
+const internalErrors = require('../common/i-on-web-errors.js');
+// const crypto = require('crypto');TODO: if not necessary, remove from package.json
 
 function webapi(auth) {
 	

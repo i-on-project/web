@@ -38,10 +38,10 @@ async function configuration() {
     const service = require('./i-on-web-services.js')(data, database);
 
     /// WebUI
-    const webUI = require('./i-on-web-ui.js')(service, auth);
+    const webUI = require('./presentation-layer/i-on-web-ui.js')(service, auth);
 
     /// Auth WebAPI
-    const webAuthApi = require('./i-on-web-auth-api')(auth);
+    const webAuthApi = require('./presentation-layer/i-on-web-auth-api')(auth);
 
     /// Middleware
     app.use('/auth-api', webAuthApi);

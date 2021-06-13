@@ -1,7 +1,7 @@
 'use strict'
 
 const express = require('express');
-const internalErrors = require('./common/i-on-web-errors.js');
+const internalErrors = require('../common/i-on-web-errors.js');
 
 function webui(service, auth) {
 	
