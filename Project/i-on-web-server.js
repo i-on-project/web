@@ -21,9 +21,9 @@ async function configuration() {
     let data;
 
     if(process.env.OPERATION_MODE === "standalone") {
-        data = require('./mock-data.js')();
+        data = require('./data-access-layer/mock-data.js')();
     } else {
-        const core = require('./core-data.js')();
+        const core = require('./data-access-layer/core-data.js')();
         /// Decorators
         const coreTransformer = require('./core-data-transformer.js')(core);
         const addMissingData = require('./add-missing-data.js')(coreTransformer);

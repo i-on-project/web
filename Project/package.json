@@ -9,7 +9,8 @@
   "scripts": {
     "start": "npm run lite",
     "test": "mocha",
-    "lite": "lite-server"
+    "lite": "lite-server",
+    "server": "node i-on-web-server.js"
   },
   "keywords": [],
   "author": "Ricardo Severino & Catarina Palma",

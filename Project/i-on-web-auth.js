@@ -2,7 +2,7 @@
 
 const passport = require('passport');
 const session = require('express-session');
-const error = require('./i-on-web-errors.js');
+const internalErrors = require('./common/i-on-web-errors.js');
 
 const FileStore = require('session-file-store')(session); 
 
@@ -59,7 +59,7 @@ module.exports = (app, data, database) => {
 				const i_on_web_user = await database.getUser(user.email);
 
 				req.login(i_on_web_user, (err) => {
-					if (err) throw error.SERVICE_FAILURE;
+					if (err) throw internalErrors.SERVICE_FAILURE;
 				})
 			
 				return true;
@@ -71,7 +71,7 @@ module.exports = (app, data, database) => {
 		logout: async function(req) {
 			req.logout();
 			req.session.destroy(err => { /// TO DO : replace ...
-				if (err) throw error.SERVICE_FAILURE;
+				if (err) throw internalErrors.SERVICE_FAILURE;
 			})
 		}
 

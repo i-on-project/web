@@ -1,6 +1,6 @@
 'use strict'
 
-const error = require('./i-on-web-errors.js');
+const internalErrors = require('../common/i-on-web-errors.js');
 const fetch = require('node-fetch'); 
 
 const contentType = 'application/json';
@@ -36,9 +36,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404:	/// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default:	/// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -59,9 +59,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -82,9 +82,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -105,9 +105,9 @@ module.exports = function() {
 		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	}
@@ -120,9 +120,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -144,9 +144,9 @@ module.exports = function() {
 		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	}
@@ -167,9 +167,9 @@ module.exports = function() {
 		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	}
@@ -192,9 +192,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -221,9 +221,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -246,9 +246,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -272,9 +272,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -294,9 +294,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -316,9 +316,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -340,9 +340,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -364,9 +364,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -391,9 +391,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
@@ -413,9 +413,9 @@ module.exports = function() {
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 404: /// Not Found
-					throw error.RESOURCE_NOT_FOUND;
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
-					throw error.SERVICE_FAILURE;
+					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};

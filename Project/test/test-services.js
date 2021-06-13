@@ -2,7 +2,7 @@
 
 const expect = require('chai').expect
 const serviceCreator = require('../i-on-web-services.js');
-const error = require('../i-on-web-errors.js');
+const internalErrors = require('../common/i-on-web-errors.js');
 
 describe('Services', function () {
 

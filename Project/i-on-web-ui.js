@@ -1,7 +1,7 @@
 'use strict'
 
 const express = require('express');
-const error = require('./i-on-web-errors.js');
+const internalErrors = require('./common/i-on-web-errors.js');
 
 function webui(service, auth) {
 	
@@ -198,9 +198,9 @@ async function onErrorResponse(res, err, defaultError) {
 function appErrorsToHttpErrors(err, defaultError) {
 
 	switch (err) {
-		case error.BAD_REQUEST:
+		case internalErrors.BAD_REQUEST:
 			return { status: 400, message: 'Bad Request' };
-		case error.RESOURCE_NOT_FOUND:
+		case internalErrors.RESOURCE_NOT_FOUND:
 			return { status: 404, message: 'Resource Not Found' };
 		default:
 			return { status: 500, message: `An error has occured: ${defaultError} errorPage` };
