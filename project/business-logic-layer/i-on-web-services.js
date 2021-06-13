@@ -26,7 +26,7 @@ module.exports = function(data, database) {
 		const courseIDs = offers
 		.map(offer => offer.courseId)
 		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
-		console.log()
+
 		const calendarTerm = await getCurrentCalendarTerm(data);
 
 		const filteredCoursesId = [];

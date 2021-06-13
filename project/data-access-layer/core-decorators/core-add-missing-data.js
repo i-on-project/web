@@ -3,14 +3,13 @@
 module.exports = function(data) {
 
 	const loadAllProgrammes = async function () {
-		console.log("AMD")
+		
 		const response = await data.loadAllProgrammes();
-		console.log("AMD - response received")
+
 
 		/*** Adding missing data ***/
 		const mockDataToBeAdded = await getMockData('/programmes');
-		console.log("sai do --")
-
+		
 		const improvedData = response
 		.map( programme => {
 			const mockProgramme = mockDataToBeAdded.entities
@@ -21,8 +20,7 @@ module.exports = function(data) {
 
 			return programme;
 		});
-
-		console.log("AMD - returning")
+		
 		return improvedData;
 	};
 
@@ -168,6 +166,5 @@ module.exports = function(data) {
 
 const mockDataPath = '../../mock-data';
 const getMockData = async function(path) {
-	console.log(mockDataPath + path)
 	return require(mockDataPath + path);
 };

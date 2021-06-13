@@ -5,8 +5,8 @@ services:
     container_name: i-on-web
     image: web_app
     build:
-      context: ..
-      dockerfile: Dockerfile
+      context: ../project
+      dockerfile: ./web-dockerfile
       args:
         OPERATION_MODE: "${OPERATION_MODE-core-data}"
         CORE_URL: "${CORE_URL-http://172.17.0.1:10023}"

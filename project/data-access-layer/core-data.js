@@ -23,7 +23,7 @@ module.exports = function() {
 
 	const loadAllProgrammes = async function () {
 		try {
-			console.log("CORE")
+			
 			const options = {
 				method: 'GET',
 				headers: {
