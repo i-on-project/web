@@ -4,9 +4,9 @@ name: unit_tests
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ staging, functionalities-related-to-user-api ]
+    branches: [ main, staging ]
   pull_request:
-    branches: [ master, staging ]
+    branches: [ main, staging ]
   
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -26,6 +26,6 @@ jobs:
         - name: 'Install Node'
           uses: actions/setup-node@v1
         - name: Install dependencies
-          run: npm install --prefix ./Project
+          run: npm --prefix ./project install
         - name: "Run Test"
-          run: npm --prefix ./Project run test
+          run: npm --prefix ./project run test
