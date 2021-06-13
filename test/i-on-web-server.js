@@ -14,6 +14,8 @@ async function configurations() {
     const businessLogicLayerPath = './business-logic-layer';
     const dataAccessLayerPath    = './data-access-layer';
 
+    const coreDecoratorsPath     = `${dataAccessLayerPath}/core-decorators`
+
     /// Database
     const storageCreator = require(`${dataAccessLayerPath}/i-on-web-db-elastic.js`);
     const database = storageCreator('http://localhost:9200'); // TO DO - Make it generic
@@ -28,8 +30,8 @@ async function configurations() {
         const core = require(`${dataAccessLayerPath}/core-data.js`)();
 
         /// Decorators
-        const coreTransformer = require('./core-data-transformer.js')(core);
-        const addMissingData = require('./add-missing-data.js')(coreTransformer);
+        const coreTransformer = require(`${coreDecoratorsPath}/core-data-transformer.js`)(core);
+        const addMissingData  = require(`${coreDecoratorsPath}/core-add-missing-data.js`)(coreTransformer);
         data = addMissingData; // require('./i-on-web-cache.js')(addMissingData); // ... add cache ...
     }
 

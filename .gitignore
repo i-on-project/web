@@ -102,7 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
-Project/package-lock.json
 
 # Session directories
 sessions/

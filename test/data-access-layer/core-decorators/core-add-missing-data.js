@@ -9,7 +9,8 @@ module.exports = function(data) {
 
 		/*** Adding missing data ***/
 		const mockDataToBeAdded = await getMockData('/programmes');
-	
+		console.log("sai do --")
+
 		const improvedData = response
 		.map( programme => {
 			const mockProgramme = mockDataToBeAdded.entities
@@ -165,7 +166,8 @@ module.exports = function(data) {
 
 /******* Helper functions *******/
 
-const mockDataPath = './mock-data';
+const mockDataPath = '../../mock-data';
 const getMockData = async function(path) {
+	console.log(mockDataPath + path)
 	return require(mockDataPath + path);
 };

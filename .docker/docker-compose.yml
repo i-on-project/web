@@ -5,7 +5,7 @@ services:
     container_name: i-on-web
     image: web_app
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile
       args:
         OPERATION_MODE: "${OPERATION_MODE-core-data}"
