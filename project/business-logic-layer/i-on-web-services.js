@@ -127,13 +127,19 @@ module.exports = function(data, database) {
 
 		// Test
 		events = {
-			"assignments": [{"event": "Trabalho de GAP", "date":"2021-06-11" , "time":"13:30"}, 
+			"assignments": [
+			{"event": "Trabalho de GAP", "date":"2021-06-11" , "time":"13:30"}, 
 			{"event": "Trabalho de CN", "date":"2021-06-11", "time":"19:30"}, 
-			{"event": "Trabalho de DAW", "date":"2021-06-11", "time":"18:30"}, 
-			{"event": "Trabalho de PI", "date":"2021-06-11", "time":"18:30"}, 
+			{"event": "Trabalho de DAW", "date":"2021-06-17", "time":"11:00"}, 
+			{"event": "Trabalho de PI", "date":"2021-06-16", "time":"18:30"}, 
 			{"event": "Trabalho de SS", "date":"2021-06-11", "time":"18:30"}, 
-			{"event": "Trabalho de AC", "date":"2021-06-11", "time":"18:30"}],
-			"testsAndExams": [{"event": "Teste de GAP", "date":"2021-06-11" , "starTime":"10:30", "endTime":"12:30", "location":"G.2.14"}]
+			{"event": "Exame de AC", "date":"2021-06-26", "time":"18:30"}
+		],
+			"testsAndExams": [
+				{"event": "Teste de GAP", "date":"2021-06-11" , "starTime":"10:30", "endTime":"12:30", "location":"G.2.14"},
+				{"event": "Teste de PI", "date":"2021-06-16" , "starTime":"09:30", "endTime":"12:30", "location":"G.2.14"},
+				{"event": "Teste de DAW", "date":"2021-06-28" , "starTime":"18:30", "endTime":"21:30", "location":"G.2.10"}
+			]
 		};
 
 		const commonInfo = await getProgrammesByDegree(data);
