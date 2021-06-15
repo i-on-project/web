@@ -1,18 +1,16 @@
 {
-    "properties": {
-        "id": 3,
-        "name": "Licenciatura em Engenharia Informática, Redes e Telecomunicações", 
-        "acronym": "LEIRT",
-        "termSize": 6,
-        "department": "ADEETC",
-        "coordination": [
-            {"teacher": "Professor Doutor Paulo Alexandre Carapinha Marques"},
-            {"teacher": "Professor Doutor António João Nunes Serrador"},
-            {"teacher": "Professor Jorge Manuel Rodrigues Pião"},
-            {"teacher": "Professor Vítor Jesus Sousa de Almeida"}
-        ],
-        "contacts": "ccleirt@deetc.isel.ipl.pt",
-        "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-redes-e-telecomunicacoes",
-        "description": "O curso de Licenciatura em Engenharia Informática, Redes e Telecomunicações (LEIRT) é uma nova licenciatura do ISEL, motivada pelas necessidades crescentes de profissionais nas áreas de convergência entre a informática, as redes de computadores e as telecomunicações fixas e móveis. A LEIRT fornece conhecimentos e competências que permitirão o desenvolvimento de projetos nas áreas dos sistemas computacionais em nuvem, aplicações online, redes celulares, redes de dados, Internet das Coisas, entre outras. Este curso prepara engenheiros para construir o futuro!"
-    }
+    "id": 3,
+    "name": "Licenciatura em Engenharia Informática, Redes e Telecomunicações", 
+    "acronym": "LEIRT",
+    "termSize": 6,
+    "department": "ADEETC",
+    "coordination": [
+        {"teacher": "Professor Doutor Paulo Alexandre Carapinha Marques"},
+        {"teacher": "Professor Doutor António João Nunes Serrador"},
+        {"teacher": "Professor Jorge Manuel Rodrigues Pião"},
+        {"teacher": "Professor Vítor Jesus Sousa de Almeida"}
+    ],
+    "contacts": "ccleirt@deetc.isel.ipl.pt",
+    "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-redes-e-telecomunicacoes",
+    "description": "O curso de Licenciatura em Engenharia Informática, Redes e Telecomunicações (LEIRT) é uma nova licenciatura do ISEL, motivada pelas necessidades crescentes de profissionais nas áreas de convergência entre a informática, as redes de computadores e as telecomunicações fixas e móveis. A LEIRT fornece conhecimentos e competências que permitirão o desenvolvimento de projetos nas áreas dos sistemas computacionais em nuvem, aplicações online, redes celulares, redes de dados, Internet das Coisas, entre outras. Este curso prepara engenheiros para construir o futuro!"
 }

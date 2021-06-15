@@ -22,7 +22,7 @@ module.exports = function(data, database) {
 
 	const getProgrammeCalendarTermOffers = async function(programmeId, user){ // TO DO: arg semester info
 		const offers = await data.loadAllProgrammeOffers(programmeId);
-
+	
 		const courseIDs = offers
 		.map(offer => offer.courseId)
 		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
@@ -81,7 +81,6 @@ module.exports = function(data, database) {
 
 				for(let j = 0; j < classes.length; j++) {
 					const classSectionSchedule = await data.loadClassSectionSchedule(courseId, calendarTerm, classes[j])
-
 					schedule = schedule.concat(classSectionSchedule.map(classSection => {
 						classSection['acronym'] = userCoursesOfPresentCalendarTerm[i].acronym;
 						classSection['classSection'] = classes[j];

@@ -1,65 +1,52 @@
-{
-    "entities": [
-        {
-            "properties": {
-				"acronym": "CD",
-				"name": "Computação Distribuída",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [1],
-				"optional": false,
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "ES",
-				"name": "Engenharia de Software",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [1],
-				"optional": false,
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "ISD",
-				"name": "Infra-estruturas de Sistemas Distribuídos",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [2],
-				"optional": false,
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "ASI",
-				"name": "Arquiteturas de Sistemas de Informação",
-                "courseId": 0,
-				"id": 0,
-                "termNumber": [3, 4],
-				"optional": false,
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        },
-		{
-            "properties": {
-				"acronym": "DM",
-				"name": "Dissertação MEIC",
-                "courseId": 3,
-				"id": 6,
-                "termNumber": [3, 4],
-				"optional": false,
-				"ects": 6,
-				"scientificArea": "IC"
-            }
-        }
-    ]
-}
-
+[
+	{
+		"acronym": "CD",
+		"name": "Computação Distribuída",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [1],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "IC"
+	},
+	{
+		"acronym": "ES",
+		"name": "Engenharia de Software",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [1],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "IC"
+	},
+	{
+		"acronym": "ISD",
+		"name": "Infra-estruturas de Sistemas Distribuídos",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [2],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "IC"
+	},
+	{
+		"acronym": "ASI",
+		"name": "Arquiteturas de Sistemas de Informação",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [3, 4],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "IC"
+	},
+	{
+		"acronym": "DM",
+		"name": "Dissertação MEIC",
+		"courseId": 3,
+		"id": 6,
+		"termNumber": [3, 4],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "IC"
+	}
+]

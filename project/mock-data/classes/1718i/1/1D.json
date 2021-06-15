@@ -1,42 +1,14 @@
-{
-	"subComponents": [
-      {
-        "properties": {
-          "summary": {
-            "value": "LS"
-          },
-		  "weekday": {
-			"value": 2
-		  },
-          "dtstart": {
-            "value": "10:00:00"
-          },
-          "dtend": {
-            "value": "12:30:00"
-          },
-          "location": {
-            "value": "G.2.1"
-          }
-        }
-      },
-      {
-        "properties": {
-          "summary": {
-            "value": "LS"
-          },
-		  "weekday": {
-			"value": 4
-		  },
-          "dtstart": {
-            "value": "10:00:00"
-          },
-          "dtend": {
-            "value": "12:30:00"
-          },
-          "location": {
-            "value": "G.2.4"
-          }
-        }
-      }		
-	]
-}
+[
+  {
+    "startDate":"10:00",
+    "endDate":"12:30",
+    "location":"G.2.1",
+    "weekday":"MO"
+  },
+  {
+    "startDate":"10:00",
+    "endDate":"12:30",
+    "location":"G.2.4",
+    "weekday":"WE"
+  }	
+]
