@@ -232,7 +232,7 @@ module.exports = function() {
 		try {
 			
 			const options = {
-				method: 'GET',
+				method: 'POST',
 				headers: {
 					'Authorization': read_token,
 					'Content-Type': contentType

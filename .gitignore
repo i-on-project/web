@@ -105,3 +105,7 @@ dist
 
 # Session directories
 sessions/
+
+# Elastic search
+esdata/
+

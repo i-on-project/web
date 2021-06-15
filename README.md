@@ -82,7 +82,11 @@ The docker compose file contains the following enviroment variables:
 
 __Note:__ Usually Docker uses the default `172.17.0.0/16` subnet for container networking, in which `172.17.0.1` is the default gateway. By using this IP we can use the bridge connection to make requests to i-on Core.
 
-- __`CORE_READ_TOKEN`__ - Access token used in order to obtain data from i-on Core. By default, it has the value indicated in the i-on Core documentation `l7kowOOkliu21oXxNpuCyM47u2omkysxb8lv3qEhm5U`.
+- __`CORE_READ_TOKEN`__ - Access token used in order to obtain data from i-on Core. By default, it has the value indicated in the i-on Core documentation `l7kowOOkliu21oXxNpuCyM47u2omkysxb8lv3qEhm5U`;
+
+- __`CORE_CLIENT_ID`__ - The unique id of the client provided by the core system. By default, it has the value indicated in the i-on Core documentation `22dd1551-db23-481b-acde-d286440388a5`;
+
+- __`DB_ELASTIC_URL`__ - Where we can indicate the location of the Elasticsearch database. 
 
 In similarity to the command previously shown in development mode, where we assigned a value to the variable `OPERATION_MODE`, the same can be done with the remaining variables.
 

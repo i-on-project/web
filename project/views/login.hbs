@@ -107,7 +107,12 @@
 
 				counter-=5;
 
-				const pollingResponse = await fetch(polling_uri);
+				const pollingResponse = await fetch(polling_uri, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				});
 
 				if(pollingResponse.status === 200) {
 					loading.innerHTML = "<p>Autenticação realizada com sucesso!</p>"

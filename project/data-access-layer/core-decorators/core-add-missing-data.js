@@ -12,8 +12,8 @@ module.exports = function(data) {
 		
 		const improvedData = response
 		.map( programme => {
-			const mockProgramme = mockDataToBeAdded.entities
-			.find( mockEntities => mockEntities.properties.programmeId == programme.programmeId).properties;
+			const mockProgramme = mockDataToBeAdded
+			.find( mockProgramme => mockProgramme.programmeId == programme.programmeId);
 
 			programme["name"] = mockProgramme.name;
 			programme["degree"] = mockProgramme.degree;
@@ -32,8 +32,8 @@ module.exports = function(data) {
 		const mockDataToBeAdded = await getMockData(path);
 
 		const improvedResponse = response.map( offer => {
-			const mockOffer = mockDataToBeAdded.entities
-			.find( mockEntities => mockEntities.properties.courseId == offer.courseId).properties;
+			const mockOffer = mockDataToBeAdded
+			.find( mockOffer => mockOffer.courseId == offer.courseId);
 
 			offer["name"] = mockOffer.name;
 			offer["acronym"] = mockOffer.acronym;
@@ -54,13 +54,13 @@ module.exports = function(data) {
 		const mockDataToBeAdded = await getMockData(path);
 		
 		// TO DO - Change
-		response.name = mockDataToBeAdded.properties.name;
-		response["department"] = mockDataToBeAdded.properties.department;
-		response["department"] = mockDataToBeAdded.properties.department;
-		response["coordination"] = mockDataToBeAdded.properties.coordination;
-		response["contacts"] = mockDataToBeAdded.properties.contacts;
-		response["sourceLink"] = mockDataToBeAdded.properties.sourceLink;
-		response["description"] = mockDataToBeAdded.properties.description;
+		response.name = mockDataToBeAdded.name;
+		response["department"] = mockDataToBeAdded.department;
+		response["department"] = mockDataToBeAdded.department;
+		response["coordination"] = mockDataToBeAdded.coordination;
+		response["contacts"] = mockDataToBeAdded.contacts;
+		response["sourceLink"] = mockDataToBeAdded.sourceLink;
+		response["description"] = mockDataToBeAdded.description;
 
 		return response;
 	};
@@ -69,10 +69,10 @@ module.exports = function(data) {
 		const response = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm) ;
 
 		/* Adding missing data */
-		const path = '/courses/' + courseId;
+		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
 		const mockDataToBeAdded = await getMockData(path);
 
-		response['name'] = mockDataToBeAdded.entities.find(__ => __).properties.name;
+		response['name'] = mockDataToBeAdded.find(__ => __).name;
 		return response;
 	}
 
