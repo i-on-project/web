@@ -69,7 +69,7 @@ module.exports = function(data) {
 		const response = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm) ;
 
 		/* Adding missing data */
-		const path = '/courses/' + courseId;
+		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
 		const mockDataToBeAdded = await getMockData(path);
 
 		response['name'] = mockDataToBeAdded.find(__ => __).name;

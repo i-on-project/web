@@ -1,78 +1,114 @@
 'use strict'
 
+let mockUser = {};
+let courses = {};
+
 module.exports = function() {
 
 	const loadAllProgrammes = async function() {
-		try {
-			const programmes = getMockData('/programmes');
-			return programmes;
-		} catch (err) {
-			// TO DO - Handle errors
-		}
+			return getMockData('/programmes');
 	};
 
 	const loadAllProgrammeOffers = async function(programmeId) {
-		try {
-			const path = '/offers/' + programmeId;
-			const programmeOffers = getMockData(path);
-			return programmeOffers;
-		} catch (err) {
-			// TO DO - Handle errors
-		}
+		const path = '/offers/' + programmeId;
+		return getMockData(path);
 	};
 
 	const loadProgrammeData = async function(programmeId) {
-		try {
-			const path = '/programmes/' + programmeId;
-			const programmeData = getMockData(path);
-			return programmeData;
-		} catch (err) {
-			// TO DO - Handle errors
-		}
+		const path = '/programmes/' + programmeId;
+		return getMockData(path);
 	};
 
 	const loadCourseClassesByCalendarTerm = async function(courseId) {
-		try {
-			const path = '/courses/' + courseId;
-			const course = getMockData(path);
-			return course;
-		} catch (err) {
-			// TO DO - Handle errors
-		}
+		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
+		return getMockData(path);
 	};
 
 	const loadAboutData = async function() {
-		try {
-			return getMockData('/i-on-team');
-		} catch (err) {
-			// TO DO - Handle errors
-		}
+		return getMockData('/i-on-team');
+	};
+	
+	const loadClassSectionSchedule = function(courseId, calendarTerm, classSection) {
+		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/classSections/' + classSection;
+		return getMockData(path);
+	}
+
+	const loadCourseEventsInCalendarTerm = function(courseId, calendarTerm) {
+		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/events';
+		return getMockData(path);
+	}
+
+	/* Authentication related methods */
+
+	const loadAuthenticationMethodsAndFeatures = function () {
+		const path = '/auth/authenticationMethodsAndFeatures';
+		return getMockData(path);
 	};
 
-	const loadCourseEventCalendar = async function(courseId, semester) {
-		try {
-			return getMockData('/classes/1718i' + courseId);
-		} catch (err) {
-			// TO DO - Handle errors
-		}
+	const submitInstitutionalEmail = function(email) {
+		mockUser['email'] = email;
+		mockUser['username'] =  email.slice(0, email.indexOf("@"));
+		const path = '/auth/auth_req_id';
+		return getMockData(path);
 	};
-	
-	const loadClassSchedule = async function(courseId, classId, semester) {
-		try {
-			return getMockData('/classes/1718i' + courseId + '/' + classId);
-		} catch (err) {
-			// TO DO - Handle errors
-		}
+
+	const pollingCore = function(authForPoll) {
+		const path = '/auth/polling_response';
+		return getMockData(path);
 	};
-	
+
+	/* User related methods */
+
+	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {  // TO DO
+		return undefined;
+	}
+
+	const loadUserSubscribedCourses = function(user) {  // TO DO
+		return undefined;
+	}
+
+	const loadUserSubscribedClassesInCourse = function(user, courseId) {  // TO DO
+		return undefined;
+	}
+
+	const deleteUserClass = function(user, courseId, classSection) {  // TO DO
+		return undefined;
+	}
+
+	const deleteUserCourse = function(user, courseId) {  // TO DO
+		return undefined;
+	}
+
+	const editUser = function(user, newUsername) {
+		mockUser.username = newUsername;
+	}
+
+	const loadUser = function(tokens) {// TO DO
+		return mockUser;
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
-		loadCourseEventCalendar : loadCourseEventCalendar,
-		loadClassSchedule : loadClassSchedule
+		loadClassSectionSchedule : loadClassSectionSchedule,
+		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
+
+		/* Authentication related methods */
+		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
+		submitInstitutionalEmail : submitInstitutionalEmail,
+		pollingCore : pollingCore,
+
+		/* User related methods */
+		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
+		loadUserSubscribedCourses : loadUserSubscribedCourses,
+		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		deleteUserClass : deleteUserClass,
+		deleteUserCourse : deleteUserCourse,
+		editUser : editUser,
+		loadUser : loadUser
 	};
 }
 
@@ -80,5 +116,9 @@ module.exports = function() {
 
 const mockDataPath = '../mock-data';
 const getMockData = async function(path) {
-	return require(mockDataPath + path);
+	try{
+		return require(mockDataPath + path);
+	} catch(err) {
+		return undefined; // TO DO - Review
+	}
 };
