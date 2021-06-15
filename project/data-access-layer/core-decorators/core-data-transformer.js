@@ -258,8 +258,25 @@ module.exports = function(data) {
 			return response;
 		}, []);
 	}
+	/* Return Example:
+	* [
+	*	{
+	*		"id": 1,
+	*		"courseId": 1,
+	*		"acronym": "LS",
+	*		"calendarTerm": "1718v"
+	*	},
+	*	{
+	*		"id": 2,
+	*		"courseId": 2,
+	*		"acronym": "DAW",
+	*		"calendarTerm": "1718v"
+	*	}
+	* ]
+	*/
 
-	const loadUserSubscribedClassesInCourse = async function(user, courseId) {//entities.properties.sectionId
+
+	const loadUserSubscribedClassesInCourse = async function(user, courseId) {
 		const receivedData = await data.loadUserSubscribedClassesInCourse(user, courseId);
 
 		return receivedData.entities		
@@ -269,6 +286,13 @@ module.exports = function(data) {
 			return response;
 		}, []);
 	}
+	/* Return Example:
+	* [
+	*	'1D',
+	*	'2D',
+	*	'1N'
+	* ]
+	*/
 
 	const deleteUserClass = function(user, courseId, classSection) {
 		return data.deleteUserClass(user, courseId, classSection);

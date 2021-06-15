@@ -1,0 +1,10 @@
+{
+	"email": "A12345@alunos.isel.pt",
+	"username": "A12345",
+	"programme": 1,
+	"access_token": "6z7nYD6_qHgdi4Khop3i52PBblkr8fmz-TgqT7Gla8P9eYMoVnL2R_vQeIe1YYK4KHo93untudWoSl1cTthV-w",
+	"token_type": "Bearer",
+	"refresh_token": "RIsHxKU9ASif82an40X_nANVS74L5MALymHjt2t6M7qAnOFRkKBi-FAf9KXUk3b8xZJvUmYQ58GphG0knrBpfA",
+	"expires_in": 10799,
+	"id_token": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjM3NTE3MzksImF1ZCI6IjIyZGQxNTUxLWRiMjMtNDgxYi1hY2RlLWQyODY0NDAzODhhNSIsImlhdCI6MTYyMzc0ODEzOSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoxMDAyMy9hcGkiLCJzdWIiOiIxMjE5MzkyZS1lNzJmLTQ4MzYtOWViMy1iZjNmOThkNzJiNDIiLCJlbWFpbCI6IkE0NjNAYWx1bm9zLmlzZWwucHQifQ.lf9MHChNQ7ndePewXdiY3qQD6ivw0_c_zoJUCj0SSMw"
+}

@@ -4,7 +4,7 @@ name: heroku_deploy
 on:
   # Triggers the workflow on push or pull request events but only for the staging branch
   push:
-    branches: [ staging ]
+    branches: [ staging , refactoring-mock-data ]
   pull_request:
     branches: [ staging ]
 
@@ -26,5 +26,5 @@ jobs:
         with:
           email: ${{secrets.HEROKU_EMAIL}}
           api_key: ${{secrets.HEROKU_API_KEY}}
-          docker_compose_file: '.docker/docker-compose.yml' # set the path to the folder where the docker-compose file is located
+          docker_compose_file: '.docker/docker-compose-heroku.yml' # set the path to the folder where the docker-compose file is located
           heroku_apps: '[{"imagename":"web_app","appname":"i-on-web","apptype":"web"}]' # List of Docker Image name, Heroku app and Heroku app type

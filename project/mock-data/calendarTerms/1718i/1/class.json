@@ -1,0 +1,6 @@
+{
+	"courseId" : 1,
+	"acronym" : "LS",
+	"name" : "Laboratório de Software",
+	"classes": ["1D", "2D", "1N"]
+}
