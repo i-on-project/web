@@ -41,7 +41,7 @@ function webapi(auth) {
 	/******* Mapping requests to handlers according to the path *******/
 
 	router.post('/email', 			theWebAPI.submitInstitutionalEmail	);	///
-	router.get('/:authId/poll',		theWebAPI.pollingCore				);	///
+	router.post('/:authId/poll',	theWebAPI.pollingCore				);	///
 
 	return router;
 }
