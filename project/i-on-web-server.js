@@ -18,7 +18,7 @@ async function configurations() {
 
     /// Database
     const storageCreator = require(`${dataAccessLayerPath}/i-on-web-db-elastic.js`);
-    const database = storageCreator('http://localhost:9200'); // TO DO - Make it generic
+    const database = storageCreator(process.env.DB_ELASTIC_URL); // TO DO - Make it generic
     await database.initializeDatabaseIndexes();               /// Initialize elastic indexes
  
     /// Data
