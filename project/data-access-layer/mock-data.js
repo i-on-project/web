@@ -1,41 +1,49 @@
 'use strict'
 
 let mockUser = {};
-let courses = {};
+let courses = [];
+let classes = [];
 
 module.exports = function() {
 
 	const loadAllProgrammes = async function() {
-			return getMockData('/programmes');
+		const data = getMockData('/programmes');
+		return data? data : [];
 	};
 
 	const loadAllProgrammeOffers = async function(programmeId) {
 		const path = '/offers/' + programmeId;
-		return getMockData(path);
+		const data = getMockData(path);
+		return data? data : [];
 	};
 
 	const loadProgrammeData = async function(programmeId) {
 		const path = '/programmes/' + programmeId;
-		return getMockData(path);
+		const data = getMockData(path);
+		return data? data : {};
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId) {
+	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
-		return getMockData(path);
+		const data = getMockData(path);
+		return data? data : {};
 	};
 
 	const loadAboutData = async function() {
-		return getMockData('/i-on-team');
+		const data = getMockData('/i-on-team');
+		return data? data : {};
 	};
 	
 	const loadClassSectionSchedule = function(courseId, calendarTerm, classSection) {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/classSections/' + classSection;
-		return getMockData(path);
+		const data = getMockData(path);
+		return data? data : [];
 	}
 
 	const loadCourseEventsInCalendarTerm = function(courseId, calendarTerm) {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/events';
-		return getMockData(path);
+		const data = getMockData(path);
+		return data? data : {};
 	}
 
 	/* Authentication related methods */
@@ -60,23 +68,37 @@ module.exports = function() {
 	/* User related methods */
 
 	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {  // TO DO
-		return undefined;
+		const path = '/user-courses/' + courseId;
+		const data = getMockData(path);
+		if(data) {
+			courses.push(data);
+			if(classes.courseId)
+				classes.courseId.push(classSection);
+			else{ 
+				classes[courseId] = [classSection]
+				classes.push(classes[courseId]);
+			}
+		};
 	}
 
 	const loadUserSubscribedCourses = function(user) {  // TO DO
-		return undefined;
+		return courses;
 	}
 
 	const loadUserSubscribedClassesInCourse = function(user, courseId) {  // TO DO
-		return undefined;
+		return classes[courseId];
 	}
 
 	const deleteUserClass = function(user, courseId, classSection) {  // TO DO
-		return undefined;
+
 	}
 
 	const deleteUserCourse = function(user, courseId) {  // TO DO
-		return undefined;
+		for( let i = 0; i < courses.length; i++){ 
+			if ( courses[i].courseId === courseId) { 
+				courses.splice(i, 1); 
+			}
+		}
 	}
 
 	const editUser = function(user, newUsername) {
@@ -115,10 +137,10 @@ module.exports = function() {
 /******* Helper functions *******/
 
 const mockDataPath = '../mock-data';
-const getMockData = async function(path) {
+const getMockData = function(path) {
 	try{
 		return require(mockDataPath + path);
 	} catch(err) {
-		return undefined; // TO DO - Review
+		return undefined;
 	}
 };

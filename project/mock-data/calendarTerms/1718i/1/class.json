@@ -1,20 +1,6 @@
-[
-	{
-		"acronym": "LS",
-		"name": "Laboratório de Software",
-		"courseId": 1,
-		"id": "1N"
-	},
-	{
-		"acronym": "LS",
-		"name": "Laboratório de Software",
-		"courseId": 1,
-		"id": "1D"
-	},
-	{
-		"acronym": "LS",
-		"name": "Laboratório de Software",
-		"courseId": 1,
-		"id": "2D"
-	}
-]
+{
+	"courseId" : 1,
+	"acronym" : "LS",
+	"name" : "Laboratório de Software",
+	"classes": ["1D", "2D", "1N"]
+}

@@ -1,20 +1,6 @@
-[
-	{
-		"acronym": "DM",
-		"name": "Dissertação MEIC",
-		"courseId": 3,
-		"id": "1N"
-	},
-	{
-		"acronym": "DM",
-		"name": "Dissertação MEIC",
-		"courseId": 3,
-		"id": "1D"
-	},
-	{
-		"acronym": "DM",
-		"name": "Dissertação MEIC",
-		"courseId": 3,
-		"id": "2D"
-	}
-]
+{
+	"courseId" : 3,
+	"acronym" : "DM",
+	"name" : "Dissertação MEIC",
+	"classes": ["1D", "2D", "1N"]
+}
