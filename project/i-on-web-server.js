@@ -51,8 +51,8 @@ async function configurations() {
     app.use('/auth-api', webAuthApi);
     app.use(webUI);
 
-    app.use('/dependecies', express.static('node_modules'));
-    app.use('/public',      express.static('static-files'));
+    app.use('/dependecies', express.static('/node_modules'));
+    app.use('/public',      express.static('/static-files'));
     
     app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)
 
@@ -61,5 +61,5 @@ async function configurations() {
 
 };
 
-//setTimeout(configurations , 60 * 1000); /// 60 secs
-configurations();
+setTimeout(configurations , 1000); /// 60 secs - Improve this 
+//configurations();
