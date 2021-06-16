@@ -8,17 +8,6 @@ const express = require('express');
 const app = express();
 
 async function configurations() {
-    console.log('port: ' + port + '\n' +
-    'OPERATION_MODE: ' + process.env.OPERATION_MODE + '\n' +
-    'CORE_URL: ' + process.env.CORE_URL + '\n' +
-    'CORE_READ_TOKEN: ' + process.env.CORE_READ_TOKEN + '\n' +
-    'CORE_CLIENT_ID: ' + process.env.CORE_CLIENT_ID + '\n' +
-    'DB_ELASTIC_URL: ' + process.env.DB_ELASTIC_URL + '\n' +
-    'PATH_PREFIX: ' + process.env.PATH_PREFIX + '\n'
-    )
-    
-    /// envs
-    const pathPrefix = process.env.PATH_PREFIX;
 
     /// Paths
     const presentationLayerPath  = './presentation-layer';
@@ -59,13 +48,11 @@ async function configurations() {
     const webAuthApi = require(`${presentationLayerPath}/i-on-web-auth-api`)(auth);
 
     /// Middlewares
-    app.use(`${process.env.PATH_PREFIX}/auth-api`, webAuthApi);
-    app.use(`${process.env.PATH_PREFIX}`, webUI);
+    app.use('/auth-api', webAuthApi);
+    app.use(webUI);
 
-    console.log('s'+`${pathPrefix}/node_modules`)
-    console.log('s'+`${pathPrefix}/static-files`)
-    app.use('/dependecies', express.static(`${pathPrefix}/node_modules`));
-    app.use('/public',      express.static(`${pathPrefix}/static-files`));
+    app.use('/dependecies', express.static('/node_modules'));
+    app.use('/public',      express.static('/static-files'));
     
     app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)
 

@@ -69,36 +69,34 @@ __Note:__ Usually Docker uses the default `172.17.0.0/16` subnet for container n
 
 - __`DB_ELASTIC_URL`__ - Where we can indicate the location of the Elasticsearch database. By default is set to `http://elasticsearch:9200`;
 
-- __`PATH_PREFIX`__ - Where we can indicate anendpoint prefix to our application. By default this variable is set to `/i-on-web`.
-
 ## Operation Modes
 The i-on Web application has two operation modes and you can use either one of them.
 
 ### Standalone mode
 The standalone mode allows us to run the i-on Web application using mock data stored in .json files, which we can view [here](https://github.com/i-on-project/web/tree/main/Project/data).
 
-When building the docker image we can specify the development operation mode by setting the build-time variable `OPERATION_MODE` with the value `standalone` by using the following command on the __project directory__:
+When building the docker image we can specify the development operation mode by setting the build-time variable `OPERATION_MODE` with the value `standalone` by using the following command on the __root directory__:
 ```
-docker-compose build --build-arg OPERATION_MODE="standalone"
+docker-compose -f .docker/docker-compose.yml build --build-arg OPERATION_MODE="standalone"
 ```
 
 In similarity to the command previously shown, where we assigned a value to the variable `OPERATION_MODE`, the same can be done with the remaining variables. Assigning the multiple variables can be done, like the following example:
 ```
-docker-compose build --build-arg OPERATION_MODE="standalone" --build-arg CORE_READ_TOKEN="l7kowOOkliu21oXxNpuCyM47u2omkysxb8lv3qEhm5U"
+docker-compose -f .docker/docker-compose.yml build --build-arg OPERATION_MODE="standalone" --build-arg CORE_CLIENT_ID="22dd1551-db23-481b-acde-d286440388a5"
 ```
 
 ### Integrated mode
 This mode allows us to run the i-on Web application using the data provided by i-on Core, as such, both i-on Web and i-on Core need to be running locally. In order to download and run i-on Core please head to the [i-on Core GitHub repository](https://github.com/i-on-project/core).
 
-The enviorment variables present in the docker compose file should be enough for us to establish a connection to i-on Core, as such, we only need to execute the following command on the __project directory__:
+The environment variables present in the docker compose file should be enough for us to establish a connection to i-on Core, as such, we only need to execute the following command on the __root directory__:
 ```
-docker-compose build
+docker-compose -f .docker/docker-compose.yml build
 ```
 
 ## Running i-on Web
-After executing the build command, in order to run i-on Web locally we can execute the following command on the __project directory__:
+After executing the build command, in order to run i-on Web locally we can execute the following command on the __root directory__:
 ```
-docker-compose up
+docker-compose -f .docker/docker-compose.yml -p i-on-web up web_app
 ```
 After running the previous command i-on Web should be available on port `8080`.
 
