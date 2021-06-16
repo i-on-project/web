@@ -61,5 +61,5 @@ async function configurations() {
 
 };
 
-//setTimeout(configurations , 60 * 1000); /// 60 secs
-configurations();
+setTimeout(configurations , 60 * 1000); /// 60 secs - Improve this 
+//configurations();
