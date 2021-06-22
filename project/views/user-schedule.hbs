@@ -72,6 +72,10 @@
             <div class="schedule_time time-from-df">20:30</div>
             <div class="schedule_time time-from-dt">21:00</div>
             <div class="schedule_time time-from-dff">21:30</div>
+
+            <div class="schedule_time time-from-g">22:00</div>
+            <div class="schedule_time time-from-gf">22:30</div>
+            <div class="schedule_time time-from-gt">23:00</div>
             <!-- ./Time-->
             
             
@@ -110,29 +114,36 @@
             <div class="grid time-from-df time-to-dt schedule-row-from-monday schedule-row-to-saturday"></div>
             <div class="grid time-from-dt time-to-dff schedule-row-from-monday schedule-row-to-saturday"></div>
             
-            <div class="grid grid-last time-from-dff time-to-dff schedule-row-from-monday schedule-row-to-saturday"></div>
+            <div class="grid time-from-dff time-to-g schedule-row-from-monday schedule-row-to-saturday"></div>
+            <div class="grid time-from-g time-to-gf schedule-row-from-monday schedule-row-to-saturday"></div>
+            <div class="grid time-from-gf time-to-gt schedule-row-from-monday schedule-row-to-saturday"></div>
+
+            <div class="grid grid-last time-from-gt time-to-gt schedule-row-from-monday schedule-row-to-saturday"></div>
             <!-- ./Grid Rows-->
             
 
             <!-- Grid Columns-->
             
-            <div class="grid schedule-monday time-from-s time-to-dff"></div>
-            <div class="grid grid-last schedule-monday time-from-dff time-to-dff"></div>
+            <div class="grid schedule-monday time-from-s time-to-gt"></div>
+            <div class="grid grid-last schedule-monday time-from-gt time-to-gt"></div>
             
-            <div class="grid schedule-tuesday time-from-s time-to-dff"></div>
-            <div class="grid grid-last schedule-tuesday time-from-dff time-to-dff"></div>
+            <div class="grid schedule-tuesday time-from-s time-to-gt"></div>
+            <div class="grid grid-last schedule-tuesday time-from-gt time-to-gt"></div>
             
-            <div class="grid schedule-wednesday time-from-s time-to-dff"></div>
-            <div class="grid grid-last schedule-wednesday time-from-dff time-to-nff"></div>
+            <div class="grid schedule-wednesday time-from-s time-to-gt"></div>
+            <div class="grid grid-last schedule-wednesday time-from-gt time-to-gt"></div>
             
-            <div class="grid schedule-thursday time-from-s time-to-dff"></div>
-            <div class="grid grid-last schedule-thursday time-from-dff time-to-dff"></div>
+            <div class="grid schedule-thursday time-from-s time-to-gt"></div>
+            <div class="grid grid-last schedule-thursday time-from-gt time-to-gt"></div>
             
-            <div class="grid schedule-friday time-from-s time-to-dff"></div>
-            <div class="grid grid-last schedule-friday time-from-dff time-to-dff"></div>
+            <div class="grid schedule-friday time-from-s time-to-gt"></div>
+            <div class="grid grid-last schedule-friday time-from-gt time-to-gt"></div>
             
-            <div class="grid schedule-saturday time-from-s time-to-dff"></div>
-            <div class="grid grid-last schedule-saturday time-from-dff time-to-dff"></div>
+            <div class="grid schedule-saturday time-from-s time-to-gt"></div>
+            <div class="grid grid-last schedule-saturday time-from-gt time-to-gt"></div>
+
+            <div class="grid schedule-saturday time-from-s time-to-gt"></div>
+            <div class="grid grid-last schedule-saturday time-from-gt time-to-gt"></div>
             <!-- ./Grid Columns-->
 
         </div>
@@ -255,6 +266,13 @@
                     case '21:30':
                         return 'dff';
                 
+                    case '22:00':
+                        return 'g';
+                    case '22:30':
+                        return 'gf';
+                    case '23:00':
+                        return 'gt';
+
                     default:
                         console.log(`Error, bad time: ${time}.`);
                 }

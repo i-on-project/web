@@ -57,7 +57,10 @@
       [d] 40px
       [df] 40px
       [dt] 40px
-      [dff] 40px;    
+      [dff] 40px
+      [g] 40px
+      [gf] 40px
+      [gt] 40px;    
   }
   
   .schedule_header{
@@ -171,7 +174,10 @@
   .time-from-dt { grid-row-start: dt; }
   .time-from-dff { grid-row-start: dff; }
   
-  
+  .time-from-g { grid-row-start: g; }
+  .time-from-gf { grid-row-start: gf; }
+  .time-from-gt { grid-row-start: gt; }
+
   /*  End */
   .time-to-s { grid-row-end: s; }
   .time-to-sf { grid-row-end: sf; }
@@ -208,6 +214,10 @@
   .time-to-dt { grid-row-end: dt; }
   .time-to-dff { grid-row-end: dff; }
   
+  .time-to-g { grid-row-end: g; }
+  .time-to-gf { grid-row-end: gf; }
+  .time-to-gt { grid-row-end: gt; }
+
   .ds{
     display: none;
   }
@@ -250,7 +260,10 @@
           [d] 40px 49px
           [df] 40px 49px
           [dt] 40px 49px
-          [dff] 40px 49px;
+          [dff] 40px 49px
+          [g] 40px 49px
+          [gf] 40px 49px
+          [gt] 40px 49px;
       }
     
       .schedule_time {
