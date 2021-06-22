@@ -51,9 +51,9 @@ async function configurations() {
     app.use('/auth-api', webAuthApi);
     app.use(webUI);
 
-    app.use('/dependecies', express.static('/node_modules'));
-    app.use('/public',      express.static('/static-files'));
-    
+    app.use('/dependecies', express.static('node_modules'));
+    app.use('/public', express.static('static-files'));
+
     app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)
 
     app.listen(port);
