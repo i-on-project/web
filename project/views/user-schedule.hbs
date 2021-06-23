@@ -2,7 +2,7 @@
     <h3 class="text-center">Horário</h3>
 
     {{#if schedule}}
-
+    <div class="scheduleDiv">
         <div class="schedule schedulepdf">
             <div class="schedule_header">
                 <span class="dl boldText">Hora</span>
@@ -147,209 +147,212 @@
             <!-- ./Grid Columns-->
 
         </div>
-        <button class="btn btn-outline-dark" id="create_pdf">Obter em PDF</button>
-        <script>
-            /*
-            $(document).ready(function () { 
-                ... code ...
-            })
-            */
+    </div>
+    <div class="divSpacing">
+        <button class="btn btn-outline-dark pull-right" id="create_pdf">Obter em PDF</button>
+    </div>
+    <script>
+        /*
+        $(document).ready(function () { 
+            ... code ...
+        })
+        */
 
-            let itemsSchedule = [];
-            const arrColors = ['red', 'blue', 'green', 'yellow', 'purple'];
-            const acrColors = {};
-            
-            {{#each schedule}}
-                itemsSchedule.push({
-                    'startDate'     : '{{this.startDate}}',
-                    'endDate'       : '{{this.endDate}}',
-                    'location'      : '{{this.location}}',
-                    'weekday'       : '{{this.weekday}}',
-                    'acronym'       : '{{this.acronym}}',
-                    'classSection'  : '{{this.classSection}}'
-                });
-            {{/each}}
-
-
-            itemsSchedule = itemsSchedule.map(classSection => {
-                return {
-                    'keyfrom': convertTimeInterval(classSection['startDate']),
-                    'keyto': convertTimeInterval(classSection['endDate']),
-                    'text': `${classSection['acronym']}[${classSection['classSection']}]`,
-                    'location': `${classSection['location']}`,
-                    'bg': getAcrColor(classSection['acronym']),
-                    'days': [convertAcrToWeekday( classSection['weekday'] )]
-                }
-            });
-
-            itemsSchedule.forEach(function(sitem, index) {
-
-                sitem.days.forEach(function(sday, dindex) {
-                    $(".schedule").append(
-                    '<div class="schedule-item'
-                    +' schedule-'+ sday
-                    +' time-from-'+ sitem.keyfrom
-                    +' time-to-'+sitem.keyto
-                    +' bg-'+sitem.bg+'">' /*used to be  nt bg-'+sitem.bg+'">*/
-                    + sitem.text + '<br>'
-                    + sitem.location
-                    +'</div>'
-                    )
-
-                })
-
-            })
-
-            function convertTimeInterval(time) {
-                switch (time) {
-
-                    case '08:00':
-                        return 's';
-                    case '08:30':
-                        return 'sf';
-                    case '09:00':
-                        return 'st';
-                    case '09:30':
-                        return 'sff';
-                    
-                    case '10:00':
-                        return 'e';
-                    case '10:30':
-                        return 'ef';
-                    case '11:00':
-                        return 'et';
-                    case '11:30':
-                        return 'eff';
-
-                    case '12:00':
-                        return 'n';
-                    case '12:30':
-                        return 'nf';
-                    case '13:00':
-                        return 'nt';
-                    case '13:30':
-                        return 'nff';
-
-                    case '14:00':
-                        return 'a';
-                    case '14:30':
-                        return 'af';
-                    case '15:00':
-                        return 'at';
-                    case '15:30':
-                        return 'aff';
-
-                    case '16:00':
-                        return 'b';
-                    case '16:30':
-                        return 'bf';
-                    case '17:00':
-                        return 'bt';
-                    case '17:30':
-                        return 'bff';
-
-                    case '18:00':
-                        return 'c';
-                    case '18:30':
-                        return 'cf';
-                    case '19:00':
-                        return 'ct';
-                    case '19:30':
-                        return 'cff';
-
-                    case '20:00':
-                        return 'd';
-                    case '20:30':
-                        return 'df';
-                    case '21:00':
-                        return 'dt';
-                    case '21:30':
-                        return 'dff';
-                
-                    case '22:00':
-                        return 'g';
-                    case '22:30':
-                        return 'gf';
-                    case '23:00':
-                        return 'gt';
-
-                    default:
-                        console.log(`Error, bad time: ${time}.`);
-                }
-            }
-
-            function convertAcrToWeekday(acr) {
-                
-                switch (acr) {
-                    case 'MO':
-                        return 'monday';
-                    case 'TU':
-                        return 'tuesday';
-                    case 'WE':
-                        return 'wednesday';
-                    case 'TH':
-                        return 'thursday';
-                    case 'FR':
-                        return 'friday';
-                    case 'ST':
-                        return 'saturday';
-                    case 'SU':
-                        return 'sunday';
+        let itemsSchedule = [];
+        const arrColors = ['red', 'blue', 'green', 'yellow', 'purple'];
+        const acrColors = {};
         
-                    default:
-                        console.log(`Error, incorrect weekday acr: ${acr}.`);
-                }
+        {{#each schedule}}
+            itemsSchedule.push({
+                'startDate'     : '{{this.startDate}}',
+                'endDate'       : '{{this.endDate}}',
+                'location'      : '{{this.location}}',
+                'weekday'       : '{{this.weekday}}',
+                'acronym'       : '{{this.acronym}}',
+                'classSection'  : '{{this.classSection}}'
+            });
+        {{/each}}
 
+
+        itemsSchedule = itemsSchedule.map(classSection => {
+            return {
+                'keyfrom': convertTimeInterval(classSection['startDate']),
+                'keyto': convertTimeInterval(classSection['endDate']),
+                'text': `${classSection['acronym']}[${classSection['classSection']}]`,
+                'location': `${classSection['location']}`,
+                'bg': getAcrColor(classSection['acronym']),
+                'days': [convertAcrToWeekday( classSection['weekday'] )]
             }
+        });
 
-            function getAcrColor(acr) {
-                // If the class already has an associated color, return it 
-                if(acrColors.hasOwnProperty(acr))
-                    return acrColors[acr];
+        itemsSchedule.forEach(function(sitem, index) {
+
+            sitem.days.forEach(function(sday, dindex) {
+                $(".schedule").append(
+                '<div class="schedule-item'
+                +' schedule-'+ sday
+                +' time-from-'+ sitem.keyfrom
+                +' time-to-'+sitem.keyto
+                +' bg-'+sitem.bg+'">' /*used to be  nt bg-'+sitem.bg+'">*/
+                + sitem.text + '<br>'
+                + sitem.location
+                +'</div>'
+                )
+
+            })
+
+        })
+
+        function convertTimeInterval(time) {
+            switch (time) {
+
+                case '08:00':
+                    return 's';
+                case '08:30':
+                    return 'sf';
+                case '09:00':
+                    return 'st';
+                case '09:30':
+                    return 'sff';
                 
-                // Else, get a random color and return it   
-                const color = randomColor();
-                acrColors[acr] = color;
+                case '10:00':
+                    return 'e';
+                case '10:30':
+                    return 'ef';
+                case '11:00':
+                    return 'et';
+                case '11:30':
+                    return 'eff';
 
-                return color;
+                case '12:00':
+                    return 'n';
+                case '12:30':
+                    return 'nf';
+                case '13:00':
+                    return 'nt';
+                case '13:30':
+                    return 'nff';
+
+                case '14:00':
+                    return 'a';
+                case '14:30':
+                    return 'af';
+                case '15:00':
+                    return 'at';
+                case '15:30':
+                    return 'aff';
+
+                case '16:00':
+                    return 'b';
+                case '16:30':
+                    return 'bf';
+                case '17:00':
+                    return 'bt';
+                case '17:30':
+                    return 'bff';
+
+                case '18:00':
+                    return 'c';
+                case '18:30':
+                    return 'cf';
+                case '19:00':
+                    return 'ct';
+                case '19:30':
+                    return 'cff';
+
+                case '20:00':
+                    return 'd';
+                case '20:30':
+                    return 'df';
+                case '21:00':
+                    return 'dt';
+                case '21:30':
+                    return 'dff';
+            
+                case '22:00':
+                    return 'g';
+                case '22:30':
+                    return 'gf';
+                case '23:00':
+                    return 'gt';
+
+                default:
+                    console.log(`Error, bad time: ${time}.`);
+            }
+        }
+
+        function convertAcrToWeekday(acr) {
+            
+            switch (acr) {
+                case 'MO':
+                    return 'monday';
+                case 'TU':
+                    return 'tuesday';
+                case 'WE':
+                    return 'wednesday';
+                case 'TH':
+                    return 'thursday';
+                case 'FR':
+                    return 'friday';
+                case 'ST':
+                    return 'saturday';
+                case 'SU':
+                    return 'sunday';
+    
+                default:
+                    console.log(`Error, incorrect weekday acr: ${acr}.`);
             }
 
-            function randomColor() {
+        }
 
-                /// Randomly getting a color
-                color = arrColors[Math.floor(Math.random() * arrColors.length)];
-                
-                const index = arrColors.indexOf(color);
+        function getAcrColor(acr) {
+            // If the class already has an associated color, return it 
+            if(acrColors.hasOwnProperty(acr))
+                return acrColors[acr];
+            
+            // Else, get a random color and return it   
+            const color = randomColor();
+            acrColors[acr] = color;
 
-                if (index > -1) {
-                    arrColors.splice(index, 1);
-                }
+            return color;
+        }
 
-                return color;
+        function randomColor() {
+
+            /// Randomly getting a color
+            color = arrColors[Math.floor(Math.random() * arrColors.length)];
+            
+            const index = arrColors.indexOf(color);
+
+            if (index > -1) {
+                arrColors.splice(index, 1);
             }
 
-            /*
-                buildItemTemplate({
-                day: sday,
-                keyfrom: sitem.keyfrom,
-                keyto: sitem.keyto,
-                bg: sitem.bg,
-                text: sitem.text
-                })
+            return color;
+        }
 
-                function buildItemTemplate(args){
-                    return ''.concat(
-                        '<div class="schedule-item'
-                        ,' schedule-', args.day
-                        ,' time-from-', args.keyfrom
-                        ,' time-to-',args.keyto
-                        ,' nt bg-',args.bg,'">'
-                        ,args.text
-                        ,'</div>'
-                    )     
-                }
-            */
-        </script>
+        /*
+            buildItemTemplate({
+            day: sday,
+            keyfrom: sitem.keyfrom,
+            keyto: sitem.keyto,
+            bg: sitem.bg,
+            text: sitem.text
+            })
+
+            function buildItemTemplate(args){
+                return ''.concat(
+                    '<div class="schedule-item'
+                    ,' schedule-', args.day
+                    ,' time-from-', args.keyfrom
+                    ,' time-to-',args.keyto
+                    ,' nt bg-',args.bg,'">'
+                    ,args.text
+                    ,'</div>'
+                )     
+            }
+        */
+    </script>
 
     {{else}}
 
