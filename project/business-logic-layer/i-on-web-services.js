@@ -9,11 +9,11 @@ module.exports = function(data, database) {
 			// TO DO - Show user next events
 		}
 		const commonInfo = await getProgrammesByDegree(data);
-		const events = await getUserEvents(user);
+		const events = undefined; //await getUserEvents(user);
 
 		return Object.assign(commonInfo, 
 			{
-				events: events.events,
+				events: undefined,
 				user: user, 
 				page: 'home'
 			}

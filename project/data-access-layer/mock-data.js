@@ -1,8 +1,6 @@
 'use strict'
 
-let mockUser = {};
-let courses = [];
-let classes = [];
+let users = {};
 
 module.exports = function() {
 
@@ -54,15 +52,25 @@ module.exports = function() {
 	};
 
 	const submitInstitutionalEmail = function(email) {
-		mockUser['email'] = email;
-		mockUser['username'] =  email.slice(0, email.indexOf("@"));
-		const path = '/auth/auth_req_id';
-		return getMockData(path);
+		users[`${email}`] = {
+			"email": email,
+			"username": email.slice(0, email.indexOf("@"))
+		};
+		return {
+			"auth_req_id": email,
+			"expires_in": 300
+		  };
 	};
 
 	const pollingCore = function(authForPoll) {
-		const path = '/auth/polling_response';
-		return getMockData(path);
+		return {
+			"email": authForPoll,
+			"access_token": "SZ84SGZA7ACALtc37S29PgQ7pVnIpXH-zBYGMq6UVheiNXkD1jqZB5tkAiLJALIO3prDatd_VD2O4OewzuStgw",
+			"token_type": "Bearer",
+			"refresh_token": "u3zPqp7qpDoMjYhUzKlF-X3G1cxnkRT5Pus2GlXf6smwsq-B8Sa6x2-pwfIgpDcHO5ovxSIYxY433pBOs0JKHQ",
+			"expires_in": 10799,
+			"id_token": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjM3NjQzNjcsImF1ZCI6IjIyZGQxNTUxLWRiMjMtNDgxYi1hY2RlLWQyODY0NDAzODhhNSIsImlhdCI6MTYyMzc2MDc2NywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoxMDAyMy9hcGkiLCJzdWIiOiI0MGViZmZjZC03MTYwLTQ3ZmMtYTg3YS0zNzBjODVhMmM3ODkiLCJlbWFpbCI6IkFqNkBhbHVub3MuaXNlbC5wdCJ9.i2mp43JFEdJll6ijPEY6ZGEC0ttYc6d8_U1c2cHjeo0"
+		};
 	};
 
 	/* User related methods */
@@ -71,42 +79,53 @@ module.exports = function() {
 		const path = '/user-courses/' + courseId;
 		const data = getMockData(path);
 		if(data) {
-			courses.push(data);
-			if(classes.courseId)
-				classes.courseId.push(classSection);
-			else{ 
-				classes[courseId] = [classSection]
-				classes.push(classes[courseId]);
+			if(users[`${user.email}`].coursesAndClasses) {
+				data['classSections'] = [classSection];
+				users[`${user.email}`].coursesAndClasses = [data];
+		 	} else { 
+				data['classSections'].push(classSection);
+				users[`${user.email}`].coursesAndClasses.push(data);
 			}
+			console.log('saveUserChosenCoursesAndClasses:		' + JSON.stringify(user))
 		};
 	}
 
 	const loadUserSubscribedCourses = function(user) {  // TO DO
-		return courses;
+		return users[`${user.email}`].coursesAndClasses;
 	}
 
 	const loadUserSubscribedClassesInCourse = function(user, courseId) {  // TO DO
-		return classes[courseId];
+		return users[`${user.email}`].coursesAndClasses.filter(course => course.courseId == courseId);
 	}
 
 	const deleteUserClass = function(user, courseId, classSection) {  // TO DO
+		const classSectionsSize = users[`${user.email}`].coursesAndClasses
+		.filter(course => course.courseId == courseId).classSections.length;
 
+		for( let i = 0; i < classSectionsSize; i++){ 
+			if ( classSections[i] == classSection) { 
+				users[`${user.email}`].coursesAndClasses
+				.filter(course => course.courseId == courseId)
+				.classSections.splice(i, 1); 
+			}
+		}
 	}
 
 	const deleteUserCourse = function(user, courseId) {  // TO DO
-		for( let i = 0; i < courses.length; i++){ 
-			if ( courses[i].courseId === courseId) { 
-				courses.splice(i, 1); 
+		for( let i = 0; i < users[`${user.email}`].coursesAndClasses.length; i++){ 
+			if ( users[`${user.email}`].coursesAndClasses[i].courseId == courseId) { 
+				users[`${user.email}`].coursesAndClasses.splice(i, 1); 
 			}
 		}
 	}
 
 	const editUser = function(user, newUsername) {
-		mockUser.username = newUsername;
+		users[`${user.email}`].username = newUsername;
 	}
 
 	const loadUser = function(tokens) {// TO DO
-		return mockUser;
+		console.log('ai ai: ' + JSON.stringify(users[tokens.email]))
+		return users[tokens.email];
 	}
 
 	return {
