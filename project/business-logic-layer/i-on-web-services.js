@@ -232,17 +232,19 @@ module.exports = function(data, database) {
 		});
 	};
 
-	const getSettingsPage = async function(user){
+	const getProfilePage = async function(user){
 		const commonInfo = await getProgrammesByDegree(data);
+		user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
+
 		return Object.assign(commonInfo, {
 			user: user
 		});
 	};
 	
-	const editSettings = async function(user, newSettings) {
+	const editProfile = async function(user, newUserInfo) {
 		if(user) {
-			await data.editUser(user, newSettings.newUsername);
-			await database.editUser(user.email, newSettings.newUsername, Number(newSettings.newProgramme));
+			await data.editUser(user, newUserInfo.newUsername);
+			await database.editUser(user.email, newUserInfo.newUsername, Number(newUserInfo.newProgramme));
 		}
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
@@ -261,8 +263,8 @@ module.exports = function(data, database) {
 		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,		
 		getAboutData : getAboutData,
-		getSettingsPage : getSettingsPage,
-		editSettings : editSettings
+		getProfilePage : getProfilePage,
+		editProfile : editProfile
 	};
 	
 }

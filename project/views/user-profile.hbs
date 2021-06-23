@@ -12,13 +12,28 @@
         </div>
         <div class="col col-sm">
             <h5>Curso do utilizador: </h5>
-            <p>{{user.programme}}</p>
+            <p>{{user.programmeName}}</p>
         </div>
     </div>
     <div class="form-group divSpacing">
         <button id="editButton" onclick=edit() class="btn btn-outline-dark pull-right">Editar perfil</button>  
 
-        <form method="POST" action="/settings" id="settingsDiv" style="display:none">
+        <form method="POST" action="/profile" id="profileDiv" style="display:none">
+
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div class="row row-content align-items-center">
+                    <div class="col-1 col-sm-1 col-md-1">
+                        <img src="/public/images/disclaimer.png" alt="Projeto i-on Web disclaimer" class="img-fluid">
+                    </div>
+                    <div class="col col-sm col-md">
+                        <h5>Aviso!</h5>
+                        <p>A selecção de curso não substitui a inscrição oficial ao mesmo na instituição frequentada.</p>
+                    </div>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>         
+            </div>
             <!-- <div class="offset-1 col-sm-3 divSpacing">-->
                 <label class="col-form-label">Nome de utilizador:</label><br>
                 <input type="text" class="form-control" name="newUsername" value={{user.username}} required>      
@@ -35,7 +50,7 @@
                 </select>
            <!-- </div>
             <div class="offset-1 divSpacing">-->
-                <button type="submit" href="/settings" class="btn btn-dark pull-right">Guardar alterações</button>
+                <button type="submit" href="/profile" class="btn btn-dark pull-right">Guardar alterações</button>
                 <button  type="button" onclick=back() class="btn btn-outline-dark pull-right">Cancelar</button> 
             <!-- </div>-->
         </form>
@@ -46,13 +61,13 @@
 
     function edit(){
         $('#editButton').hide();
-        $('#settingsDiv').show();
+        $('#profileDiv').show();
 
     }
 
     function back() {
         $('#editButton').show();
-        $('#settingsDiv').hide();
+        $('#profileDiv').hide();
 
     }
 </script>

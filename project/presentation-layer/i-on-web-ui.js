@@ -106,19 +106,19 @@ function webui(service, auth) {
 			}
 		},
 
-		settings: async function(req, res) { /// Settings Page
+		profile: async function(req, res) { /// User Profile Page
 			try {
-				const data = await service.getSettingsPage(req.user);
-				res.render('settings', data);
+				const data = await service.getProfilePage(req.user);
+				res.render('user-profile', data);
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
 		},
 
-		editSettings: async function(req, res) {
+		editProfile: async function(req, res) {
 			try {
-				await service.editSettings(req.user, req.body);
-				res.redirect('/settings');
+				await service.editProfile(req.user, req.body);
+				res.redirect('/profile');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
@@ -173,8 +173,8 @@ function webui(service, auth) {
 	router.get(	'/calendar', 			theWebUI.userCalendar					);	/// Users calendar page
 
 	router.get(	'/about', 				theWebUI.about							);	/// About Page
-	router.get( '/settings', 			theWebUI.settings						);  /// Settings Page
-	router.post('/settings', 			theWebUI.editSettings					);
+	router.get( '/profile', 			theWebUI.profile						);  /// User Profile Page
+	router.post('/profile', 			theWebUI.editProfile					);
 
 	/*** Auth ***/
 	router.get(	'/login',				theWebUI.loginUI			);	/// Login UI page
