@@ -16,6 +16,9 @@ async function configurations() {
 
     const coreDecoratorsPath     = `${dataAccessLayerPath}/core-decorators`
 
+    let pathPrefix = process.env.PATH_PREFIX;
+    if(!pathPrefix) pathPrefix = "";
+
     /// Database
     const storageCreator = require(`${dataAccessLayerPath}/i-on-web-db-elastic.js`);
     const database = storageCreator(process.env.DB_ELASTIC_URL); // TO DO
@@ -46,13 +49,17 @@ async function configurations() {
 
     /// Auth WebAPI
     const webAuthApi = require(`${presentationLayerPath}/i-on-web-auth-api`)(auth);
+  
+    /// Prefix router
+    const router = express.Router();
 
-    /// Middlewares
-    app.use('/auth-api', webAuthApi);
-    app.use(webUI);
+    router.use('/auth-api', webAuthApi);
+    router.use(webUI);
 
-    app.use('/dependecies', express.static('node_modules'));
-    app.use('/public', express.static('static-files'));
+    router.use('/dependecies', express.static('node_modules')); // TO DO - Remove
+    router.use('/public', express.static('static-files'));
+
+    app.use(`${pathPrefix}`, router);
 
     app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)
 
