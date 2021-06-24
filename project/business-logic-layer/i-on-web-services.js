@@ -9,11 +9,11 @@ module.exports = function(data, database) {
 			// TO DO - Show user next events
 		}
 		const commonInfo = await getProgrammesByDegree(data);
-		const events = undefined; //await getUserEvents(user);
+		const events = await getUserEvents(user);
 
 		return Object.assign(commonInfo, 
 			{
-				events: undefined,
+				events: events.events,
 				user: user, 
 				page: 'home'
 			}
@@ -22,13 +22,13 @@ module.exports = function(data, database) {
 
 	const getProgrammeCalendarTermOffers = async function(programmeId, user){ // TO DO: arg semester info
 		const offers = await data.loadAllProgrammeOffers(programmeId);
-	
+
 		const courseIDs = offers
 		.map(offer => offer.courseId)
 		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
-	
+
 		const calendarTerm = await getCurrentCalendarTerm(data);
-	
+
 		const filteredCoursesId = [];
 		for(let i = 0; i < courseIDs.length; i++) {
 			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm);
@@ -37,7 +37,7 @@ module.exports = function(data, database) {
 
 		const programmeCalendarTermOffers = offers
 		.filter(course => filteredCoursesId.includes(course.courseId))
-	
+
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign({
 			user: user,
@@ -117,7 +117,6 @@ module.exports = function(data, database) {
 			const calendarTerm = await getCurrentCalendarTerm(data);
 			const userCourses = await data.loadUserSubscribedCourses(user);
 			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
-
 			for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
 				const courseId = userCoursesOfPresentCalendarTerm[i].courseId;
 				const courseEvents = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);

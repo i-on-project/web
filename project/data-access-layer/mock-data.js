@@ -24,7 +24,12 @@ module.exports = function() {
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
 		const data = getMockData(path);
-		return data? data : {};
+		return data? {
+			"courseId": data.courseId,
+			"acronym": data.acronym,
+			"name": data.name,
+			"classes": data.classes
+		} : {};
 	};
 
 	const loadAboutData = async function() {
@@ -54,7 +59,8 @@ module.exports = function() {
 	const submitInstitutionalEmail = function(email) {
 		users[`${email}`] = {
 			"email": email,
-			"username": email.slice(0, email.indexOf("@"))
+			"username": email.slice(0, email.indexOf("@")),
+			"coursesAndClasses": []
 		};
 		return {
 			"auth_req_id": email,
@@ -75,56 +81,59 @@ module.exports = function() {
 
 	/* User related methods */
 
-	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {  // TO DO
+	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) { 
 		const path = '/user-courses/' + courseId;
 		const data = getMockData(path);
+
 		if(data) {
-			if(users[`${user.email}`].coursesAndClasses) {
-				data['classSections'] = [classSection];
-				users[`${user.email}`].coursesAndClasses = [data];
-		 	} else { 
-				data['classSections'].push(classSection);
-				users[`${user.email}`].coursesAndClasses.push(data);
+			for(let i = 0; i < users[user.email].coursesAndClasses.length; i++) {
+				if(users[user.email].coursesAndClasses[i].courseId == courseId)
+					users[user.email].coursesAndClasses[i].classes.push(classSection);
+			} 
+			if(users[user.email].coursesAndClasses.length == 0) {
+				const course = data;
+				course['classes'] = [classSection];
+				users[user.email].coursesAndClasses.push(course);
 			}
-			console.log('saveUserChosenCoursesAndClasses:		' + JSON.stringify(user))
 		};
 	}
 
-	const loadUserSubscribedCourses = function(user) {  // TO DO
-		return users[`${user.email}`].coursesAndClasses;
+	const loadUserSubscribedCourses = function(user) {
+		return users[user.email].coursesAndClasses;
 	}
 
-	const loadUserSubscribedClassesInCourse = function(user, courseId) {  // TO DO
-		return users[`${user.email}`].coursesAndClasses.filter(course => course.courseId == courseId);
+	const loadUserSubscribedClassesInCourse = function(user, courseId) { 
+		return users[user.email].coursesAndClasses.filter(course => course.courseId == courseId).find(__ => __).classes;
 	}
 
-	const deleteUserClass = function(user, courseId, classSection) {  // TO DO
-		const classSectionsSize = users[`${user.email}`].coursesAndClasses
-		.filter(course => course.courseId == courseId).classSections.length;
+	const deleteUserClass = function(user, courseId, classSection) {
+		const classSections = users[user.email].coursesAndClasses
+		.filter(course => course.courseId == courseId).find(__ => __).classes;
+
+		const classSectionsSize = classSections.length;
 
 		for( let i = 0; i < classSectionsSize; i++){ 
 			if ( classSections[i] == classSection) { 
-				users[`${user.email}`].coursesAndClasses
+				users[user.email].coursesAndClasses
 				.filter(course => course.courseId == courseId)
-				.classSections.splice(i, 1); 
+				.find(__ => __).classes.splice(i, 1); 
 			}
 		}
 	}
 
-	const deleteUserCourse = function(user, courseId) {  // TO DO
-		for( let i = 0; i < users[`${user.email}`].coursesAndClasses.length; i++){ 
-			if ( users[`${user.email}`].coursesAndClasses[i].courseId == courseId) { 
-				users[`${user.email}`].coursesAndClasses.splice(i, 1); 
+	const deleteUserCourse = function(user, courseId) {
+		for( let i = 0; i < users[user.email].coursesAndClasses.length; i++){ 
+			if ( users[user.email].coursesAndClasses[i].courseId == courseId) { 
+				users[user.email].coursesAndClasses.splice(i, 1); 
 			}
 		}
 	}
 
 	const editUser = function(user, newUsername) {
-		users[`${user.email}`].username = newUsername;
+		users[user.email].username = newUsername;
 	}
 
-	const loadUser = function(tokens) {// TO DO
-		console.log('ai ai: ' + JSON.stringify(users[tokens.email]))
+	const loadUser = function(tokens) {
 		return users[tokens.email];
 	}
 
