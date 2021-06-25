@@ -1,66 +1,59 @@
 /* Schedule Style */
 
+.scheduleDiv {
+  display: flex;
+}
+
 .schedule{
-    margin:1rem .5rem;
+    margin:.1rem .5rem;
     background-color: #D3D3D3;
+    justify-content: center;
     border-radius: .2rem;
     padding: .5rem;
     display: grid;
-    width: auto;
     grid-gap: 0;
-    overflow: hidden;
     justify-self: center;
   
-  /*   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); */
-    grid-template-columns: [time] 100px
-      [monday] minmax(190px, 190px) 
-      [tuesday] minmax(190px, 190px) 
-      [wednesday] minmax(190px, 190px) 
-      [thursday]minmax(190px, 190px) 
-      [friday] minmax(190px, 190px) 
-      [saturday] minmax(190px, 190px) ;
-
-      /*
-      [monday] minmax(auto, auto) 
-      [tuesday] minmax(auto, auto) 
-      [wednesday] minmax(auto, auto) 
-      [thursday]minmax(auto, auto) 
-      [friday] minmax(auto, auto) 
-      [saturday] minmax(auto, auto) ;
-      */
+    grid-template-columns: [time] 80px
+    [monday] minmax(150px, 150px) 
+    [tuesday] minmax(150px, 150px) 
+    [wednesday] minmax(150px, 150px) 
+    [thursday]minmax(150px, 150px) 
+    [friday] minmax(150px, 150px) 
+    [saturday] minmax(150px, 150px) ;
   
-    grid-template-rows: [header] auto
-      [s] 40px
-      [sf] 40px
-      [st] 40px
-      [sff] 40px
-      [e] 40px
-      [ef] 40px
-      [et] 40px
-      [eff] 40px
-      [n] 40px
-      [nf] 40px
-      [nt] 40px
-      [nff] 40px
-      [a] 40px
-      [af] 40px
-      [at] 40px
-      [aff] 40px
-      [b] 40px
-      [bf] 40px
-      [bt] 40px
-      [bff] 40px
-      [c] 40px
-      [cf] 40px
-      [ct] 40px
-      [cff] 40px
-      [d] 40px
-      [df] 40px
-      [dt] 40px
-      [dff] 40px
-      [g] 40px
-      [gf] 40px
-      [gt] 40px;    
+      grid-template-rows: [header] 30px
+      [s] 25px
+      [sf] 25px
+      [st] 25px
+      [sff] 25px
+      [e] 25px
+      [ef] 25px
+      [et] 25px
+      [eff] 25px
+      [n] 25px
+      [nf] 25px
+      [nt] 25px
+      [nff] 25px
+      [a] 25px
+      [af] 25px
+      [at] 25px
+      [aff] 25px
+      [b] 25px
+      [bf] 25px
+      [bt] 25px
+      [bff] 25px
+      [c] 25px
+      [cf] 25px
+      [ct] 25px
+      [cff] 25px
+      [d] 25px
+      [df] 25px
+      [dt] 25px
+      [dff] 25px
+      [g] 25px
+      [gf] 25px
+      [gt] 25px;    
   }
   
   .schedule_header{
@@ -69,7 +62,7 @@
     justify-content: center;
     position: relative;
     padding: 0.5rem 1rem;
-    border: 1px solid #000;
+    border: 1px solid #343a40;
     background-color: #343a40;
     color: white;
     text-align: center;
@@ -77,8 +70,7 @@
   
   .schedule_time{
     position: relative;
-    padding: 0.5rem 0.25rem;
-    border: 1px solid #000;
+    border: 1px solid #343a40;
     background-color: #343a40;
     color: white;
     font-weight: bold;
@@ -86,7 +78,7 @@
   }
   
   .grid{
-    border:1px solid #000; 
+    border:1px solid #343a40; 
   }
   
   .schedule-item{
@@ -101,34 +93,46 @@
   
   .bg-red {
     background: #eb5a46b8;
-    color: #8e3224;
+    color: #772316;
     border: 2px solid #b95344;
   }
   
   .bg-blue {
     background: #08b7d29e;
-    color: #104a53;
+    color: #0b3b42;
     border: 2px solid #157786;
   }
   
   .bg-purple {
     background: #a251bfb8;
-    color: #633673;
+    color: #4a2358;
     border: 2px solid #a24cc1;
   }
   
   .bg-yellow {
     background: #f0d50794;
-    color: #847927;
+    color: #645a10;
     border: 2px solid #e1c700;
   }
   
   .bg-green {
     background: #61bd4fa1;
-    color: #3c882d;
+    color: #1e5a12;
     border: 2px solid #61bd4f;
   }
   
+  .bg-orange {
+    background: #f58033a1;
+    color: #5a3512;
+    border: 2px solid #df6806;
+  }
+
+  .bg-pink {
+    background: #ff3091a1;
+    color: #5a123a;
+    border: 2px solid #ec0393;
+  }
+
   .schedule-monday { grid-column: monday / span 1; }
   .schedule-tuesday { grid-column: tuesday / span 1; }
   .schedule-wednesday { grid-column: wednesday / span 1; }

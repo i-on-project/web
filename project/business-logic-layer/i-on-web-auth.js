@@ -57,7 +57,7 @@ module.exports = (app, data, database) => {
 					await database.updateUserTokens(user.email, receivedTokens);
 				}
 				const i_on_web_user = await database.getUser(user.email);
-
+				
 				req.login(i_on_web_user, (err) => {
 					if (err) throw internalErrors.SERVICE_FAILURE;
 				})

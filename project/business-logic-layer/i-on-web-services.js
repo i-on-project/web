@@ -22,13 +22,13 @@ module.exports = function(data, database) {
 
 	const getProgrammeCalendarTermOffers = async function(programmeId, user){ // TO DO: arg semester info
 		const offers = await data.loadAllProgrammeOffers(programmeId);
-	
+
 		const courseIDs = offers
 		.map(offer => offer.courseId)
 		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
-	
+
 		const calendarTerm = await getCurrentCalendarTerm(data);
-	
+
 		const filteredCoursesId = [];
 		for(let i = 0; i < courseIDs.length; i++) {
 			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm);
@@ -37,7 +37,7 @@ module.exports = function(data, database) {
 
 		const programmeCalendarTermOffers = offers
 		.filter(course => filteredCoursesId.includes(course.courseId))
-	
+
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign({
 			user: user,
@@ -89,16 +89,7 @@ module.exports = function(data, database) {
 				}
 			}
 		}
-		// Test
 		
-		/*
-		schedule = [
-			{"startDate":"10:00","endDate":"12:30","location":"G.2.1","weekday":"MO","acronym":"SL","classSection":"1D"},
-			{"startDate":"10:00","endDate":"12:30","location":"G.2.4","weekday":"WE","acronym":"SL","classSection":"1D"},
-			{"startDate":"08:00","endDate":"11:00","location":"G.2.1","weekday":"TU","acronym":"DAW","classSection":"2D"},
-			{"startDate":"09:00","endDate":"12:00","location":"C.2.4","weekday":"FR","acronym":"GAP","classSection":"3D"},
-			{"startDate":"10:00","endDate":"13:00","location":"C.2.4","weekday":"FR","acronym":"PI","classSection":"1D"}]
-		*/
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			schedule: schedule,
@@ -117,7 +108,6 @@ module.exports = function(data, database) {
 			const calendarTerm = await getCurrentCalendarTerm(data);
 			const userCourses = await data.loadUserSubscribedCourses(user);
 			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
-
 			for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
 				const courseId = userCoursesOfPresentCalendarTerm[i].courseId;
 				const courseEvents = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
@@ -125,23 +115,6 @@ module.exports = function(data, database) {
 				events.testsAndExams = events.testsAndExams.concat(courseEvents.testsAndExams);
 			}
 		}
-
-		// Test
-		/*events = {
-			"assignments": [
-			{"event": "Trabalho de GAP", "date":"2021-06-11" , "time":"13:30"}, 
-			{"event": "Trabalho de CN", "date":"2021-06-11", "time":"19:30"}, 
-			{"event": "Trabalho de DAW", "date":"2021-06-17", "time":"11:00"}, 
-			{"event": "Trabalho de PI", "date":"2021-06-21", "time":"18:30"}, 
-			{"event": "Trabalho de SS", "date":"2021-06-22", "time":"18:30"}, 
-			{"event": "Exame de AC", "date":"2021-06-26", "time":"18:30"}
-		],
-			"testsAndExams": [
-				{"event": "Teste de GAP", "date":"2021-06-11" , "starTime":"10:30", "endTime":"12:30", "location":"G.2.14"},
-				{"event": "Teste de PI", "date":"2021-06-22" , "starTime":"09:30", "endTime":"12:30", "location":"G.2.14"},
-				{"event": "Teste de DAW", "date":"2021-06-28" , "starTime":"18:30", "endTime":"21:30", "location":"G.2.10"}
-			]
-		};*/
 
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
@@ -232,17 +205,19 @@ module.exports = function(data, database) {
 		});
 	};
 
-	const getSettingsPage = async function(user){
+	const getProfilePage = async function(user){
 		const commonInfo = await getProgrammesByDegree(data);
+		user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
+
 		return Object.assign(commonInfo, {
 			user: user
 		});
 	};
 	
-	const editSettings = async function(user, newSettings) {
+	const editProfile = async function(user, newUserInfo) {
 		if(user) {
-			await data.editUser(user, newSettings.newUsername);
-			await database.editUser(user.email, newSettings.newUsername, Number(newSettings.newProgramme));
+			await data.editUser(user, newUserInfo.newUsername);
+			await database.editUser(user.email, newUserInfo.newUsername, Number(newUserInfo.newProgramme));
 		}
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
@@ -261,8 +236,8 @@ module.exports = function(data, database) {
 		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,		
 		getAboutData : getAboutData,
-		getSettingsPage : getSettingsPage,
-		editSettings : editSettings
+		getProfilePage : getProfilePage,
+		editProfile : editProfile
 	};
 	
 }

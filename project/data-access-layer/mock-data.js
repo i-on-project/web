@@ -1,8 +1,7 @@
 'use strict'
 
-let mockUser = {};
-let courses = [];
-let classes = [];
+let users = {};
+const mock_users_limit = 3;
 
 module.exports = function() {
 
@@ -26,7 +25,12 @@ module.exports = function() {
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
 		const data = getMockData(path);
-		return data? data : {};
+		return data? {
+			"courseId": data.courseId,
+			"acronym": data.acronym,
+			"name": data.name,
+			"classes": data.classes
+		} : {};
 	};
 
 	const loadAboutData = async function() {
@@ -54,59 +58,81 @@ module.exports = function() {
 	};
 
 	const submitInstitutionalEmail = function(email) {
-		mockUser['email'] = email;
-		mockUser['username'] =  email.slice(0, email.indexOf("@"));
-		const path = '/auth/auth_req_id';
-		return getMockData(path);
+		if(Object.keys(users).length <= mock_users_limit) {
+			if(!users.hasOwnProperty(email)) {
+				users[`${email}`] = {
+					"email": email,
+					"username": email.slice(0, email.indexOf("@")),
+					"coursesAndClasses": []
+				};
+			}
+		}
+		return {
+				"auth_req_id": email,
+				"expires_in": 20
+		};
 	};
 
 	const pollingCore = function(authForPoll) {
-		const path = '/auth/polling_response';
-		return getMockData(path);
+		return Object.keys(users).length <= mock_users_limit || users.hasOwnProperty(authForPoll) ?  {"access_token": authForPoll} : {};
 	};
 
 	/* User related methods */
 
-	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {  // TO DO
+	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) { 
 		const path = '/user-courses/' + courseId;
 		const data = getMockData(path);
+
 		if(data) {
-			courses.push(data);
-			if(classes.courseId)
-				classes.courseId.push(classSection);
-			else{ 
-				classes[courseId] = [classSection]
-				classes.push(classes[courseId]);
+			for(let i = 0; i < users[user.email].coursesAndClasses.length; i++) {
+				if(users[user.email].coursesAndClasses[i].courseId == courseId)
+					users[user.email].coursesAndClasses[i].classes.push(classSection);
+			} 
+			if(users[user.email].coursesAndClasses.length == 0) {
+				const course = data;
+				course['classes'] = [classSection];
+				users[user.email].coursesAndClasses.push(course);
 			}
 		};
 	}
 
-	const loadUserSubscribedCourses = function(user) {  // TO DO
-		return courses;
+	const loadUserSubscribedCourses = function(user) {
+		return users[user.email].coursesAndClasses;
 	}
 
-	const loadUserSubscribedClassesInCourse = function(user, courseId) {  // TO DO
-		return classes[courseId];
+	const loadUserSubscribedClassesInCourse = function(user, courseId) { 
+		return users[user.email].coursesAndClasses.filter(course => course.courseId == courseId).find(__ => __).classes;
 	}
 
-	const deleteUserClass = function(user, courseId, classSection) {  // TO DO
+	const deleteUserClass = function(user, courseId, classSection) {
+		const classSections = users[user.email].coursesAndClasses
+		.filter(course => course.courseId == courseId).find(__ => __).classes;
 
+		const classSectionsSize = classSections.length;
+
+		for( let i = 0; i < classSectionsSize; i++){ 
+			if ( classSections[i] == classSection) { 
+				users[user.email].coursesAndClasses
+				.filter(course => course.courseId == courseId)
+				.find(__ => __).classes.splice(i, 1); 
+			}
+		}
 	}
 
-	const deleteUserCourse = function(user, courseId) {  // TO DO
-		for( let i = 0; i < courses.length; i++){ 
-			if ( courses[i].courseId === courseId) { 
-				courses.splice(i, 1); 
+	const deleteUserCourse = function(user, courseId) {
+		for( let i = 0; i < users[user.email].coursesAndClasses.length; i++){ 
+			if ( users[user.email].coursesAndClasses[i].courseId == courseId) { 
+				users[user.email].coursesAndClasses.splice(i, 1); 
 			}
 		}
 	}
 
 	const editUser = function(user, newUsername) {
-		mockUser.username = newUsername;
+		users[user.email].username = newUsername;
 	}
 
-	const loadUser = function(tokens) {// TO DO
-		return mockUser;
+	const loadUser = function(tokens) {
+		return users[tokens.access_token];
 	}
 
 	return {
