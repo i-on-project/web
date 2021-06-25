@@ -1,6 +1,7 @@
 'use strict'
 
 let users = {};
+const mock_users_limit = 3;
 
 module.exports = function() {
 
@@ -57,21 +58,23 @@ module.exports = function() {
 	};
 
 	const submitInstitutionalEmail = function(email) {
-		users[`${email}`] = {
-			"email": email,
-			"username": email.slice(0, email.indexOf("@")),
-			"coursesAndClasses": []
-		};
+		if(Object.keys(users).length <= mock_users_limit) {
+			if(!users.hasOwnProperty(email)) {
+				users[`${email}`] = {
+					"email": email,
+					"username": email.slice(0, email.indexOf("@")),
+					"coursesAndClasses": []
+				};
+			}
+		}
 		return {
-			"auth_req_id": email,
-			"expires_in": 300
-		  };
+				"auth_req_id": email,
+				"expires_in": 20
+		};
 	};
 
 	const pollingCore = function(authForPoll) {
-		return {
-			"access_token": authForPoll,
-		};
+		return Object.keys(users).length <= mock_users_limit || users.hasOwnProperty(authForPoll) ?  {"access_token": authForPoll} : {};
 	};
 
 	/* User related methods */
