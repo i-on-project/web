@@ -58,7 +58,7 @@ module.exports = function() {
 	};
 
 	const submitInstitutionalEmail = function(email) {
-		if(Object.keys(users).length <= mock_users_limit) {
+		if(Object.keys(users).length < mock_users_limit) {
 			if(!users.hasOwnProperty(email)) {
 				users[`${email}`] = {
 					"email": email,
@@ -68,13 +68,16 @@ module.exports = function() {
 			}
 		}
 		return {
-				"auth_req_id": email,
-				"expires_in": 20
+			"auth_req_id": email,
+			"expires_in": 20
 		};
 	};
 
 	const pollingCore = function(authForPoll) {
-		return Object.keys(users).length <= mock_users_limit || users.hasOwnProperty(authForPoll) ?  {"access_token": authForPoll} : {};
+		return Object.keys(users).length < mock_users_limit || users.hasOwnProperty(authForPoll) ?  
+			{"access_token": authForPoll} 
+			: 
+			{};
 	};
 
 	/* User related methods */
