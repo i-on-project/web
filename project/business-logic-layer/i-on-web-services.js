@@ -89,7 +89,7 @@ module.exports = function(data, database) {
 				}
 			}
 		}
-		
+
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			schedule: schedule,

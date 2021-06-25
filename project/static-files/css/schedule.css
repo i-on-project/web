@@ -2,14 +2,12 @@
 
 .scheduleDiv {
   display: flex;
+  justify-content: center;
 }
 
 .schedule{
-    margin:.1rem .5rem;
     background-color: #D3D3D3;
-    justify-content: center;
     border-radius: .2rem;
-    padding: .5rem;
     display: grid;
     grid-gap: 0;
     justify-self: center;

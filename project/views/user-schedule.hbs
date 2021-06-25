@@ -2,7 +2,7 @@
     <h3 class="text-center">Horário</h3>
 
     {{#if schedule}}
-    <div class="scheduleDiv">
+    <div class="scheduleDiv" id="content">
         <div class="schedule schedulepdf">
             <div class="schedule_header">
                 <span class="dl boldText">Hora</span>
@@ -149,14 +149,10 @@
         </div>
     </div>
     <div class="divSpacing">
-        <button class="btn btn-outline-dark pull-right" id="create_pdf">Obter em PDF</button>
+        <button class="btn btn-outline-dark pull-right" id="download">Obter em PDF</button>
     </div>
+    
     <script>
-        /*
-        $(document).ready(function () { 
-            ... code ...
-        })
-        */
 
         let itemsSchedule = [];
         const arrColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink'];
@@ -331,27 +327,6 @@
             return color;
         }
 
-        /*
-            buildItemTemplate({
-            day: sday,
-            keyfrom: sitem.keyfrom,
-            keyto: sitem.keyto,
-            bg: sitem.bg,
-            text: sitem.text
-            })
-
-            function buildItemTemplate(args){
-                return ''.concat(
-                    '<div class="schedule-item'
-                    ,' schedule-', args.day
-                    ,' time-from-', args.keyfrom
-                    ,' time-to-',args.keyto
-                    ,' nt bg-',args.bg,'">'
-                    ,args.text
-                    ,'</div>'
-                )     
-            }
-        */
     </script>
 
     {{else}}
@@ -367,37 +342,18 @@
 
 
 <script>  
-    (function () {  
-        const schedulepdf = $('.schedulepdf');  
-        const cache_width = schedulepdf.width(2000); 
-        const a4 = [1000, 1000];//[595.28, 841.89]; // for a4 size paper width and height  
-
-        $('#create_pdf').on('click', function () {  
-            $('body').scrollTop(0);  
-            createPDF();  
-        });  
-        //create pdf  
-        function createPDF() {  
-            getCanvas().then(function (canvas) {  
-                const img = canvas.toDataURL("image/png");  
-                const doc = new jsPDF({  
-                     unit: 'px',  
-                     format: 'a4'  
-                 });  
-                doc.addImage(img, 'JPEG', 20, 20);  
-                doc.save('Horário.pdf');  
-                schedulepdf.width(2000);  
-            });  
-        }  
-
-        // create canvas object  
-        function getCanvas() {  
-            schedulepdf.width(2000).css('max-width', 'none');  
-            return html2canvas(schedulepdf, {  
-                imageTimeout: 2000,  
-                removeContainer: true  
-            });  
-        }  
-
-    }());  
+   window.onload = function () {
+    document.getElementById("download")
+        .addEventListener("click", () => {
+            const content = this.document.getElementById("content");
+            let opt = {
+                margin: 1,
+                filename: 'Horário.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'letter', orientation: 'landscape' }
+            };
+            html2pdf().from(content).set(opt).save();
+        })
+}
 </script>  
