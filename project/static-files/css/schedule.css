@@ -7,7 +7,7 @@
 
 .schedule{
     background-color: #D3D3D3;
-    border-radius: .2rem;
+    border: 1px solid #343a40;
     display: grid;
     grid-gap: 0;
     justify-self: center;
