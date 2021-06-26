@@ -72,7 +72,7 @@ module.exports = function(data) {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
 		const mockDataToBeAdded = await getMockData(path);
 
-		response['name'] = mockDataToBeAdded.find(__ => __).name;
+		response['name'] = mockDataToBeAdded.name;
 		return response;
 	}
 

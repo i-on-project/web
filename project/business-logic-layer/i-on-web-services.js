@@ -89,7 +89,6 @@ module.exports = function(data, database) {
 				}
 			}
 		}
-
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			schedule: schedule,
@@ -130,7 +129,7 @@ module.exports = function(data, database) {
 			const calendarTerm = await getCurrentCalendarTerm(data);
 			const userCourses = await data.loadUserSubscribedCourses(user);
 			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
-			
+
 			for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
 				const course = await data.loadCourseClassesByCalendarTerm(userCoursesOfPresentCalendarTerm[i].courseId , calendarTerm)
 				const classes = await data.loadUserSubscribedClassesInCourse(user, userCoursesOfPresentCalendarTerm[i].courseId);
@@ -245,7 +244,7 @@ module.exports = function(data, database) {
 /******* Helper function *******/
 
 const getCurrentCalendarTerm = async function(data) { 
-	return '1718i'; // TO DO
+	return '1718v'; // TO DO
 }
 
 const getProgrammesByDegree = async function(data){

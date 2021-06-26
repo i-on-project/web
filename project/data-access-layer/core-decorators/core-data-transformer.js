@@ -105,10 +105,14 @@ module.exports = function(data) {
 	*	'acronym': 'LEIRT',
 	*	'termSize': 6,
 	*	'department': 'ADEETC',
-	*	'coordination': ,
-	*	'contacts': ,
-	*	'sourceLink': ,
-	*	'description': 
+	*	'coordination': [
+    *    	{'teacher': 'Professor ...'},
+    *   	...,
+    *    	{'teacher': 'Professor ...'}
+    *	],
+    *	'contacts': 'ccleirt@deetc.isel.ipl.pt',
+    *	'sourceLink': 'https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-redes-e-telecomunicacoes',
+    *	'description': 'O curso de Licenciatura em Engenharia Informática, Redes e Telecomunicações (LEIRT)...'
 	* }
 	*/
 
@@ -132,10 +136,52 @@ module.exports = function(data) {
 			return newResponse;
 		  }, course);
 	}
-	
+	/* Return Example:
+	* {
+	*	'courseId' : 2,
+	*	'acronym' : 'DAW',
+	*	'name' : 'Desenvolvimento de Aplicações Web',
+	*	'classes': ['1D','1N','2D']
+	* } 
+	*/
+
 	const loadAboutData = async function () {
 		return await data.loadAboutData();
 	};
+	/* Return Example:
+	* {
+	*	"department": "ADEETC",
+	*	"departmentImage": "ADEETC.png",
+	*	"projects": [
+	*		{
+	*			"name": "web",
+	*			"students": [
+	*				{"student": "Catarina Palma LEIRT 20/21"},
+	*				{"student": "Ricardo Severino LEIRT 20/21"}
+	*			],
+	*			"image": "web.png"
+	*		},
+	*		...
+	*		{
+	*			"name": "integration",
+	*			"students": [
+	*				{"student": "Miguel Teixeira LEIC 19/20"},
+	*				{"student": "Samuel Costa LEIC 19/20"},
+	*				{"student": "Cristiano Morgado LEIC 20/21"},
+	*				{"student": "Ricardo Canto LEIC 20/21"}
+	*			],
+	*			"image": "integration.png"
+	*		}
+	*	],
+	*	"teachers": [
+	*		{"teacher": "Professor João Trindade"},
+	*		{"teacher": "Professor Luís Falcão"},
+	*		{"teacher": "Professor Paulo Pereira"},
+	*		{"teacher": "Professor Pedro Felix"}
+	*	]
+	* }
+	*/
+
 
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
 		const receivedData = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection);
@@ -159,8 +205,25 @@ module.exports = function(data) {
 			};
 			response.push(classSection);
 			return response;
-		}, []);		
+		}, []);	
 	}
+	/* Return Example:
+	* [
+	*	{
+	*		'startDate': '08:00',
+	*		'endDate': '11:00',
+	*		'location': 'G.2.1',
+	*		'weekday': 'TU'
+	* 	},
+	*	{
+	*		'startDate': '10:00',
+	*		'endDate': '11:30',
+	*		'location': 'E.2.1',
+	*		'weekday': 'WE'
+	* 	}
+	* ]
+	*/
+
 
 	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm) {
 		const receivedData = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
@@ -202,12 +265,41 @@ module.exports = function(data) {
 			"testsAndExams": []
 		});		
 	}
+	/* Return Example:  
+	* {
+	*	'assignments': [
+	*		{'event': 'Trabalho de CN', 'date':'2021-06-11', 'time':'19:30'}, 
+	*		{'event': 'Exame de DAW', 'date':'2021-06-28', 'time':'19:00'}, 
+	*		{'event': 'Trabalho de PI', 'date':'2021-06-21', 'time':'18:30'}, , 
+	*		{'event': 'Exame de AC', 'date':'2021-06-26', 'time':'18:30'}
+	*	],
+	*	'testsAndExams': [
+	*		{'event': 'Teste de GAP', 'date':'2021-06-11' , 'starTime':'10:30', 'endTime':'12:30', 'location':'G.2.14'},
+	*		{'event': 'Teste de PI', 'date':'2021-06-22' , 'starTime':'09:30', 'endTime':'12:30', 'location':'G.2.14'},
+	*		{'event': 'Teste de DAW', 'date':'2021-06-28' , 'starTime':'18:30', 'endTime':'21:30', 'location':'G.2.10'}
+	*	]
+	* }
+	*/
+
 
 	/******* Authentication *******/ 
 
 	const loadAuthenticationMethodsAndFeatures = async function () {
 		return data.loadAuthenticationMethodsAndFeatures();
 	};
+	/* Return Example:
+	* [
+	*	{
+	*		"allowed_domains": [
+	*		"*.isel.pt",
+	*		"*.isel.ipl.pt"
+	*		],
+	*		"type": "email",
+	*		"create": true
+	*	}
+	* ]
+	*/
+
 
 	const submitInstitutionalEmail = async function(email) {
 		const receivedData = await data.submitInstitutionalEmail(email);
@@ -217,11 +309,20 @@ module.exports = function(data) {
 			"expires_in": receivedData.expires_in
 		}
 	};
+	/* Return Example:
+	* [
+	*	{
+	*		'auth_req_id': '55fe0c2e-2c8c-45ab-b7d4-0299c10c32bc',
+	*		'expires_in': 300
+	*	}
+	* ]
+	*/
+
 
 	const pollingCore = async function(authForPoll) {
 		const receivedData = await data.pollingCore(authForPoll);
 		
-		return receivedData.hasOwnProperty("access_token") ? 
+		const test = receivedData.hasOwnProperty("access_token") ? 
 		{
 			"access_token": receivedData.access_token,
 			"token_type": receivedData.token_type,
@@ -233,8 +334,24 @@ module.exports = function(data) {
 			"error" : receivedData.error,
 			"error_description" : receivedData.error_description
 		}
-
+		console.log(JSON.stringify(test))
+		return test;
 	};
+	/* Return Example:
+	* {
+	*	'access_token': 'SZ84SGZA7ACALtc37S29PgQ7pVnIpXH-zBYGMq6UVheiNXkD1jqZB5tkAiLJALIO3prDatd_VD2O4OewzuStgw',
+	*	'token_type': 'Bearer',
+	*	'refresh_token': 'u3zPqp7qpDoMjYhUzKlF-X3G1cxnkRT5Pus2GlXf6smwsq-B8Sa6x2-pwfIgpDcHO5ovxSIYxY433pBOs0JKHQ',
+	*	'expires_in': 10799,
+	*	'id_token': 'eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjM3NjQzNjcsImF1ZCI6IjIyZGQxNTUxLWRiMjMtNDgxYi1hY2RlLWQyODY0NDAzODhhNSIsImlhdCI6MTYyMzc2MDc2NywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoxMDAyMy9hcGkiLCJzdWIiOiI0MGViZmZjZC03MTYwLTQ3ZmMtYTg3YS0zNzBjODVhMmM3ODkiLCJlbWFpbCI6IkFqNkBhbHVub3MuaXNlbC5wdCJ9.i2mp43JFEdJll6ijPEY6ZGEC0ttYc6d8_U1c2cHjeo0'
+	* }
+	* OR
+	* {
+	*	'error':'authorization_pending',
+	*	'error_description':'The auth request is still waiting for a response'
+	* }
+	*/
+
 
 	/* User related methods */
 
@@ -261,16 +378,16 @@ module.exports = function(data) {
 	/* Return Example:
 	* [
 	*	{
-	*		"id": 1,
-	*		"courseId": 1,
-	*		"acronym": "LS",
-	*		"calendarTerm": "1718v"
+	*		'id': 1,
+	*		'courseId': 1,
+	*		'acronym': 'LS',
+	*		'calendarTerm': '1718v'
 	*	},
 	*	{
-	*		"id": 2,
-	*		"courseId": 2,
-	*		"acronym": "DAW",
-	*		"calendarTerm": "1718v"
+	*		'id': 2,
+	*		'courseId': 2,
+	*		'acronym': 'DAW',
+	*		'calendarTerm': '1718v'
 	*	}
 	* ]
 	*/
@@ -293,6 +410,7 @@ module.exports = function(data) {
 	*	'1N'
 	* ]
 	*/
+
 
 	const deleteUserClass = function(user, courseId, classSection) {
 		return data.deleteUserClass(user, courseId, classSection);
