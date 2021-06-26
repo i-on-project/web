@@ -11,8 +11,8 @@ module.exports = function(baseUrl) {
 
 	const initializeDatabaseIndexes = async function () { /// Initialize index 'users' in database
 		try {
-			
 			const getResponseUsers = await fetch(`${usersBaseUrl}/`); /// GET request to verify the existence of 'users' index
+	
 			if(getResponseUsers.status != 200 && getResponseUsers.status != 404) throw getResponseUsers.status;
 
 			if(getResponseUsers.status == 404) { /// If the index doesn't exist than it shall be created

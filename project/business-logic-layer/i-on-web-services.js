@@ -8,6 +8,7 @@ module.exports = function(data, database) {
 		if(user) {
 			// TO DO - Show user next events
 		}
+		
 		const commonInfo = await getProgrammesByDegree(data);
 		const events = await getUserEvents(user);
 
@@ -98,13 +99,15 @@ module.exports = function(data, database) {
 	};
 
 	const getUserEvents = async function(user) {
+		const calendarTerm = await getCurrentCalendarTerm(data);
+
 		let events = {
+			"calendar": await data.loadCalendarTermGeneralInfo(calendarTerm),
 			"assignments": [],
 			"testsAndExams": []
 		};
 
 		if(user) {
-			const calendarTerm = await getCurrentCalendarTerm(data);
 			const userCourses = await data.loadUserSubscribedCourses(user);
 			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
 			for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
@@ -244,7 +247,7 @@ module.exports = function(data, database) {
 /******* Helper function *******/
 
 const getCurrentCalendarTerm = async function(data) { 
-	return '1718v'; // TO DO
+	return data.loadCurrentCalendarTerm();
 }
 
 const getProgrammesByDegree = async function(data){

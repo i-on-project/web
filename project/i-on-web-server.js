@@ -23,7 +23,7 @@ async function configurations() {
     const storageCreator = require(`${dataAccessLayerPath}/i-on-web-db-elastic.js`);
     const database = storageCreator(process.env.DB_ELASTIC_URL); // TO DO
     await database.initializeDatabaseIndexes();               /// Initialize elastic indexes
- 
+
     /// Data
     let data;
 

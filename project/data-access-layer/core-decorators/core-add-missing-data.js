@@ -93,6 +93,24 @@ module.exports = function(data) {
 		return data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
 	}
 
+	const loadCurrentCalendarTerm = function() {
+		let response = await data.loadCurrentCalendarTerm();
+
+		/* Adding missing data */ 
+		response = await getMockData('/current_calendar_term');
+
+		return response;
+	}
+	
+	const loadCalendarTermGeneralInfo = function(calendarTerm) {
+		let response = await data.loadCalendarTermGeneralInfo(calendarTerm);
+
+		/* Adding missing data */ 
+		response = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
+
+		return response;
+	}
+
 	/* Authentication related methods */
 
 	const loadAuthenticationMethodsAndFeatures = function () {
@@ -145,6 +163,8 @@ module.exports = function(data) {
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
+		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
 		/* Authentication related methods */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,

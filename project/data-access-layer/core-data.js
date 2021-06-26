@@ -149,7 +149,7 @@ module.exports = function() {
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
-	}
+	};
 
 	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm) {
 		try {
@@ -172,8 +172,39 @@ module.exports = function() {
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
-	}
+	};
 
+	const loadCurrentCalendarTerm = function() {
+		try {
+		
+			return {}; // Request still not suported by i-on Core
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw internalErrors.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+	
+	const loadCalendarTermGeneralInfo = function(calendarTerm) {
+		try {
+		
+			return {}; // Request still not suported by i-on Core
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw internalErrors.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	
 	/* Authentication related methods */
 
 	const loadAuthenticationMethodsAndFeatures = async function () {
@@ -428,6 +459,8 @@ module.exports = function() {
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
+		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
 		/* Authentication related methods */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,

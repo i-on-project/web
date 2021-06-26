@@ -308,7 +308,28 @@
       const date = new Date(receivedDate[0], receivedDate[1]-1, receivedDate[2]);
       addEvent(title, desc, date);
 
-      });
+   });
+
+   /* Calendar Info */
+   let calendarInfo = [];
+     
+   {{#each events.calendar}}
+         calendarInfo.push({
+            'title'       : '{{this.title}}',
+            'description' : '{{this.description}}',
+            'date'        : '{{this.date}}'
+         });
+   {{/each}}
+
+  
+   calendarInfo.forEach(calendarInfo => {
+      const title = calendarInfo.title;
+      const desc = calendarInfo.description;
+      const receivedDate = calendarInfo.date.split('-');
+      const date = new Date(receivedDate[0], receivedDate[1]-1, receivedDate[2]);
+      addEvent(title, desc, date);
+
+   });
 
    if (!selectedDayBlock.querySelector(".day-mark")) {
       selectedDayBlock.appendChild(document.createElement("div")).className = "day-mark";

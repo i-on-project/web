@@ -281,7 +281,14 @@ module.exports = function(data) {
 	* }
 	*/
 
-
+	const loadCurrentCalendarTerm = function() {
+		return data.loadCurrentCalendarTerm();
+	}
+	
+	const loadCalendarTermGeneralInfo = function(calendarTerm) {
+		return data.loadCalendarTermGeneralInfo(calendarTerm);
+	}
+	
 	/******* Authentication *******/ 
 
 	const loadAuthenticationMethodsAndFeatures = async function () {
@@ -446,6 +453,8 @@ module.exports = function(data) {
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
+		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
 		/* Authentication related methods */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,

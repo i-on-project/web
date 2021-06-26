@@ -19,7 +19,7 @@ module.exports = function() {
 	const loadProgrammeData = async function(programmeId) {
 		const path = '/programmes/' + programmeId;
 		const data = getMockData(path);
-		return data? data : {};
+		return data ? data : {};
 	};
 
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
@@ -48,6 +48,18 @@ module.exports = function() {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/events';
 		const data = getMockData(path);
 		return data? data : {};
+	}
+
+	const loadCurrentCalendarTerm = function() {
+		const path = '/current_calendar_term';
+		const data = getMockData(path);
+		return data? data.calendarTerm : {};
+	}
+		
+	const loadCalendarTermGeneralInfo = function(calendarTerm) {
+		const path = '/calendarTerms/' + calendarTerm + '/semester_calendar';
+		const data = getMockData(path);
+		return data? data : [];
 	}
 
 	/* Authentication related methods */
@@ -146,6 +158,8 @@ module.exports = function() {
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
+		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
 		/* Authentication related methods */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
