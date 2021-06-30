@@ -95,6 +95,7 @@ describe('Services', function () {
 			// Assert
 			expect(response.programmeCalendarTermOffers).to.deep.eql(expected);
 		}),
+
 		it('should return 0 offers', async function () {			
 			// Arrange
 
@@ -159,6 +160,7 @@ describe('Services', function () {
 			// Assert
 			expect(response.programmeCalendarTermOffers).to.deep.eql(expected);
 		})
+		
 	}),
 	describe('getProgrammeData', function() { 
 		
@@ -246,6 +248,7 @@ describe('Services', function () {
 			expect(response.offersByAcademicTerms).to.deep.eql(expectedOffersByAcademicTerms);
 			expect(response.programme).to.deep.eql(expectedProgrammeData);
 		})
+
 	}),
 	describe('getClassesFromSelectedCourses', function() { 
 		
@@ -275,5 +278,6 @@ describe('Services', function () {
 			// Assert
 			expect(response.classesByCourses).to.deep.eql(expectedclassesByCourses);
 		})
+
 	})
 })

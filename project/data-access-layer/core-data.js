@@ -9,6 +9,7 @@ const contentType = 'application/json';
 const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
 const client_id = process.env.CORE_CLIENT_ID; /// TO DO: In future remove dev client id
+const client_secret = process.env.CORE_CLIENT_SECRET;
 
 const coreRequest = async function(endpoint, expectedStatus, options) {
 	// core_url + endpoint
@@ -239,15 +240,14 @@ module.exports = function() {
 					'Content-Type': contentType
 				},
 				body: JSON.stringify({
-					"scope": "profile classes",
-					"type": "email",
+					"scope": "openid profile classes",
+					"acr_values": "email",
 					"client_id": client_id,
-					"notification_method": "POLL",
-					"email": email
+					"login_hint": email
 				})
 			};
 			
-			return await coreRequest('/api/auth/methods', 200, options);
+			return await coreRequest('/api/auth/backchannel', 200, options);
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -267,10 +267,16 @@ module.exports = function() {
 				headers: {
 					'Authorization': read_token,
 					'Content-Type': contentType
-				}
+				},
+				body: JSON.stringify({
+					"grant_type": "urn:openid:params:grant-type:ciba",
+					"auth_req_id": authForPoll,
+					"client_id": client_id,
+					"client_secret": client_secret
+				})
 			};
 			
-			const response = await fetch(core_url + `/api/auth/request/${authForPoll}/poll`, options);
+			const response = await fetch(core_url + '/api/auth/token', options);
 			// TO DO: Check response status code
 			return response.json();
 
