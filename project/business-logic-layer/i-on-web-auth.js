@@ -37,6 +37,7 @@ module.exports = (app, data, database) => {
     passport.deserializeUser(refToUser);
     	
     return {
+
 		getAuthMethodsAndFeatures: async function() {
 			return data.loadAuthenticationMethodsAndFeatures();
         },
@@ -47,8 +48,8 @@ module.exports = (app, data, database) => {
 
 		pollingCore: async function(req, authForPoll) {
 			const receivedTokens = await data.pollingCore(authForPoll);
+
 			if(receivedTokens.hasOwnProperty("access_token")) {
-		
 				const user = await data.loadUser(receivedTokens);
 				const firstTimeUser = await database.firstTimeUser(user.email);
 				if(firstTimeUser) {
@@ -69,8 +70,9 @@ module.exports = (app, data, database) => {
 		},
 		
 		logout: async function(req) {
+			data.revokeAccessToken(req.user);
 			req.logout();
-			req.session.destroy(err => { /// TO DO : replace ...
+			req.session.destroy(err => { /// TODO : replace ...
 				if (err) throw internalErrors.SERVICE_FAILURE;
 			})
 		}

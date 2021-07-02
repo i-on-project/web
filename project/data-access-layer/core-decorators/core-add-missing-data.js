@@ -127,10 +127,11 @@ module.exports = function(data) {
 
 	/* User related methods */
 
+	
 	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {
 		return data.saveUserChosenCoursesAndClasses(user, courseId, classSection);
 	}
-
+	
 	const loadUserSubscribedCourses = function(user) {
 		return data.loadUserSubscribedCourses(user);
 	}
@@ -138,25 +139,29 @@ module.exports = function(data) {
 	const loadUserSubscribedClassesInCourse = function(user, courseId) {
 		return data.loadUserSubscribedClassesInCourse(user, courseId);
 	}
-
+	
 	const deleteUserClass = function(user, courseId, classSection) {
 		return data.deleteUserClass(user, courseId, classSection);
 	}
-
+	
 	const deleteUserCourse = function(user, courseId) {
 		return data.deleteUserCourse(user, courseId);
 	}
-
+	
 	const editUser = function(user, newUsername) {
 		return data.editUser(user, newUsername);
 	}
-
+	
 	const loadUser = function(tokens) {
 		return data.loadUser(tokens);
 	}
 
+	const revokeAccessToken = function(user) {
+		return data.revokeAccessToken(user);
+	}
+
 	return {
-        loadAllProgrammes : loadAllProgrammes,
+		loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
@@ -178,7 +183,8 @@ module.exports = function(data) {
 		deleteUserClass : deleteUserClass,
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadUser : loadUser
+		loadUser : loadUser,
+		revokeAccessToken : revokeAccessToken
 	};
 }
 

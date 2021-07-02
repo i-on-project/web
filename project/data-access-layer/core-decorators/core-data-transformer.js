@@ -445,6 +445,10 @@ module.exports = function(data) {
 	* }
 	*/
 
+	const revokeAccessToken = function(user) {
+		return data.revokeAccessToken(user);
+	}
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -468,6 +472,7 @@ module.exports = function(data) {
 		deleteUserClass : deleteUserClass,
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadUser : loadUser
+		loadUser : loadUser,
+		revokeAccessToken : revokeAccessToken
 	};
 }

@@ -2,7 +2,6 @@
 
 const express = require('express');
 const internalErrors = require('../common/i-on-web-errors.js');
-// const crypto = require('crypto');TODO: if not necessary, remove from package.json
 
 function webapi(auth) {
 	
@@ -39,7 +38,6 @@ function webapi(auth) {
 	router.use(express.json());	        /// Middleware to to create body property in request
 
 	/******* Mapping requests to handlers according to the path *******/
-
 	router.post('/email', 			theWebAPI.submitInstitutionalEmail	);	///
 	router.post('/:authId/poll',	theWebAPI.pollingCore				);	///
 

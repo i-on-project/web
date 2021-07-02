@@ -457,6 +457,33 @@ module.exports = function() {
 		}
 	};
 
+	const revokeAccessToken = async function(user) {
+		try {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': tokens.token_type + ' ' + tokens.access_token
+				},
+				body: JSON.stringify({
+					"access_token": user.access_token,
+					"client_id": client_id,
+					"client_secret": "gntBY4mjX8PH4_5_i_H54fMFLl2x15Q0O4jWXodQ4aPmofF4i6VBf39tXi5vhdjA2WZ-5hwaOXAL11oibnZ8og"
+				})
+			};
+
+			return await coreRequest('/api/auth/revoke', 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 404: /// Not Found
+					throw internalErrors.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
@@ -480,6 +507,8 @@ module.exports = function() {
 		deleteUserClass : deleteUserClass,
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadUser : loadUser
+		loadUser : loadUser,
+		revokeAccessToken : revokeAccessToken
 	};
+
 }
