@@ -3,7 +3,7 @@
 const cheerio = require('cheerio');
 
 // TO DO - This is an early version of the integration tests - We're still experimenting
-describe('Test', () => {
+
 test("Default Meta Charset", () => {
     //expect.assertions(1);
     return get("/").then(data => {
@@ -23,7 +23,7 @@ test("CSS Style", () => {
         ).toBe(true);
     });
 });
-});
+
 /*
 test("", () => {
     //expect.assertions(1);
