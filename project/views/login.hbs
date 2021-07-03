@@ -63,7 +63,7 @@
     <!-- Script to submit email to web-auth-aou and polling -->
 	<script>
 		async function submitFunction() {
-
+			console.log("12")
 			// Deactivate button
 			const button = document.querySelector('#submit-button');
 			button.disabled = true;
@@ -74,11 +74,7 @@
 			loading.innerHTML += 
 			' <br><br> ' + 
 			' <div class="row justify-content-center"> ' + 
-				//' <p> Autenticação em progresso ..</p>' + 
 				'<div class="divSpacing lds-roller" role="status"><div></div><div></div><div></div><div>' +
-				//' <div class="spinner-border" role="status">' + 
-				//'<span class="sr-only">Loading...</span>' +
-				//'</div>' +
 			'</div>'
 
 			// Request to auth api to obtain auth_req_id and expiration
@@ -86,6 +82,7 @@
 				'email' : document.querySelector('#emailValue').value
 			};
 
+			console.log("13" + JSON.stringify(data));
 			const response = await fetch("/auth-api/email", {
 				method: 'POST',
 				headers: {
@@ -93,18 +90,22 @@
 				},
 				body: JSON.stringify(data),
 			});
-
+			
+			console.log("130");
+			
 			const authData = await response.json();
-
+			
+			console.log("131");
+			
 			const auth_req_id = authData.auth_req_id;
 			let counter = authData.expires_in;
 
 			const polling_uri = `/auth-api/${auth_req_id}/poll`
 
 			// Polling loop
-
+			console.log('-->' + auth_req_id)
 			const pollingLoop = setInterval(async () => {
-
+				console.log('counter' + counter)
 				counter-=5;
 
 				const pollingResponse = await fetch(polling_uri, {
@@ -113,11 +114,16 @@
 						'Content-Type': 'application/json'
 					}
 				});
-
+				console.log('response:' + pollingResponse.status);
 				if(pollingResponse.status === 200) {
-					loading.innerHTML = "<p>Autenticação realizada com sucesso!</p>"
+					
 					clearInterval(pollingLoop);
-					window.location.replace('/');
+
+					setTimeout(async () => {
+						loading.innerHTML = "<p>Autenticação realizada com sucesso!</p>"
+						window.location.replace('/');
+					}, 1000)
+					
 				}
 
 				if (counter === 0) {

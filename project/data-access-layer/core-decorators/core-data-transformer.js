@@ -309,7 +309,9 @@ module.exports = function(data) {
 
 
 	const submitInstitutionalEmail = async function(email) {
+		console.log("[transformer] email: " + email);
 		const receivedData = await data.submitInstitutionalEmail(email);
+		console.log("submittransformer" + JSON.stringify(receivedData));
 
 		return {
 			"auth_req_id": receivedData.auth_req_id,
@@ -448,6 +450,15 @@ module.exports = function(data) {
 	const refreshAccessToken = function(user) {
 		return data.refreshAccessToken(user);
 	}
+	/* Return Example:
+	* {
+	*	'access_token': 'The new access token',
+	*	'token_type': 'Bearer',
+	*	'refresh_token': 'The new refresh token, used to refresh the new access token',
+	*	'expires_in': 10799,
+	*	'id_token': 'The id token, containing a series of assertions about the user'
+	* }
+	*/
 
 	const revokeAccessToken = function(user) {
 		return data.revokeAccessToken(user);

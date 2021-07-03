@@ -8,10 +8,11 @@ function webapi(auth) {
 	const theWebAPI = {
 
 		submitInstitutionalEmail: async function(req, res) {
-            const body = req.body;
+			const body = req.body;
 			try {
 				const data = await auth.submitInstitutionalEmail(body.email);
-               	res.json(data);
+				console.log("12121" + JSON.stringify(data));
+				res.json(data);
 			} catch(err) {
                 console.log("erro -> " + err);
 				//await onErrorResponse(res, err, 'Failed to show Home Page');
@@ -19,11 +20,13 @@ function webapi(auth) {
 		},
 
 		pollingCore: async function(req, res) {
+			console.log("entra na polling")
             const params = req.params;
-
+			console.log("received params: "+ JSON.stringify(params))
 			try {
 				
 				const isCompleted = await auth.pollingCore(req, params['authId']);
+				console.log("-->" + isCompleted)
                 if(isCompleted) {
 					res.json();
 				} else res.status(202).json();

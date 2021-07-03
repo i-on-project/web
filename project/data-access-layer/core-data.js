@@ -9,7 +9,7 @@ const contentType = 'application/json';
 const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
 const client_id = process.env.CORE_CLIENT_ID; /// TO DO: In future remove dev client id
-const client_secret = process.env.CORE_CLIENT_SECRET;
+const client_secret = "gntBY4mjX8PH4_5_i_H54fMFLl2x15Q0O4jWXodQ4aPmofF4i6VBf39tXi5vhdjA2WZ-5hwaOXAL11oibnZ8og"//process.env.CORE_CLIENT_SECRET;
 
 const coreRequest = async function(endpoint, expectedStatus, options) {
 	// core_url + endpoint
@@ -192,7 +192,6 @@ module.exports = function() {
 	
 	const loadCalendarTermGeneralInfo = function(calendarTerm) {
 		try {
-		
 			return {}; // Request still not suported by i-on Core
 
 		} catch(err) { /// TO DO:  Add more error handling
@@ -246,7 +245,7 @@ module.exports = function() {
 					"login_hint": email
 				})
 			};
-			
+			console.log("[coredata] email: " + email);
 			return await coreRequest('/api/auth/backchannel', 200, options);
 
 		} catch(err) { /// TO DO:  Add more error handling
@@ -261,7 +260,7 @@ module.exports = function() {
 
 	const pollingCore = async function(authForPoll) {
 		try {
-			
+			console.log("coredata--->" + authForPoll)
 			const options = {
 				method: 'POST',
 				headers: {
@@ -432,10 +431,12 @@ module.exports = function() {
 			};
 
 			const response = await fetch(core_url + '/api/users', options);
-
+			console.log("coredataedit" + JSON.stringify(response));
 			if(response.status != 204) throw response.status; // TO DO - handle the status code
+			console.log("coredataedit1")
 
 		} catch(err) { /// TO DO:  Add more error handling
+			
 			switch (err) {
 				case 403:
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;

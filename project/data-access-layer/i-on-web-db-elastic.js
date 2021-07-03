@@ -31,12 +31,37 @@ module.exports = function(baseUrl) {
 		}
 	};
 
+	const createUserSession = async function (email, tokens) { /// Saving a new user in the database
+		try {
+
+			const options = {
+				method: 'POST', 
+				headers: { "Content-Type": contentType },
+				body: JSON.stringify(
+					Object.assign(
+						{'email': email},
+						tokens	
+					)
+				)
+			};
+
+			const res = await fetchRequest(`${usersBaseUrl}/_doc/`, 201, options);
+			return res['_id'];
+
+		} catch (err) {  // TODO handling errors
+			switch (err) {
+				default: /// Internal Server Error and others..
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+
 	/**
 	 * Store user's session tokens
 	 * @param {*} email user email
 	 * @param {*} tokens user session tokens
 	 */
-	const storeUserSessionTokens = async function (email, tokens, index) {
+	const storeUpdatedInfo = async function (email, tokens, index) {
 		try {
 
 			const options = {
@@ -83,35 +108,10 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const createUserSession = async function (email, tokens) { /// Saving a new user in the database
-		try {
-
-			const options = {
-				method: 'POST', 
-				headers: { "Content-Type": contentType },
-				body: JSON.stringify(
-					Object.assign(
-						{'email': email},
-						tokens	
-					)
-				)
-			};
-
-			const res = await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 201, options);
-			return res['_id'];
-
-		} catch (err) {  // TODO handling errors
-			switch (err) {
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
-		}
-	};
-
 	return {
 		initializeDatabaseIndexes : initializeDatabaseIndexes,
 		getUserTokens : getUserTokens,
-		storeUserSessionTokens : storeUserSessionTokens,
+		storeUpdatedInfo : storeUpdatedInfo,
 		createUserSession : createUserSession
 	};
 }

@@ -3,13 +3,12 @@
 const { FetchError } = require('node-fetch'); // TO DO: removE?
 const internalErrors = require('../common/i-on-web-errors.js');
 
-module.exports = function(data) {
+module.exports = function(data, sessionDB) {
 
 	const getHome = async function(user) {
 		if(user) {
 			// TO DO - Show user next events
 		}
-		
 		const commonInfo = await getProgrammesByDegree(data);
 		const events = await getUserEvents(user);
 
@@ -22,7 +21,7 @@ module.exports = function(data) {
 		);
 	};
 
-	const getProgrammeCalendarTermOffers = async function(programmeId, user){ // TO DO: arg semester info
+	const getProgrammeCalendarTermOffers = async function(programmeId, user) { // TO DO: arg semester info
 		const offers = await data.loadAllProgrammeOffers(programmeId);
 
 		const courseIDs = offers
@@ -103,7 +102,7 @@ module.exports = function(data) {
 		} catch (err) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
-					await data.refreshAccessToken(user);
+					await updateUserSession(data, sessionDB, user);
 					return getUserSchedule(user);
 				default:
 					throw err;
@@ -114,7 +113,6 @@ module.exports = function(data) {
 	const getUserEvents = async function(user) {
 		try {
 			const calendarTerm = await getCurrentCalendarTerm(data);
-
 			let events = {
 				"calendar": await data.loadCalendarTermGeneralInfo(calendarTerm),
 				"assignments": [],
@@ -131,7 +129,6 @@ module.exports = function(data) {
 					events.testsAndExams = events.testsAndExams.concat(courseEvents.testsAndExams);
 				}
 			}
-
 			const commonInfo = await getProgrammesByDegree(data);
 			return Object.assign(commonInfo, {
 				events: events,
@@ -141,7 +138,7 @@ module.exports = function(data) {
 		} catch (err) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
-					await data.refreshAccessToken(user);
+					await updateUserSession(data, sessionDB, user);
 					return getUserEvents(user);
 				default:
 					throw err;
@@ -173,7 +170,7 @@ module.exports = function(data) {
 		} catch (err) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
-					await data.refreshAccessToken(user);
+					await updateUserSession(data, sessionDB, sessionDBuser);
 					return getUserCourses(user);
 				default:
 					throw err;
@@ -200,7 +197,7 @@ module.exports = function(data) {
 		} catch (err) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
-					await data.refreshAccessToken(user);
+					await updateUserSession(data, sessionDB, user);
 					return editUserCourses(user, selectedCoursesAndClassesToDelete);
 				default:
 					throw err;
@@ -228,6 +225,7 @@ module.exports = function(data) {
 
 	const saveUserChosenCoursesAndClasses = async function(user, selectedClassesAndCourses){
 		try {
+			
 			if(user) {
 				for(let courseId in selectedClassesAndCourses) {
 					if(Array.isArray(selectedClassesAndCourses[courseId])) {
@@ -237,12 +235,12 @@ module.exports = function(data) {
 						await data.saveUserChosenCoursesAndClasses(user, courseId, selectedClassesAndCourses[courseId]);
 					}
 				}
-				
 			}
+
 		} catch (err) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
-					await data.refreshAccessToken(user);
+					await updateUserSession(data, sessionDB, user);
 					return saveUserChosenCoursesAndClasses(user, selectedClassesAndCourses);
 				default:
 					throw err;
@@ -260,7 +258,7 @@ module.exports = function(data) {
 		});
 	};
 
-	const getProfilePage = async function(user){
+	const getProfilePage = async function(user) {
 		const commonInfo = await getProgrammesByDegree(data);
 		user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
 
@@ -271,6 +269,7 @@ module.exports = function(data) {
 	
 	const editProfile = async function(user, newUserInfo) {
 		try {
+			
 			if(user)
 				await data.editUser(user, newUserInfo.newUsername);
 	
@@ -278,14 +277,20 @@ module.exports = function(data) {
 			return Object.assign(commonInfo, {
 				user: user
 			});
+
 		} catch (err) {
+
 			switch (err) {
+				
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
-					await data.refreshAccessToken(user);
+					await updateUserSession(data, sessionDB, user);
 					return editProfile(user, newUserInfo);
+
 				default:
 					throw err;
+
 			}
+
 		}
 	};
 
@@ -309,7 +314,8 @@ module.exports = function(data) {
 /******* Helper function *******/
 
 const getCurrentCalendarTerm = async function(data) { 
-	return data.loadCurrentCalendarTerm();
+	const calendarTermObj = await data.loadCurrentCalendarTerm()
+	return calendarTermObj.calendarTerm;
 }
 
 const getProgrammesByDegree = async function(data){
@@ -324,3 +330,15 @@ const getProgrammesByDegree = async function(data){
 
 	return {bachelor: bachelorProgrammes, master: masterProgrammes};
 };
+
+const updateUserSession = async function(data, sessionDB, user) {
+	const newTokens = await data.refreshAccessToken(user);
+
+	await sessionDB.storeUpdatedInfo(user.email, newTokens, user.sessionId)
+
+	user.access_token = newTokens.access_token;
+	user.token_type = newTokens.token_type;
+	user.refresh_token = newTokens.refresh_token;
+	user.expires_in = newTokens.expires_in;
+	user.id_token = newTokens.id_token;
+}

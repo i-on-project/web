@@ -93,7 +93,7 @@ module.exports = function(data) {
 		return data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
 	}
 
-	const loadCurrentCalendarTerm = function() {
+	const loadCurrentCalendarTerm = async function() {
 		let response = await data.loadCurrentCalendarTerm();
 
 		/* Adding missing data */ 
@@ -102,11 +102,11 @@ module.exports = function(data) {
 		return response;
 	}
 	
-	const loadCalendarTermGeneralInfo = function(calendarTerm) {
+	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
 		let response = await data.loadCalendarTermGeneralInfo(calendarTerm);
 
 		/* Adding missing data */ 
-		response = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
+		response = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar'); // SHOWCATARINAWTF
 
 		return response;
 	}
@@ -118,6 +118,7 @@ module.exports = function(data) {
 	};
 
 	const submitInstitutionalEmail = function(email) {
+		console.log('amd' + email)
 		return data.submitInstitutionalEmail(email);
 	};
 
