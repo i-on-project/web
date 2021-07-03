@@ -70,13 +70,16 @@ module.exports = (app, data, database) => {
 		},
 		
 		logout: async function(req) {
-			data.revokeAccessToken(req.user);
+			await data.revokeAccessToken(req.user);
 			req.logout();
 			req.session.destroy(err => { /// TODO : replace ...
 				if (err) throw internalErrors.SERVICE_FAILURE;
 			})
-		}
+		},
 
+		getUsername: async function(user) {
+			return user.username? user.username : user.email.slice(0, user.email.indexOf("@"));
+		}
 	}
 
 }

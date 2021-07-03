@@ -59,7 +59,7 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const createUser = async function (email, programme, tokens) { /// Saving a new user in the database
+	const createUser = async function (email, programme, username, tokens) { /// Saving a new user in the database
 		try {
 			const options = {
 				method: 'PUT', 
@@ -67,7 +67,7 @@ module.exports = function(baseUrl) {
 				body: JSON.stringify(Object.assign(
 					{
 						'email': email,
-					 	'username': email.slice(0, email.indexOf("@")),
+					 	'username': username,
 						'programme': programme
 					},
 					tokens))

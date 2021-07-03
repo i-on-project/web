@@ -445,6 +445,10 @@ module.exports = function(data) {
 	* }
 	*/
 
+	const refreshAccessToken = function(user) {
+		return data.refreshAccessToken(user);
+	}
+
 	const revokeAccessToken = function(user) {
 		return data.revokeAccessToken(user);
 	}
@@ -473,6 +477,7 @@ module.exports = function(data) {
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
 		loadUser : loadUser,
+		refreshAccessToken : refreshAccessToken,
 		revokeAccessToken : revokeAccessToken
 	};
 }
