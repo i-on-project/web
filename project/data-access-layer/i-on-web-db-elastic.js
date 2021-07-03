@@ -23,7 +23,7 @@ module.exports = function(baseUrl) {
 				if(putResponseUsers.status != 200 && putResponseUsers.status != 201) throw putResponseUsers.status;
 			}
 
-		} catch (err) {
+		} catch (err) { // TODO handling errors
 			switch (err) {
 				default: /// Internal Server Error and others..
 					throw internalErrors.SERVICE_FAILURE;
@@ -32,16 +32,18 @@ module.exports = function(baseUrl) {
 	};
 
 	/**
-	 * Updates user's session tokens
+	 * Store user's session tokens
 	 * @param {*} email user email
 	 * @param {*} tokens user session tokens
 	 */
-	const updateUserTokens = async function (email, tokens) {
+	const storeUserSessionTokens = async function (email, tokens, index) {
 		try {
+
 			const options = {
-				method: 'POST',
+				method: 'PUT',
 				headers: { "Content-Type": contentType },
 				body: JSON.stringify({
+						"email" : email,
 						"access_token" : tokens.access_token,
 						"token_type" : tokens.token_type,
 						"refresh_token" : tokens.refresh_token,
@@ -49,9 +51,10 @@ module.exports = function(baseUrl) {
 						"id_token" : tokens.id_token
 				  })
 			};
-			await fetchRequest(`${usersBaseUrl}/_update/${email}/`, 200, options);
 
-		} catch (err) {
+			await fetchRequest(`${usersBaseUrl}/_update/${index}/`, 200, options);
+
+		} catch (err) { // TODO handling errors
 			switch (err) {
 				default: /// Internal Server Error and others..
 					throw internalErrors.SERVICE_FAILURE;
@@ -70,7 +73,7 @@ module.exports = function(baseUrl) {
 			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 200);
 			return answer._source;
 
-		} catch (err) {
+		} catch (err) { // TODO handling errors
 			switch (err) {
 				case 404: /// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
@@ -80,11 +83,36 @@ module.exports = function(baseUrl) {
 		}
 	};
 
+	const createUserSession = async function (email, tokens) { /// Saving a new user in the database
+		try {
+
+			const options = {
+				method: 'POST', 
+				headers: { "Content-Type": contentType },
+				body: JSON.stringify(
+					Object.assign(
+						{'email': email},
+						tokens	
+					)
+				)
+			};
+
+			const res = await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 201, options);
+			return res['_id'];
+
+		} catch (err) {  // TODO handling errors
+			switch (err) {
+				default: /// Internal Server Error and others..
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
 
 	return {
 		initializeDatabaseIndexes : initializeDatabaseIndexes,
 		getUserTokens : getUserTokens,
-		updateUserTokens : updateUserTokens
+		storeUserSessionTokens : storeUserSessionTokens,
+		createUserSession : createUserSession
 	};
 }
 

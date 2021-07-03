@@ -9,25 +9,22 @@ const FileStore = require('session-file-store')(session);
 module.exports = (app, data, sessionDB) => {
 
 	function userToRef(user, done) {
-		done(null, user.email);
+		done(null, user.sessionId);
 	}
 	
 	async function refToUser(userRef, done) {
-		/// Obtaining user profile info from core
-		const userProfileInfo = data.loadUser(userRef);
 
-		/// Obtaining user session info from elasticsearch db
-		const userSession = await sessionDB.getUser(userRef);
+		const userSessionInfo = await getUserAndSessionInfo(userRef);
 
-		// es request -> tokens
-		if (user) {
-			done(null, user);
+		if (userSessionInfo) {
+			done(null, userSessionInfo);
 		} else {
 			done('User not found.');
 		}
+
 	}
 
-    /// MW to manage sessions
+    /// Middleware to manage sessions
     app.use(session({
 		resave: false,              
 		saveUninitialized: false,  
@@ -55,29 +52,24 @@ module.exports = (app, data, sessionDB) => {
 		pollingCore: async function(req, authForPoll) {
 			const receivedTokens = await data.pollingCore(authForPoll);
 
+			/// Check if pooling succeeded
 			if(receivedTokens.hasOwnProperty("access_token")) {
 				const user = await data.loadUser(receivedTokens);
-				user.username = user.username ? user.username : user.email.slice(0, user.email.indexOf("@"));
-				data.editUser(user);
-				/**
-				 * edit username with prefix if not set...
-				 */
 
-				const firstTimeUser = await sessionDB.firstTimeUser(user.email);
-				if(firstTimeUser) {
-					await sessionDB.createUser(user.email, 1, receivedTokens);
-				} else {
-					await sessionDB.updateUserTokens(user.email, receivedTokens);
+				/// If the user doesn't have a username, we give one by default. 
+				if(!user.username) {
+					user.username = user.email.slice(0, user.email.indexOf("@"));
+					data.editUser(user);
 				}
-				const i_on_web_user = await sessionDB.getUser(user.email);
+
+				const sessionId = await sessionDB.createUserSession(user.email, receivedTokens);
+				const userSessionInfo = getUserAndSessionInfo(sessionId)
 				
-				req.login(i_on_web_user, (err) => {
+				req.login(userSessionInfo, (err) => {
 					if (err) throw internalErrors.SERVICE_FAILURE;
 				})
 			
 				return true;
-			} else {
-				return false;
 			}
 		},
 		
@@ -92,8 +84,19 @@ module.exports = (app, data, sessionDB) => {
 
 }
 
-/* ,
-	getUsername: async function(user) {
-		return user.username? user.username : user.email.slice(0, user.email.indexOf("@"));
+/******* Helper functions *******/
+
+const getUserAndSessionInfo = async function(sessionId) { // Through the session identifier we will obtain information about the user as well as the session 
+
+	/// Obtaining user session info from elasticsearch db
+	const sessionInfo = await sessionDB.getUserTokens(sessionId);
+
+	/// Obtaining user profile info from core
+	const userProfileInfo = await data.loadUser(userSession.access_token, userSession.token_type);
+	
+	const sessionId = {
+		'sessionId': sessionId
 	}
- */
+
+	return Object.assign(sessionId, userProfileInfo, sessionInfo);
+}

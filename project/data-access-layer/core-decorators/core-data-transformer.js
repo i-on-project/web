@@ -431,8 +431,8 @@ module.exports = function(data) {
 		return data.editUser(user, newUsername);
 	}
 
-	const loadUser = async function(tokens) {
-		const receivedData = await data.loadUser(tokens);
+	const loadUser = async function(access_token, token_type) {
+		const receivedData = await data.loadUser(access_token, token_type);
 		return {
 			'email': receivedData.properties.email,
 			'username': receivedData.properties.name

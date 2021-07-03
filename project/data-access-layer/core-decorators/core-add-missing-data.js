@@ -152,8 +152,8 @@ module.exports = function(data) {
 		return data.editUser(user, newUsername);
 	}
 	
-	const loadUser = function(tokens) {
-		return data.loadUser(tokens);
+	const loadUser = function(access_token, token_type) {
+		return data.loadUser(access_token, token_type);
 	}
 
 	const refreshAccessToken = function(user) {

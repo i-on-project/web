@@ -447,13 +447,13 @@ module.exports = function() {
 		}
 	};
 
-	const loadUser = async function(tokens) {
+	const loadUser = async function(access_token, token_type) {
 		try {
 
 			const options = {
 				method: 'GET',
 				headers: {
-					'Authorization': tokens.token_type + ' ' + tokens.access_token
+					'Authorization': token_type + ' ' + access_token
 				}
 			};
 

@@ -22,10 +22,12 @@ function webapi(auth) {
             const params = req.params;
 
 			try {
-				const data = await auth.pollingCore(req, params['authId']);
-                if(data) {
+				
+				const isCompleted = await auth.pollingCore(req, params['authId']);
+                if(isCompleted) {
 					res.json();
 				} else res.status(202).json();
+
 			} catch(err) {
                 console.log("erro -> " + err);
 				//await onErrorResponse(res, err, 'Failed to show Home Page');
