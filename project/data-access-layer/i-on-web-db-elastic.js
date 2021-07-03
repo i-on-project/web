@@ -9,7 +9,10 @@ module.exports = function(baseUrl) {
 
 	const usersBaseUrl = `${baseUrl}/users`;
 
-	const initializeDatabaseIndexes = async function () { /// Initialize index 'users' in database
+	/**
+	 * Initialize index 'users' in elasticsearch db
+	 */
+	const initializeDatabaseIndexes = async function () {
 		try {
 			const getResponseUsers = await fetch(`${usersBaseUrl}/`); /// GET request to verify the existence of 'users' index
 	
@@ -28,22 +31,40 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const firstTimeUser = async function (email) {
+	/**
+	 * Updates user's session tokens
+	 * @param {*} email user email
+	 * @param {*} tokens user session tokens
+	 */
+	const updateUserTokens = async function (email, tokens) {
 		try {
-			const response = await fetch(`${usersBaseUrl}/_doc/${email}`);
-			if(response.status == 404) { return true; }
-			else if(response.status == 200) { return false; }
-			else { throw response.status; }
+			const options = {
+				method: 'POST',
+				headers: { "Content-Type": contentType },
+				body: JSON.stringify({
+						"access_token" : tokens.access_token,
+						"token_type" : tokens.token_type,
+						"refresh_token" : tokens.refresh_token,
+						"expires_in" : tokens.expires_in,
+						"id_token" : tokens.id_token
+				  })
+			};
+			await fetchRequest(`${usersBaseUrl}/_update/${email}/`, 200, options);
 
 		} catch (err) {
 			switch (err) {
 				default: /// Internal Server Error and others..
 					throw internalErrors.SERVICE_FAILURE;
 			}
-		}	
+		}
 	};
 
-	const getUser = async function (email) { /// Obtain user given the email
+	/**
+	 * Get user's tokens
+	 * @param {*} email user email
+	 * @returns An object with the user tokens
+	 */
+	const getUserTokens = async function (email) { /// Obtain user given the email
 		try {
 
 			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 200);
@@ -59,7 +80,49 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const createUser = async function (email, programme, username, tokens) { /// Saving a new user in the database
+
+
+		/*const createUser = async function (email, username, tokens) { /// Saving a new user in the database
+		try {
+			const options = {
+				method: 'PUT', 
+				headers: { "Content-Type": contentType },
+				body: JSON.stringify(Object.assign(
+					{
+						'email': email,
+					 	'username': username
+					},
+					tokens))
+			};
+			await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 201, options);
+
+		} catch (err) {
+			switch (err) {
+				default: /// Internal Server Error and others..
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};*/
+
+
+		/*const firstTimeUser = async function (email) {
+		try {
+			const response = await fetch(`${usersBaseUrl}/_doc/${email}`);
+			if(response.status == 404) { return true; }
+			else if(response.status == 200) { return false; }
+			else { throw response.status; }
+
+		} catch (err) {
+			switch (err) {
+				default: /// Internal Server Error and others..
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}	
+	};*/
+
+
+	/* Old createUser (with programme)
+	  	const createUser = async function (email, programme, username, tokens) { /// Saving a new user in the database
 		try {
 			const options = {
 				method: 'PUT', 
@@ -81,22 +144,21 @@ module.exports = function(baseUrl) {
 			}
 		}
 	};
+	*/
 
-	const updateUserTokens = async function (email, tokens) {
+
+
+	/*const editUser = async function (email, newUsername) {
 		try {
 			const options = {
 				method: 'POST',
 				headers: { "Content-Type": contentType },
 				body: JSON.stringify({
 					"script" : {
-					  "source": "ctx._source.access_token = params.access_token; ctx._source.token_type = params.token_type; ctx._source.expires_in = params.expires_in; ctx._source.refresh_token = params.refresh_token; ctx._source.id_token = params.id_token",
+					  "source": "ctx._source.username = params.newUsername;",
 					  "lang": "painless",
 					  "params" : {
-						"access_token" : tokens.access_token,
-						"token_type" : tokens.token_type,
-						"refresh_token" : tokens.refresh_token,
-						"expires_in" : tokens.expires_in,
-						"id_token" : tokens.id_token
+						"newUsername" : newUsername
 					  }
 					}
 				  })
@@ -109,9 +171,10 @@ module.exports = function(baseUrl) {
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
-	};
+	};*/
 
-	const editUser = async function (email, newUsername, newProgramme) {
+	/** Old edit user(with programmesID)
+	 * const editUser = async function (email, newUsername, newProgramme) {
 		try {
 			const options = {
 				method: 'POST',
@@ -135,12 +198,12 @@ module.exports = function(baseUrl) {
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
-	};
+	};*/
 
 	return {
 		initializeDatabaseIndexes : initializeDatabaseIndexes,
 		firstTimeUser : firstTimeUser,
-		getUser : getUser,
+		getUserTokens : getUserTokens,
 		createUser : createUser,
 		updateUserTokens : updateUserTokens,
 		editUser : editUser

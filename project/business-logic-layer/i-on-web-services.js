@@ -1,9 +1,9 @@
 'use strict'
 
-const { FetchError } = require('node-fetch');
+const { FetchError } = require('node-fetch'); // TO DO: removE?
 const internalErrors = require('../common/i-on-web-errors.js');
 
-module.exports = function(data, database) {
+module.exports = function(data) {
 
 	const getHome = async function(user) {
 		if(user) {
@@ -271,10 +271,9 @@ module.exports = function(data, database) {
 	
 	const editProfile = async function(user, newUserInfo) {
 		try {
-			if(user) {
+			if(user)
 				await data.editUser(user, newUserInfo.newUsername);
-				await database.editUser(user.email, newUserInfo.newUsername, Number(newUserInfo.newProgramme));
-			}
+	
 			const commonInfo = await getProgrammesByDegree(data);
 			return Object.assign(commonInfo, {
 				user: user
