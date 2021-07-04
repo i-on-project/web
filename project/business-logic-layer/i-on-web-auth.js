@@ -13,9 +13,8 @@ module.exports = (app, data, sessionDB) => {
 	}
 	
 	async function refToUser(userRef, done) {
-
 		const userSessionInfo = await getUserAndSessionInfo(data, sessionDB, userRef);
-
+		
 		if (userSessionInfo) {
 			done(null, userSessionInfo);
 		} else {
@@ -26,10 +25,10 @@ module.exports = (app, data, sessionDB) => {
 
     /// Middleware to manage sessions
     app.use(session({
-		//resave: false,              
-		//saveUninitialized: true,  
+		resave: true,              
+		saveUninitialized: false,  
 		secret: 'secret',   // TO DO - Generate random string
-		//store: new FileStore({logFn: function(){}}),
+		store: new FileStore({logFn: function(){}}),
 		name: 'id',   
     }))
 
@@ -46,7 +45,6 @@ module.exports = (app, data, sessionDB) => {
         },
 
 		submitInstitutionalEmail: async function(email) {
-			console.log("[i-on-web-auth] email: " + email);
 			return data.submitInstitutionalEmail(email);
         }, 
 
@@ -55,18 +53,16 @@ module.exports = (app, data, sessionDB) => {
 
 			/// Check if pooling succeeded
 			if(receivedTokens.hasOwnProperty("access_token")) {
-				console.log("3");
 
 				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type);
 				const sessionId = await sessionDB.createUserSession(user.email, receivedTokens);
-
+				
 				const userSessionInfo = Object.assign(
 					{'sessionId': sessionId},
 					user,
 					receivedTokens
 				);
-
-				console.log("4");
+				
 				/// If the user doesn't have a username, we give one by default. 
 				if(!userSessionInfo.username) {
 					const newUsername = user.email.slice(0, user.email.indexOf("@"));
@@ -78,21 +74,19 @@ module.exports = (app, data, sessionDB) => {
 					if (err) throw internalErrors.SERVICE_FAILURE;
 				})
 				
-				console.log("7");
 				return true;
 			}
 		},
 		
-		logout: async function(req) {
-			// Arrangeawait data.revokeAccessToken(req.user);
-			console.log("LOGOUT - " + req.session.id)
-			console.log("LOGOUT user - " + JSON.stringify(req.user))
+		logout: async function(req, res) {
+			// TO DO -> await data.revokeAccessToken(req.user);
+
 			req.logout();
-			console.log("saiu-->")
-			/*req.session.destroy(err => { /// TODO : replace ...
-		
-				if (err) throw internalErrors.SERVICE_FAILURE;
-			})*/
+			req.session.destroy(err => { /// TODO : replace ...
+				if (err) {
+					throw internalErrors.SERVICE_FAILURE;
+				}
+			})
 		}
 	}
 
@@ -101,13 +95,13 @@ module.exports = (app, data, sessionDB) => {
 /******* Helper functions *******/
 
 const getUserAndSessionInfo = async function(data, sessionDB, sessionId) { // Through the session identifier we will obtain information about the user as well as the session 
-
+	
 	/// Obtaining user session info from elasticsearch db
 	const sessionInfo = await sessionDB.getUserTokens(sessionId);
 
 	/// Obtaining user profile info from core
 	const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type);
-	
+
 	return Object.assign(
 		{'sessionId': sessionId},
 		userProfileInfo,

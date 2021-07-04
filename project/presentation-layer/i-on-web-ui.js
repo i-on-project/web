@@ -145,9 +145,7 @@ function webui(service, auth) {
 
 		logout: async function(req, res) {
 			try {
-				await auth.logout(req);	
-				console.log("saiudoauth-->")
-				res.redirect('/'); 
+				await auth.logout(req, res);	
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
 			}

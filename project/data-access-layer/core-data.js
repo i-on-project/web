@@ -245,7 +245,6 @@ module.exports = function() {
 					"login_hint": email
 				})
 			};
-			console.log("[coredata] email: " + email);
 			return await coreRequest('/api/auth/backchannel', 200, options);
 
 		} catch(err) { /// TO DO:  Add more error handling
@@ -260,7 +259,6 @@ module.exports = function() {
 
 	const pollingCore = async function(authForPoll) {
 		try {
-			console.log("coredata--->" + authForPoll)
 			const options = {
 				method: 'POST',
 				headers: {
@@ -431,9 +429,8 @@ module.exports = function() {
 			};
 
 			const response = await fetch(core_url + '/api/users', options);
-			console.log("coredataedit" + JSON.stringify(response));
+			
 			if(response.status != 204) throw response.status; // TO DO - handle the status code
-			console.log("coredataedit1")
 
 		} catch(err) { /// TO DO:  Add more error handling
 			

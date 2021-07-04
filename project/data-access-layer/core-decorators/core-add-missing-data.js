@@ -118,7 +118,6 @@ module.exports = function(data) {
 	};
 
 	const submitInstitutionalEmail = function(email) {
-		console.log('amd' + email)
 		return data.submitInstitutionalEmail(email);
 	};
 

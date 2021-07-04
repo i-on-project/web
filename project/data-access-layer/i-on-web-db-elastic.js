@@ -92,10 +92,10 @@ module.exports = function(baseUrl) {
 	 * @param {*} email user email
 	 * @returns An object with the user tokens
 	 */
-	const getUserTokens = async function (email) { /// Obtain user given the email
+	const getUserTokens = async function (id) { /// Obtain user given the id
 		try {
-
-			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 200);
+			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${id}`, 200);
+		
 			return answer._source;
 
 		} catch (err) { // TODO handling errors

@@ -309,9 +309,7 @@ module.exports = function(data) {
 
 
 	const submitInstitutionalEmail = async function(email) {
-		console.log("[transformer] email: " + email);
 		const receivedData = await data.submitInstitutionalEmail(email);
-		console.log("submittransformer" + JSON.stringify(receivedData));
 
 		return {
 			"auth_req_id": receivedData.auth_req_id,
@@ -343,7 +341,6 @@ module.exports = function(data) {
 			"error" : receivedData.error,
 			"error_description" : receivedData.error_description
 		}
-		console.log(JSON.stringify(test))
 		return test;
 	};
 	/* Return Example:
