@@ -124,6 +124,16 @@ function webui(service, auth) {
 			}
 		},
 
+		deleteProfile: async function(req, res) {
+			try {
+				await auth.logout(req, res);
+				await service.deleteProfile(req.user);
+				res.redirect('/');
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show About Page');
+			}
+		},
+
 		/******* Authentication Pages *******/
 		loginUI: async function(req, res) {
 			let commonInfo;
@@ -145,7 +155,8 @@ function webui(service, auth) {
 
 		logout: async function(req, res) {
 			try {
-				await auth.logout(req, res);	
+				await auth.logout(req);	
+				res.redirect('/');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
 			}
@@ -174,6 +185,7 @@ function webui(service, auth) {
 	router.get(	'/about', 				theWebUI.about							);	/// About Page
 	router.get( '/profile', 			theWebUI.profile						);  /// User Profile Page
 	router.post('/profile', 			theWebUI.editProfile					);
+	router.post('/delete-user',         theWebUI.deleteProfile					);
 
 	/*** Auth ***/
 	router.get(	'/login',				theWebUI.loginUI			);	/// Login UI page

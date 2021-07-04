@@ -87,7 +87,10 @@ module.exports = function() {
 
 	const pollingCore = async function(authForPoll) {
 		return Object.keys(users).length < mock_users_limit || users.hasOwnProperty(authForPoll) ?  
-			{"access_token": authForPoll} 
+			{
+			 "access_token": authForPoll,
+			 "token_type": ""
+			} 
 			: 
 			{};
 	};
@@ -146,8 +149,12 @@ module.exports = function() {
 		users[user.email].username = newUsername;
 	}
 
-	const loadUser = async function(tokens) {
-		return users[tokens.access_token];
+	const loadUser = async function(access_token, token_type) {
+		return users[access_token];
+	}
+
+	const deleteUser = async function(access_token, token_type) {
+		delete users[access_token];
 	}
 
 	return {
@@ -173,7 +180,8 @@ module.exports = function() {
 		deleteUserClass : deleteUserClass,
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadUser : loadUser
+		loadUser : loadUser,
+		deleteUser : deleteUser
 	};
 }
 

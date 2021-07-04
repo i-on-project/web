@@ -9,6 +9,7 @@ module.exports = function(data, sessionDB) {
 		if(user) {
 			// TO DO - Show user next events
 		}
+		
 		const commonInfo = await getProgrammesByDegree(data);
 		const events = await getUserEvents(user);
 
@@ -260,7 +261,7 @@ module.exports = function(data, sessionDB) {
 
 	const getProfilePage = async function(user) {
 		const commonInfo = await getProgrammesByDegree(data);
-		user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
+	    //user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
 
 		return Object.assign(commonInfo, {
 			user: user
@@ -294,6 +295,33 @@ module.exports = function(data, sessionDB) {
 		}
 	};
 
+	const deleteProfile = async function(user) {
+		try {
+			
+			if(user)
+				await data.deleteUser(user.access_token, user.token_type);
+	
+			const commonInfo = await getProgrammesByDegree(data);
+			return Object.assign(commonInfo, {
+				user: user
+			});
+
+		} catch (err) {
+
+			switch (err) {
+				
+				case internalErrors.EXPIRED_ACCESS_TOKEN:
+					await updateUserSession(data, sessionDB, user);
+					return deleteProfile(user);
+
+				default:
+					throw err;
+
+			}
+
+		}
+	};
+
 	return {
 		getHome : getHome,
 		getProgrammeCalendarTermOffers : getProgrammeCalendarTermOffers,
@@ -306,7 +334,8 @@ module.exports = function(data, sessionDB) {
 		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,		
 		getAboutData : getAboutData,
 		getProfilePage : getProfilePage,
-		editProfile : editProfile
+		editProfile : editProfile,
+		deleteProfile : deleteProfile
 	};
 	
 }

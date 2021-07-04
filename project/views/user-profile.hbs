@@ -12,12 +12,13 @@
         </div>
         <div class="col col-sm">
             <h5>Curso do utilizador: </h5>
-            <p>{{user.programmeName}}</p>
+            <p></p>
         </div>
     </div>
+
     <div class="form-group divSpacing">
         <button id="editButton" onclick=edit() class="btn btn-outline-dark pull-right">Editar perfil</button>  
-
+ 
         <form method="POST" action="/profile" id="profileDiv" style="display:none">
 
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -48,13 +49,16 @@
                         <option value={{this.programmeId}}>{{this.acronym}} ({{this.name}})</option>
                     {{/each}}
                 </select>
-           <!-- </div>
-            <div class="offset-1 divSpacing">-->
-                <button type="submit" href="/profile" class="btn btn-dark pull-right">Guardar alterações</button>
-                <button  type="button" onclick=back() class="btn btn-outline-dark pull-right">Cancelar</button> 
-            <!-- </div>-->
+            <div class="row row-content divSpacing pull-right">
+                <button type="submit" href="/profile" class="btn btn-dark">Guardar alterações</button>
+                <button  type="button" onclick=back() class="btn btn-outline-dark">Cancelar</button> 
+            </div>
         </form>
     </div>
+</div>
+<br>
+<div class="divSpacing">
+    <a class="btn btn-outline-danger pull-right" href="/" role="button"><i class="fa fa-trash" aria-hidden="true"></i>  Apagar conta</a>
 </div>
 
 <script>

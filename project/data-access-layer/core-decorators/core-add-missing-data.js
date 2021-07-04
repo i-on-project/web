@@ -156,6 +156,10 @@ module.exports = function(data) {
 		return data.loadUser(access_token, token_type);
 	}
 
+	const deleteUser = function(access_token, token_type) {
+		return data.deleteUser(access_token, token_type);
+	}
+
 	const refreshAccessToken = function(user) {
 		return data.refreshAccessToken(user);
 	}
@@ -188,6 +192,7 @@ module.exports = function(data) {
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
 		loadUser : loadUser,
+		deleteUser : deleteUser,
 		refreshAccessToken : refreshAccessToken,
 		revokeAccessToken : revokeAccessToken
 	};

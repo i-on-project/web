@@ -469,6 +469,30 @@ module.exports = function() {
 		}
 	};
 
+	const deleteUser = async function(access_token, token_type) {
+		try {
+
+			const options = {
+				method: 'DELETE',
+				headers: {
+					'Authorization': token_type + ' ' + access_token
+				}
+			};
+
+			return await coreRequest('/api/users', 204, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 403:
+					throw internalErrors.EXPIRED_ACCESS_TOKEN;
+				case 404: /// Not Found
+					throw internalErrors.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+
 	const refreshAccessToken = async function(user) {
 		try {
 
@@ -499,11 +523,10 @@ module.exports = function() {
 
 	const revokeAccessToken = async function(user) {
 		try {
-
 			const options = {
 				method: 'DELETE',
 				headers: {
-					'Authorization': read_token
+					'Authorization': 'Bearer ' + user.access_token
 				},
 				body: JSON.stringify({
 					"token": user.access_token,
@@ -512,8 +535,10 @@ module.exports = function() {
 				})
 			};
 
-			return await coreRequest('/api/auth/revoke', 204, options);
-
+			const response = await fetch(core_url + '/api/auth/revoke', options);
+			
+			if(response.status != 204) throw response.status;
+		
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 403:
@@ -550,6 +575,7 @@ module.exports = function() {
 		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
 		loadUser : loadUser,
+		deleteUser : deleteUser,
 		refreshAccessToken : refreshAccessToken,
 		revokeAccessToken : revokeAccessToken
 	};

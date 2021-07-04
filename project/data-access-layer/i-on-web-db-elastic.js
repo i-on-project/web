@@ -108,11 +108,50 @@ module.exports = function(baseUrl) {
 		}
 	};
 
+	const deleteUserSession = async function (id) {
+		try {
+			await fetchRequest(`${usersBaseUrl}/_doc/${id}`, 200, {method: 'DELETE'});
+
+		} catch (err) { // TODO handling errors
+			switch (err) {
+				case 404: /// Not Found
+					throw internalErrors.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error and others..
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const deleteUserSessions = async function (email) {
+		try {
+
+			const options = {
+				method: 'POST', 
+				headers: { "Content-Type": contentType },
+				body: JSON.stringify()
+			};
+
+			const answer = await fetchRequest(`${usersBaseUrl}/_doc/`, 200, options);
+		
+			return answer._source;
+
+		} catch (err) { // TODO handling errors
+			switch (err) {
+				case 404: /// Not Found
+					throw internalErrors.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error and others..
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+
 	return {
 		initializeDatabaseIndexes : initializeDatabaseIndexes,
-		getUserTokens : getUserTokens,
 		storeUpdatedInfo : storeUpdatedInfo,
-		createUserSession : createUserSession
+		createUserSession : createUserSession,
+		getUserTokens : getUserTokens,
+		deleteUserSession : deleteUserSession,
+		deleteUserSessions : deleteUserSessions
 	};
 }
 
