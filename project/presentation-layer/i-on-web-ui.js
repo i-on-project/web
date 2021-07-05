@@ -124,10 +124,10 @@ function webui(service, auth) {
 			}
 		},
 
-		deleteProfile: async function(req, res) {
+		deleteUser: async function(req, res) {
 			try {
 				await auth.logout(req, res);
-				await service.deleteProfile(req.user);
+				await service.deleteUser(req.user);
 				res.redirect('/');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
@@ -185,11 +185,11 @@ function webui(service, auth) {
 	router.get(	'/about', 				theWebUI.about							);	/// About Page
 	router.get( '/profile', 			theWebUI.profile						);  /// User Profile Page
 	router.post('/profile', 			theWebUI.editProfile					);
-	router.post('/delete-user',         theWebUI.deleteProfile					);
+	router.get(	'/delete-user',         theWebUI.deleteUser						);
 
 	/*** Auth ***/
 	router.get(	'/login',				theWebUI.loginUI			   			);	/// Login UI page
-	router.get('/logout',				theWebUI.logout							);
+	router.get(	'/logout',				theWebUI.logout							);
 
 	return router;
 }

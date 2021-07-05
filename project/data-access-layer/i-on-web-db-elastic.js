@@ -122,7 +122,7 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const deleteUserSessions = async function (email) {
+	const deleteAllUserSessions = async function (email) {
 		try {
 
 			const options = {
@@ -151,7 +151,7 @@ module.exports = function(baseUrl) {
 		createUserSession : createUserSession,
 		getUserTokens : getUserTokens,
 		deleteUserSession : deleteUserSession,
-		deleteUserSessions : deleteUserSessions
+		deleteAllUserSessions : deleteAllUserSessions
 	};
 }
 

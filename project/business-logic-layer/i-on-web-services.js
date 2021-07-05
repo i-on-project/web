@@ -295,12 +295,14 @@ module.exports = function(data, sessionDB) {
 		}
 	};
 
-	const deleteProfile = async function(user) {
+	const deleteUser = async function(user) {
 		try {
-			
-			if(user)
-				await data.deleteUser(user.access_token, user.token_type);
 	
+			if(user) {
+				await data.deleteUser(user.access_token, user.token_type);
+				//await sessionDB.deleteAllUserSessions(user.email); TO DO
+			}
+
 			const commonInfo = await getProgrammesByDegree(data);
 			return Object.assign(commonInfo, {
 				user: user
@@ -312,7 +314,7 @@ module.exports = function(data, sessionDB) {
 				
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
 					await updateUserSession(data, sessionDB, user);
-					return deleteProfile(user);
+					return deleteUser(user);
 
 				default:
 					throw err;
@@ -335,7 +337,7 @@ module.exports = function(data, sessionDB) {
 		getAboutData : getAboutData,
 		getProfilePage : getProfilePage,
 		editProfile : editProfile,
-		deleteProfile : deleteProfile
+		deleteUser : deleteUser
 	};
 	
 }
