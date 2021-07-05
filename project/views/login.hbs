@@ -12,7 +12,10 @@
     </div>
 </div>
 
+
+
 <script>
+
 	/// Specific presentation for email authentication method
 	const email = document.querySelector("#emailbutton");			
 	email.innerHTML += '<i class="fa fa-envelope-o" aria-hidden="true"></i>  Email Institucional';
@@ -31,6 +34,8 @@
 
 </script>
 
+
+
 <div id="email" class="row justify-content-center" style="display:none">
 
     <div class="col-md-4">
@@ -40,15 +45,15 @@
         <form id="submitedEmail">
 
             <!-- Email -->
-            <div class="form-group">
                 <label class="col-form-labels">Email institucional:</label>
-                <input type="text" class="form-control" id="emailValue">
-                <p>Domínios disponíveis: </p>
+            <div class="form-group">
+                <input type="text" class="form-control" id="emailValue" required aria-required="true"/>
             </div>
+                <p>Domínios disponíveis: </p>
 
             <!-- Submit button -->
             <div class="form-group">
-                <button type="submit" class="form-control btn btn-dark" id="submit-button" onclick="submitFunction()">Iniciar sessão</button>
+                <button type="text" class="form-control btn btn-dark" id="submit-button" onclick="validateInput()">Iniciar sessão</button>
             </div>
 
             <!-- Back button -->
@@ -60,9 +65,33 @@
         
     </div>
 
-    <!-- Script to submit email to web-auth-aou and polling -->
+    <!-- Script to submit email to web-auth-api and polling -->
 	<script>
-		async function submitFunction() {
+
+		async function validateInput() {
+
+			// Typed email
+			const userEmail = document.querySelector('#emailValue').value;
+			console.log("useremail: " + userEmail)
+			if(!userEmail) {
+				return;
+			}
+
+
+			submit();
+
+		}
+
+		async function submit() {
+
+			// Typed email
+			/*const userEmail = document.querySelector('#emailValue').value;
+			console.log("useremail: " + userEmail)
+			if(!userEmail) {
+				return;
+			}*/
+
+
 			// Deactivate button
 			const button = document.querySelector('#submit-button');
 			button.disabled = true;
