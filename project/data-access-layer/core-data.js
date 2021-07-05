@@ -499,7 +499,8 @@ module.exports = function() {
 			const options = {
 				method: 'POST',
 				headers: {
-					'Authorization': tokens.token_type + ' ' + tokens.access_token
+					'Authorization': tokens.token_type + ' ' + tokens.access_token,
+					'Content-Type': contentType
 				},
 				body: JSON.stringify({
 					"grant_type": "refresh_token",
@@ -526,7 +527,8 @@ module.exports = function() {
 			const options = {
 				method: 'DELETE',
 				headers: {
-					'Authorization': 'Bearer ' + user.access_token
+					'Authorization': user.token_type + ' ' + user.access_token,
+					'Content-Type': contentType
 				},
 				body: JSON.stringify({
 					"token": user.access_token,

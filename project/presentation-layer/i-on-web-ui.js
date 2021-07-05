@@ -188,8 +188,8 @@ function webui(service, auth) {
 	router.post('/delete-user',         theWebUI.deleteProfile					);
 
 	/*** Auth ***/
-	router.get(	'/login',				theWebUI.loginUI			);	/// Login UI page
-	router.get('/logout',				theWebUI.logout			);
+	router.get(	'/login',				theWebUI.loginUI			   			);	/// Login UI page
+	router.get('/logout',				theWebUI.logout							);
 
 	return router;
 }
