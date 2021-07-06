@@ -9,7 +9,7 @@ const contentType = 'application/json';
 const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
 const client_id = process.env.CORE_CLIENT_ID; /// TO DO: In future remove dev client id
-const client_secret = process.env.CORE_CLIENT_SECRET;
+const client_secret = "gntBY4mjX8PH4_5_i_H54fMFLl2x15Q0O4jWXodQ4aPmofF4i6VBf39tXi5vhdjA2WZ-5hwaOXAL11oibnZ8og"//process.env.CORE_CLIENT_SECRET;
 
 const coreRequest = async function(endpoint, expectedStatus, options) {
 	// core_url + endpoint
@@ -175,7 +175,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadCurrentCalendarTerm = function() {
+	const loadCurrentCalendarTerm = async function() {
 		try {
 		
 			return {}; // Request still not suported by i-on Core
@@ -190,9 +190,8 @@ module.exports = function() {
 		}
 	};
 	
-	const loadCalendarTermGeneralInfo = function(calendarTerm) {
+	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
 		try {
-		
 			return {}; // Request still not suported by i-on Core
 
 		} catch(err) { /// TO DO:  Add more error handling
@@ -246,7 +245,6 @@ module.exports = function() {
 					"login_hint": email
 				})
 			};
-			
 			return await coreRequest('/api/auth/backchannel', 200, options);
 
 		} catch(err) { /// TO DO:  Add more error handling
@@ -261,7 +259,6 @@ module.exports = function() {
 
 	const pollingCore = async function(authForPoll) {
 		try {
-			
 			const options = {
 				method: 'POST',
 				headers: {
@@ -292,7 +289,7 @@ module.exports = function() {
 
 	/* User related methods */
 
-	const saveUserChosenCoursesAndClasses = async function(user, courseId, classSection) {
+	const saveUserClassesAndClassSections = async function(user, id, classSection) {
 		try {
 			const options = {
 				method: 'PUT',
@@ -302,12 +299,14 @@ module.exports = function() {
 				}
 			};
 
-			const response = await fetch(core_url + '/api/users/classes/' + courseId + '/' + classSection, options);
+			const response = await fetch(core_url + '/api/users/classes/' + id + '/' + classSection, options);
 		
 			if(response.status != 201 && response.status != 204) throw response.status; // TO DO - handle the status code
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
+				case 403:
+					throw internalErrors.EXPIRED_ACCESS_TOKEN;
 				case 404: /// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
@@ -316,7 +315,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadUserSubscribedCourses = async function(user) {
+	const loadUserSubscribedClassSectionsInClass = async function(user, id) {
 		try {
 			const options = {
 				method: 'GET',
@@ -326,10 +325,12 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/api/users/classes/', 200, options);
+			return await coreRequest('/api/users/classes/' + id, 200, options);
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
+				case 403:
+					throw internalErrors.EXPIRED_ACCESS_TOKEN;
 				case 404: /// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
@@ -338,7 +339,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadUserSubscribedClassesInCourse = async function(user, courseId) {
+	const loadUserSubscribedClassesAndClassSections = async function(user) {
 		try {
 			const options = {
 				method: 'GET',
@@ -348,10 +349,12 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/api/users/classes/' + courseId, 200, options);
+			return await coreRequest('/api/users/sections', 200, options);
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
+				case 403:
+					throw internalErrors.EXPIRED_ACCESS_TOKEN;
 				case 404: /// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
@@ -360,7 +363,8 @@ module.exports = function() {
 		}
 	};
 
-	const deleteUserClass = async function(user, courseId, classSection) {
+
+	const deleteUserClassSection = async function(user, id, classSection) {
 		try {
 			const options = {
 				method: 'DELETE',
@@ -369,13 +373,15 @@ module.exports = function() {
 					'Content-Type': contentType
 				}
 			};
-		
-			const response = await fetch(core_url + '/api/users/classes/' + courseId + '/' + classSection, options);
 
+			const response = await fetch(core_url + '/api/users/classes/' + id + '/' + classSection, options);
+	
 			if(response.status != 204) throw response.status; // TO DO - handle the status code
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
+				case 403:
+					throw internalErrors.EXPIRED_ACCESS_TOKEN;
 				case 404: /// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
@@ -384,7 +390,7 @@ module.exports = function() {
 		}
 	};
 
-	const deleteUserCourse = async function(user, courseId) {
+	const deleteUserClass = async function(user, courseId) {
 		try {
 			const options = {
 				method: 'DELETE',
@@ -400,6 +406,8 @@ module.exports = function() {
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
+				case 403:
+					throw internalErrors.EXPIRED_ACCESS_TOKEN;
 				case 404: /// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
@@ -422,8 +430,88 @@ module.exports = function() {
 			};
 
 			const response = await fetch(core_url + '/api/users', options);
-
+			
 			if(response.status != 204) throw response.status; // TO DO - handle the status code
+
+		} catch(err) { /// TO DO:  Add more error handling
+			
+			switch (err) {
+				case 403:
+					throw internalErrors.EXPIRED_ACCESS_TOKEN;
+				case 404: /// Not Found
+					throw internalErrors.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const loadUser = async function(access_token, token_type) {
+		try {
+
+			const options = {
+				method: 'GET',
+				headers: {
+					'Authorization': token_type + ' ' + access_token
+				}
+			};
+
+			return await coreRequest('/api/users', 200, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 403:
+					throw internalErrors.EXPIRED_ACCESS_TOKEN;
+				case 404: /// Not Found
+					throw internalErrors.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const deleteUser = async function(access_token, token_type) {
+		try {
+
+			const options = {
+				method: 'DELETE',
+				headers: {
+					'Authorization': token_type + ' ' + access_token
+				}
+			};
+
+			return await coreRequest('/api/users', 204, options);
+
+		} catch(err) { /// TO DO:  Add more error handling
+			switch (err) {
+				case 403:
+					throw internalErrors.EXPIRED_ACCESS_TOKEN;
+				case 404: /// Not Found
+					throw internalErrors.RESOURCE_NOT_FOUND;
+				default: /// Internal Server Error
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	const refreshAccessToken = async function(user) {
+		try {
+
+			const options = {
+				method: 'POST',
+				headers: {
+					'Authorization': tokens.token_type + ' ' + tokens.access_token,
+					'Content-Type': contentType
+				},
+				body: JSON.stringify({
+					"grant_type": "refresh_token",
+					"refresh_token": user.refresh_token,
+					"client_id": client_id,
+					"client_secret": client_secret
+				})
+			};
+
+			return await coreRequest('/api/auth/token', 200, options);
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -435,20 +523,29 @@ module.exports = function() {
 		}
 	};
 
-	const loadUser = async function(tokens) {
+	const revokeAccessToken = async function(user) {
 		try {
-
 			const options = {
-				method: 'GET',
+				method: 'DELETE',
 				headers: {
-					'Authorization': tokens.token_type + ' ' + tokens.access_token
-				}
+					'Authorization': user.token_type + ' ' + user.access_token,
+					'Content-Type': contentType
+				},
+				body: JSON.stringify({
+					"token": user.access_token,
+					"client_id": client_id,
+					"client_secret": client_secret
+				})
 			};
 
-			return await coreRequest('/api/users', 200, options);
-
+			const response = await fetch(core_url + '/api/auth/revoke', options);
+			
+			if(response.status != 204) throw response.status;
+		
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
+				case 403:
+					throw internalErrors.EXPIRED_ACCESS_TOKEN;
 				case 404: /// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error
@@ -474,12 +571,16 @@ module.exports = function() {
 		pollingCore : pollingCore,
 
 		/* User related methods */
-		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
-		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
+		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
+		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
+		deleteUserClassSection : deleteUserClassSection,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadUser : loadUser
+		loadUser : loadUser,
+		deleteUser : deleteUser,
+		refreshAccessToken : refreshAccessToken,
+		revokeAccessToken : revokeAccessToken
 	};
+
 }

@@ -5,14 +5,15 @@
 		
 		<div class="divSpacing">
 			{{#each this.data}}
-					<!--<a class="button" onclick=showSpecifiedMethod('{{this.type}}')>{{this.type}}</a>-->
 					<a class="btn btn-outline-dark btn-lg" role="button" onclick=showSpecifiedMethod('{{this.type}}') id="{{this.type}}button"></a>
 			{{/each}}
 		</div>
     </div>
 </div>
 
+
 <script>
+
 	/// Specific presentation for email authentication method
 	const email = document.querySelector("#emailbutton");			
 	email.innerHTML += '<i class="fa fa-envelope-o" aria-hidden="true"></i>  Email Institucional';
@@ -31,24 +32,30 @@
 
 </script>
 
+
+<!-- Auth method : email -->
+
 <div id="email" class="row justify-content-center" style="display:none">
 
     <div class="col-md-4">
 
         <h2 class="text-center">Iniciar sessão</h2><br>
 
-        <form id="submitedEmail">
+        <form onsubmit="validateEmail(); return false;">
 
             <!-- Email -->
             <div class="form-group">
                 <label class="col-form-labels">Email institucional:</label>
-                <input type="text" class="form-control" id="emailValue">
-                <p>Domínios disponíveis: </p>
+                <input type="text" class="form-control" id="emailValue" required aria-required="true"/>
+				<div class="invalid-feedback">
+					Insira um email válido.
+				</div>
             </div>
+                <p id="domains">Domínios disponíveis: </p>
 
             <!-- Submit button -->
             <div class="form-group">
-                <button type="submit" class="form-control btn btn-dark" id="submit-button" onclick="submitFunction()">Iniciar sessão</button>
+                <button type="text" class="form-control btn btn-dark" id="submit-button">Iniciar sessão</button>
             </div>
 
             <!-- Back button -->
@@ -60,9 +67,59 @@
         
     </div>
 
-    <!-- Script to submit email to web-auth-aou and polling -->
+    <!-- Script to submit email to web-auth-api and polling -->
 	<script>
-		async function submitFunction() {
+
+		const allowed_domains = [];
+
+		{{#each data}}
+			if('{{this.type}}' === 'email') {
+				{{#each this.allowed_domains}}
+					allowed_domains.push('{{this}}')
+				{{/each}}
+			}
+		{{/each}}
+
+		// Add domains to paragraph
+		const domainsParagraph = document.querySelector("#domains");
+		const text = document.createTextNode(allowed_domains.join(", "));
+		domainsParagraph.appendChild(text);
+
+		async function validateEmail() {
+
+			// Extract email
+			const userEmailElem = document.querySelector('#emailValue');
+			const userEmail = userEmailElem.value;
+			
+			// Validate email
+			if(!userEmail) return;
+
+			if(!verifyConditions(userEmail, allowed_domains)) { 
+				userEmailElem.classList.add("is-invalid");
+				return;
+			}
+
+			// Email is valid
+			if(userEmailElem.classList.contains("is-invalid")) userEmailElem.classList.remove("is-invalid");
+			userEmailElem.classList.add("is-valid");
+
+			await submit();
+		}
+
+		function verifyConditions(email) {
+
+			function isBeingUsed(domain) {
+				return email.endsWith(domain.substring(1));
+			}
+
+			// Check if one of the allowed domains is being used
+			if(!allowed_domains.some(isBeingUsed)) return false;
+
+			const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			return re.test(email);
+		}
+
+		async function submit() {
 
 			// Deactivate button
 			const button = document.querySelector('#submit-button');
@@ -74,11 +131,7 @@
 			loading.innerHTML += 
 			' <br><br> ' + 
 			' <div class="row justify-content-center"> ' + 
-				//' <p> Autenticação em progresso ..</p>' + 
 				'<div class="divSpacing lds-roller" role="status"><div></div><div></div><div></div><div>' +
-				//' <div class="spinner-border" role="status">' + 
-				//'<span class="sr-only">Loading...</span>' +
-				//'</div>' +
 			'</div>'
 
 			// Request to auth api to obtain auth_req_id and expiration
@@ -93,18 +146,15 @@
 				},
 				body: JSON.stringify(data),
 			});
-
+			
 			const authData = await response.json();
-
+			
 			const auth_req_id = authData.auth_req_id;
 			let counter = authData.expires_in;
-
 			const polling_uri = `/auth-api/${auth_req_id}/poll`
 
 			// Polling loop
-
 			const pollingLoop = setInterval(async () => {
-
 				counter-=5;
 
 				const pollingResponse = await fetch(polling_uri, {
@@ -115,9 +165,14 @@
 				});
 
 				if(pollingResponse.status === 200) {
-					loading.innerHTML = "<p>Autenticação realizada com sucesso!</p>"
+					
 					clearInterval(pollingLoop);
-					window.location.replace('/');
+
+					setTimeout(async () => {
+						loading.innerHTML = "<p>Autenticação realizada com sucesso!</p>"
+						window.location.replace('/');
+					}, 500)
+					
 				}
 
 				if (counter === 0) {
@@ -125,10 +180,10 @@
 					clearInterval(pollingLoop);
 				}
 
-			}, 5000); // TO DO
+			}, 5000);
 
 		}
+
 	</script>
 
 </div>
-

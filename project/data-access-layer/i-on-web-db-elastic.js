@@ -7,9 +7,12 @@ const contentType = 'application/json';
 
 module.exports = function(baseUrl) {
 
-	const usersBaseUrl = `${baseUrl}/users`;
+	const usersBaseUrl = `${baseUrl}/sessions`;
 
-	const initializeDatabaseIndexes = async function () { /// Initialize index 'users' in database
+	/**
+	 * Initialize index 'users' in elasticsearch db
+	 */
+	const initializeDatabaseIndexes = async function () {
 		try {
 			const getResponseUsers = await fetch(`${usersBaseUrl}/`); /// GET request to verify the existence of 'users' index
 	
@@ -20,7 +23,7 @@ module.exports = function(baseUrl) {
 				if(putResponseUsers.status != 200 && putResponseUsers.status != 201) throw putResponseUsers.status;
 			}
 
-		} catch (err) {
+		} catch (err) { // TODO handling errors
 			switch (err) {
 				default: /// Internal Server Error and others..
 					throw internalErrors.SERVICE_FAILURE;
@@ -28,28 +31,74 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const firstTimeUser = async function (email) {
+	const createUserSession = async function (email, tokens) { /// Saving a new user in the database
 		try {
-			const response = await fetch(`${usersBaseUrl}/_doc/${email}`);
-			if(response.status == 404) { return true; }
-			else if(response.status == 200) { return false; }
-			else { throw response.status; }
 
-		} catch (err) {
+			const options = {
+				method: 'POST', 
+				headers: { "Content-Type": contentType },
+				body: JSON.stringify(
+					Object.assign(
+						{'email': email},
+						tokens	
+					)
+				)
+			};
+
+			const res = await fetchRequest(`${usersBaseUrl}/_doc/`, 201, options);
+			return res['_id'];
+
+		} catch (err) {  // TODO handling errors
 			switch (err) {
 				default: /// Internal Server Error and others..
 					throw internalErrors.SERVICE_FAILURE;
 			}
-		}	
+		}
 	};
 
-	const getUser = async function (email) { /// Obtain user given the email
+	/**
+	 * Store user's session tokens
+	 * @param {*} email user email
+	 * @param {*} tokens user session tokens
+	 */
+	const storeUpdatedInfo = async function (email, tokens, index) {
 		try {
 
-			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 200);
+			const options = {
+				method: 'PUT',
+				headers: { "Content-Type": contentType },
+				body: JSON.stringify({
+						"email" : email,
+						"access_token" : tokens.access_token,
+						"token_type" : tokens.token_type,
+						"refresh_token" : tokens.refresh_token,
+						"expires_in" : tokens.expires_in,
+						"id_token" : tokens.id_token
+				  })
+			};
+
+			await fetchRequest(`${usersBaseUrl}/_update/${index}/`, 200, options);
+
+		} catch (err) { // TODO handling errors
+			switch (err) {
+				default: /// Internal Server Error and others..
+					throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+
+	/**
+	 * Get user's tokens
+	 * @param {*} email user email
+	 * @returns An object with the user tokens
+	 */
+	const getUserTokens = async function (id) { /// Obtain user given the id
+		try {
+			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${id}`, 200);
+		
 			return answer._source;
 
-		} catch (err) {
+		} catch (err) { // TODO handling errors
 			switch (err) {
 				case 404: /// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
@@ -59,78 +108,37 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	const createUser = async function (email, programme, tokens) { /// Saving a new user in the database
+	const deleteUserSession = async function (id) {
 		try {
-			const options = {
-				method: 'PUT', 
-				headers: { "Content-Type": contentType },
-				body: JSON.stringify(Object.assign(
-					{
-						'email': email,
-					 	'username': email.slice(0, email.indexOf("@")),
-						'programme': programme
-					},
-					tokens))
-			};
-			await fetchRequest(`${usersBaseUrl}/_doc/${email}`, 201, options);
+			await fetchRequest(`${usersBaseUrl}/_doc/${id}`, 200, {method: 'DELETE'});
 
-		} catch (err) {
+		} catch (err) { // TODO handling errors
 			switch (err) {
+				case 404: /// Not Found
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error and others..
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
 
-	const updateUserTokens = async function (email, tokens) {
+	const deleteAllUserSessions = async function (email) {
 		try {
+
 			const options = {
-				method: 'POST',
+				method: 'POST', 
 				headers: { "Content-Type": contentType },
-				body: JSON.stringify({
-					"script" : {
-					  "source": "ctx._source.access_token = params.access_token; ctx._source.token_type = params.token_type; ctx._source.expires_in = params.expires_in; ctx._source.refresh_token = params.refresh_token; ctx._source.id_token = params.id_token",
-					  "lang": "painless",
-					  "params" : {
-						"access_token" : tokens.access_token,
-						"token_type" : tokens.token_type,
-						"refresh_token" : tokens.refresh_token,
-						"expires_in" : tokens.expires_in,
-						"id_token" : tokens.id_token
-					  }
-					}
-				  })
+				body: JSON.stringify()
 			};
-			await fetchRequest(`${usersBaseUrl}/_update/${email}/`, 200, options);
 
-		} catch (err) {
+			const answer = await fetchRequest(`${usersBaseUrl}/_doc/`, 200, options);
+		
+			return answer._source;
+
+		} catch (err) { // TODO handling errors
 			switch (err) {
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
-		}
-	};
-
-	const editUser = async function (email, newUsername, newProgramme) {
-		try {
-			const options = {
-				method: 'POST',
-				headers: { "Content-Type": contentType },
-				body: JSON.stringify({
-					"script" : {
-					  "source": "ctx._source.username = params.newUsername; ctx._source.programme = params.newProgramme",
-					  "lang": "painless",
-					  "params" : {
-						"newUsername" : newUsername,
-						"newProgramme" : newProgramme
-					  }
-					}
-				  })
-			};
-			await fetchRequest(`${usersBaseUrl}/_update/${email}/`, 200, options);
-
-		} catch (err) {
-			switch (err) {
+				case 404: /// Not Found
+					throw internalErrors.RESOURCE_NOT_FOUND;
 				default: /// Internal Server Error and others..
 					throw internalErrors.SERVICE_FAILURE;
 			}
@@ -139,11 +147,11 @@ module.exports = function(baseUrl) {
 
 	return {
 		initializeDatabaseIndexes : initializeDatabaseIndexes,
-		firstTimeUser : firstTimeUser,
-		getUser : getUser,
-		createUser : createUser,
-		updateUserTokens : updateUserTokens,
-		editUser : editUser
+		storeUpdatedInfo : storeUpdatedInfo,
+		createUserSession : createUserSession,
+		getUserTokens : getUserTokens,
+		deleteUserSession : deleteUserSession,
+		deleteAllUserSessions : deleteAllUserSessions
 	};
 }
 
