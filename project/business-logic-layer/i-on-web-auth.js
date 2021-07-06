@@ -79,13 +79,13 @@ module.exports = (app, data, sessionDB) => {
 		},
 		
 		logout: async function(req) {
-			console.log('-> ' + JSON.stringify(req.user))
+			/*console.log('-> ' + JSON.stringify(req.user))
 			await data.revokeAccessToken(req.user);
 			console.log('here1')
 			
 			//await sessionDB.deleteUserSession(req.sessionID)
 			console.log('here2')
-			req.logout();
+			req.logout();*/
 			req.session.destroy(err => { /// TODO : replace ...
 				if (err) {
 					throw internalErrors.SERVICE_FAILURE;
