@@ -8,7 +8,6 @@
 		"refresh_token":"refresh_token_1",
 		"expires_in":3599,
 		"id_token":"id_token_1"
-	
 	},
 	{
 		"sessionId":"sessionId_2",
@@ -19,6 +18,5 @@
 		"refresh_token":"refresh_token_2",
 		"expires_in":3599,
 		"id_token":"id_token_2"
-	
 	}
 ]

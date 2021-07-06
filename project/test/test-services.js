@@ -9,7 +9,7 @@ describe('Services', function () {
 
 	describe('getHome', function() { 
 		
-		it('should return the home page info (user not logged in)', async function () {	
+		it('should return the home page info (unauthenticated user)', async function () {	
 			
 			const testProgrammes = [
 				{
@@ -356,7 +356,9 @@ describe('Services', function () {
 				},
 
 				loadCurrentCalendarTerm: async function() {
-					return '2021v';
+					return {
+						"calendarTerm": "2021i"
+					};
 				}
 			}
 			const sessionDB = null;
@@ -560,8 +562,13 @@ describe('Services', function () {
 
 				loadAllProgrammes: async function() {
 					return [];
+				},
+
+				loadCurrentCalendarTerm: async function() {
+					return {
+						"calendarTerm": "2021i"
+					};
 				}
-				
 			}
 			const database = null;
 
@@ -588,13 +595,135 @@ describe('Services', function () {
 
 	describe('getProfilePage', function() { 
 
+		it('should return the user profile page (authenticated user)', async function () {
+
+			const expected = {
+				"bachelor": [], 
+				"master": [],
+				"user": {
+					"sessionId":"sessionId_1",
+					"email": "A45241@alunos.isel.pt",
+					"username": "Catarina Palma",
+					"access_token":"access_token_1",
+					"token_type":"Bearer",
+					"refresh_token":"refresh_token_1",
+					"expires_in":3599,
+					"id_token":"id_token_1"
+				}
+			};
+			
+			const data = {
+				loadAllProgrammes: async function() {
+					return [];
+				}
+			};
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = testsUsers[0];
+
+			// Act
+			const response = await service.getProfilePage(user);
+
+			// Assert
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
+
+		}),
+
+		it('should return unauthenticated error (unauthenticated user)', async function () {
+		
+			const data = {
+				loadAllProgrammes: async function() {
+					return [];
+				}
+			};
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = undefined;
+
+			// Act
+			try {
+				const response = await service.getProfilePage(user);
+			} catch (err) {
+				// Assert
+				expect(err).to.deep.eql(5);
+			}
+		})
 	}),
 
 	describe('editProfile', function() { 
 
+		it('should return the common page info and uptaded user info (authenticated user)', async function () {
+			
+			const testProgrammes = [
+				{
+					"programmeId": 3,
+					"acronym": "LEIRT",
+					"name": "Engenharia Informática, Redes e Telecomunicações",
+					"degree": "bachelor"
+				}
+			];
+
+			const expected = {
+				"bachelor": [
+					{
+						"programmeId": 3,
+						"acronym": "LEIRT",
+						"name": "Engenharia Informática, Redes e Telecomunicações",
+						"degree": "bachelor"
+					}
+				], 
+				"master": [],
+				"user": {
+					"sessionId":"sessionId_2",
+					"email": "A45245@alunos.isel.pt",
+					"username": "Ricardo Filipe Severino",
+					"access_token":"access_token_2",
+					"token_type":"Bearer",
+					"refresh_token":"refresh_token_2",
+					"expires_in":3599,
+					"id_token":"id_token_2"
+				}
+			};
+			
+			const data = {
+				loadAllProgrammes: async function() {
+					return testProgrammes;
+				},
+
+				editUser: async function(user, newUsername) {
+					user.username = newUsername;
+				}
+			};
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = testsUsers[1];
+			const newUserInfo = {
+				"newUsername": "Ricardo Filipe Severino"
+			}
+
+			// Act
+			const response = await service.editProfile(user, newUserInfo);
+
+			// Assert
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user.username).to.deep.eql(expected.user.username);
+
+		})
 	}),
 
 	describe('deleteUser', function() { 
-
+		
 	})
 })

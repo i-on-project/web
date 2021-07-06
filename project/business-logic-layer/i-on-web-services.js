@@ -1,20 +1,19 @@
 'use strict'
 
-const { FetchError } = require('node-fetch'); // TO DO: removE?
 const internalErrors = require('../common/i-on-web-errors.js');
 
 module.exports = function(data, sessionDB) {
 
 	const getHome = async function(user) {
 		let events;
-
+		
 		if(user) {
 			const userHomeEvents = await getUserEvents(user);
 			events = userHomeEvents.events;
 		}
 		
 		const commonInfo = await getProgrammesByDegree(data);
-			
+
 		return Object.assign(commonInfo, 
 			{
 				events: events,
@@ -212,11 +211,12 @@ module.exports = function(data, sessionDB) {
 	const getClassesFromSelectedCourses = async function(user, coursesIDs) {
 		const classesByCourses = [];
 		if(user) {
+			const calendarTerm = await getCurrentCalendarTerm(data);
 			if(Array.isArray(coursesIDs)) {
 				for(let i = 0; i < coursesIDs.length; i++)
-					classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i], '1718i')); // TO DO - remove harcoded calendarTerm
+					classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i], calendarTerm));
 			} else {
-				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs, '1718i'));
+				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs, calendarTerm));
 			}
 		}
 
@@ -274,13 +274,16 @@ module.exports = function(data, sessionDB) {
 	const editProfile = async function(user, newUserInfo) {
 		try {
 			
-			if(user)
+			if(user) {
 				await data.editUser(user, newUserInfo.newUsername);
 	
-			const commonInfo = await getProgrammesByDegree(data);
-			return Object.assign(commonInfo, {
-				user: user
-			});
+				const commonInfo = await getProgrammesByDegree(data);
+				return Object.assign(commonInfo, {
+					user: user
+				});
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
+			}
 
 		} catch (err) {
 
@@ -304,12 +307,9 @@ module.exports = function(data, sessionDB) {
 			if(user) {
 				await data.deleteUser(user.access_token, user.token_type);
 				//await sessionDB.deleteAllUserSessions(user.email); TO DO
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
 			}
-
-			const commonInfo = await getProgrammesByDegree(data);
-			return Object.assign(commonInfo, {
-				user: user
-			});
 
 		} catch (err) {
 
