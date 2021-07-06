@@ -3,8 +3,281 @@
 const expect = require('chai').expect
 const serviceCreator = require('../business-logic-layer/i-on-web-services.js');
 const internalErrors = require('../common/i-on-web-errors.js');
+const testsUsers = require('./testsUsers');
 
 describe('Services', function () {
+
+	describe('getHome', function() { 
+		
+		it('should return the home page info (user not logged in)', async function () {	
+			
+			const testProgrammes = [
+				{
+					"programmeId": 3,
+					"acronym": "LEIRT",
+					"name": "Engenharia Informática, Redes e Telecomunicações",
+					"degree": "bachelor"
+				},
+				{
+					"programmeId": 1,
+					"acronym": "LEIC",
+					"name": "Engenharia Informática e de Computadores",
+					"degree": "bachelor"
+				},
+				{
+					"programmeId": 4,
+					"acronym": "LEETC",
+					"name": "Engenharia Electrónica e Telecomunicações e de Computadores",
+					"degree": "bachelor"
+				},
+				{
+					"programmeId": 2,
+					"acronym": "MEIC",
+					"name": "Engenharia Informática e de Computadores",
+					"degree": "master"
+				},
+				{
+					"programmeId": 13,
+					"acronym": "MEET",
+					"name": "Engenharia de Eletrónica e Telecomunicações",
+					"degree": "master"
+				}
+			];
+
+			const expected = {
+				"bachelor": [
+					{
+						"programmeId": 3,
+						"acronym": "LEIRT",
+						"name": "Engenharia Informática, Redes e Telecomunicações",
+						"degree": "bachelor"
+					},
+					{
+						"programmeId": 1,
+						"acronym": "LEIC",
+						"name": "Engenharia Informática e de Computadores",
+						"degree": "bachelor"
+					},
+					{
+						"programmeId": 4,
+						"acronym": "LEETC",
+						"name": "Engenharia Electrónica e Telecomunicações e de Computadores",
+						"degree": "bachelor"
+					}
+				], 
+				"master": [
+					{
+						"programmeId": 2,
+						"acronym": "MEIC",
+						"name": "Engenharia Informática e de Computadores",
+						"degree": "master"
+					},
+					{
+						"programmeId": 13,
+						"acronym": "MEET",
+						"name": "Engenharia de Eletrónica e Telecomunicações",
+						"degree": "master"
+					}
+				]
+			};
+			
+			const data = {
+				loadAllProgrammes: async function() {
+					return testProgrammes;
+				}
+			};
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = null;
+
+			// Act
+			const response = await service.getHome(user);
+
+			// Assert
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+
+		}),
+
+		it('should return the home page info along with the user events', async function () {	
+
+			const expected = {
+				"bachelor": [
+					{
+						"programmeId": 3,
+						"acronym": "LEIRT",
+						"name": "Engenharia Informática, Redes e Telecomunicações",
+						"degree": "bachelor"
+					},
+					{
+						"programmeId": 1,
+						"acronym": "LEIC",
+						"name": "Engenharia Informática e de Computadores",
+						"degree": "bachelor"
+					},
+					{
+						"programmeId": 4,
+						"acronym": "LEETC",
+						"name": "Engenharia Electrónica e Telecomunicações e de Computadores",
+						"degree": "bachelor"
+					}
+				], 
+				"master": [
+					{
+						"programmeId": 2,
+						"acronym": "MEIC",
+						"name": "Engenharia Informática e de Computadores",
+						"degree": "master"
+					},
+					{
+						"programmeId": 13,
+						"acronym": "MEET",
+						"name": "Engenharia de Eletrónica e Telecomunicações",
+						"degree": "master"
+					}
+				],
+				"events": {
+					"calendar": [],
+					"assignments": [
+					  {
+						"event": "[PI]: Assignment #1",
+						"date": "2020-11-08",
+						"time": "23:59"
+					  },
+					  {
+						"event": "[PI]: Assignment #2",
+						"date": "2020-12-28",
+						"time": "23:59"
+					  }
+					],
+					"testsAndExams": [
+					  {
+						"event": "1st Exam PI",
+						"date": "2021-01-21",
+						"startTime": "18:00",
+						"endTime": "19:30",
+						"location": "A.2.5"
+					  },
+					  {
+						"event": "2nd Exam PI",
+						"date": "2021-02-03",
+						"startTime": "10:00",
+						"endTime": "12:30",
+						"location": "F.1.2"
+					  }
+					]
+				}
+			};
+			
+			const data = {
+				loadAllProgrammes: async function() {
+					return [
+						{
+							"programmeId": 3,
+							"acronym": "LEIRT",
+							"name": "Engenharia Informática, Redes e Telecomunicações",
+							"degree": "bachelor"
+						},
+						{
+							"programmeId": 1,
+							"acronym": "LEIC",
+							"name": "Engenharia Informática e de Computadores",
+							"degree": "bachelor"
+						},
+						{
+							"programmeId": 4,
+							"acronym": "LEETC",
+							"name": "Engenharia Electrónica e Telecomunicações e de Computadores",
+							"degree": "bachelor"
+						},
+						{
+							"programmeId": 2,
+							"acronym": "MEIC",
+							"name": "Engenharia Informática e de Computadores",
+							"degree": "master"
+						},
+						{
+							"programmeId": 13,
+							"acronym": "MEET",
+							"name": "Engenharia de Eletrónica e Telecomunicações",
+							"degree": "master"
+						}
+					];
+				},
+
+				loadCurrentCalendarTerm: async function() {
+					return {
+						"calendarTerm": "2021i"
+					};
+				},
+
+				loadCalendarTermGeneralInfo: async function(calendarTerm) {
+					return [];
+				},
+
+				loadUserSubscribedCourses: async function(user) {
+					return [
+						{
+							"id": 1,
+							"courseId": 1,
+							"acronym": "PI",
+							"calendarTerm": "2021i"
+						}
+					];
+				},
+
+				loadCourseEventsInCalendarTerm: async function(courseId, calendarTerm) {
+					return {
+						"assignments": [
+						  {
+							"event": "[PI]: Assignment #1",
+							"date": "2020-11-08",
+							"time": "23:59"
+						  },
+						  {
+							"event": "[PI]: Assignment #2",
+							"date": "2020-12-28",
+							"time": "23:59"
+						  }
+						],
+						"testsAndExams": [
+						  {
+							"event": "1st Exam PI",
+							"date": "2021-01-21",
+							"startTime": "18:00",
+							"endTime": "19:30",
+							"location": "A.2.5"
+						  },
+						  {
+							"event": "2nd Exam PI",
+							"date": "2021-02-03",
+							"startTime": "10:00",
+							"endTime": "12:30",
+							"location": "F.1.2"
+						  }
+						]
+					};
+				}
+			};
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = testsUsers[0];
+
+			// Act
+			const response = await service.getHome(user);
+		
+			// Assert
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.events).to.deep.eql(expected.events);
+		})	
+	}),
 
 	describe('getProgrammeCalendarTermOffers', function() { 
 		
@@ -80,12 +353,15 @@ describe('Services', function () {
 
 				loadAllProgrammes: async function() {
 					return [];
-				}
-				
-			}
-			const database = null;
+				},
 
-			const service = serviceCreator(data, database);
+				loadCurrentCalendarTerm: async function() {
+					return '2021v';
+				}
+			}
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
 			
 			const user = null;
 			const programmeId = 1;
@@ -145,8 +421,11 @@ describe('Services', function () {
 
 				loadAllProgrammes: async function() {
 					return [];
+				},
+
+				loadCurrentCalendarTerm: async function() {
+					return '2021v';
 				}
-				
 			}
 			const database = null;
 
@@ -162,6 +441,7 @@ describe('Services', function () {
 		})
 		
 	}),
+
 	describe('getProgrammeData', function() { 
 		
 		it('should return programme data', async function () {			
@@ -250,6 +530,23 @@ describe('Services', function () {
 		})
 
 	}),
+
+	describe('getUserSchedule', function() { 
+
+	}),
+
+	describe('getUserEvents', function() { 
+
+	}),
+
+	describe('getUserCourses', function() { 
+
+	}),
+
+	describe('editUserCourses', function() { 
+
+	}),
+
 	describe('getClassesFromSelectedCourses', function() { 
 		
 		it('should return classes from one selected course', async function () {			
@@ -278,6 +575,26 @@ describe('Services', function () {
 			// Assert
 			expect(response.classesByCourses).to.deep.eql(expectedclassesByCourses);
 		})
+
+	}),
+
+	describe('saveUserChosenCoursesAndClasses', function() { 
+
+	}),
+
+	describe('getAboutData', function() { 
+
+	}),
+
+	describe('getProfilePage', function() { 
+
+	}),
+
+	describe('editProfile', function() { 
+
+	}),
+
+	describe('deleteUser', function() { 
 
 	})
 })

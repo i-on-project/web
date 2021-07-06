@@ -6,16 +6,18 @@ const internalErrors = require('../common/i-on-web-errors.js');
 module.exports = function(data, sessionDB) {
 
 	const getHome = async function(user) {
+		let events;
+
 		if(user) {
-			// TO DO - Show user next events
+			const userHomeEvents = await getUserEvents(user);
+			events = userHomeEvents.events;
 		}
 		
 		const commonInfo = await getProgrammesByDegree(data);
-		const events = await getUserEvents(user);
-
+			
 		return Object.assign(commonInfo, 
 			{
-				events: events.events,
+				events: events,
 				user: user, 
 				page: 'home'
 			}
@@ -136,6 +138,7 @@ module.exports = function(data, sessionDB) {
 				user: user, 
 				page: "calendar"
 			});
+
 		} catch (err) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:

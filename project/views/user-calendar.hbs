@@ -294,7 +294,7 @@
          testsAndExams.push({
             'event'     : '{{this.event}}',
             'date'      : '{{this.date}}',
-            'starTime'  : '{{this.starTime}}',
+            'startTime' : '{{this.startTime}}',
             'endTime'   : '{{this.endTime}}',
             'location'  : '{{this.location}}'
          });
@@ -303,7 +303,7 @@
   
    testsAndExams.forEach(testsAndExams => {
       const title = testsAndExams.event;
-      const desc = "Das " + testsAndExams.starTime  + " às " + testsAndExams.endTime + " no " + testsAndExams.location;
+      const desc = "Das " + testsAndExams.startTime  + " às " + testsAndExams.endTime + " no " + testsAndExams.location;
       const receivedDate = testsAndExams.date.split('-');
       const date = new Date(receivedDate[0], receivedDate[1]-1, receivedDate[2]);
       addEvent(title, desc, date);

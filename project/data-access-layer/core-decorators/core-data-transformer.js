@@ -248,7 +248,7 @@ module.exports = function(data) {
 				event["date"] = currentEvent.properties.dtstart.value.substring( 0,
 						currentEvent.properties.dtstart.value.lastIndexOf("T")
 					);
-				event["starTime"] = currentEvent.properties.dtstart.value.substring(currentEvent.properties.dtstart.value.lastIndexOf("T") + 1,
+				event["startTime"] = currentEvent.properties.dtstart.value.substring(currentEvent.properties.dtstart.value.lastIndexOf("T") + 1,
 					currentEvent.properties.dtstart.value.lastIndexOf(":")
 				);
 				event["endTime"] = currentEvent.properties.dtend.value.substring(currentEvent.properties.dtend.value.lastIndexOf("T") + 1,
@@ -274,9 +274,9 @@ module.exports = function(data) {
 	*		{'event': 'Exame de AC', 'date':'2021-06-26', 'time':'18:30'}
 	*	],
 	*	'testsAndExams': [
-	*		{'event': 'Teste de GAP', 'date':'2021-06-11' , 'starTime':'10:30', 'endTime':'12:30', 'location':'G.2.14'},
-	*		{'event': 'Teste de PI', 'date':'2021-06-22' , 'starTime':'09:30', 'endTime':'12:30', 'location':'G.2.14'},
-	*		{'event': 'Teste de DAW', 'date':'2021-06-28' , 'starTime':'18:30', 'endTime':'21:30', 'location':'G.2.10'}
+	*		{'event': 'Teste de GAP', 'date':'2021-06-11' , 'startTime':'10:30', 'endTime':'12:30', 'location':'G.2.14'},
+	*		{'event': 'Teste de PI', 'date':'2021-06-22' , 'startTime':'09:30', 'endTime':'12:30', 'location':'G.2.14'},
+	*		{'event': 'Teste de DAW', 'date':'2021-06-28' , 'startTime':'18:30', 'endTime':'21:30', 'location':'G.2.10'}
 	*	]
 	* }
 	*/

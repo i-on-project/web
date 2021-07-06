@@ -1,10 +1,24 @@
 [ 
 	{
-		"email": "45241@alunos.isel.pt",
-		"username": "Catarina Palma"
+		"sessionId":"sessionId_1",
+		"email": "A45241@alunos.isel.pt",
+		"username": "Catarina Palma",
+		"access_token":"access_token_1",
+		"token_type":"Bearer",
+		"refresh_token":"refresh_token_1",
+		"expires_in":3599,
+		"id_token":"id_token_1"
+	
 	},
 	{
-		"email": "45245@alunos.isel.pt",
-		"username": "Ricardo Severino"
+		"sessionId":"sessionId_2",
+		"email": "A45245@alunos.isel.pt",
+		"username": "Ricardo Severino",
+		"access_token":"access_token_2",
+		"token_type":"Bearer",
+		"refresh_token":"refresh_token_2",
+		"expires_in":3599,
+		"id_token":"id_token_2"
+	
 	}
 ]

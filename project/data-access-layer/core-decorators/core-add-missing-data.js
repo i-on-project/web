@@ -106,7 +106,7 @@ module.exports = function(data) {
 		let response = await data.loadCalendarTermGeneralInfo(calendarTerm);
 
 		/* Adding missing data */ 
-		response = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar'); // SHOWCATARINAWTF
+		response = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
 
 		return response;
 	}

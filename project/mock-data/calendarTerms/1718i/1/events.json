@@ -15,14 +15,14 @@
     {
       "event": "1st Exam SL",
       "date": "2020-06-10",
-      "starTime": "18:00",
+      "startTime": "18:00",
       "endTime": "19:30",
       "location": "A.2.5"
     },
     {
       "event": "2nd Exam SL",
       "date": "2020-07-24",
-      "starTime": "10:00",
+      "startTime": "10:00",
       "endTime": "12:30",
       "location": "F.1.2"
     }
