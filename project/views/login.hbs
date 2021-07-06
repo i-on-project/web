@@ -51,7 +51,7 @@
 					Insira um email válido.
 				</div>
             </div>
-                <p>Domínios disponíveis: </p>
+                <p id="domains">Domínios disponíveis: </p>
 
             <!-- Submit button -->
             <div class="form-group">
@@ -70,6 +70,21 @@
     <!-- Script to submit email to web-auth-api and polling -->
 	<script>
 
+		const allowed_domains = [];
+
+		{{#each data}}
+			if('{{this.type}}' === 'email') {
+				{{#each this.allowed_domains}}
+					allowed_domains.push('{{this}}')
+				{{/each}}
+			}
+		{{/each}}
+
+		// Add domains to paragraph
+		const domainsParagraph = document.querySelector("#domains");
+		const text = document.createTextNode(allowed_domains.join(", "));
+		domainsParagraph.appendChild(text);
+
 		async function validateEmail() {
 
 			// Extract email
@@ -79,7 +94,7 @@
 			// Validate email
 			if(!userEmail) return;
 
-			if(!verifyConditions(userEmail)) { 
+			if(!verifyConditions(userEmail, allowed_domains)) { 
 				userEmailElem.classList.add("is-invalid");
 				return;
 			}
@@ -93,12 +108,11 @@
 
 		function verifyConditions(email) {
 
-			const allowed_domains = ["*.isel.pt","*.isel.ipl.pt"]
-			
 			function isBeingUsed(domain) {
 				return email.endsWith(domain.substring(1));
 			}
 
+			// Check if one of the allowed domains is being used
 			if(!allowed_domains.some(isBeingUsed)) return false;
 
 			const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
