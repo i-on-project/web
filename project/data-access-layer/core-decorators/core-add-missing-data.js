@@ -128,8 +128,8 @@ module.exports = function(data) {
 	/* User related methods */
 
 	
-	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {
-		return data.saveUserChosenCoursesAndClasses(user, courseId, classSection);
+	const saveUserClassesAndClassSections = function(user, id, classSection) {
+		return data.saveUserClassesAndClassSections(user, id, classSection);
 	}
 	
 	const loadUserSubscribedCourses = function(user) {
@@ -185,7 +185,7 @@ module.exports = function(data) {
 		pollingCore : pollingCore,
 
 		/* User related methods */
-		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
 		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
 		deleteUserClass : deleteUserClass,

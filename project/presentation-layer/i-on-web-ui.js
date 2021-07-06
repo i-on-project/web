@@ -88,9 +88,9 @@ function webui(service, auth) {
 			}
 		},
 
-		saveUserChosenCoursesAndClasses: async function(req, res) { 
+		saveUserClassesAndClassSections: async function(req, res) { 
 			try {
-				await service.saveUserChosenCoursesAndClasses(req.user, req.body);
+				await service.saveUserClassesAndClassSections(req.user, req.body);
 				res.redirect('/courses');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
@@ -174,7 +174,7 @@ function webui(service, auth) {
 	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers	); 	/// Programme offers page
 	
 	router.get(	'/available-classes',	theWebUI.classesFromSelectedCourses		);		/// Available classes of the selected courses
-	router.post('/classes', 			theWebUI.saveUserChosenCoursesAndClasses);	/// todo review
+	router.post('/classes', 			theWebUI.saveUserClassesAndClassSections);	/// todo review
 
 	router.get(	'/courses',				theWebUI.userCourses					); 	/// Users courses page
 	router.get(	'/courses/edit',		theWebUI.userCoursesEditUI				);

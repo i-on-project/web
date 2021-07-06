@@ -289,7 +289,7 @@ module.exports = function() {
 
 	/* User related methods */
 
-	const saveUserChosenCoursesAndClasses = async function(user, courseId, classSection) {
+	const saveUserClassesAndClassSections = async function(user, id, classSection) {
 		try {
 			const options = {
 				method: 'PUT',
@@ -299,7 +299,7 @@ module.exports = function() {
 				}
 			};
 
-			const response = await fetch(core_url + '/api/users/classes/' + courseId + '/' + classSection, options);
+			const response = await fetch(core_url + '/api/users/classes/' + id + '/' + classSection, options);
 		
 			if(response.status != 201 && response.status != 204) throw response.status; // TO DO - handle the status code
 
@@ -570,7 +570,7 @@ module.exports = function() {
 		pollingCore : pollingCore,
 
 		/* User related methods */
-		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
 		loadUserSubscribedCourses : loadUserSubscribedCourses,
 		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
 		deleteUserClass : deleteUserClass,

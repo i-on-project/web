@@ -8,8 +8,8 @@ module.exports = function(data, sessionDB) {
 		let events;
 		
 		if(user) {
-			const userHomeEvents = await getUserEvents(user);
-			events = userHomeEvents.events;
+			//const userHomeEvents = await getUserEvents(user);
+			//events = userHomeEvents.events;
 		}
 		
 		const commonInfo = await getProgrammesByDegree(data);
@@ -40,7 +40,7 @@ module.exports = function(data, sessionDB) {
 
 		const programmeCalendarTermOffers = offers
 		.filter(course => filteredCoursesId.includes(course.courseId))
-
+		
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign({
 			user: user,
@@ -227,16 +227,16 @@ module.exports = function(data, sessionDB) {
 		});
 	};
 
-	const saveUserChosenCoursesAndClasses = async function(user, selectedClassesAndCourses){
+	const saveUserClassesAndClassSections = async function(user, selectedClassesAndClassSections){
 		try {
-			
+
 			if(user) {
-				for(let courseId in selectedClassesAndCourses) {
-					if(Array.isArray(selectedClassesAndCourses[courseId])) {
-						for(let i = 0; i < selectedClassesAndCourses[courseId].length; i++) 
-							await data.saveUserChosenCoursesAndClasses(user, courseId, selectedClassesAndCourses[courseId][i]);
+				for(let id in selectedClassesAndClassSections) {
+					if(Array.isArray(selectedClassesAndClassSections[id])) {
+						for(let i = 0; i < selectedClassesAndClassSections[id].length; i++) 
+							await data.saveUserClassesAndClassSections(user, id, selectedClassesAndClassSections[id][i]);
 					} else {
-						await data.saveUserChosenCoursesAndClasses(user, courseId, selectedClassesAndCourses[courseId]);
+						await data.saveUserClassesAndClassSections(user, id, selectedClassesAndClassSections[id]);
 					}
 				}
 			}
@@ -245,7 +245,7 @@ module.exports = function(data, sessionDB) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
 					await updateUserSession(data, sessionDB, user);
-					return saveUserChosenCoursesAndClasses(user, selectedClassesAndCourses);
+					return saveUserClassesAndClassSections(user, selectedClassesAndClassSections);
 				default:
 					throw err;
 			}
@@ -340,7 +340,7 @@ module.exports = function(data, sessionDB) {
 		getUserCourses : getUserCourses,
 		editUserCourses : editUserCourses,
 		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
-		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,		
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,		
 		getAboutData : getAboutData,
 		getProfilePage : getProfilePage,
 		editProfile : editProfile,
