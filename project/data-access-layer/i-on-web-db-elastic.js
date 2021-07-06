@@ -7,7 +7,7 @@ const contentType = 'application/json';
 
 module.exports = function(baseUrl) {
 
-	const usersBaseUrl = `${baseUrl}/users`;
+	const usersBaseUrl = `${baseUrl}/sessions`;
 
 	/**
 	 * Initialize index 'users' in elasticsearch db
