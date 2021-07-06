@@ -590,6 +590,85 @@ describe('Services', function () {
 	}),
 
 	describe('getAboutData', function() { 
+		
+		it('should return common page info and about info', async function () {
+
+			const expected = {
+				"bachelor": [
+					{
+						"programmeId": 3,
+						"acronym": "LEIRT",
+						"name": "Engenharia Informática, Redes e Telecomunicações",
+						"degree": "bachelor"
+					}
+				], 
+				"master": [],
+				"user": undefined,
+				"aboutData" : {
+					"department": "ADEETC",
+					"projects": [
+						{
+							"name": "web",
+							"students": [
+								{"student": "Catarina Palma LEIRT 20/21"},
+								{"student": "Ricardo Severino LEIRT 20/21"}
+							],
+						}
+					],
+					"teachers": [
+						{"teacher": "Professor João Trindade"},
+						{"teacher": "Professor Luís Falcão"}
+					]
+				}
+			};
+			
+			const data = {
+				loadAllProgrammes: async function() {
+					return [
+						{
+							"programmeId": 3,
+							"acronym": "LEIRT",
+							"name": "Engenharia Informática, Redes e Telecomunicações",
+							"degree": "bachelor"
+						}
+					];
+				},
+
+				loadAboutData: async function() {
+					return {
+						"department": "ADEETC",
+						"projects": [
+							{
+								"name": "web",
+								"students": [
+									{"student": "Catarina Palma LEIRT 20/21"},
+									{"student": "Ricardo Severino LEIRT 20/21"}
+								],
+							}
+						],
+						"teachers": [
+							{"teacher": "Professor João Trindade"},
+							{"teacher": "Professor Luís Falcão"}
+						]
+					}
+				}
+			};
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = undefined;
+
+			// Act
+			const response = await service.getAboutData(user);
+
+			// Assert
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
+			expect(response.aboutData).to.deep.eql(expected.aboutData);
+		})
 
 	}),
 
@@ -652,11 +731,12 @@ describe('Services', function () {
 				expect(err).to.deep.eql(5);
 			}
 		})
+
 	}),
 
 	describe('editProfile', function() { 
 
-		it('should return the common page info and uptaded user info (authenticated user)', async function () {
+		it('should return the common page info and updated user info (authenticated user)', async function () {
 			
 			const testProgrammes = [
 				{
@@ -740,6 +820,7 @@ describe('Services', function () {
 	}),
 
 	describe('deleteUser', function() { 
+	
 		it('should return unauthenticated error (unauthenticated user)', async function () {
 		
 			const data = null;
@@ -758,5 +839,6 @@ describe('Services', function () {
 				expect(err).to.deep.eql(5);
 			}
 		})
+
 	})
 })
