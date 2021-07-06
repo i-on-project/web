@@ -366,42 +366,8 @@ module.exports = function(data) {
 		return data.saveUserClassesAndClassSections(user, id, classSection);
 	}
 
-	const loadUserSubscribedCourses = async function(user) {
-		const receivedData = await data.loadUserSubscribedCourses(user);
-
-		return receivedData.entities		
-		.map(entities => entities.properties)
-		.reduce(function(response, currentCourse) {
-			const course = {
-				"id": currentCourse.id,
-				"courseId": currentCourse.courseId,
-				"acronym": currentCourse.courseAcr,
-				"calendarTerm": currentCourse.calendarTerm
-			}
-			response.push(course);
-			return response;
-		}, []);
-	}
-	/* Return Example:
-	* [
-	*	{
-	*		'id': 1,
-	*		'courseId': 1,
-	*		'acronym': 'LS',
-	*		'calendarTerm': '1718v'
-	*	},
-	*	{
-	*		'id': 2,
-	*		'courseId': 2,
-	*		'acronym': 'DAW',
-	*		'calendarTerm': '1718v'
-	*	}
-	* ]
-	*/
-
-
-	const loadUserSubscribedClassesInCourse = async function(user, courseId) {
-		const receivedData = await data.loadUserSubscribedClassesInCourse(user, courseId);
+	const loadUserSubscribedClassSectionsInClass = async function(user, id) {
+		const receivedData = await data.loadUserSubscribedClassSectionsInClass(user, id);
 
 		return receivedData.entities		
 		.map(entities => entities.properties)
@@ -417,14 +383,43 @@ module.exports = function(data) {
 	*	'1N'
 	* ]
 	*/
+	////
 
+	const loadUserSubscribedClassesAndClassSections = async function(user) {
+		const receivedData = await data.loadUserSubscribedClassesAndClassSections(user);
 
-	const deleteUserClass = function(user, courseId, classSection) {
-		return data.deleteUserClass(user, courseId, classSection);
+		return receivedData.entities		
+		.map(entities => entities.properties)
+		.reduce(function(response, currentClassAndClassSection) {
+			
+			let found = false;
+			for(var i = 0; i < response.length; i++) {
+				if (response[i].id === currentClassAndClassSection.classId) {
+					response[i].classes.push(currentClassAndClassSection.id)
+					found = true;
+					break;
+				}
+			}
+			if(!found) {
+				const subscribedClass = {
+					"id": currentClassAndClassSection.classId,
+					"courseId": currentClassAndClassSection.courseId,
+					"acronym": currentClassAndClassSection.courseAcr,
+					"calendarTerm": currentClassAndClassSection.calendarTerm,
+					"classes": [currentClassAndClassSection.id]
+				};
+				response.push(subscribedClass);
+			}
+			return response;
+		}, []);
 	}
 
-	const deleteUserCourse = function(user, courseId) {
-		return data.deleteUserCourse(user, courseId);
+	const deleteUserClassSection = function(user, id, classSection) {
+		return data.deleteUserClassSection(user, id, classSection);
+	}
+
+	const deleteUserClass = function(user, id) {
+		return data.deleteUserClass(user, id);
 	}
 
 	const editUser = function(user, newUsername) {
@@ -484,10 +479,10 @@ module.exports = function(data) {
 
 		/* User related methods */
 		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
-		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
+		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
+		deleteUserClassSection : deleteUserClassSection,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
 		loadUser : loadUser,
 		deleteUser : deleteUser,

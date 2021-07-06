@@ -2,18 +2,18 @@
     <h3 class="text-center">As minhas disciplinas</h3>
 
     <div class="divSpacing">
-    <form method="POST" action="/courses/edit"> 
-        {{#if userCoursesAndClasses}} <!-- If the user has selected any courses -->
-            {{#each userCoursesAndClasses}} <!-- Iterate all user courses -->
+    <form method="POST" action="/classes/edit"> 
+        {{#if userClasses}} <!-- If the user has selected any courses -->
+            {{#each userClasses}} <!-- Iterate all user courses -->
                 {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->
                     <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
-                        {{../this.name}} - {{this}} <input class="pull-right" type="checkbox" id="{{../this.courseId}}+{{this}}" name={{../this.courseId}} value={{this}}>
+                        {{../this.name}} - {{this}} <input class="pull-right" type="checkbox" id="{{../this.id}}+{{this}}" name={{../this.id}} value={{this}}>
                     </div>
                 {{/each}}
             {{/each}}
             
             <div class="divSpacing">
-                <a class="btn btn-outline-dark" href="/courses" role="button"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</a>
+                <a class="btn btn-outline-dark" href="/classes" role="button"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</a>
                 <button type="submit"  onsubmit="return confirm('Do you really want to submit the form?');" class="btn btn-outline-dark">Guardar alterações</button>
                 <!-- TO DO: href is hardcoded for testing, change it -->
                 <a class="btn btn-outline-dark pull-right" href="/programme-offers/1" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>

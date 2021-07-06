@@ -175,7 +175,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadCurrentCalendarTerm = function() {
+	const loadCurrentCalendarTerm = async function() {
 		try {
 		
 			return {}; // Request still not suported by i-on Core
@@ -190,7 +190,7 @@ module.exports = function() {
 		}
 	};
 	
-	const loadCalendarTermGeneralInfo = function(calendarTerm) {
+	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
 		try {
 			return {}; // Request still not suported by i-on Core
 
@@ -315,7 +315,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadUserSubscribedCourses = async function(user) {
+	const loadUserSubscribedClassSectionsInClass = async function(user, id) {
 		try {
 			const options = {
 				method: 'GET',
@@ -325,7 +325,7 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/api/users/classes/', 200, options);
+			return await coreRequest('/api/users/classes/' + id, 200, options);
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -339,7 +339,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadUserSubscribedClassesInCourse = async function(user, courseId) {
+	const loadUserSubscribedClassesAndClassSections = async function(user) {
 		try {
 			const options = {
 				method: 'GET',
@@ -349,7 +349,7 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/api/users/classes/' + courseId, 200, options);
+			return await coreRequest('/api/users/sections', 200, options);
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -363,7 +363,8 @@ module.exports = function() {
 		}
 	};
 
-	const deleteUserClass = async function(user, courseId, classSection) {
+
+	const deleteUserClassSection = async function(user, id, classSection) {
 		try {
 			const options = {
 				method: 'DELETE',
@@ -372,9 +373,9 @@ module.exports = function() {
 					'Content-Type': contentType
 				}
 			};
-		
-			const response = await fetch(core_url + '/api/users/classes/' + courseId + '/' + classSection, options);
 
+			const response = await fetch(core_url + '/api/users/classes/' + id + '/' + classSection, options);
+	
 			if(response.status != 204) throw response.status; // TO DO - handle the status code
 
 		} catch(err) { /// TO DO:  Add more error handling
@@ -389,7 +390,7 @@ module.exports = function() {
 		}
 	};
 
-	const deleteUserCourse = async function(user, courseId) {
+	const deleteUserClass = async function(user, courseId) {
 		try {
 			const options = {
 				method: 'DELETE',
@@ -571,10 +572,10 @@ module.exports = function() {
 
 		/* User related methods */
 		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
-		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
+		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
+		deleteUserClassSection : deleteUserClassSection,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
 		loadUser : loadUser,
 		deleteUser : deleteUser,

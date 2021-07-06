@@ -131,21 +131,21 @@ module.exports = function(data) {
 	const saveUserClassesAndClassSections = function(user, id, classSection) {
 		return data.saveUserClassesAndClassSections(user, id, classSection);
 	}
-	
-	const loadUserSubscribedCourses = function(user) {
-		return data.loadUserSubscribedCourses(user);
+
+	const loadUserSubscribedClassSectionsInClass = function(user, id) {
+		return data.loadUserSubscribedClassSectionsInClass(user, id);
 	}
 
-	const loadUserSubscribedClassesInCourse = function(user, courseId) {
-		return data.loadUserSubscribedClassesInCourse(user, courseId);
+	const loadUserSubscribedClassesAndClassSections = function(user) {
+		return data.loadUserSubscribedClassesAndClassSections(user);
+	}
+
+	const deleteUserClassSection = function(user, id, classSection) {
+		return data.deleteUserClassSection(user, id, classSection);
 	}
 	
-	const deleteUserClass = function(user, courseId, classSection) {
-		return data.deleteUserClass(user, courseId, classSection);
-	}
-	
-	const deleteUserCourse = function(user, courseId) {
-		return data.deleteUserCourse(user, courseId);
+	const deleteUserClass = function(user, id) {
+		return data.deleteUserClass(user, id);
 	}
 	
 	const editUser = function(user, newUsername) {
@@ -186,10 +186,10 @@ module.exports = function(data) {
 
 		/* User related methods */
 		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
-		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
+		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
+		deleteUserClassSection : deleteUserClassSection,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
 		loadUser : loadUser,
 		deleteUser : deleteUser,

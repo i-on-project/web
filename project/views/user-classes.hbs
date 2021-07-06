@@ -4,15 +4,15 @@
 
     <div class="divSpacing">
 
-        {{#if userCoursesAndClasses}} <!-- If the user has selected any courses -->
+        {{#if userClasses}} <!-- If the user has selected any courses -->
             
-            <form method="POST" action="/courses/edit">
+            <form method="POST" action="/classes/edit">
 
-                {{#each userCoursesAndClasses}} <!-- Iterate all user courses -->
+                {{#each userClasses}} <!-- Iterate all user courses -->
                     {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->
                         <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
                             {{../this.name}} - {{this}} 
-                            <input class="pull-right toDeleteCheckBoxes" type="checkbox" style="display:none" name={{../this.courseId}} value={{this}}>
+                            <input class="pull-right toDeleteCheckBoxes" type="checkbox" style="display:none" name={{../this.id}} value={{this}}>
                         </div>
                     {{/each}}
                 {{/each}}
