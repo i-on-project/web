@@ -120,10 +120,11 @@ module.exports = function(data) {
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
 		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm) ;
 		
-		const courseData = receivedData.entities.find(__ => __).properties;
+		const courseData = receivedData.properties;
 		const course = {
+			'id' : courseData.id,
 			'courseId' : courseData.courseId,
-			'acronym' : courseData.acronym,
+			'acronym' : courseData.courseAcr,
 			'name' : courseData.name,
 			'classes': []
 		} 
@@ -248,7 +249,7 @@ module.exports = function(data) {
 				event["date"] = currentEvent.properties.dtstart.value.substring( 0,
 						currentEvent.properties.dtstart.value.lastIndexOf("T")
 					);
-				event["starTime"] = currentEvent.properties.dtstart.value.substring(currentEvent.properties.dtstart.value.lastIndexOf("T") + 1,
+				event["startTime"] = currentEvent.properties.dtstart.value.substring(currentEvent.properties.dtstart.value.lastIndexOf("T") + 1,
 					currentEvent.properties.dtstart.value.lastIndexOf(":")
 				);
 				event["endTime"] = currentEvent.properties.dtend.value.substring(currentEvent.properties.dtend.value.lastIndexOf("T") + 1,
@@ -274,9 +275,9 @@ module.exports = function(data) {
 	*		{'event': 'Exame de AC', 'date':'2021-06-26', 'time':'18:30'}
 	*	],
 	*	'testsAndExams': [
-	*		{'event': 'Teste de GAP', 'date':'2021-06-11' , 'starTime':'10:30', 'endTime':'12:30', 'location':'G.2.14'},
-	*		{'event': 'Teste de PI', 'date':'2021-06-22' , 'starTime':'09:30', 'endTime':'12:30', 'location':'G.2.14'},
-	*		{'event': 'Teste de DAW', 'date':'2021-06-28' , 'starTime':'18:30', 'endTime':'21:30', 'location':'G.2.10'}
+	*		{'event': 'Teste de GAP', 'date':'2021-06-11' , 'startTime':'10:30', 'endTime':'12:30', 'location':'G.2.14'},
+	*		{'event': 'Teste de PI', 'date':'2021-06-22' , 'startTime':'09:30', 'endTime':'12:30', 'location':'G.2.14'},
+	*		{'event': 'Teste de DAW', 'date':'2021-06-28' , 'startTime':'18:30', 'endTime':'21:30', 'location':'G.2.10'}
 	*	]
 	* }
 	*/
@@ -361,46 +362,12 @@ module.exports = function(data) {
 
 	/* User related methods */
 
-	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {
-		return data.saveUserChosenCoursesAndClasses(user, courseId, classSection);
+	const saveUserClassesAndClassSections = function(user, id, classSection) {
+		return data.saveUserClassesAndClassSections(user, id, classSection);
 	}
 
-	const loadUserSubscribedCourses = async function(user) {
-		const receivedData = await data.loadUserSubscribedCourses(user);
-
-		return receivedData.entities		
-		.map(entities => entities.properties)
-		.reduce(function(response, currentCourse) {
-			const course = {
-				"id": currentCourse.id,
-				"courseId": currentCourse.courseId,
-				"acronym": currentCourse.courseAcr,
-				"calendarTerm": currentCourse.calendarTerm
-			}
-			response.push(course);
-			return response;
-		}, []);
-	}
-	/* Return Example:
-	* [
-	*	{
-	*		'id': 1,
-	*		'courseId': 1,
-	*		'acronym': 'LS',
-	*		'calendarTerm': '1718v'
-	*	},
-	*	{
-	*		'id': 2,
-	*		'courseId': 2,
-	*		'acronym': 'DAW',
-	*		'calendarTerm': '1718v'
-	*	}
-	* ]
-	*/
-
-
-	const loadUserSubscribedClassesInCourse = async function(user, courseId) {
-		const receivedData = await data.loadUserSubscribedClassesInCourse(user, courseId);
+	const loadUserSubscribedClassSectionsInClass = async function(user, id) {
+		const receivedData = await data.loadUserSubscribedClassSectionsInClass(user, id);
 
 		return receivedData.entities		
 		.map(entities => entities.properties)
@@ -416,14 +383,43 @@ module.exports = function(data) {
 	*	'1N'
 	* ]
 	*/
+	////
 
+	const loadUserSubscribedClassesAndClassSections = async function(user) {
+		const receivedData = await data.loadUserSubscribedClassesAndClassSections(user);
 
-	const deleteUserClass = function(user, courseId, classSection) {
-		return data.deleteUserClass(user, courseId, classSection);
+		return receivedData.entities		
+		.map(entities => entities.properties)
+		.reduce(function(response, currentClassAndClassSection) {
+			
+			let found = false;
+			for(var i = 0; i < response.length; i++) {
+				if (response[i].id === currentClassAndClassSection.classId) {
+					response[i].classes.push(currentClassAndClassSection.id)
+					found = true;
+					break;
+				}
+			}
+			if(!found) {
+				const subscribedClass = {
+					"id": currentClassAndClassSection.classId,
+					"courseId": currentClassAndClassSection.courseId,
+					"acronym": currentClassAndClassSection.courseAcr,
+					"calendarTerm": currentClassAndClassSection.calendarTerm,
+					"classes": [currentClassAndClassSection.id]
+				};
+				response.push(subscribedClass);
+			}
+			return response;
+		}, []);
 	}
 
-	const deleteUserCourse = function(user, courseId) {
-		return data.deleteUserCourse(user, courseId);
+	const deleteUserClassSection = function(user, id, classSection) {
+		return data.deleteUserClassSection(user, id, classSection);
+	}
+
+	const deleteUserClass = function(user, id) {
+		return data.deleteUserClass(user, id);
 	}
 
 	const editUser = function(user, newUsername) {
@@ -482,11 +478,11 @@ module.exports = function(data) {
 		pollingCore : pollingCore,
 
 		/* User related methods */
-		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
-		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
+		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
+		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
+		deleteUserClassSection : deleteUserClassSection,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
 		loadUser : loadUser,
 		deleteUser : deleteUser,

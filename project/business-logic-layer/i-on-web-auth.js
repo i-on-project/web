@@ -79,18 +79,17 @@ module.exports = (app, data, sessionDB) => {
 		},
 		
 		logout: async function(req) {
-			/*console.log('-> ' + JSON.stringify(req.user))
-			await data.revokeAccessToken(req.user);
-			console.log('here1')
+			const sessionId = req.user.sessionId;
+			const user = req.user;
 			
-			//await sessionDB.deleteUserSession(req.sessionID)
-			console.log('here2')
-			req.logout();*/
+			req.logout();
 			req.session.destroy(err => { /// TODO : replace ...
 				if (err) {
 					throw internalErrors.SERVICE_FAILURE;
 				}
 			})
+			await data.revokeAccessToken(user);
+			await sessionDB.deleteUserSession(sessionId);
 		}
 	}
 

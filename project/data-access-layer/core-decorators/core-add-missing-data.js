@@ -106,7 +106,7 @@ module.exports = function(data) {
 		let response = await data.loadCalendarTermGeneralInfo(calendarTerm);
 
 		/* Adding missing data */ 
-		response = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar'); // SHOWCATARINAWTF
+		response = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
 
 		return response;
 	}
@@ -128,24 +128,24 @@ module.exports = function(data) {
 	/* User related methods */
 
 	
-	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {
-		return data.saveUserChosenCoursesAndClasses(user, courseId, classSection);
-	}
-	
-	const loadUserSubscribedCourses = function(user) {
-		return data.loadUserSubscribedCourses(user);
+	const saveUserClassesAndClassSections = function(user, id, classSection) {
+		return data.saveUserClassesAndClassSections(user, id, classSection);
 	}
 
-	const loadUserSubscribedClassesInCourse = function(user, courseId) {
-		return data.loadUserSubscribedClassesInCourse(user, courseId);
+	const loadUserSubscribedClassSectionsInClass = function(user, id) {
+		return data.loadUserSubscribedClassSectionsInClass(user, id);
+	}
+
+	const loadUserSubscribedClassesAndClassSections = function(user) {
+		return data.loadUserSubscribedClassesAndClassSections(user);
+	}
+
+	const deleteUserClassSection = function(user, id, classSection) {
+		return data.deleteUserClassSection(user, id, classSection);
 	}
 	
-	const deleteUserClass = function(user, courseId, classSection) {
-		return data.deleteUserClass(user, courseId, classSection);
-	}
-	
-	const deleteUserCourse = function(user, courseId) {
-		return data.deleteUserCourse(user, courseId);
+	const deleteUserClass = function(user, id) {
+		return data.deleteUserClass(user, id);
 	}
 	
 	const editUser = function(user, newUsername) {
@@ -185,11 +185,11 @@ module.exports = function(data) {
 		pollingCore : pollingCore,
 
 		/* User related methods */
-		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
-		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
+		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
+		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
+		deleteUserClassSection : deleteUserClassSection,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
 		loadUser : loadUser,
 		deleteUser : deleteUser,

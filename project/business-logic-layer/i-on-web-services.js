@@ -1,21 +1,22 @@
 'use strict'
 
-const { FetchError } = require('node-fetch'); // TO DO: removE?
 const internalErrors = require('../common/i-on-web-errors.js');
 
 module.exports = function(data, sessionDB) {
 
 	const getHome = async function(user) {
+		let events;
+		
 		if(user) {
-			// TO DO - Show user next events
+			const userHomeEvents = await getUserEvents(user);
+			events = userHomeEvents.events;
 		}
 		
 		const commonInfo = await getProgrammesByDegree(data);
-		const events = await getUserEvents(user);
 
 		return Object.assign(commonInfo, 
 			{
-				events: events.events,
+				events: events,
 				user: user, 
 				page: 'home'
 			}
@@ -39,7 +40,7 @@ module.exports = function(data, sessionDB) {
 
 		const programmeCalendarTermOffers = offers
 		.filter(course => filteredCoursesId.includes(course.courseId))
-
+		
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign({
 			user: user,
@@ -75,17 +76,17 @@ module.exports = function(data, sessionDB) {
 			let schedule = [];
 			if(user) {
 				const calendarTerm = await getCurrentCalendarTerm(data);
-				const userCourses = await data.loadUserSubscribedCourses(user);
-				const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
+				const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
+				const userClassesOfPresentCalendarTerm = userClassesAndClassSections.filter(userClass => userClass.calendarTerm === calendarTerm);
 				
-				for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
-					const courseId = userCoursesOfPresentCalendarTerm[i].courseId;
-					const classes = await data.loadUserSubscribedClassesInCourse(user, courseId);
+				for(let i = 0; i < userClassesOfPresentCalendarTerm.length; i++) {
+					const courseId = userClassesOfPresentCalendarTerm[i].courseId;
+					const classes = userClassesOfPresentCalendarTerm[i].classes;
 
 					for(let j = 0; j < classes.length; j++) {
 						const classSectionSchedule = await data.loadClassSectionSchedule(courseId, calendarTerm, classes[j])
 						schedule = schedule.concat(classSectionSchedule.map(classSection => {
-							classSection['acronym'] = userCoursesOfPresentCalendarTerm[i].acronym;
+							classSection['acronym'] = userClassesOfPresentCalendarTerm[i].acronym;
 							classSection['classSection'] = classes[j];
 							return classSection;
 						}));
@@ -114,20 +115,22 @@ module.exports = function(data, sessionDB) {
 	const getUserEvents = async function(user) {
 		try {
 			const calendarTerm = await getCurrentCalendarTerm(data);
+			const calendarEvents = await data.loadCalendarTermGeneralInfo(calendarTerm);
+
 			let events = {
-				"calendar": await data.loadCalendarTermGeneralInfo(calendarTerm),
+				"calendar": calendarEvents,
 				"assignments": [],
 				"testsAndExams": []
 			};
 
 			if(user) {
-				const userCourses = await data.loadUserSubscribedCourses(user);
-				const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
-				for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
-					const courseId = userCoursesOfPresentCalendarTerm[i].courseId;
-					const courseEvents = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
-					events.assignments = events.assignments.concat(courseEvents.assignments);
-					events.testsAndExams = events.testsAndExams.concat(courseEvents.testsAndExams);
+				const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
+				const userClassesOfPresentCalendarTerm = userClassesAndClassSections.filter(userClass => userClass.calendarTerm === calendarTerm);
+				for(let i = 0; i < userClassesOfPresentCalendarTerm.length; i++) {
+					const courseId = userClassesOfPresentCalendarTerm[i].courseId;
+					const classEvents = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
+					events.assignments = events.assignments.concat(classEvents.assignments);
+					events.testsAndExams = events.testsAndExams.concat(classEvents.testsAndExams);
 				}
 			}
 			const commonInfo = await getProgrammesByDegree(data);
@@ -136,6 +139,7 @@ module.exports = function(data, sessionDB) {
 				user: user, 
 				page: "calendar"
 			});
+
 		} catch (err) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
@@ -147,73 +151,75 @@ module.exports = function(data, sessionDB) {
 		}
 	};
 
-	const getUserCourses = async function(user) {
+	const getUserSubscribedClassesAndClassSections = async function(user) {
 		try {
-			const userCoursesAndClasses = []; 
+			let userClasses;
 			if(user) {
 				const calendarTerm = await getCurrentCalendarTerm(data);
-				const userCourses = await data.loadUserSubscribedCourses(user);
-				const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
+				const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
+				const userClassesOfPresentCalendarTerm = userClassesAndClassSections.filter(userClass => userClass.calendarTerm === calendarTerm);
 
-				for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
-					const course = await data.loadCourseClassesByCalendarTerm(userCoursesOfPresentCalendarTerm[i].courseId , calendarTerm)
-					const classes = await data.loadUserSubscribedClassesInCourse(user, userCoursesOfPresentCalendarTerm[i].courseId);
-					course.classes = classes;
-					userCoursesAndClasses.push(course);
+				for(let i = 0; i < userClassesOfPresentCalendarTerm.length; i++) {
+					const course = await data.loadCourseClassesByCalendarTerm(userClassesOfPresentCalendarTerm[i].courseId , calendarTerm)
+					const userClass = userClassesOfPresentCalendarTerm[i];
+					userClass['name'] = course.name;
 				}
+				userClasses = userClassesOfPresentCalendarTerm;
 			}
+		
 			const commonInfo = await getProgrammesByDegree(data);
 			return Object.assign(commonInfo, {
 				user: user, 
-				userCoursesAndClasses: userCoursesAndClasses, 
+				userClasses: userClasses, 
 				page: "user-courses"
 			});
+
 		} catch (err) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
 					await updateUserSession(data, sessionDB, sessionDBuser);
-					return getUserCourses(user);
+					return getUserSubscribedClassesAndClassSections(user);
 				default:
 					throw err;
 			}
 		}
 	};
 
-	const editUserCourses = async function(user, selectedCoursesAndClassesToDelete) {
+	const editUserSubscribedClassesAndClassSections = async function(user, selectedClassesAndClassSections) {
 		try {
 			if(user) {
-				for(let courseId in selectedCoursesAndClassesToDelete) {
-					if(Array.isArray(selectedCoursesAndClassesToDelete[courseId])) {
-						for(let i = 0; i < selectedCoursesAndClassesToDelete[courseId].length; i++)
-							await data.deleteUserClass(user, courseId, selectedCoursesAndClassesToDelete[courseId][i]);
+				for(let id in selectedClassesAndClassSections) {
+					if(Array.isArray(selectedClassesAndClassSections[id])) {
+						for(let i = 0; i < selectedClassesAndClassSections[id].length; i++)
+							await data.deleteUserClassSection(user, id, selectedClassesAndClassSections[id][i]);
 					} else {
-						await data.deleteUserClass(user, courseId, selectedCoursesAndClassesToDelete[courseId]);
-
+						await data.deleteUserClassSection(user, id, selectedClassesAndClassSections[id]);
 					}
-					const classes = await data.loadUserSubscribedClassesInCourse(user, courseId);
+					const classes = await data.loadUserSubscribedClassSectionsInClass(user, id);
 					if(classes.length === 0)
-						await data.deleteUserCourse(user, courseId);
+						await data.deleteUserClass(user, id);
 				}
 			}
 		} catch (err) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
 					await updateUserSession(data, sessionDB, user);
-					return editUserCourses(user, selectedCoursesAndClassesToDelete);
+					return editUserSubscribedClassesAndClassSections(user, selectedCoursesAndClassesToDelete);
 				default:
 					throw err;
 			}
 		}
 	}
 
-	const getClassesFromSelectedCourses = async function(user, coursesIDs) {
+	const getClassSectionsFromSelectedClasses = async function(user, coursesIDs) {
 		const classesByCourses = [];
 		if(user) {
+			const calendarTerm = await getCurrentCalendarTerm(data);
 			if(Array.isArray(coursesIDs)) {
 				for(let i = 0; i < coursesIDs.length; i++)
-					classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i], '1718i')); // TO DO - remove harcoded calendarTerm
+					classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i], calendarTerm));
 			} else {
-				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs, '1718i'));
+				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs, calendarTerm));
 			}
 		}
 
@@ -224,16 +230,16 @@ module.exports = function(data, sessionDB) {
 		});
 	};
 
-	const saveUserChosenCoursesAndClasses = async function(user, selectedClassesAndCourses){
+	const saveUserClassesAndClassSections = async function(user, selectedClassesAndClassSections){
 		try {
-			
+
 			if(user) {
-				for(let courseId in selectedClassesAndCourses) {
-					if(Array.isArray(selectedClassesAndCourses[courseId])) {
-						for(let i = 0; i < selectedClassesAndCourses[courseId].length; i++) 
-							await data.saveUserChosenCoursesAndClasses(user, courseId, selectedClassesAndCourses[courseId][i]);
+				for(let id in selectedClassesAndClassSections) {
+					if(Array.isArray(selectedClassesAndClassSections[id])) {
+						for(let i = 0; i < selectedClassesAndClassSections[id].length; i++) 
+							await data.saveUserClassesAndClassSections(user, id, selectedClassesAndClassSections[id][i]);
 					} else {
-						await data.saveUserChosenCoursesAndClasses(user, courseId, selectedClassesAndCourses[courseId]);
+						await data.saveUserClassesAndClassSections(user, id, selectedClassesAndClassSections[id]);
 					}
 				}
 			}
@@ -242,7 +248,7 @@ module.exports = function(data, sessionDB) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
 					await updateUserSession(data, sessionDB, user);
-					return saveUserChosenCoursesAndClasses(user, selectedClassesAndCourses);
+					return saveUserClassesAndClassSections(user, selectedClassesAndClassSections);
 				default:
 					throw err;
 			}
@@ -260,24 +266,31 @@ module.exports = function(data, sessionDB) {
 	};
 
 	const getProfilePage = async function(user) {
-		const commonInfo = await getProgrammesByDegree(data);
-	    //user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
+		if(user) {
+			const commonInfo = await getProgrammesByDegree(data);
+			//user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
 
-		return Object.assign(commonInfo, {
-			user: user
-		});
+			return Object.assign(commonInfo, {
+				user: user
+			});
+		} else {
+			throw internalErrors.UNAUTHENTICATED;
+		}
 	};
 	
 	const editProfile = async function(user, newUserInfo) {
 		try {
 			
-			if(user)
+			if(user) {
 				await data.editUser(user, newUserInfo.newUsername);
 	
-			const commonInfo = await getProgrammesByDegree(data);
-			return Object.assign(commonInfo, {
-				user: user
-			});
+				const commonInfo = await getProgrammesByDegree(data);
+				return Object.assign(commonInfo, {
+					user: user
+				});
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
+			}
 
 		} catch (err) {
 
@@ -295,16 +308,15 @@ module.exports = function(data, sessionDB) {
 		}
 	};
 
-	const deleteProfile = async function(user) {
+	const deleteUser = async function(user) {
 		try {
-			
-			if(user)
-				await data.deleteUser(user.access_token, user.token_type);
 	
-			const commonInfo = await getProgrammesByDegree(data);
-			return Object.assign(commonInfo, {
-				user: user
-			});
+			if(user) {
+				await data.deleteUser(user.access_token, user.token_type);
+				//await sessionDB.deleteAllUserSessions(user.email); TO DO
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
+			}
 
 		} catch (err) {
 
@@ -312,7 +324,7 @@ module.exports = function(data, sessionDB) {
 				
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
 					await updateUserSession(data, sessionDB, user);
-					return deleteProfile(user);
+					return deleteUser(user);
 
 				default:
 					throw err;
@@ -328,14 +340,14 @@ module.exports = function(data, sessionDB) {
 		getProgrammeData : getProgrammeData,
 		getUserSchedule : getUserSchedule,
 		getUserEvents : getUserEvents,
-		getUserCourses : getUserCourses,
-		editUserCourses : editUserCourses,
-		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
-		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,		
+		getUserSubscribedClassesAndClassSections : getUserSubscribedClassesAndClassSections,
+		editUserSubscribedClassesAndClassSections : editUserSubscribedClassesAndClassSections,
+		getClassSectionsFromSelectedClasses : getClassSectionsFromSelectedClasses,
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,		
 		getAboutData : getAboutData,
 		getProfilePage : getProfilePage,
 		editProfile : editProfile,
-		deleteProfile : deleteProfile
+		deleteUser : deleteUser
 	};
 	
 }
