@@ -1,0 +1,32 @@
+[
+  {
+    "date":"2021-03-15",
+	  "title": "Início das aulas",
+    "description": ""
+  },
+  {
+    "date":"2021-06-26",
+	  "title": "Fim das aulas",
+    "description": ""
+  },
+  {
+    "date":"2021-06-28",
+	  "title": "Início do período de exames",
+    "description": "(época normal)"
+  },
+  {
+    "date":"2021-07-17",
+	  "title": "Fim do período de exames",
+    "description": "(época normal)"
+  },
+   {
+    "date":"2021-07-19",
+	  "title": "Início do período de exames",
+    "description": "(época de recurso)"
+  },
+  {
+    "date":"2021-07-31",
+	  "title": "Fim do período de exames",
+    "description": "(época de recurso)"
+  }
+]

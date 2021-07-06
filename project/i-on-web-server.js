@@ -19,11 +19,11 @@ async function configurations() {
     let pathPrefix = process.env.PATH_PREFIX;
     if(!pathPrefix) pathPrefix = "";
 
-    /// Database
+    /// ElasticSearch initializer
     const storageCreator = require(`${dataAccessLayerPath}/i-on-web-db-elastic.js`);
-    const database = storageCreator(process.env.DB_ELASTIC_URL); // TO DO
-    await database.initializeDatabaseIndexes();               /// Initialize elastic indexes
- 
+    const sessionDB = storageCreator(process.env.DB_ELASTIC_URL); // TO DO
+    await sessionDB.initializeDatabaseIndexes();               /// Initialize elastic indexes
+
     /// Data
     let data;
 
@@ -39,10 +39,10 @@ async function configurations() {
     }
 
     /// Auth
-    const auth = require(`${businessLogicLayerPath}/i-on-web-auth.js`)(app, data, database);
+    const auth = require(`${businessLogicLayerPath}/i-on-web-auth.js`)(app, data, sessionDB);
 
     /// Services
-    const service = require(`${businessLogicLayerPath}/i-on-web-services.js`)(data, database);
+    const service = require(`${businessLogicLayerPath}/i-on-web-services.js`)(data, sessionDB);
 
     /// WebUI
     const webUI = require(`${presentationLayerPath}/i-on-web-ui.js`)(service, auth);
@@ -68,5 +68,5 @@ async function configurations() {
 
 };
 
-setTimeout(configurations , 1000); /// 60 secs - Improve this 
+setTimeout(configurations , 1000); /// 60 secs - to do: Improve this 
 //configurations();

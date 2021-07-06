@@ -15,7 +15,7 @@
     </div>
     <h3 class="text-center">Unidades Curriculares disponíveis</h3>
     {{#if programmeCalendarTermOffers}}
-        <form method="GET" action="/available-classes">
+        <form method="GET" action="/available-class-sections">
         <div class="row row-content">
             <div class="offset-2 col-md-8 divSpacing">
                 <table class="table table-bordered">
@@ -72,7 +72,6 @@
         checkboxes = document.getElementsByName(term);
     
         for(let i = 0, n = checkboxes.length; i<n ; i++) {
-
             checkboxes[i].checked = source.checked;
         }
     }
