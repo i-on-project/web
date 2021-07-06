@@ -5,13 +5,11 @@
 		
 		<div class="divSpacing">
 			{{#each this.data}}
-					<!--<a class="button" onclick=showSpecifiedMethod('{{this.type}}')>{{this.type}}</a>-->
 					<a class="btn btn-outline-dark btn-lg" role="button" onclick=showSpecifiedMethod('{{this.type}}') id="{{this.type}}button"></a>
 			{{/each}}
 		</div>
     </div>
 </div>
-
 
 
 <script>
@@ -35,6 +33,7 @@
 </script>
 
 
+<!-- Auth method : email -->
 
 <div id="email" class="row justify-content-center" style="display:none">
 
@@ -42,7 +41,7 @@
 
         <h2 class="text-center">Iniciar sessão</h2><br>
 
-        <form id="submitedEmail" onsubmit="validateEmail(); return false;"> <!-- TODO REMOVE this-->
+        <form onsubmit="validateEmail(); return false;">
 
             <!-- Email -->
             <div class="form-group">
@@ -71,43 +70,42 @@
     <!-- Script to submit email to web-auth-api and polling -->
 	<script>
 
-		function validateEmailAux(email) {
-			const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-			return re.test(email);
-		}
-
 		async function validateEmail() {
 
 			// Extract email
 			const userEmailElem = document.querySelector('#emailValue');
 			const userEmail = userEmailElem.value;
-
-			console.log("useremail: " + userEmail)
 			
-			if(!userEmail || !validateEmailAux(userEmail)) {
+			// Validate email
+			if(!userEmail) return;
+
+			if(!verifyConditions(userEmail)) { 
 				userEmailElem.classList.add("is-invalid");
-				return false;
+				return;
 			}
 
-			if(userEmailElem.classList.contains("is-invalid")) {
-				userEmailElem.classList.remove("is-invalid");
-			}
-			
+			// Email is valid
+			if(userEmailElem.classList.contains("is-invalid")) userEmailElem.classList.remove("is-invalid");
 			userEmailElem.classList.add("is-valid");
 
 			await submit();
 		}
 
+		function verifyConditions(email) {
+
+			const allowed_domains = ["*.isel.pt","*.isel.ipl.pt"]
+			
+			function isBeingUsed(domain) {
+				return email.endsWith(domain.substring(1));
+			}
+
+			if(!allowed_domains.some(isBeingUsed)) return false;
+
+			const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			return re.test(email);
+		}
+
 		async function submit() {
-
-			// Typed email
-			/*const userEmail = document.querySelector('#emailValue').value;
-			console.log("useremail: " + userEmail)
-			if(!userEmail) {
-				return;
-			}*/
-
-			console.log("passou")
 
 			// Deactivate button
 			const button = document.querySelector('#submit-button');
@@ -168,9 +166,10 @@
 					clearInterval(pollingLoop);
 				}
 
-			}, 5000); // TO DO
+			}, 5000);
 
 		}
+
 	</script>
 
 </div>
