@@ -263,12 +263,16 @@ module.exports = function(data, sessionDB) {
 	};
 
 	const getProfilePage = async function(user) {
-		const commonInfo = await getProgrammesByDegree(data);
-	    //user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
+		if(user) {
+			const commonInfo = await getProgrammesByDegree(data);
+			//user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
 
-		return Object.assign(commonInfo, {
-			user: user
-		});
+			return Object.assign(commonInfo, {
+				user: user
+			});
+		} else {
+			throw internalErrors.UNAUTHENTICATED;
+		}
 	};
 	
 	const editProfile = async function(user, newUserInfo) {

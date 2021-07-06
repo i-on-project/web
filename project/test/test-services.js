@@ -636,11 +636,7 @@ describe('Services', function () {
 
 		it('should return unauthenticated error (unauthenticated user)', async function () {
 		
-			const data = {
-				loadAllProgrammes: async function() {
-					return [];
-				}
-			};
+			const data = null;
 
 			const sessionDB = null;
 
@@ -650,7 +646,7 @@ describe('Services', function () {
 
 			// Act
 			try {
-				const response = await service.getProfilePage(user);
+				await service.getProfilePage(user);
 			} catch (err) {
 				// Assert
 				expect(err).to.deep.eql(5);
@@ -720,10 +716,47 @@ describe('Services', function () {
 			expect(response.master).to.deep.eql(expected.master);
 			expect(response.user.username).to.deep.eql(expected.user.username);
 
+		}),
+
+		it('should return unauthenticated error (unauthenticated user)', async function () {
+		
+			const data = null;
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = undefined;
+			const newUserInfo = {"newUsername": "Ricardo Filipe Severino"}
+
+			// Act
+			try {
+				await service.editProfile(user, newUserInfo);
+			} catch (err) {
+				// Assert
+				expect(err).to.deep.eql(5);
+			}
 		})
 	}),
 
 	describe('deleteUser', function() { 
+		it('should return unauthenticated error (unauthenticated user)', async function () {
 		
+			const data = null;
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = undefined;
+
+			// Act
+			try {
+				await service.deleteUser(user);
+			} catch (err) {
+				// Assert
+				expect(err).to.deep.eql(5);
+			}
+		})
 	})
 })
