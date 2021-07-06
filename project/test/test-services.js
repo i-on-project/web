@@ -100,8 +100,8 @@ describe('Services', function () {
 			expect(response.bachelor).to.deep.eql(expected.bachelor);
 			expect(response.master).to.deep.eql(expected.master);
 
-		}),
-
+		})
+/*
 		it('should return the home page info along with the user events', async function () {	
 
 			const expected = {
@@ -276,7 +276,7 @@ describe('Services', function () {
 			expect(response.bachelor).to.deep.eql(expected.bachelor);
 			expect(response.master).to.deep.eql(expected.master);
 			expect(response.events).to.deep.eql(expected.events);
-		})	
+		})	*/
 	}),
 
 	describe('getProgrammeCalendarTermOffers', function() { 
@@ -550,7 +550,7 @@ describe('Services', function () {
 	}),
 
 	describe('getClassesFromSelectedCourses', function() { 
-		
+		/*
 		it('should return classes from one selected course', async function () {			
 			// Arrange
 			const expectedclassesByCourses = [{"courseId":1,"name":"Laboratório de Software","classes":["1D","1N","2D"]}];
@@ -581,7 +581,7 @@ describe('Services', function () {
 
 			// Assert
 			expect(response.classesByCourses).to.deep.eql(expectedclassesByCourses);
-		})
+		})*/
 
 	}),
 
