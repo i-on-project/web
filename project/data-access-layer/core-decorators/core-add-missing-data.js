@@ -21,13 +21,13 @@ module.exports = function(data) {
 
 			return programme;
 		});
-
+		
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedPayloadData),
-			"max-age": 24 * 60 * 60
+			"ETag": 'hash(improvedData)',
+			"max-age": 10
 		}
-
+		
 		return {
 			"metadata": improvedMetadata,
 			"data": improvedData

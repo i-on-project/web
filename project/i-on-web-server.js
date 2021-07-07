@@ -9,7 +9,7 @@ const app = express();
 
 /// Cache
 const Cache = require('./cache/cache.js');
-const myCache = new Cache(1 * 24 * 60 * 60); /// Change
+const myCache = new Cache(100); /// Change
 
 async function configurations() {
 
@@ -42,8 +42,8 @@ async function configurations() {
         /// Decorators
         const coreTransformer = require(`${coreDecoratorsPath}/core-data-transformer.js`)(core);
         const addMissingData  = require(`${coreDecoratorsPath}/core-add-missing-data.js`)(coreTransformer);
-        const cache = require('./i-on-web-cache.js')(addMissingData, myCache);
-        const metadata = require('./i-on-web-metadata.js')(cache);
+        const cache = require('./cache/i-on-web-cache.js')(addMissingData, myCache);
+        const metadata = require(`${businessLogicLayerPath}/remove-metadata.js`)(cache);
         
         data = metadata;
     }

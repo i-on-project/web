@@ -9,8 +9,8 @@ module.exports = function(data, myCache) {
 		const fetchFunction = function() { /// TO DO test if this really works
 			return data.loadAllProgrammes(...arguments);
 		}
-
-		return getData(myCache, key, fetchFunction, default_ttl);
+		console.log('cache')
+		return getData(myCache, key, fetchFunction, 100);
 
 	};
 
@@ -23,7 +23,7 @@ module.exports = function(data, myCache) {
 /******* Helper functions *******/
 
 const getData = async function(myCache, key, fetchNewData, ttl) {
-	
+
 	let value = myCache.get(key);
 
 	if(!value) {										/// Value does not exists
@@ -45,7 +45,7 @@ const getData = async function(myCache, key, fetchNewData, ttl) {
 			value = resp;
 			myCache.set(key, value);
 		} else {	/// The resource has not been modified since the given date, reset ttl to the initial value
-			myCache.ttl(key, ttl);
+			myCache.ttl(key, 10);
 		}
 
 	} else {

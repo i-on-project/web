@@ -3,7 +3,9 @@
 module.exports = function(data) {
 
     const loadAllProgrammes = async function () {
-		return data.loadAllProgrammes();
+		console.log('metadata')
+		const receivedData = await data.loadAllProgrammes();
+		return receivedData.data;
 	};
 
     return {

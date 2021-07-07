@@ -26,20 +26,19 @@ module.exports = function() {
 			
 			const options = {
 				method: 'GET',
-				headers: Object.assign(
-					{ "ETag": metadata.ETag }, 
-					{
-						'Authorization': read_token,
-						'Content-Type': contentType,
-					}
-				)
+				headers: { 
+					'ETag': metadata,
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
 			};
-			const response = await fetch('/api/programmes/', options);	
+
+			const response = await fetch(core_url + '/api/programmes/', options);	
 
 			if(response.status === 200) {
 				return {
 					"metadata": response.headers,
-					"data": response.json()
+					"data": await response.json()
 				}
 			} else if(response.status === 204) {
 				return {
