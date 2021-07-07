@@ -46,7 +46,6 @@ async function configurations() {
         const metadata = require('./i-on-web-metadata.js')(cache);
         
         data = metadata;
-
     }
 
     /// Auth
