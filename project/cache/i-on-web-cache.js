@@ -1,8 +1,6 @@
 'use strict'
 
 
-const Cache = require('./cache.js');
-
 const default_ttl = 60;
 const myCache = new Cache(default_ttl); /// 1 Day
 
@@ -21,60 +19,8 @@ module.exports = function(data) {
 
 	};
 
-	const loadAllProgrammeOffers = async function(programmeId) {
-		return data.loadAllProgrammeOffers(programmeId) 
-	};
-
-	const loadProgrammeData = async function(programmeId) {
-		return data.loadProgrammeData(programmeId);
-	};
-
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
-		return data.loadCourseClassesByCalendarTerm(courseId, calendarTerm);
-	}
-
-	const loadAboutData = async function () {
-		return await data.loadAboutData();
-	};
-
-	const loadAuthenticationTypes = function () {
-		return data.loadAuthenticationTypes();
-	};
-
-	const loadAuthenticationMethodFeatures = function () {
-		return data.loadAuthenticationMethodFeatures();
-	};
-
-	const submitInstitutionalEmail = function(email) {
-		return data.submitInstitutionalEmail(email);
-	};
-
-	const pollingCore = function(authForPoll) {
-		return data.pollingCore(authForPoll);
-	};
-
-
-	// TO DO:
-	const loadCourseEventCalendar = async function(courseId, semester) {
-
-	};
-	
-	const loadClassSchedule = async function(courseId, classId, semester) {
-
-	};
-	
 	return {
         loadAllProgrammes : loadAllProgrammes,
-		loadAllProgrammeOffers : loadAllProgrammeOffers,
-		loadProgrammeData : loadProgrammeData,
-		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
-		loadAboutData : loadAboutData,
-		loadAuthenticationTypes : loadAuthenticationTypes,
-		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
-		submitInstitutionalEmail : submitInstitutionalEmail,
-		pollingCore : pollingCore,
-		loadCourseEventCalendar : loadCourseEventCalendar,
-		loadClassSchedule : loadClassSchedule
 	};
 }
 
