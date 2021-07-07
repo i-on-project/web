@@ -48,7 +48,7 @@ describe(`Integration tests on ${app_base_url}`, () => {
 			return frisby.get(`${app_base_url}/`);
 		});
 	});
-/*
+
 	beforeAll(async function () {
 		return frisby
 		.fetch(`${app_base_url}/auth-api/email`, {
@@ -60,15 +60,20 @@ describe(`Integration tests on ${app_base_url}`, () => {
 		})
 		.expect('status', 200)
 		.expect('header', 'Content-Type', 'application/json; charset=utf-8')
-		.then(res => {
-			console.log(JSON.stringify(res))
-			const sessionCookie = setCookieParser.parseString( 
-				res.headers.get('set-cookie')
-			);
-			cookie = `${sessionCookie.name}=${sessionCookie.value}`; 
-		});
+		.then((response) => {
+			return frisby
+			.post(`${app_base_url}/${response.body.auth_req_id}/poll`)
+			.expect('status', 200)
+			.expect('header', 'Content-Type', 'application/json; charset=utf-8')
+			.then(res => {
+				const sessionCookie = setCookieParser.parseString( 
+					res.headers.get('set-cookie') 
+				);
+				cookie = `${sessionCookie.name}=${sessionCookie.value}`;
+			});
+		})
 	
-	});*/
+	});
 
 	describe("Testing '/'", () => {
 		
