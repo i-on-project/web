@@ -126,8 +126,7 @@ function webui(service, auth) {
 
 		deleteUser: async function(req, res) {
 			try {
-				await auth.logout(req, res);
-				await service.deleteUser(req.user);
+				await auth.deleteUser(req);
 				res.redirect('/');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');

@@ -14,7 +14,6 @@ const client_secret = "gntBY4mjX8PH4_5_i_H54fMFLl2x15Q0O4jWXodQ4aPmofF4i6VBf39tX
 const coreRequest = async function(endpoint, expectedStatus, options) {
 	// core_url + endpoint
 	const response = await fetch(core_url + endpoint, options);
-	
 	if(response.status != expectedStatus) throw response.status;
 	
 	return response.json();
@@ -480,8 +479,10 @@ module.exports = function() {
 				}
 			};
 
-			return await coreRequest('/api/users', 204, options);
-
+			const response = await fetch(core_url + '/api/users', options);
+			
+			if(response.status != 204) throw response.status; // TO DO - handle the status code
+			
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
 				case 403:

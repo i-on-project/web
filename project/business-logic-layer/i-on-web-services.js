@@ -308,32 +308,6 @@ module.exports = function(data, sessionDB) {
 		}
 	};
 
-	const deleteUser = async function(user) {
-		try {
-	
-			if(user) {
-				await data.deleteUser(user.access_token, user.token_type);
-				//await sessionDB.deleteAllUserSessions(user.email); TO DO
-			} else {
-				throw internalErrors.UNAUTHENTICATED;
-			}
-
-		} catch (err) {
-
-			switch (err) {
-				
-				case internalErrors.EXPIRED_ACCESS_TOKEN:
-					await updateUserSession(data, sessionDB, user);
-					return deleteUser(user);
-
-				default:
-					throw err;
-
-			}
-
-		}
-	};
-
 	return {
 		getHome : getHome,
 		getProgrammeCalendarTermOffers : getProgrammeCalendarTermOffers,
@@ -346,8 +320,7 @@ module.exports = function(data, sessionDB) {
 		saveUserClassesAndClassSections : saveUserClassesAndClassSections,		
 		getAboutData : getAboutData,
 		getProfilePage : getProfilePage,
-		editProfile : editProfile,
-		deleteUser : deleteUser
+		editProfile : editProfile
 	};
 	
 }
