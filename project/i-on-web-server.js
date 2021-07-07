@@ -16,11 +16,14 @@ async function configurations() {
 
     const coreDecoratorsPath     = `${dataAccessLayerPath}/core-decorators`
 
-    /// Database
+    let pathPrefix = process.env.PATH_PREFIX;
+    if(!pathPrefix) pathPrefix = "";
+
+    /// ElasticSearch initializer
     const storageCreator = require(`${dataAccessLayerPath}/i-on-web-db-elastic.js`);
-    const database = storageCreator(process.env.DB_ELASTIC_URL); // TO DO
-    await database.initializeDatabaseIndexes();               /// Initialize elastic indexes
- 
+    const sessionDB = storageCreator(process.env.DB_ELASTIC_URL); // TO DO
+    await sessionDB.initializeDatabaseIndexes();               /// Initialize elastic indexes
+
     /// Data
     let data;
 
@@ -36,24 +39,28 @@ async function configurations() {
     }
 
     /// Auth
-    const auth = require(`${businessLogicLayerPath}/i-on-web-auth.js`)(app, data, database);
+    const auth = require(`${businessLogicLayerPath}/i-on-web-auth.js`)(app, data, sessionDB);
 
     /// Services
-    const service = require(`${businessLogicLayerPath}/i-on-web-services.js`)(data, database);
+    const service = require(`${businessLogicLayerPath}/i-on-web-services.js`)(data, sessionDB);
 
     /// WebUI
     const webUI = require(`${presentationLayerPath}/i-on-web-ui.js`)(service, auth);
 
     /// Auth WebAPI
     const webAuthApi = require(`${presentationLayerPath}/i-on-web-auth-api`)(auth);
+  
+    /// Prefix router
+    const router = express.Router();
 
-    /// Middlewares
-    app.use('/auth-api', webAuthApi);
-    app.use(webUI);
+    router.use('/auth-api', webAuthApi);
+    router.use(webUI);
 
-    app.use('/dependecies', express.static('/node_modules'));
-    app.use('/public',      express.static('/static-files'));
-    
+    router.use('/dependecies', express.static('node_modules')); // TO DO - Remove
+    router.use('/public', express.static('static-files'));
+
+    app.use(`${pathPrefix}`, router);
+
     app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)
 
     app.listen(port);
@@ -61,5 +68,5 @@ async function configurations() {
 
 };
 
-setTimeout(configurations , 1000); /// 60 secs - Improve this 
+setTimeout(configurations , 1000); /// 60 secs - to do: Improve this 
 //configurations();

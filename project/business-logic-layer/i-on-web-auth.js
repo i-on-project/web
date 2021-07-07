@@ -6,24 +6,26 @@ const internalErrors = require('../common/i-on-web-errors.js');
 
 const FileStore = require('session-file-store')(session); 
 
-module.exports = (app, data, database) => {
+module.exports = (app, data, sessionDB) => {
 
 	function userToRef(user, done) {
-		done(null, user.email);
+		done(null, user.sessionId);
 	}
 	
 	async function refToUser(userRef, done) {
-		const user = await database.getUser(userRef);
-		if (user) {
-			done(null, user);
+		const userSessionInfo = await getUserAndSessionInfo(data, sessionDB, userRef);
+	
+		if (userSessionInfo) {
+			done(null, userSessionInfo);
 		} else {
 			done('User not found.');
 		}
+
 	}
 
-    /// MW to manage sessions
+    /// Middleware to manage sessions
     app.use(session({
-		resave: false,              
+		resave: true,              
 		saveUninitialized: false,  
 		secret: 'secret',   // TO DO - Generate random string
 		store: new FileStore({logFn: function(){}}),
@@ -37,6 +39,7 @@ module.exports = (app, data, database) => {
     passport.deserializeUser(refToUser);
     	
     return {
+
 		getAuthMethodsAndFeatures: async function() {
 			return data.loadAuthenticationMethodsAndFeatures();
         },
@@ -47,34 +50,80 @@ module.exports = (app, data, database) => {
 
 		pollingCore: async function(req, authForPoll) {
 			const receivedTokens = await data.pollingCore(authForPoll);
-			if(receivedTokens.hasOwnProperty("access_token")) {
-		
-				const user = await data.loadUser(receivedTokens);
-				const firstTimeUser = await database.firstTimeUser(user.email);
-				if(firstTimeUser) {
-					await database.createUser(user.email, 1, receivedTokens);
-				} else {
-					await database.updateUserTokens(user.email, receivedTokens);
-				}
-				const i_on_web_user = await database.getUser(user.email);
 
-				req.login(i_on_web_user, (err) => {
+			/// Check if pooling succeeded
+			if(receivedTokens.hasOwnProperty("access_token")) {
+
+				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type);
+				const sessionId = await sessionDB.createUserSession(user.email, receivedTokens);
+				
+				const userSessionInfo = Object.assign(
+					{'sessionId': sessionId},
+					user,
+					receivedTokens
+				);
+				
+				/// If the user doesn't have a username, we give one by default. 
+				if(!userSessionInfo.username) {
+					const newUsername = user.email.slice(0, user.email.indexOf("@"));
+					userSessionInfo.username = newUsername;
+					data.editUser(userSessionInfo, newUsername);
+				}
+				
+				req.login(userSessionInfo, (err) => {
 					if (err) throw internalErrors.SERVICE_FAILURE;
 				})
-			
+				
 				return true;
-			} else {
-				return false;
 			}
 		},
 		
-		logout: async function(req) {
+		logout: async function(req) { /// TODO: Verify if user is authenticated and handling errors
+			const user = req.user;
+			
 			req.logout();
-			req.session.destroy(err => { /// TO DO : replace ...
-				if (err) throw internalErrors.SERVICE_FAILURE;
+			req.session.destroy(err => { /// TODO : replace ...
+				if (err) {
+					throw internalErrors.SERVICE_FAILURE;
+				}
 			})
+
+			console.log("LOGOUT -> " + JSON.stringify(user));
+
+			await data.revokeAccessToken(user);
+			await sessionDB.deleteUserSession(user.sessionId);
+		},
+
+		deleteUser: async function(req) {
+			const user = JSON.parse(JSON.stringify(req.user));;
+
+			req.logout();
+			req.session.destroy(err => { /// TODO : replace ...
+				if (err) {
+					throw internalErrors.SERVICE_FAILURE;
+				}
+			});
+			
+			await data.deleteUser(user.access_token, user.token_type);
+			await sessionDB.deleteAllUserSessions(user.email);
 		}
 
 	}
+}
 
+/******* Helper functions *******/
+
+const getUserAndSessionInfo = async function(data, sessionDB, sessionId) { // Through the session identifier we will obtain information about the user as well as the session 
+	
+	/// Obtaining user session info from elasticsearch db
+	const sessionInfo = await sessionDB.getUserTokens(sessionId);
+
+	/// Obtaining user profile info from core
+	const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type);
+
+	return Object.assign(
+		{'sessionId': sessionId},
+		userProfileInfo,
+		sessionInfo
+	);
 }

@@ -72,7 +72,7 @@ module.exports = function(data) {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
 		const mockDataToBeAdded = await getMockData(path);
 
-		response['name'] = mockDataToBeAdded.find(__ => __).name;
+		response['name'] = mockDataToBeAdded.name;
 		return response;
 	}
 
@@ -93,6 +93,24 @@ module.exports = function(data) {
 		return data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
 	}
 
+	const loadCurrentCalendarTerm = async function() {
+		let response = await data.loadCurrentCalendarTerm();
+
+		/* Adding missing data */ 
+		response = await getMockData('/current_calendar_term');
+
+		return response;
+	}
+	
+	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
+		let response = await data.loadCalendarTermGeneralInfo(calendarTerm);
+
+		/* Adding missing data */ 
+		response = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
+
+		return response.calendarTerm;
+	}
+
 	/* Authentication related methods */
 
 	const loadAuthenticationMethodsAndFeatures = function () {
@@ -109,42 +127,57 @@ module.exports = function(data) {
 
 	/* User related methods */
 
-	const saveUserChosenCoursesAndClasses = function(user, courseId, classSection) {
-		return data.saveUserChosenCoursesAndClasses(user, courseId, classSection);
+	
+	const saveUserClassesAndClassSections = function(user, id, classSection) {
+		return data.saveUserClassesAndClassSections(user, id, classSection);
 	}
 
-	const loadUserSubscribedCourses = function(user) {
-		return data.loadUserSubscribedCourses(user);
+	const loadUserSubscribedClassSectionsInClass = function(user, id) {
+		return data.loadUserSubscribedClassSectionsInClass(user, id);
 	}
 
-	const loadUserSubscribedClassesInCourse = function(user, courseId) {
-		return data.loadUserSubscribedClassesInCourse(user, courseId);
+	const loadUserSubscribedClassesAndClassSections = function(user) {
+		return data.loadUserSubscribedClassesAndClassSections(user);
 	}
 
-	const deleteUserClass = function(user, courseId, classSection) {
-		return data.deleteUserClass(user, courseId, classSection);
+	const deleteUserClassSection = function(user, id, classSection) {
+		return data.deleteUserClassSection(user, id, classSection);
 	}
-
-	const deleteUserCourse = function(user, courseId) {
-		return data.deleteUserCourse(user, courseId);
+	
+	const deleteUserClass = function(user, id) {
+		return data.deleteUserClass(user, id);
 	}
-
+	
 	const editUser = function(user, newUsername) {
 		return data.editUser(user, newUsername);
 	}
+	
+	const loadUser = function(access_token, token_type) {
+		return data.loadUser(access_token, token_type);
+	}
 
-	const loadUser = function(tokens) {
-		return data.loadUser(tokens);
+	const deleteUser = function(access_token, token_type) {
+		return data.deleteUser(access_token, token_type);
+	}
+
+	const refreshAccessToken = function(user) {
+		return data.refreshAccessToken(user);
+	}
+
+	const revokeAccessToken = function(user) {
+		return data.revokeAccessToken(user);
 	}
 
 	return {
-        loadAllProgrammes : loadAllProgrammes,
+		loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
+		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
 		/* Authentication related methods */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
@@ -152,13 +185,16 @@ module.exports = function(data) {
 		pollingCore : pollingCore,
 
 		/* User related methods */
-		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
-		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
+		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
+		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
+		deleteUserClassSection : deleteUserClassSection,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
-		loadUser : loadUser
+		loadUser : loadUser,
+		deleteUser : deleteUser,
+		refreshAccessToken : refreshAccessToken,
+		revokeAccessToken : revokeAccessToken
 	};
 }
 

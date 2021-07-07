@@ -52,46 +52,37 @@ function webui(service, auth) {
 			}
 		},
 
-		userCourses: async function(req, res) {
+		userClassesAndClassSections: async function(req, res) {
 			try {
-				const data = await service.getUserCourses(req.user);
-				res.render('user-courses', data);
+				const data = await service.getUserSubscribedClassesAndClassSections(req.user);
+				res.render('user-classes', data);
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show User Courses');
 			}
 		},
 
-		userCoursesEditUI: async function(req, res) {
+		userClassesAndClassSectionsEdit: async function(req, res) {
 			try {
-				const data = await service.getUserCourses(req.user);
-				res.render('user-courses-edit', data);
+				await service.editUserSubscribedClassesAndClassSections(req.user, req.body);
+				res.redirect('/classes');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show User Courses');
 			}
 		},
 
-		userCoursesEdit: async function(req, res) {
+		classSectionsFromSelectedClasses: async function(req, res) {
 			try {
-				await service.editUserCourses(req.user, req.body);
-				res.redirect('/courses');
-			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show User Courses');
-			}
-		},
-
-		classesFromSelectedCourses: async function(req, res) {
-			try {
-				const data = await service.getClassesFromSelectedCourses(req.user, req.query['id']);
-				res.render('classes', data);
+				const data = await service.getClassSectionsFromSelectedClasses(req.user, req.query['id']);
+				res.render('class-sections', data);
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Programme Offers');
 			}
 		},
 
-		saveUserChosenCoursesAndClasses: async function(req, res) { 
+		saveUserClassesAndClassSections: async function(req, res) { 
 			try {
-				await service.saveUserChosenCoursesAndClasses(req.user, req.body);
-				res.redirect('/courses');
+				await service.saveUserClassesAndClassSections(req.user, req.body);
+				res.redirect('/classes');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
@@ -106,19 +97,28 @@ function webui(service, auth) {
 			}
 		},
 
-		settings: async function(req, res) { /// Settings Page
+		profile: async function(req, res) { /// User Profile Page
 			try {
-				const data = await service.getSettingsPage(req.user);
-				res.render('settings', data);
+				const data = await service.getProfilePage(req.user);
+				res.render('user-profile', data);
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
 		},
 
-		editSettings: async function(req, res) {
+		editProfile: async function(req, res) {
 			try {
-				await service.editSettings(req.user, req.body);
-				res.redirect('/settings');
+				await service.editProfile(req.user, req.body);
+				res.redirect('/profile');
+			} catch(err) {
+				await onErrorResponse(res, err, 'Failed to show About Page');
+			}
+		},
+
+		deleteUser: async function(req, res) {
+			try {
+				await auth.deleteUser(req);
+				res.redirect('/');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
@@ -146,7 +146,7 @@ function webui(service, auth) {
 		logout: async function(req, res) {
 			try {
 				await auth.logout(req);	
-				res.redirect('/'); 
+				res.redirect('/');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
 			}
@@ -158,27 +158,27 @@ function webui(service, auth) {
 
 	/******* Mapping requests to handlers according to the path *******/
 
-	router.get(	'/', 					theWebUI.home							);	/// Home page
+	router.get(	'/', 					theWebUI.home											);	/// Home page
 
-	router.get(	'/programme/:id', 		theWebUI.programme						);	/// Programme info page
-	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers	); 	/// Programme offers page
+	router.get(	'/programme/:id', 		theWebUI.programme										);	/// Programme info page
+	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers					); 	/// Programme offers page
 	
-	router.get(	'/available-classes',	theWebUI.classesFromSelectedCourses		);		/// Available classes of the selected courses
-	router.post('/classes', 			theWebUI.saveUserChosenCoursesAndClasses);	/// todo review
+	router.get(	'/available-class-sections',	theWebUI.classSectionsFromSelectedClasses		);		/// Available classes of the selected courses
+	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections			);	/// todo review
 
-	router.get(	'/courses',				theWebUI.userCourses					); 	/// Users courses page
-	router.get(	'/courses/edit',		theWebUI.userCoursesEditUI				);
-	router.post('/courses/edit',		theWebUI.userCoursesEdit				);
-	router.get(	'/schedule', 			theWebUI.userSchedule					);	/// Users schedule page
-	router.get(	'/calendar', 			theWebUI.userCalendar					);	/// Users calendar page
+	router.get(	'/classes',				theWebUI.userClassesAndClassSections					); 	/// Users courses page
+	router.post('/classes/edit',		theWebUI.userClassesAndClassSectionsEdit				);
+	router.get(	'/schedule', 			theWebUI.userSchedule									);	/// Users schedule page
+	router.get(	'/calendar', 			theWebUI.userCalendar									);	/// Users calendar page
 
 	router.get(	'/about', 				theWebUI.about							);	/// About Page
-	router.get( '/settings', 			theWebUI.settings						);  /// Settings Page
-	router.post('/settings', 			theWebUI.editSettings					);
+	router.get( '/profile', 			theWebUI.profile						);  /// User Profile Page
+	router.post('/profile', 			theWebUI.editProfile					);
+	router.post('/delete-user',         theWebUI.deleteUser						);
 
 	/*** Auth ***/
-	router.get(	'/login',				theWebUI.loginUI			);	/// Login UI page
-	router.get('/logout',				theWebUI.logout			);
+	router.get(	'/login',				theWebUI.loginUI			   							);	/// Login UI page
+	router.get(	'/logout',				theWebUI.logout											);
 
 	return router;
 }

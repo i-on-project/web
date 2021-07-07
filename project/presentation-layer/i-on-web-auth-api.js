@@ -2,17 +2,16 @@
 
 const express = require('express');
 const internalErrors = require('../common/i-on-web-errors.js');
-// const crypto = require('crypto');TODO: if not necessary, remove from package.json
 
 function webapi(auth) {
 	
 	const theWebAPI = {
 
 		submitInstitutionalEmail: async function(req, res) {
-            const body = req.body;
+			const body = req.body;
 			try {
 				const data = await auth.submitInstitutionalEmail(body.email);
-               	res.json(data);
+				res.json(data);
 			} catch(err) {
                 console.log("erro -> " + err);
 				//await onErrorResponse(res, err, 'Failed to show Home Page');
@@ -21,12 +20,13 @@ function webapi(auth) {
 
 		pollingCore: async function(req, res) {
             const params = req.params;
-
 			try {
-				const data = await auth.pollingCore(req, params['authId']);
-                if(data) {
+				const isCompleted = await auth.pollingCore(req, params['authId']);
+                
+				if(isCompleted) {
 					res.json();
 				} else res.status(202).json();
+
 			} catch(err) {
                 console.log("erro -> " + err);
 				//await onErrorResponse(res, err, 'Failed to show Home Page');
@@ -39,7 +39,6 @@ function webapi(auth) {
 	router.use(express.json());	        /// Middleware to to create body property in request
 
 	/******* Mapping requests to handlers according to the path *******/
-
 	router.post('/email', 			theWebAPI.submitInstitutionalEmail	);	///
 	router.post('/:authId/poll',	theWebAPI.pollingCore				);	///
 

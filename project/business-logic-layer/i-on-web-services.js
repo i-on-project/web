@@ -2,33 +2,36 @@
 
 const internalErrors = require('../common/i-on-web-errors.js');
 
-module.exports = function(data, database) {
+module.exports = function(data, sessionDB) {
 
 	const getHome = async function(user) {
+		let events;
+		
 		if(user) {
-			// TO DO - Show user next events
+			const userHomeEvents = await getUserEvents(user);
+			events = userHomeEvents.events;
 		}
+		
 		const commonInfo = await getProgrammesByDegree(data);
-		const events = await getUserEvents(user);
 
 		return Object.assign(commonInfo, 
 			{
-				events: events.events,
+				events: events,
 				user: user, 
 				page: 'home'
 			}
 		);
 	};
 
-	const getProgrammeCalendarTermOffers = async function(programmeId, user){ // TO DO: arg semester info
+	const getProgrammeCalendarTermOffers = async function(programmeId, user) { // TO DO: arg semester info
 		const offers = await data.loadAllProgrammeOffers(programmeId);
-	
+
 		const courseIDs = offers
 		.map(offer => offer.courseId)
 		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
-	
+
 		const calendarTerm = await getCurrentCalendarTerm(data);
-	
+
 		const filteredCoursesId = [];
 		for(let i = 0; i < courseIDs.length; i++) {
 			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm);
@@ -37,7 +40,7 @@ module.exports = function(data, database) {
 
 		const programmeCalendarTermOffers = offers
 		.filter(course => filteredCoursesId.includes(course.courseId))
-	
+
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign({
 			user: user,
@@ -69,134 +72,156 @@ module.exports = function(data, database) {
 	};
 
 	const getUserSchedule = async function(user) {
-		let schedule = [];
-		if(user) {
-			const calendarTerm = await getCurrentCalendarTerm(data);
-			const userCourses = await data.loadUserSubscribedCourses(user);
-			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
-			
-			for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
-				const courseId = userCoursesOfPresentCalendarTerm[i].courseId;
-				const classes = await data.loadUserSubscribedClassesInCourse(user, courseId);
+		try {
+			let schedule = [];
+			if(user) {
+				const calendarTerm = await getCurrentCalendarTerm(data);
+				const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
+				const userClassesOfPresentCalendarTerm = userClassesAndClassSections.filter(userClass => userClass.calendarTerm === calendarTerm);
+				
+				for(let i = 0; i < userClassesOfPresentCalendarTerm.length; i++) {
+					const courseId = userClassesOfPresentCalendarTerm[i].courseId;
+					const classes = userClassesOfPresentCalendarTerm[i].classes;
 
-				for(let j = 0; j < classes.length; j++) {
-					const classSectionSchedule = await data.loadClassSectionSchedule(courseId, calendarTerm, classes[j])
-					schedule = schedule.concat(classSectionSchedule.map(classSection => {
-						classSection['acronym'] = userCoursesOfPresentCalendarTerm[i].acronym;
-						classSection['classSection'] = classes[j];
-						return classSection;
-					}));
+					for(let j = 0; j < classes.length; j++) {
+						const classSectionSchedule = await data.loadClassSectionSchedule(courseId, calendarTerm, classes[j])
+						schedule = schedule.concat(classSectionSchedule.map(classSection => {
+							classSection['acronym'] = userClassesOfPresentCalendarTerm[i].acronym;
+							classSection['classSection'] = classes[j];
+							return classSection;
+						}));
+					}
 				}
 			}
+
+			const commonInfo = await getProgrammesByDegree(data);
+			return Object.assign(commonInfo, {
+				schedule: schedule,
+				user: user, 
+				page: "schedule"
+			});
+			
+		} catch (err) {
+			switch (err) {
+				case internalErrors.EXPIRED_ACCESS_TOKEN:
+					await updateUserSession(data, sessionDB, user);
+					return getUserSchedule(user);
+				default:
+					throw err;
+			}
 		}
-		// Test
-		/*
-		schedule = [
-			{"startDate":"10:00","endDate":"12:30","location":"G.2.1","weekday":"MO","acronym":"SL","classSection":"1D"},
-			{"startDate":"10:00","endDate":"12:30","location":"G.2.4","weekday":"WE","acronym":"SL","classSection":"1D"},
-			{"startDate":"08:00","endDate":"11:00","location":"G.2.1","weekday":"TU","acronym":"DAW","classSection":"2D"},
-			{"startDate":"09:00","endDate":"12:00","location":"C.2.4","weekday":"FR","acronym":"GAP","classSection":"3D"},
-			{"startDate":"10:00","endDate":"13:00","location":"C.2.4","weekday":"FR","acronym":"PI","classSection":"1D"}]
-		*/
-		const commonInfo = await getProgrammesByDegree(data);
-		return Object.assign(commonInfo, {
-			schedule: schedule,
-			user: user, 
-			page: "schedule"
-		});
 	};
 
 	const getUserEvents = async function(user) {
-		let events = {
-			"assignments": [],
-			"testsAndExams": []
-		};
-
-		if(user) {
+		try {
 			const calendarTerm = await getCurrentCalendarTerm(data);
-			const userCourses = await data.loadUserSubscribedCourses(user);
-			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
+			const calendarEvents = await data.loadCalendarTermGeneralInfo(calendarTerm);
 
-			for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
-				const courseId = userCoursesOfPresentCalendarTerm[i].courseId;
-				const courseEvents = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
-				events.assignments = events.assignments.concat(courseEvents.assignments);
-				events.testsAndExams = events.testsAndExams.concat(courseEvents.testsAndExams);
-			}
-		}
+			let events = {
+				"calendar": calendarEvents,
+				"assignments": [],
+				"testsAndExams": []
+			};
 
-		// Test
-		/*events = {
-			"assignments": [
-			{"event": "Trabalho de GAP", "date":"2021-06-11" , "time":"13:30"}, 
-			{"event": "Trabalho de CN", "date":"2021-06-11", "time":"19:30"}, 
-			{"event": "Trabalho de DAW", "date":"2021-06-17", "time":"11:00"}, 
-			{"event": "Trabalho de PI", "date":"2021-06-16", "time":"18:30"}, 
-			{"event": "Trabalho de SS", "date":"2021-06-11", "time":"18:30"}, 
-			{"event": "Exame de AC", "date":"2021-06-26", "time":"18:30"}
-		],
-			"testsAndExams": [
-				{"event": "Teste de GAP", "date":"2021-06-11" , "starTime":"10:30", "endTime":"12:30", "location":"G.2.14"},
-				{"event": "Teste de PI", "date":"2021-06-16" , "starTime":"09:30", "endTime":"12:30", "location":"G.2.14"},
-				{"event": "Teste de DAW", "date":"2021-06-28" , "starTime":"18:30", "endTime":"21:30", "location":"G.2.10"}
-			]
-		};*/
-
-		const commonInfo = await getProgrammesByDegree(data);
-		return Object.assign(commonInfo, {
-			events: events,
-			user: user, 
-			page: "calendar"
-		});
-	};
-
-	const getUserCourses = async function(user) {
-		const userCoursesAndClasses = []; 
-		if(user) {
-			const calendarTerm = await getCurrentCalendarTerm(data);
-			const userCourses = await data.loadUserSubscribedCourses(user);
-			const userCoursesOfPresentCalendarTerm = userCourses.filter(course => course.calendarTerm === calendarTerm);
-			
-			for(let i = 0; i < userCoursesOfPresentCalendarTerm.length; i++) {
-				const course = await data.loadCourseClassesByCalendarTerm(userCoursesOfPresentCalendarTerm[i].courseId , calendarTerm)
-				const classes = await data.loadUserSubscribedClassesInCourse(user, userCoursesOfPresentCalendarTerm[i].courseId);
-				course.classes = classes;
-				userCoursesAndClasses.push(course);
-			}
-		}
-		const commonInfo = await getProgrammesByDegree(data);
-		return Object.assign(commonInfo, {
-			user: user, 
-			userCoursesAndClasses: userCoursesAndClasses, 
-			page: "user-courses"
-		});
-	};
-
-	const editUserCourses = async function(user, selectedCoursesAndClassesToDelete) {
-		if(user) {
-			for(let courseId in selectedCoursesAndClassesToDelete) {
-				if(Array.isArray(selectedCoursesAndClassesToDelete[courseId])) {
-					for(let i = 0; i < selectedCoursesAndClassesToDelete[courseId].length; i++)
-						await data.deleteUserClass(user, courseId, selectedCoursesAndClassesToDelete[courseId][i]);
-				} else {
-					await data.deleteUserClass(user, courseId, selectedCoursesAndClassesToDelete[courseId]);
-
+			if(user) {
+				const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
+				const userClassesOfPresentCalendarTerm = userClassesAndClassSections.filter(userClass => userClass.calendarTerm === calendarTerm);
+				for(let i = 0; i < userClassesOfPresentCalendarTerm.length; i++) {
+					const courseId = userClassesOfPresentCalendarTerm[i].courseId;
+					const classEvents = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
+					events.assignments = events.assignments.concat(classEvents.assignments);
+					events.testsAndExams = events.testsAndExams.concat(classEvents.testsAndExams);
 				}
-				const classes = await data.loadUserSubscribedClassesInCourse(user, courseId);
-				if(classes.length === 0)
-					await data.deleteUserCourse(user, courseId);
+			}
+			const commonInfo = await getProgrammesByDegree(data);
+			return Object.assign(commonInfo, {
+				events: events,
+				user: user, 
+				page: "calendar"
+			});
+
+		} catch (err) {
+			switch (err) {
+				case internalErrors.EXPIRED_ACCESS_TOKEN:
+					await updateUserSession(data, sessionDB, user);
+					return getUserEvents(user);
+				default:
+					throw err;
+			}
+		}
+	};
+
+	const getUserSubscribedClassesAndClassSections = async function(user) {
+		try {
+			let userClasses = [];
+			if(user) {
+				const calendarTerm = await getCurrentCalendarTerm(data);
+				const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
+				const userClassesOfPresentCalendarTerm = userClassesAndClassSections.filter(userClass => userClass.calendarTerm === calendarTerm);
+
+				for(let i = 0; i < userClassesOfPresentCalendarTerm.length; i++) {
+					const course = await data.loadCourseClassesByCalendarTerm(userClassesOfPresentCalendarTerm[i].courseId , calendarTerm)
+					const userClass = userClassesOfPresentCalendarTerm[i];
+					userClass['name'] = course.name;
+				}
+				userClasses = userClassesOfPresentCalendarTerm;
+			}
+		
+			const commonInfo = await getProgrammesByDegree(data);
+			return Object.assign(commonInfo, {
+				user: user, 
+				userClasses: userClasses, 
+				page: "user-courses"
+			});
+
+		} catch (err) {
+			switch (err) {
+				case internalErrors.EXPIRED_ACCESS_TOKEN:
+					await updateUserSession(data, sessionDB, sessionDBuser);
+					return getUserSubscribedClassesAndClassSections(user);
+				default:
+					throw err;
+			}
+		}
+	};
+
+	const editUserSubscribedClassesAndClassSections = async function(user, selectedClassesAndClassSections) {
+		try {
+			if(user) {
+				for(let id in selectedClassesAndClassSections) {
+					if(Array.isArray(selectedClassesAndClassSections[id])) {
+						for(let i = 0; i < selectedClassesAndClassSections[id].length; i++)
+							await data.deleteUserClassSection(user, id, selectedClassesAndClassSections[id][i]);
+					} else {
+						await data.deleteUserClassSection(user, id, selectedClassesAndClassSections[id]);
+					}
+					const classes = await data.loadUserSubscribedClassSectionsInClass(user, id);
+					if(classes.length === 0)
+						await data.deleteUserClass(user, id);
+				}
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
+			}
+		} catch (err) {
+			switch (err) {
+				case internalErrors.EXPIRED_ACCESS_TOKEN:
+					await updateUserSession(data, sessionDB, user);
+					return editUserSubscribedClassesAndClassSections(user, selectedCoursesAndClassesToDelete);
+				default:
+					throw err;
 			}
 		}
 	}
 
-	const getClassesFromSelectedCourses = async function(user, coursesIDs) {
+	const getClassSectionsFromSelectedClasses = async function(user, coursesIDs) {
 		const classesByCourses = [];
 		if(user) {
+			const calendarTerm = await getCurrentCalendarTerm(data);
 			if(Array.isArray(coursesIDs)) {
 				for(let i = 0; i < coursesIDs.length; i++)
-					classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i], '1718i')); // TO DO - remove harcoded calendarTerm
+					classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i], calendarTerm));
 			} else {
-				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs, '1718i'));
+				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs, calendarTerm));
 			}
 		}
 
@@ -207,23 +232,36 @@ module.exports = function(data, database) {
 		});
 	};
 
-	const saveUserChosenCoursesAndClasses = async function(user, selectedClassesAndCourses){
-		if(user) {
-			for(let courseId in selectedClassesAndCourses) {
-				if(Array.isArray(selectedClassesAndCourses[courseId])) {
-					for(let i = 0; i < selectedClassesAndCourses[courseId].length; i++) 
-						await data.saveUserChosenCoursesAndClasses(user, courseId, selectedClassesAndCourses[courseId][i]);
-				} else {
-					await data.saveUserChosenCoursesAndClasses(user, courseId, selectedClassesAndCourses[courseId]);
+	const saveUserClassesAndClassSections = async function(user, selectedClassesAndClassSections){
+		try {
+
+			if(user) {
+				for(let id in selectedClassesAndClassSections) {
+					if(Array.isArray(selectedClassesAndClassSections[id])) {
+						for(let i = 0; i < selectedClassesAndClassSections[id].length; i++) 
+							await data.saveUserClassesAndClassSections(user, id, selectedClassesAndClassSections[id][i]);
+					} else {
+						await data.saveUserClassesAndClassSections(user, id, selectedClassesAndClassSections[id]);
+					}
 				}
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
 			}
-			
+
+		} catch (err) {
+			switch (err) {
+				case internalErrors.EXPIRED_ACCESS_TOKEN:
+					await updateUserSession(data, sessionDB, user);
+					return saveUserClassesAndClassSections(user, selectedClassesAndClassSections);
+				default:
+					throw err;
+			}
 		}
 	};
 
 	const getAboutData = async function(user){
 		const aboutData = await data.loadAboutData();		
-	
+
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			user: user,
@@ -231,22 +269,47 @@ module.exports = function(data, database) {
 		});
 	};
 
-	const getSettingsPage = async function(user){
-		const commonInfo = await getProgrammesByDegree(data);
-		return Object.assign(commonInfo, {
-			user: user
-		});
+	const getProfilePage = async function(user) {
+		if(user) {
+			const commonInfo = await getProgrammesByDegree(data);
+			//user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
+
+			return Object.assign(commonInfo, {
+				user: user
+			});
+		} else {
+			throw internalErrors.UNAUTHENTICATED;
+		}
 	};
 	
-	const editSettings = async function(user, newSettings) {
-		if(user) {
-			await data.editUser(user, newSettings.newUsername);
-			await database.editUser(user.email, newSettings.newUsername, Number(newSettings.newProgramme));
+	const editProfile = async function(user, newUserInfo) {
+		try {
+			
+			if(user) {
+				await data.editUser(user, newUserInfo.newUsername);
+	
+				const commonInfo = await getProgrammesByDegree(data);
+				return Object.assign(commonInfo, {
+					user: user
+				});
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
+			}
+
+		} catch (err) {
+
+			switch (err) {
+				
+				case internalErrors.EXPIRED_ACCESS_TOKEN:
+					await updateUserSession(data, sessionDB, user);
+					return editProfile(user, newUserInfo);
+
+				default:
+					throw err;
+
+			}
+
 		}
-		const commonInfo = await getProgrammesByDegree(data);
-		return Object.assign(commonInfo, {
-			user: user
-		});
 	};
 
 	return {
@@ -255,13 +318,13 @@ module.exports = function(data, database) {
 		getProgrammeData : getProgrammeData,
 		getUserSchedule : getUserSchedule,
 		getUserEvents : getUserEvents,
-		getUserCourses : getUserCourses,
-		editUserCourses : editUserCourses,
-		getClassesFromSelectedCourses : getClassesFromSelectedCourses,
-		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,		
+		getUserSubscribedClassesAndClassSections : getUserSubscribedClassesAndClassSections,
+		editUserSubscribedClassesAndClassSections : editUserSubscribedClassesAndClassSections,
+		getClassSectionsFromSelectedClasses : getClassSectionsFromSelectedClasses,
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,		
 		getAboutData : getAboutData,
-		getSettingsPage : getSettingsPage,
-		editSettings : editSettings
+		getProfilePage : getProfilePage,
+		editProfile : editProfile
 	};
 	
 }
@@ -269,7 +332,8 @@ module.exports = function(data, database) {
 /******* Helper function *******/
 
 const getCurrentCalendarTerm = async function(data) { 
-	return '1718i'; // TO DO
+	const calendarTerm = await data.loadCurrentCalendarTerm()
+	return calendarTerm;
 }
 
 const getProgrammesByDegree = async function(data){
@@ -284,3 +348,15 @@ const getProgrammesByDegree = async function(data){
 
 	return {bachelor: bachelorProgrammes, master: masterProgrammes};
 };
+
+const updateUserSession = async function(data, sessionDB, user) {
+	const newTokens = await data.refreshAccessToken(user);
+
+	await sessionDB.storeUpdatedInfo(user.email, newTokens, user.sessionId)
+
+	user.access_token = newTokens.access_token;
+	user.token_type = newTokens.token_type;
+	user.refresh_token = newTokens.refresh_token;
+	user.expires_in = newTokens.expires_in;
+	user.id_token = newTokens.id_token;
+}
