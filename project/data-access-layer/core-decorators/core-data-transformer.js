@@ -7,8 +7,8 @@ module.exports = function(data) {
 		const receivedData = await data.loadAllProgrammes(metadata);
 		
 		const receivedmetadata = {
-			"ETag": receivedData.headers.get('ETag'),
-			"cache-control-max-age": receivedData.headers.get('cache-control-max-age')
+			"ETag": receivedData.metadata.get('ETag'),
+			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
 		}
 
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
