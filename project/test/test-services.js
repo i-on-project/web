@@ -1421,28 +1421,6 @@ describe('Services', function () {
 				expect(err).to.deep.eql(5);
 			}
 		})
-	}),
-
-	describe('deleteUser', function() { 
-	
-		it('should return unauthenticated error (unauthenticated user)', async function () {
-		
-			const data = null;
-
-			const sessionDB = null;
-
-			const service = serviceCreator(data, sessionDB);
-			
-			const user = undefined;
-
-			// Act
-			try {
-				await service.deleteUser(user);
-			} catch (err) {
-				// Assert
-				expect(err).to.deep.eql(5);
-			}
-		})
-
 	})
+	
 })
