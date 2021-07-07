@@ -139,6 +139,7 @@ module.exports = function(data) {
 	}
 	/* Return Example:
 	* {
+	*	'id' : 2, 
 	*	'courseId' : 2,
 	*	'acronym' : 'DAW',
 	*	'name' : 'Desenvolvimento de Aplicações Web',

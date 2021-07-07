@@ -153,7 +153,7 @@ module.exports = function(data, sessionDB) {
 
 	const getUserSubscribedClassesAndClassSections = async function(user) {
 		try {
-			let userClasses;
+			let userClasses = [];
 			if(user) {
 				const calendarTerm = await getCurrentCalendarTerm(data);
 				const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);

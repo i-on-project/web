@@ -101,7 +101,7 @@ describe('Services', function () {
 			expect(response.master).to.deep.eql(expected.master);
 
 		})
-/*
+
 		it('should return the home page info along with the user events', async function () {	
 
 			const expected = {
@@ -218,13 +218,14 @@ describe('Services', function () {
 					return [];
 				},
 
-				loadUserSubscribedCourses: async function(user) {
+				loadUserSubscribedClassesAndClassSections: async function(user) {
 					return [
 						{
 							"id": 1,
 							"courseId": 1,
 							"acronym": "PI",
-							"calendarTerm": "2021i"
+							"calendarTerm": "2021i",
+							"classes": ["1D"]
 						}
 					];
 				},
@@ -276,7 +277,8 @@ describe('Services', function () {
 			expect(response.bachelor).to.deep.eql(expected.bachelor);
 			expect(response.master).to.deep.eql(expected.master);
 			expect(response.events).to.deep.eql(expected.events);
-		})	*/
+		})
+
 	}),
 
 	describe('getProgrammeCalendarTermOffers', function() { 
@@ -429,9 +431,9 @@ describe('Services', function () {
 					return '2021v';
 				}
 			}
-			const database = null;
+			const sessionDB = null;
 
-			const service = serviceCreator(data, database);
+			const service = serviceCreator(data, sessionDB);
 			
 			const user = null;
 			const programmeId = 1;
@@ -517,9 +519,10 @@ describe('Services', function () {
 				}
 				
 			}
-			const database = null;
 
-			const service = serviceCreator(data, database);
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
 			
 			const user = null;
 			const programmeId = 1;
@@ -534,30 +537,591 @@ describe('Services', function () {
 	}),
 
 	describe('getUserSchedule', function() { 
+		
+		it('should only return pages common info (unauthenticated user)', async function () {
+		
+			const expected =  {
+				"bachelor": [						
+					{
+						"programmeId": 1,
+						"acronym": "LEIC",
+						"name": "Engenharia Informática e de Computadores",
+						"degree": "bachelor"
+					}
+				],
+				"master": [],
+				"schedule": [],
+				"user": undefined, 
+				"page": "schedule"
+			};
 
+			const data = {
+				
+				loadAllProgrammes: async function() {
+					return [				
+						{
+							"programmeId": 1,
+							"acronym": "LEIC",
+							"name": "Engenharia Informática e de Computadores",
+							"degree": "bachelor"
+						}
+					];
+				}
+				
+			}
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = undefined;
+
+			// Act
+			const response = await service.getUserSchedule(user);
+
+			// Assert
+			expect(response).to.deep.eql(expected);
+
+		}),
+
+		it('should return pages common info along with the user schedule (authenticated user subscribed to a class and class section)', async function () {
+		
+			const expected =  {
+				"bachelor": [						
+					{
+						"programmeId": 1,
+						"acronym": "LEIC",
+						"name": "Engenharia Informática e de Computadores",
+						"degree": "bachelor"
+					}
+				],
+				"master": [],
+				"schedule": [					
+					{
+						"acronym": "PI",
+            			"classSection": "1D",
+						"startDate": "11:00",
+						"endDate": "13:00",
+						"location": "E.1.7",
+						"weekday": "WE",
+					}
+				],
+				"user": testsUsers[1], 
+				"page": "schedule"
+			};
+
+			const data = {
+				
+				loadAllProgrammes: async function() {
+					return [				
+						{
+							"programmeId": 1,
+							"acronym": "LEIC",
+							"name": "Engenharia Informática e de Computadores",
+							"degree": "bachelor"
+						}
+					];
+				},
+
+				loadCurrentCalendarTerm: async function() {
+					return {
+						"calendarTerm": "2021i"
+					};
+				},
+
+				loadUserSubscribedClassesAndClassSections: async function(user) {
+					return [
+						{
+							"id": 1,
+							"courseId": 1,
+							"acronym": "PI",
+							"calendarTerm": "2021i",
+							"classes": ["1D"]
+						}
+					];
+				},
+
+				loadClassSectionSchedule: async function(courseId, calendarTerm, classSection) {
+					return [
+						{
+							"startDate": "11:00",
+							"endDate": "13:00",
+							"location": "E.1.7",
+							"weekday": "WE",
+						}
+					];
+				}
+				
+			}
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = testsUsers[1];
+
+			// Act
+			const response = await service.getUserSchedule(user);
+
+			// Assert
+			expect(response).to.deep.eql(expected);
+			
+		}),
+		
+		it('should only return pages common info (authenticated user but hasnt subscribed any class and class section)', async function () {
+		
+			const expected =  {
+				"bachelor": [						
+					{
+						"programmeId": 1,
+						"acronym": "LEIC",
+						"name": "Engenharia Informática e de Computadores",
+						"degree": "bachelor"
+					}
+				],
+				"master": [],
+				"schedule": [],
+				"user": testsUsers[0], 
+				"page": "schedule"
+			};
+
+			const data = {
+				
+				loadAllProgrammes: async function() {
+					return [				
+						{
+							"programmeId": 1,
+							"acronym": "LEIC",
+							"name": "Engenharia Informática e de Computadores",
+							"degree": "bachelor"
+						}
+					];
+				},
+
+				loadCurrentCalendarTerm: async function() {
+					return {
+						"calendarTerm": "2021i"
+					};
+				},
+
+				loadUserSubscribedClassesAndClassSections: async function(user) {
+					return [
+						{
+							"id": 1,
+							"courseId": 1,
+							"acronym": "PI",
+							"calendarTerm": "2021i",
+							"classes": ["1D"]
+						}
+					];
+				},
+
+				loadClassSectionSchedule: async function(courseId, calendarTerm, classSection) {
+					return [];
+				}
+				
+			}
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = testsUsers[0];
+
+			// Act
+			const response = await service.getUserSchedule(user);
+
+			// Assert
+			expect(response).to.deep.eql(expected);
+			
+
+		})
 	}),
 
 	describe('getUserEvents', function() { 
+		
+		it('should only return pages common info (unauthenticated user)', async function () {
+		
+			const expected =  {
+				"bachelor": [						
+					{
+						"programmeId": 3,
+						"acronym": "LEIRT",
+						"name": "Engenharia Informática, Redes e Telecomunicações",
+						"degree": "bachelor"
+					}
+				],
+				"master": [],
+				"events": {
+					"calendar": [
+						{
+							"date":"2021-06-28",
+							"title": "Início do período de exames",
+							"description": "(época normal)"
+						},
+						{
+							"date":"2021-07-17",
+							"title": "Fim do período de exames",
+							"description": "(época normal)"
+						}
+					],
+					"assignments": [],
+					"testsAndExams": []
+				},
+				"user": undefined, 
+				"page": "calendar"
+			};
+
+			const data = {
+				
+				loadAllProgrammes: async function() {
+					return [				
+						{
+							"programmeId": 3,
+							"acronym": "LEIRT",
+							"name": "Engenharia Informática, Redes e Telecomunicações",
+							"degree": "bachelor"
+						}
+					];
+				},
+
+				loadCurrentCalendarTerm: async function() {
+					return {
+						"calendarTerm": "2021v"
+					};
+				},
+
+				loadCalendarTermGeneralInfo: async function() {
+					return [
+						{
+							"date":"2021-06-28",
+							"title": "Início do período de exames",
+							"description": "(época normal)"
+						},
+						{
+							"date":"2021-07-17",
+							"title": "Fim do período de exames",
+							"description": "(época normal)"
+						}
+					];
+				}
+				
+			}
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = undefined;
+
+			// Act
+			const response = await service.getUserEvents(user);
+
+			// Assert
+			expect(response).to.deep.eql(expected);
+
+		}),
+
+		it('should return pages common info along with the user events (authenticated user)', async function () {
+		
+			const expected =  {
+				"bachelor": [						
+					{
+						"programmeId": 3,
+						"acronym": "LEIRT",
+						"name": "Engenharia Informática, Redes e Telecomunicações",
+						"degree": "bachelor"
+					}
+				],
+				"master": [],
+				"events": {
+					"calendar": [
+						{
+							"date":"2021-06-28",
+							"title": "Início do período de exames",
+							"description": "(época normal)"
+						},
+						{
+							"date":"2021-07-17",
+							"title": "Fim do período de exames",
+							"description": "(época normal)"
+						}
+					],
+					"assignments": [
+						{
+						  "event": "[SL]: Assignment #1",
+						  "date": "2021-04-08",
+						  "time": "23:59"
+						},
+						{
+						  "event": "[SL]: Assignment #2",
+						  "date": "2021-06-20",
+						  "time": "23:59"
+						}
+					  ],
+					  "testsAndExams": [
+						{
+						  "event": "1st Exam SL",
+						  "date": "2020-06-10",
+						  "startTime": "18:00",
+						  "endTime": "19:30",
+						  "location": "A.2.5"
+						},
+						{
+						  "event": "2nd Exam SL",
+						  "date": "2020-07-24",
+						  "startTime": "10:00",
+						  "endTime": "12:30",
+						  "location": "F.1.2"
+						}
+					  ]
+				},
+				"user": testsUsers[0], 
+				"page": "calendar"
+			};
+
+			const data = {
+				
+				loadAllProgrammes: async function() {
+					return [				
+						{
+							"programmeId": 3,
+							"acronym": "LEIRT",
+							"name": "Engenharia Informática, Redes e Telecomunicações",
+							"degree": "bachelor"
+						}
+					];
+				},
+
+				loadCurrentCalendarTerm: async function() {
+					return {
+						"calendarTerm": "2021v"
+					};
+				},
+
+				loadCalendarTermGeneralInfo: async function() {
+					return [
+						{
+							"date":"2021-06-28",
+							"title": "Início do período de exames",
+							"description": "(época normal)"
+						},
+						{
+							"date":"2021-07-17",
+							"title": "Fim do período de exames",
+							"description": "(época normal)"
+						}
+					];
+				},
+				
+				loadUserSubscribedClassesAndClassSections: async function(user) {
+					return [
+						{
+							"id": 1,
+							"courseId": 1,
+							"acronym": "PI",
+							"calendarTerm": "2021v",
+							"classes": ["1N"]
+						}
+					];
+				},
+
+				loadCourseEventsInCalendarTerm: async function(courseId, calendarTerm) {
+					return {
+						"assignments": [
+						  {
+							"event": "[SL]: Assignment #1",
+							"date": "2021-04-08",
+							"time": "23:59"
+						  },
+						  {
+							"event": "[SL]: Assignment #2",
+							"date": "2021-06-20",
+							"time": "23:59"
+						  }
+						],
+						"testsAndExams": [
+						  {
+							"event": "1st Exam SL",
+							"date": "2020-06-10",
+							"startTime": "18:00",
+							"endTime": "19:30",
+							"location": "A.2.5"
+						  },
+						  {
+							"event": "2nd Exam SL",
+							"date": "2020-07-24",
+							"startTime": "10:00",
+							"endTime": "12:30",
+							"location": "F.1.2"
+						  }
+						]
+					};
+				}
+			}
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = testsUsers[0];
+
+			// Act
+			const response = await service.getUserEvents(user);
+
+			// Assert
+			expect(response).to.deep.eql(expected);	
+			
+		})
 
 	}),
 
-	describe('getUserCourses', function() { 
+	describe('getUserSubscribedClassesAndClassSections', function() { 
+		
+		it('should only return pages common info (unauthenticated user)', async function () {
+		
+			const expected =  {
+				"bachelor": [						
+					{
+						"programmeId": 3,
+						"acronym": "LEIRT",
+						"name": "Engenharia Informática, Redes e Telecomunicações",
+						"degree": "bachelor"
+					}
+				],
+				"master": [],
+				"userClasses": [],
+				"user": undefined, 
+				"page": "user-courses"
+			};
+
+			const data = {
+				
+				loadAllProgrammes: async function() {
+					return [				
+						{
+							"programmeId": 3,
+							"acronym": "LEIRT",
+							"name": "Engenharia Informática, Redes e Telecomunicações",
+							"degree": "bachelor"
+						}
+					];
+				}
+				
+			}
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = undefined;
+
+			// Act
+			const response = await service.getUserSubscribedClassesAndClassSections(user);
+
+			// Assert
+			expect(response).to.deep.eql(expected);
+
+		}),
+
+		it('should return pages common info along with the user subscribed classes and class sections (authenticated user)', async function () {
+		
+			const expected =  {
+				"bachelor": [						
+					{
+						"programmeId": 3,
+						"acronym": "LEIRT",
+						"name": "Engenharia Informática, Redes e Telecomunicações",
+						"degree": "bachelor"
+					}
+				],
+				"master": [],
+				"userClasses": [
+					{
+					    "acronym": "DAW",
+					    "calendarTerm": "2021v",
+					    "classes": ["2D"],
+					    "courseId": 2,
+					    "id": 2,
+					    "name": "Desenvolvimento de Aplicações Web"
+					}
+				],
+				"user": testsUsers[1], 
+				"page": "user-courses"
+			};
+
+			const data = {
+				
+				loadAllProgrammes: async function() {
+					return [				
+						{
+							"programmeId": 3,
+							"acronym": "LEIRT",
+							"name": "Engenharia Informática, Redes e Telecomunicações",
+							"degree": "bachelor"
+						}
+					];
+				},
+
+				loadCurrentCalendarTerm: async function() {
+					return {
+						"calendarTerm": "2021v"
+					};
+				},
+
+				loadUserSubscribedClassesAndClassSections: async function(user) {
+					return [
+						{
+							"id": 2,
+							"courseId": 2,
+							"acronym": "DAW",
+							"calendarTerm": "2021v",
+							"classes": ["2D"]
+						}
+					];
+				},
+
+				loadCourseClassesByCalendarTerm: async function(courseId, calendarTerm) {
+					return {
+						"id" : 2, 
+						"courseId" : 2,
+						"acronym" : "DAW",
+						"name" : "Desenvolvimento de Aplicações Web",
+						"classes": ["1D","1N","2D"]
+					};
+				}
+				
+			}
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+			
+			const user = testsUsers[1];
+
+			// Act
+			const response = await service.getUserSubscribedClassesAndClassSections(user);
+
+			// Assert
+			expect(response).to.deep.eql(expected);
+
+		})
 
 	}),
 
-	describe('editUserCourses', function() { 
+	describe('editUserSubscribedClassesAndClassSections', function() { 
 
 	}),
 
-	describe('getClassesFromSelectedCourses', function() { 
-		/*
+	describe('getClassSectionsFromSelectedClasses', function() { 
+		
 		it('should return classes from one selected course', async function () {			
 			// Arrange
-			const expectedclassesByCourses = [{"courseId":1,"name":"Laboratório de Software","classes":["1D","1N","2D"]}];
+			const expectedclassesByCourses = [{"id": 1, "courseId": 1,"name": "Laboratório de Software","classes": ["1D","1N","2D"]}];
 			
 			const data = {
 				loadCourseClassesByCalendarTerm: async function() {
-					return {"courseId":1,"name":"Laboratório de Software","classes":["1D","1N","2D"]};
+					return {"id": 1, "courseId": 1, "name": "Laboratório de Software", "classes": ["1D","1N","2D"]};
 				},
 
 				loadAllProgrammes: async function() {
@@ -570,22 +1134,22 @@ describe('Services', function () {
 					};
 				}
 			}
-			const database = null;
+			const sessionDB = null;
 
-			const service = serviceCreator(data, database);
+			const service = serviceCreator(data, sessionDB);
 			
 			const user = {'username': 'testUser'};
 			const coursesIDs = 1;
 			// Act
-			const response = await service.getClassesFromSelectedCourses(user, coursesIDs);
+			const response = await service.getClassSectionsFromSelectedClasses(user, coursesIDs);
 
 			// Assert
 			expect(response.classesByCourses).to.deep.eql(expectedclassesByCourses);
-		})*/
+		})
 
 	}),
 
-	describe('saveUserChosenCoursesAndClasses', function() { 
+	describe('saveUserClassesAndClassSections', function() { 
 
 	}),
 

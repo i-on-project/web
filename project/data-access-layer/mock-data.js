@@ -97,7 +97,7 @@ module.exports = function() {
 
 	/* User related methods */
 
-	const saveUserChosenCoursesAndClasses = async function(user, courseId, classSection) { 
+	const saveUserClassesAndClassSections = async function(user, courseId, classSection) { 
 		const path = '/user-courses/' + courseId;
 		const data = await getMockData(path);
 
@@ -114,15 +114,15 @@ module.exports = function() {
 		};
 	}
 
-	const loadUserSubscribedCourses = async function(user) {
+	const loadUserSubscribedClassesAndClassSections = async function(user) {
 		return users[user.email].coursesAndClasses;
 	}
 
-	const loadUserSubscribedClassesInCourse = async function(user, courseId) { 
+	const loadUserSubscribedClassSectionsInClass = async function(user, courseId) { 
 		return users[user.email].coursesAndClasses.filter(course => course.courseId == courseId).find(__ => __).classes;
 	}
 
-	const deleteUserClass = async function(user, courseId, classSection) {
+	const deleteUserClassSection = async function(user, courseId, classSection) {
 		const classSections = users[user.email].coursesAndClasses
 		.filter(course => course.courseId == courseId).find(__ => __).classes;
 
@@ -137,7 +137,7 @@ module.exports = function() {
 		}
 	}
 
-	const deleteUserCourse = async function(user, courseId) {
+	const deleteUserClass = async function(user, courseId) {
 		for( let i = 0; i < users[user.email].coursesAndClasses.length; i++){ 
 			if ( users[user.email].coursesAndClasses[i].courseId == courseId) { 
 				users[user.email].coursesAndClasses.splice(i, 1); 
@@ -174,11 +174,11 @@ module.exports = function() {
 		pollingCore : pollingCore,
 
 		/* User related methods */
-		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
-		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
+		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
+		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
+		deleteUserClassSection : deleteUserClassSection,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
 		loadUser : loadUser,
 		deleteUser : deleteUser
