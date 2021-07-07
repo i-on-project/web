@@ -5,73 +5,94 @@
     </div>
 
 
-    <div class="row row-content align-items-center divSpacing">
-        <div class="offset-1 col-12 col-sm-5">
-            <h5>Nome de utilizador: </h5>       
+    <div class="row row-content divSpacing">
+        <div class="col-12 col-sm-6 text-center">
+            <h5>Nome de utilizador</h5>       
             <p>{{user.username}}</p>
         </div>
-        <div class="col col-sm">
-            <h5>Curso do utilizador: </h5>
-            <p></p>
+        <div class="col col-sm text-center">
+            <h5>Curso</h5>
+            <p></p> <!-- TODO -->
         </div>
     </div>
 
-    <div class="form-group divSpacing">
-        <button id="editButton" onclick=edit() class="btn btn-outline-dark pull-right">Editar perfil</button>  
- 
-        <form method="POST" action="/profile" id="profileDiv" style="display:none">
 
+    <div class="form-group divSpacing">
+
+        <div class="buttonsDiv" onsubmit="return confirm('Tem a certeza que deseja apagar a sua conta ? Esta ação não é reversível.');" id="notEditing">
+            <!-- Edit button -->
+            <button type="button" onclick=edit() class="btn btn-outline-dark pull-right" aria-hidden="true">Editar perfil</button> 
+            
+            <form method="POST" action="/delete-user">
+                <!-- Delete user account button -->
+                <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Apagar conta</button>
+            </form>
+        </div>
+         
+ 
+        <!-- Edit Profile Form -->
+        <form method="POST" action="/profile" id="editingProfile" style="display:none">
+
+            <!-- Disclaimer -->
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
+
                 <div class="row row-content align-items-center">
                     <div class="col-1 col-sm-1 col-md-1">
                         <img src="/public/images/disclaimer.png" alt="Projeto i-on Web disclaimer" class="img-fluid">
                     </div>
+
                     <div class="col col-sm col-md">
                         <h5>Aviso!</h5>
                         <p>A selecção de curso não substitui a inscrição oficial ao mesmo na instituição frequentada.</p>
                     </div>
                 </div>
+
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>         
+                </button>   
+
             </div>
-            <!-- <div class="offset-1 col-sm-3 divSpacing">-->
-                <label class="col-form-label">Nome de utilizador:</label><br>
-                <input type="text" class="form-control" name="newUsername" value={{user.username}} required>      
-           <!-- </div>
-            <div class="offset-1 col-sm-4 row row-content divSpacing">-->
-                <label class="col-form-label">Curso do utilizador: </label><br>
-                <select class="form-control" name="newProgramme">
-                    {{#each bachelor}}
-                        <option value={{this.programmeId}}>{{this.acronym}} ({{this.name}})</option>
-                    {{/each}}
-                    {{#each master}}
-                        <option value={{this.programmeId}}>{{this.acronym}} ({{this.name}})</option>
-                    {{/each}}
-                </select>
-            <div class="row row-content divSpacing pull-right">
-                <button type="submit" href="/profile" class="btn btn-dark">Guardar alterações</button>
-                <button  type="button" onclick=back() class="btn btn-outline-dark">Cancelar</button> 
+
+            <!-- New username -->
+            <label class="col-form-label">Nome de utilizador:</label><br>
+            <input type="text" class="form-control" name="newUsername" value={{user.username}} required>      
+
+            <!-- New programme -->
+            <label class="col-form-label">Curso do utilizador: </label><br>
+            <select class="form-control" name="newProgramme">
+                {{#each bachelor}}
+                    <option value={{this.programmeId}}>{{this.acronym}} ({{this.name}})</option>
+                {{/each}}
+                {{#each master}}
+                    <option value={{this.programmeId}}>{{this.acronym}} ({{this.name}})</option>
+                {{/each}}
+            </select>
+
+            <!-- Buttons -->
+            <div class="buttonsDiv"></div>
+                <!-- Back button -->
+                <button type="button" onclick=back() class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</button>
+
+                <!-- Save button -->
+                <button type="submit" href="/profile" class="btn btn-success pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar alterações</button>
             </div>
+
         </form>
+
     </div>
-</div>
-<br>
-<div class="divSpacing">
-    <a class="btn btn-outline-danger pull-right" href="/delete-user" role="button"><i class="fa fa-trash" aria-hidden="true"></i>  Apagar conta</a>
+
 </div>
 
 <script>
 
     function edit(){
-        $('#editButton').hide();
-        $('#profileDiv').show();
-
+        $('#notEditing').hide();
+        $('#editingProfile').show();
     }
 
     function back() {
-        $('#editButton').show();
-        $('#profileDiv').hide();
-
+        $('#notEditing').show();
+        $('#editingProfile').hide();
     }
+
 </script>

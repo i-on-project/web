@@ -14,6 +14,7 @@ module.exports = function(baseUrl) {
 	 */
 	const initializeDatabaseIndexes = async function () {
 		try {
+
 			const getResponseUsers = await fetch(`${usersBaseUrl}/`); /// GET request to verify the existence of 'users' index
 	
 			if(getResponseUsers.status != 200 && getResponseUsers.status != 404) throw getResponseUsers.status;
@@ -124,17 +125,29 @@ module.exports = function(baseUrl) {
 
 	const deleteAllUserSessions = async function (email) {
 		try {
-
+			console.log('email ' + email);
 			const options = {
 				method: 'POST', 
 				headers: { "Content-Type": contentType },
-				body: JSON.stringify()
+				body: JSON.stringify(
+					{
+						"query": {
+							"bool" : {
+								"should" : [
+									{
+										"match_phrase": {
+											"email" : email
+										}
+									}
+								]
+							}
+						}
+					}
+				)
 			};
-
-			const answer = await fetchRequest(`${usersBaseUrl}/_doc/`, 200, options);
+			
+			await fetchRequest(`${usersBaseUrl}/_delete_by_query`, 200, options);
 		
-			return answer._source;
-
 		} catch (err) { // TODO handling errors
 			switch (err) {
 				case 404: /// Not Found

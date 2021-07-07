@@ -78,8 +78,7 @@ module.exports = (app, data, sessionDB) => {
 			}
 		},
 		
-		logout: async function(req) {
-			const sessionId = req.user.sessionId;
+		logout: async function(req) { /// TODO: Verify if user is authenticated and handling errors
 			const user = req.user;
 			
 			req.logout();
@@ -88,11 +87,28 @@ module.exports = (app, data, sessionDB) => {
 					throw internalErrors.SERVICE_FAILURE;
 				}
 			})
-			await data.revokeAccessToken(user);
-			await sessionDB.deleteUserSession(sessionId);
-		}
-	}
 
+			console.log("LOGOUT -> " + JSON.stringify(user));
+
+			await data.revokeAccessToken(user);
+			await sessionDB.deleteUserSession(user.sessionId);
+		},
+
+		deleteUser: async function(req) {
+			const user = JSON.parse(JSON.stringify(req.user));;
+
+			req.logout();
+			req.session.destroy(err => { /// TODO : replace ...
+				if (err) {
+					throw internalErrors.SERVICE_FAILURE;
+				}
+			});
+			
+			await data.deleteUser(user.access_token, user.token_type);
+			await sessionDB.deleteAllUserSessions(user.email);
+		}
+
+	}
 }
 
 /******* Helper functions *******/

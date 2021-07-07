@@ -1,4 +1,5 @@
-<br><div id="showAllMethods" class="row justify-content-center">
+<br>
+<div id="showAllMethods" class="row justify-content-center">
 	
     <div class="col-md-4">
 		<h2 class="text-center">Métodos de autenticação</h2><br>
@@ -18,8 +19,6 @@
 	const email = document.querySelector("#emailbutton");			
 	email.innerHTML += '<i class="fa fa-envelope-o" aria-hidden="true"></i>  Email Institucional';
 
-	/// If necessary, more presentations for authentication methods can be added here ...
-
 	function showSpecifiedMethod(type) {
         $('#showAllMethods').hide();
         $(`#${type}`).show();
@@ -31,6 +30,9 @@
     }
 
 </script>
+
+
+<!-- If necessary, more presentations for authentication methods can be added here ... -->
 
 
 <!-- Auth method : email -->
@@ -51,7 +53,7 @@
 					Insira um email válido.
 				</div>
             </div>
-                <p id="domains">Domínios disponíveis: </p>
+            <p id="domains">Domínios disponíveis: </p>
 
             <!-- Submit button -->
             <div class="form-group">
