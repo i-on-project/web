@@ -7,6 +7,10 @@ const port = process.env.PORT || 8080;
 const express = require('express');
 const app = express();
 
+/// Cache
+const Cache = require('./cache/cache.js');
+const myCache = new Cache(1 * 24 * 60 * 60); /// Change
+
 async function configurations() {
 
     /// Paths
@@ -16,7 +20,7 @@ async function configurations() {
 
     const coreDecoratorsPath     = `${dataAccessLayerPath}/core-decorators`
 
-    let pathPrefix = process.env.PATH_PREFIX;
+    let pathPrefix = process.env.PATH_PREFIX; /// TO DO can be simplified
     if(!pathPrefix) pathPrefix = "";
 
     /// ElasticSearch initializer
@@ -28,15 +32,20 @@ async function configurations() {
     let data;
 
     if(process.env.OPERATION_MODE === "standalone") {
+
         data = require(`${dataAccessLayerPath}/mock-data.js`)();
+
     } else {
+
         const core = require(`${dataAccessLayerPath}/core-data.js`)();
 
         /// Decorators
         const coreTransformer = require(`${coreDecoratorsPath}/core-data-transformer.js`)(core);
         const addMissingData  = require(`${coreDecoratorsPath}/core-add-missing-data.js`)(coreTransformer);
-        const cache = require('./i-on-web-cache.js')(addMissingData);
-        data = require('./i-on-web-metadata.js')(cache);
+        const cache = require('./i-on-web-cache.js')(addMissingData, myCache);
+        const metadata = require('./i-on-web-metadata.js')(cache);
+        
+        data = metadata;
     }
 
     /// Auth
@@ -57,7 +66,7 @@ async function configurations() {
     router.use('/auth-api', webAuthApi);
     router.use(webUI);
 
-    router.use('/dependecies', express.static('node_modules')); // TO DO - Remove
+    router.use('/dependecies', express.static('node_modules')); // TO DO todo - Remove
     router.use('/public', express.static('static-files'));
 
     app.use(`${pathPrefix}`, router);
@@ -69,5 +78,5 @@ async function configurations() {
 
 };
 
-setTimeout(configurations , 1000); /// 60 secs - to do: Improve this 
+setTimeout(configurations , 1000); /// 60 secs - TO DO: Improve this and index initializer
 //configurations();
