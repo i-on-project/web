@@ -108,7 +108,7 @@ module.exports = function(data) {
 		/* Adding missing data */ 
 		response = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
 
-		return response;
+		return response.calendarTerm;
 	}
 
 	/* Authentication related methods */

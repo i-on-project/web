@@ -40,7 +40,7 @@ module.exports = function(data, sessionDB) {
 
 		const programmeCalendarTermOffers = offers
 		.filter(course => filteredCoursesId.includes(course.courseId))
-		
+
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign({
 			user: user,
@@ -359,8 +359,8 @@ module.exports = function(data, sessionDB) {
 /******* Helper function *******/
 
 const getCurrentCalendarTerm = async function(data) { 
-	const calendarTermObj = await data.loadCurrentCalendarTerm()
-	return calendarTermObj.calendarTerm;
+	const calendarTerm = await data.loadCurrentCalendarTerm()
+	return calendarTerm;
 }
 
 const getProgrammesByDegree = async function(data){

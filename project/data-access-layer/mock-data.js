@@ -25,7 +25,9 @@ module.exports = function() {
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
 		const data = await getMockData(path);
+
 		return data? {
+			"id": data.id,
 			"courseId": data.courseId,
 			"acronym": data.acronym,
 			"name": data.name,
@@ -75,7 +77,7 @@ module.exports = function() {
 				users[`${email}`] = {
 					"email": email,
 					"username": email.slice(0, email.indexOf("@")),
-					"coursesAndClasses": []
+					"classesAndClassSections": []
 				};
 			}
 		}
@@ -102,35 +104,35 @@ module.exports = function() {
 		const data = await getMockData(path);
 
 		if(data) {
-			for(let i = 0; i < users[user.email].coursesAndClasses.length; i++) {
-				if(users[user.email].coursesAndClasses[i].courseId == courseId)
-					users[user.email].coursesAndClasses[i].classes.push(classSection);
+			for(let i = 0; i < users[user.email].classesAndClassSections.length; i++) {
+				if(users[user.email].classesAndClassSections[i].courseId == courseId)
+					users[user.email].classesAndClassSections[i].classes.push(classSection);
 			} 
-			if(users[user.email].coursesAndClasses.length == 0) {
+			if(users[user.email].classesAndClassSections.length == 0) {
 				const course = data;
 				course['classes'] = [classSection];
-				users[user.email].coursesAndClasses.push(course);
+				users[user.email].classesAndClassSections.push(course);
 			}
 		};
 	}
 
 	const loadUserSubscribedClassesAndClassSections = async function(user) {
-		return users[user.email].coursesAndClasses;
+		return users[user.email].classesAndClassSections;
 	}
 
 	const loadUserSubscribedClassSectionsInClass = async function(user, courseId) { 
-		return users[user.email].coursesAndClasses.filter(course => course.courseId == courseId).find(__ => __).classes;
+		return users[user.email].classesAndClassSections.filter(course => course.courseId == courseId).find(__ => __).classes;
 	}
 
 	const deleteUserClassSection = async function(user, courseId, classSection) {
-		const classSections = users[user.email].coursesAndClasses
+		const classSections = users[user.email].classesAndClassSections
 		.filter(course => course.courseId == courseId).find(__ => __).classes;
 
 		const classSectionsSize = classSections.length;
 
 		for( let i = 0; i < classSectionsSize; i++){ 
 			if ( classSections[i] == classSection) { 
-				users[user.email].coursesAndClasses
+				users[user.email].classesAndClassSections
 				.filter(course => course.courseId == courseId)
 				.find(__ => __).classes.splice(i, 1); 
 			}
@@ -138,9 +140,9 @@ module.exports = function() {
 	}
 
 	const deleteUserClass = async function(user, courseId) {
-		for( let i = 0; i < users[user.email].coursesAndClasses.length; i++){ 
-			if ( users[user.email].coursesAndClasses[i].courseId == courseId) { 
-				users[user.email].coursesAndClasses.splice(i, 1); 
+		for( let i = 0; i < users[user.email].classesAndClassSections.length; i++){ 
+			if ( users[user.email].classesAndClassSections[i].courseId == courseId) { 
+				users[user.email].classesAndClassSections.splice(i, 1); 
 			}
 		}
 	}
