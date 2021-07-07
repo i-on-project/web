@@ -2,11 +2,18 @@
 
 module.exports = function(data) {
 
-	const loadAllProgrammes = async function () {
+	const loadAllProgrammes = async function (metadata) {
 		
-		const receivedData = await data.loadAllProgrammes();
+		const receivedData = await data.loadAllProgrammes(metadata);
 		
-		const transformedData = receivedData.entities
+		const receivedmetadata = {
+			"ETag": receivedData.headers.get('ETag'),
+			"cache-control-max-age": receivedData.headers.get('cache-control-max-age')
+		}
+
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+
+		const transformedData = receivedData.data.entities
 		.map(entities => entities.properties)
 		.reduce(function(response, currentProgramme) {
 			const programme = {
@@ -19,7 +26,10 @@ module.exports = function(data) {
 			return response;
 		}, []);
 
-		return transformedData;
+		return {
+			"metadata": receivedmetadata,
+			"data": transformedData
+		};
 	};
 	/* Return Example:
 	* [{

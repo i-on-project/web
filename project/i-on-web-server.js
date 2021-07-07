@@ -35,7 +35,8 @@ async function configurations() {
         /// Decorators
         const coreTransformer = require(`${coreDecoratorsPath}/core-data-transformer.js`)(core);
         const addMissingData  = require(`${coreDecoratorsPath}/core-add-missing-data.js`)(coreTransformer);
-        data = addMissingData; // require('./i-on-web-cache.js')(addMissingData); // ... add cache ...
+        const cache = require('./i-on-web-cache.js')(addMissingData);
+        data = require('./i-on-web-metadata.js')(cache);
     }
 
     /// Auth

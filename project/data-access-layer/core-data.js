@@ -9,7 +9,7 @@ const contentType = 'application/json';
 const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
 const client_id = process.env.CORE_CLIENT_ID; /// TO DO: In future remove dev client id
-const client_secret = "gntBY4mjX8PH4_5_i_H54fMFLl2x15Q0O4jWXodQ4aPmofF4i6VBf39tXi5vhdjA2WZ-5hwaOXAL11oibnZ8og"//process.env.CORE_CLIENT_SECRET;
+const client_secret = process.env.CORE_CLIENT_SECRET;
 
 const coreRequest = async function(endpoint, expectedStatus, options) {
 	// core_url + endpoint
@@ -21,17 +21,33 @@ const coreRequest = async function(endpoint, expectedStatus, options) {
 
 module.exports = function() {
 
-	const loadAllProgrammes = async function () {
+	const loadAllProgrammes = async function (metadata) {
 		try {
 			
 			const options = {
 				method: 'GET',
-				headers: {
-					'Authorization': read_token,
-					'Content-Type': contentType,
-				}
+				headers: Object.assign(
+					{ "ETag": metadata.ETag }, 
+					{
+						'Authorization': read_token,
+						'Content-Type': contentType,
+					}
+				)
 			};
-			return await coreRequest('/api/programmes/', 200, options);	
+			const response = await fetch('/api/programmes/', options);	
+
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": response.json()
+				}
+			} else if(response.status === 204) {
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {

@@ -2,15 +2,16 @@
 
 module.exports = function(data) {
 
-	const loadAllProgrammes = async function () {
+	const loadAllProgrammes = async function (metadata) {
 		
-		const response = await data.loadAllProgrammes();
+		const response = await data.loadAllProgrammes(metadata);
 
+		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
 
 		/*** Adding missing data ***/
 		const mockDataToBeAdded = await getMockData('/programmes');
-		
-		const improvedData = response
+
+		const improvedData = response.data
 		.map( programme => {
 			const mockProgramme = mockDataToBeAdded
 			.find( mockProgramme => mockProgramme.programmeId == programme.programmeId);
@@ -20,8 +21,17 @@ module.exports = function(data) {
 
 			return programme;
 		});
-		
-		return improvedData;
+
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": hash(improvedPayloadData),
+			"max-age": 24 * 60 * 60
+		}
+
+		return {
+			"metadata": improvedMetadata,
+			"data": improvedData
+		};
 	};
 
 	const loadAllProgrammeOffers = async function (programmeId) {
