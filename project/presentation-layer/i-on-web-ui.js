@@ -109,7 +109,7 @@ function webui(service, auth) {
 		editProfile: async function(req, res) {
 			try {
 				await service.editProfile(req.user, req.body);
-				res.redirect('/profile');
+				res.redirect('/users/profile');
 			} catch(err) {
 				await onErrorResponse(res, err, 'Failed to show About Page');
 			}
@@ -158,27 +158,27 @@ function webui(service, auth) {
 
 	/******* Mapping requests to handlers according to the path *******/
 
-	router.get(	'/', 					theWebUI.home											);	/// Home page
+	router.get(	'/', 						theWebUI.home								);	/// Home page
 
-	router.get(	'/programme/:id', 		theWebUI.programme										);	/// Programme info page
-	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers					); 	/// Programme offers page
+	router.get(	'/programmes/:id', 			theWebUI.programme							);	/// Programme info page
+	router.get(	'/programme-offers/:id',	theWebUI.programmeCalendarTermOffers		); 	/// Programme offers page
 	
-	router.get(	'/available-class-sections',	theWebUI.classSectionsFromSelectedClasses		);		/// Available classes of the selected courses
-	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections			);	/// todo review
+	router.get(	'/available-class-sections',theWebUI.classSectionsFromSelectedClasses	);	/// Available classes of the selected courses
+	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections	);
 
-	router.get(	'/classes',				theWebUI.userClassesAndClassSections					); 	/// Users courses page
-	router.post('/classes/edit',		theWebUI.userClassesAndClassSectionsEdit				);
-	router.get(	'/schedule', 			theWebUI.userSchedule									);	/// Users schedule page
-	router.get(	'/calendar', 			theWebUI.userCalendar									);	/// Users calendar page
+	router.get(	'/classes',					theWebUI.userClassesAndClassSections		); 	/// Users courses page
+	router.post('/classes/edit',			theWebUI.userClassesAndClassSectionsEdit	);
+	router.get(	'/schedule', 				theWebUI.userSchedule						);	/// Users schedule page
+	router.get(	'/calendar', 				theWebUI.userCalendar						);	/// Users calendar page
 
-	router.get(	'/about', 				theWebUI.about							);	/// About Page
-	router.get( '/profile', 			theWebUI.profile						);  /// User Profile Page
-	router.post('/profile', 			theWebUI.editProfile					);
-	router.post('/delete-user',         theWebUI.deleteUser						);
+	router.get(	'/about', 					theWebUI.about								);	/// About Page
+	router.get( '/users/profile', 			theWebUI.profile							);  /// User Profile Page
+	router.post('/users/profile', 			theWebUI.editProfile						);
+	router.post('/users/delete',        	theWebUI.deleteUser							);
 
 	/*** Auth ***/
-	router.get(	'/login',				theWebUI.loginUI			   							);	/// Login UI page
-	router.get(	'/logout',				theWebUI.logout											);
+	router.get(	'/login',					theWebUI.loginUI			   				);	/// Login UI page
+	router.get(	'/logout',					theWebUI.logout								);
 
 	return router;
 }

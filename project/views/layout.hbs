@@ -73,7 +73,7 @@
 											<a  class="dropdown-item" href="#">Licenciaturas</a>
 											<ul class="dropdown-menu">
 												{{#each bachelor}}
-													<li class="dropdown-item"><a href="/programme/{{this.programmeId}}">{{this.acronym}}</a></li>
+													<li class="dropdown-item"><a href="/programmes/{{this.programmeId}}">{{this.acronym}}</a></li>
 												{{/each}}
 											</ul>
 										</li>
@@ -81,7 +81,7 @@
 											<a  class="dropdown-item" href="#">Mestrados</a>
 											<ul class="dropdown-menu">
 												{{#each master}}
-													<li class="dropdown-item"><a href="/programme/{{this.programmeId}}">{{this.acronym}}</a></li>
+													<li class="dropdown-item"><a href="/programmes/{{this.programmeId}}">{{this.acronym}}</a></li>
 												{{/each}}
 											</ul>
 										</li>
@@ -100,7 +100,7 @@
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
 					  	{{#if user}}
-							<a href="/profile" class="nav-link"><i class="fa fa-fw fa-user fa-lg" aria-hidden="true"></i><strong>{{user.username}}</strong></a>
+							<a href="/users/profile" class="nav-link"><i class="fa fa-fw fa-user fa-lg" aria-hidden="true"></i><strong>{{user.username}}</strong></a>
 						{{/if}}
 					</li>
 					<li class="nav-item">

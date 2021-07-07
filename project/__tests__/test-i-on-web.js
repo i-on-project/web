@@ -94,13 +94,13 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/programme/:id'", () => {
+	describe("Testing '/programmes/:id'", () => {
 		
-		describe('GET /programme/:id', () => {
+		describe('GET /programmes/:id', () => {
 		
 			it ('should return programme info page', () => {
 				return frisby
-				.fetch(`${app_base_url}/programme/1`)
+				.fetch(`${app_base_url}/programmes/1`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
@@ -263,15 +263,15 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/profile'", () => {
+	describe("Testing '/users/profile'", () => {
 		
-		describe('GET /profile', () => {
+		describe('GET /users/profile', () => {
 		
 			
 		});
 
 
-		describe('POST /profile', () => {
+		describe('POST /users/profile', () => {
 		
 
 			

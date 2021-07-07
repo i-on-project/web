@@ -23,7 +23,7 @@
             <!-- Edit button -->
             <button type="button" onclick=edit() class="btn btn-outline-dark pull-right" aria-hidden="true">Editar perfil</button> 
             
-            <form method="POST" action="/delete-user">
+            <form method="POST" action="/users/delete">
                 <!-- Delete user account button -->
                 <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Apagar conta</button>
             </form>
@@ -31,7 +31,7 @@
          
  
         <!-- Edit Profile Form -->
-        <form method="POST" action="/profile" id="editingProfile" style="display:none">
+        <form method="POST" action="/users/profile" id="editingProfile" style="display:none">
 
             <!-- Disclaimer -->
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -74,7 +74,7 @@
                 <button type="button" onclick=back() class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</button>
 
                 <!-- Save button -->
-                <button type="submit" href="/profile" class="btn btn-success pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar alterações</button>
+                <button type="submit" href="/users/profile" class="btn btn-success pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar alterações</button>
             </div>
 
         </form>
