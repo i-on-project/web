@@ -49,7 +49,7 @@ describe(`Integration tests on ${app_base_url}`, () => {
 		});
 	});
 
-	beforeAll(async function () {
+/*	beforeAll(async function () {
 		return frisby
 		.fetch(`${app_base_url}/auth-api/email`, {
 			method: 'POST',
@@ -73,7 +73,7 @@ describe(`Integration tests on ${app_base_url}`, () => {
 			});
 		})
 	
-	});
+	});*/
 
 	describe("Testing '/'", () => {
 		

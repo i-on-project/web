@@ -61,15 +61,6 @@ function webui(service, auth) {
 			}
 		},
 
-		userClassesAndClassSectionsEditUI: async function(req, res) {
-			try {
-				const data = await service.getUserSubscribedClassesAndClassSections(req.user);
-				res.render('user-classes-edit', data);
-			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show User Courses');
-			}
-		},
-
 		userClassesAndClassSectionsEdit: async function(req, res) {
 			try {
 				await service.editUserSubscribedClassesAndClassSections(req.user, req.body);
@@ -177,7 +168,6 @@ function webui(service, auth) {
 	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections			);	/// todo review
 
 	router.get(	'/classes',				theWebUI.userClassesAndClassSections					); 	/// Users courses page
-	router.get(	'/classes/edit',		theWebUI.userClassesAndClassSectionsEditUI				);
 	router.post('/classes/edit',		theWebUI.userClassesAndClassSectionsEdit				);
 	router.get(	'/schedule', 			theWebUI.userSchedule									);	/// Users schedule page
 	router.get(	'/calendar', 			theWebUI.userCalendar									);	/// Users calendar page
