@@ -1,21 +1,16 @@
 'use strict'
 
-
-const default_ttl = 60;
-const myCache = new Cache(default_ttl); /// 1 Day
-
-
-module.exports = function(data) {
+module.exports = function(data, myCache) {
 
 	const loadAllProgrammes = async function() {
 
 		const key = "programmes";
 
-		const fetchFunction = function() {
+		const fetchFunction = function() { /// TO DO test if this really works
 			return data.loadAllProgrammes(...arguments);
 		}
 
-		return getData(key, fetchFunction, default_ttl);
+		return getData(myCache, key, fetchFunction, default_ttl);
 
 	};
 
@@ -27,11 +22,12 @@ module.exports = function(data) {
 
 /******* Helper functions *******/
 
-const getData = async function(key, fetchNewData, ttl) {
+const getData = async function(myCache, key, fetchNewData, ttl) {
 	
 	let value = myCache.get(key);
 
 	if(!value) {										/// Value does not exists
+
 		console.log("\n[Cache] - Value does not exists")
 		console.log("key: " + key + "function: " + fetchNewData + "ttl: " + ttl);
 		value = await fetchNewData();
@@ -39,10 +35,11 @@ const getData = async function(key, fetchNewData, ttl) {
 		myCache.set(key, value);
 
 	} else if (myCache.hasExpired(key)) {				/// Value already exists but expired -> conditional request
+
 		console.log("\n[Cache] - Value already exists but expired -> conditional request")
 		
-		console.log("--> " + value.metadata.lastModified)
-		const resp = await fetchNewData.apply(this, [value.metadata.lastModified]);
+		console.log("--> " + value.metadata.ETag)
+		const resp = await fetchNewData.apply(this, [value.metadata.ETag]);
 
 		if(resp) {	/// The resource has been modified since the given date
 			value = resp;
@@ -51,7 +48,9 @@ const getData = async function(key, fetchNewData, ttl) {
 			myCache.ttl(key, ttl);
 		}
 
-	} else {console.log("\n[Cache] - Value exists")}
+	} else {
+		console.log("\n[Cache] - Value exists")
+	}
 
 	//console.log('\n[Cache] - stored in cache: ' + JSON.stringify(value));
 	return value;

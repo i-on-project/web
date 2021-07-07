@@ -43,7 +43,7 @@ async function configurations() {
         const coreTransformer = require(`${coreDecoratorsPath}/core-data-transformer.js`)(core);
         const addMissingData  = require(`${coreDecoratorsPath}/core-add-missing-data.js`)(coreTransformer);
         const cache = require('./i-on-web-cache.js')(addMissingData, myCache);
-        const metadata = require('./i-on-web-metadata.js')(cache, myCache);
+        const metadata = require('./i-on-web-metadata.js')(cache);
         
         data = metadata;
 
