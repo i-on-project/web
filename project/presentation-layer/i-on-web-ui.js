@@ -126,6 +126,7 @@ function webui(service, auth) {
 
 		deleteUser: async function(req, res) {
 			try {
+				console.log('ENTROU');
 				await auth.deleteUser(req);
 				res.redirect('/');
 			} catch(err) {
@@ -184,7 +185,7 @@ function webui(service, auth) {
 	router.get(	'/about', 				theWebUI.about							);	/// About Page
 	router.get( '/profile', 			theWebUI.profile						);  /// User Profile Page
 	router.post('/profile', 			theWebUI.editProfile					);
-	router.get(	'/delete-user',         theWebUI.deleteUser						);
+	router.post('/delete-user',         theWebUI.deleteUser						);
 
 	/*** Auth ***/
 	router.get(	'/login',				theWebUI.loginUI			   			);	/// Login UI page
