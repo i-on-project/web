@@ -209,9 +209,7 @@ describe('Services', function () {
 				},
 
 				loadCurrentCalendarTerm: async function() {
-					return {
-						"calendarTerm": "2021i"
-					};
+					return "2021i";
 				},
 
 				loadCalendarTermGeneralInfo: async function(calendarTerm) {
@@ -358,9 +356,7 @@ describe('Services', function () {
 				},
 
 				loadCurrentCalendarTerm: async function() {
-					return {
-						"calendarTerm": "2021i"
-					};
+					return "2021i";
 				}
 			}
 			const sessionDB = null;
@@ -624,9 +620,7 @@ describe('Services', function () {
 				},
 
 				loadCurrentCalendarTerm: async function() {
-					return {
-						"calendarTerm": "2021i"
-					};
+					return "2021i";
 				},
 
 				loadUserSubscribedClassesAndClassSections: async function(user) {
@@ -699,9 +693,7 @@ describe('Services', function () {
 				},
 
 				loadCurrentCalendarTerm: async function() {
-					return {
-						"calendarTerm": "2021i"
-					};
+					return "2021i";
 				},
 
 				loadUserSubscribedClassesAndClassSections: async function(user) {
@@ -786,9 +778,7 @@ describe('Services', function () {
 				},
 
 				loadCurrentCalendarTerm: async function() {
-					return {
-						"calendarTerm": "2021v"
-					};
+					return "2021v";
 				},
 
 				loadCalendarTermGeneralInfo: async function() {
@@ -894,9 +884,7 @@ describe('Services', function () {
 				},
 
 				loadCurrentCalendarTerm: async function() {
-					return {
-						"calendarTerm": "2021v"
-					};
+					return "2021v";
 				},
 
 				loadCalendarTermGeneralInfo: async function() {
@@ -1064,9 +1052,7 @@ describe('Services', function () {
 				},
 
 				loadCurrentCalendarTerm: async function() {
-					return {
-						"calendarTerm": "2021v"
-					};
+					return "2021v";
 				},
 
 				loadUserSubscribedClassesAndClassSections: async function(user) {
@@ -1149,11 +1135,10 @@ describe('Services', function () {
 				},
 
 				loadCurrentCalendarTerm: async function() {
-					return {
-						"calendarTerm": "2021i"
-					};
+					return "2021i";
 				}
 			}
+
 			const sessionDB = null;
 
 			const service = serviceCreator(data, sessionDB);
