@@ -25,7 +25,9 @@ module.exports = function() {
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
 		const data = await getMockData(path);
+
 		return data? {
+			"id": data.id,
 			"courseId": data.courseId,
 			"acronym": data.acronym,
 			"name": data.name,
@@ -75,7 +77,7 @@ module.exports = function() {
 				users[`${email}`] = {
 					"email": email,
 					"username": email.slice(0, email.indexOf("@")),
-					"coursesAndClasses": []
+					"classesAndClassSections": []
 				};
 			}
 		}
@@ -97,50 +99,50 @@ module.exports = function() {
 
 	/* User related methods */
 
-	const saveUserChosenCoursesAndClasses = async function(user, courseId, classSection) { 
+	const saveUserClassesAndClassSections = async function(user, courseId, classSection) { 
 		const path = '/user-courses/' + courseId;
 		const data = await getMockData(path);
 
 		if(data) {
-			for(let i = 0; i < users[user.email].coursesAndClasses.length; i++) {
-				if(users[user.email].coursesAndClasses[i].courseId == courseId)
-					users[user.email].coursesAndClasses[i].classes.push(classSection);
+			for(let i = 0; i < users[user.email].classesAndClassSections.length; i++) {
+				if(users[user.email].classesAndClassSections[i].courseId == courseId)
+					users[user.email].classesAndClassSections[i].classes.push(classSection);
 			} 
-			if(users[user.email].coursesAndClasses.length == 0) {
+			if(users[user.email].classesAndClassSections.length == 0) {
 				const course = data;
 				course['classes'] = [classSection];
-				users[user.email].coursesAndClasses.push(course);
+				users[user.email].classesAndClassSections.push(course);
 			}
 		};
 	}
 
-	const loadUserSubscribedCourses = async function(user) {
-		return users[user.email].coursesAndClasses;
+	const loadUserSubscribedClassesAndClassSections = async function(user) {
+		return users[user.email].classesAndClassSections;
 	}
 
-	const loadUserSubscribedClassesInCourse = async function(user, courseId) { 
-		return users[user.email].coursesAndClasses.filter(course => course.courseId == courseId).find(__ => __).classes;
+	const loadUserSubscribedClassSectionsInClass = async function(user, courseId) { 
+		return users[user.email].classesAndClassSections.filter(course => course.courseId == courseId).find(__ => __).classes;
 	}
 
-	const deleteUserClass = async function(user, courseId, classSection) {
-		const classSections = users[user.email].coursesAndClasses
+	const deleteUserClassSection = async function(user, courseId, classSection) {
+		const classSections = users[user.email].classesAndClassSections
 		.filter(course => course.courseId == courseId).find(__ => __).classes;
 
 		const classSectionsSize = classSections.length;
 
 		for( let i = 0; i < classSectionsSize; i++){ 
 			if ( classSections[i] == classSection) { 
-				users[user.email].coursesAndClasses
+				users[user.email].classesAndClassSections
 				.filter(course => course.courseId == courseId)
 				.find(__ => __).classes.splice(i, 1); 
 			}
 		}
 	}
 
-	const deleteUserCourse = async function(user, courseId) {
-		for( let i = 0; i < users[user.email].coursesAndClasses.length; i++){ 
-			if ( users[user.email].coursesAndClasses[i].courseId == courseId) { 
-				users[user.email].coursesAndClasses.splice(i, 1); 
+	const deleteUserClass = async function(user, courseId) {
+		for( let i = 0; i < users[user.email].classesAndClassSections.length; i++){ 
+			if ( users[user.email].classesAndClassSections[i].courseId == courseId) { 
+				users[user.email].classesAndClassSections.splice(i, 1); 
 			}
 		}
 	}
@@ -174,11 +176,11 @@ module.exports = function() {
 		pollingCore : pollingCore,
 
 		/* User related methods */
-		saveUserChosenCoursesAndClasses : saveUserChosenCoursesAndClasses,
-		loadUserSubscribedCourses : loadUserSubscribedCourses,
-		loadUserSubscribedClassesInCourse : loadUserSubscribedClassesInCourse,
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
+		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
+		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
+		deleteUserClassSection : deleteUserClassSection,
 		deleteUserClass : deleteUserClass,
-		deleteUserCourse : deleteUserCourse,
 		editUser : editUser,
 		loadUser : loadUser,
 		deleteUser : deleteUser

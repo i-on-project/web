@@ -61,15 +61,6 @@ function webui(service, auth) {
 			}
 		},
 
-		userClassesAndClassSectionsEditUI: async function(req, res) {
-			try {
-				const data = await service.getUserSubscribedClassesAndClassSections(req.user);
-				res.render('user-classes-edit', data);
-			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show User Courses');
-			}
-		},
-
 		userClassesAndClassSectionsEdit: async function(req, res) {
 			try {
 				await service.editUserSubscribedClassesAndClassSections(req.user, req.body);
@@ -167,19 +158,18 @@ function webui(service, auth) {
 
 	/******* Mapping requests to handlers according to the path *******/
 
-	router.get(	'/', 					theWebUI.home							);	/// Home page
+	router.get(	'/', 					theWebUI.home											);	/// Home page
 
-	router.get(	'/programme/:id', 		theWebUI.programme						);	/// Programme info page
-	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers	); 	/// Programme offers page
+	router.get(	'/programme/:id', 		theWebUI.programme										);	/// Programme info page
+	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers					); 	/// Programme offers page
 	
 	router.get(	'/available-class-sections',	theWebUI.classSectionsFromSelectedClasses		);		/// Available classes of the selected courses
-	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections);	/// todo review
+	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections			);	/// todo review
 
 	router.get(	'/classes',				theWebUI.userClassesAndClassSections					); 	/// Users courses page
-	router.get(	'/classes/edit',		theWebUI.userClassesAndClassSectionsEditUI				);
 	router.post('/classes/edit',		theWebUI.userClassesAndClassSectionsEdit				);
-	router.get(	'/schedule', 			theWebUI.userSchedule					);	/// Users schedule page
-	router.get(	'/calendar', 			theWebUI.userCalendar					);	/// Users calendar page
+	router.get(	'/schedule', 			theWebUI.userSchedule									);	/// Users schedule page
+	router.get(	'/calendar', 			theWebUI.userCalendar									);	/// Users calendar page
 
 	router.get(	'/about', 				theWebUI.about							);	/// About Page
 	router.get( '/profile', 			theWebUI.profile						);  /// User Profile Page
@@ -187,8 +177,8 @@ function webui(service, auth) {
 	router.post('/delete-user',         theWebUI.deleteUser						);
 
 	/*** Auth ***/
-	router.get(	'/login',				theWebUI.loginUI			   			);	/// Login UI page
-	router.get(	'/logout',				theWebUI.logout							);
+	router.get(	'/login',				theWebUI.loginUI			   							);	/// Login UI page
+	router.get(	'/logout',				theWebUI.logout											);
 
 	return router;
 }
