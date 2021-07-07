@@ -199,6 +199,8 @@ module.exports = function(data, sessionDB) {
 					if(classes.length === 0)
 						await data.deleteUserClass(user, id);
 				}
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
 			}
 		} catch (err) {
 			switch (err) {
@@ -242,6 +244,8 @@ module.exports = function(data, sessionDB) {
 						await data.saveUserClassesAndClassSections(user, id, selectedClassesAndClassSections[id]);
 					}
 				}
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
 			}
 
 		} catch (err) {
