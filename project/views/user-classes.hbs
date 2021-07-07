@@ -6,7 +6,7 @@
 
         {{#if userClasses}} <!-- If the user has selected any courses -->
             
-            <form method="POST" action="/classes/edit">
+            <form method="POST" action="/classes/edit" onsubmit="return confirm('Tem a certeza que pretende anular a inscrição a estas turmas?');">
 
                 {{#each userClasses}} <!-- Iterate all user courses -->
                     {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->
@@ -17,24 +17,22 @@
                     {{/each}}
                 {{/each}}
 
-                <div id="editing" class="divSpacing" style="display:none">
+
+                <!-- Buttons -->
+
+                <div id="notEditing" class="buttonsDiv">
+                    <button type="button" onclick=edit() class="btn btn-outline-dark">Editar</a>
+                </div>
+
+                <div id="editing" class="buttonsDiv" style="display:none">
                     <!-- Back button -->
                     <button type="button" onclick=back() class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</button>
      
-                    {{#if user.programme}}
-                        <!-- Choose more classes button -->
-                        <a type="button" class="btn btn-outline-dark pull-right" href="/programme-offers/{{user.programme}}">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-                    {{else}}
-                        <a type="button" class="btn btn-outline-dark pull-right" href="/profile">Selecionar curso <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-                    {{/if}}
-                    <!-- Save button -->
-                    <button type="submit" onclick=clickConfirm() class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remover turmas</button>
+                    <!-- Delete classes button -->
+                    <button type="submit" class="btn btn-danger pull-right"><i class="fa fa-trash" aria-hidden="true"></i> Remover turmas</button>
                 </div>
 
-                <div id="notEditing" class="divSpacing">
-                    <button type="button" onclick=edit() class="btn btn-outline-dark">Editar</a>
-                 </div>
-
+             
             </form>
 
    
@@ -71,4 +69,5 @@
     function clickConfirm() {
         confirm("Tem a certeza que pretende eliminar os items selecionados?");
     }
+
 </script>

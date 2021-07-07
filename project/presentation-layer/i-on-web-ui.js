@@ -126,7 +126,6 @@ function webui(service, auth) {
 
 		deleteUser: async function(req, res) {
 			try {
-				console.log('ENTROU');
 				await auth.deleteUser(req);
 				res.redirect('/');
 			} catch(err) {
