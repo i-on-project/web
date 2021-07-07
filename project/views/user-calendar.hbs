@@ -186,6 +186,7 @@
    }
 
    function addEvent(title, desc, date) {
+     
       if (!globalEventObj[date.toDateString()]) {
          globalEventObj[date.toDateString()] = {};
       }
@@ -227,15 +228,11 @@
 
             eventsCount++;
          }
-         let emptyFormMessage = document.getElementById("emptyFormTitle");
-         emptyFormMessage.innerHTML = `${eventsCount} events now`;
       } else {
          let emptyMessage = document.createElement("div");
          emptyMessage.className = "empty-message";
          emptyMessage.innerHTML = "Não existem eventos na data selecionada.";
          sidebarEvents.appendChild(emptyMessage);
-         let emptyFormMessage = document.getElementById("emptyFormTitle");
-         emptyFormMessage.innerHTML = "No events now";
       }
    }
 
@@ -289,7 +286,7 @@
  
   /* User tests and exams */
    let testsAndExams = [];
-     
+
    {{#each events.testsAndExams}}
          testsAndExams.push({
             'event'     : '{{this.event}}',
@@ -299,15 +296,13 @@
             'location'  : '{{this.location}}'
          });
    {{/each}}
-
-  
+    
    testsAndExams.forEach(testsAndExams => {
       const title = testsAndExams.event;
       const desc = "Das " + testsAndExams.startTime  + " às " + testsAndExams.endTime + " no " + testsAndExams.location;
       const receivedDate = testsAndExams.date.split('-');
       const date = new Date(receivedDate[0], receivedDate[1]-1, receivedDate[2]);
       addEvent(title, desc, date);
-
    });
 
    /* Calendar Info */
@@ -328,7 +323,6 @@
       const receivedDate = calendarInfo.date.split('-');
       const date = new Date(receivedDate[0], receivedDate[1]-1, receivedDate[2]);
       addEvent(title, desc, date);
-
    });
 
    if (!selectedDayBlock.querySelector(".day-mark")) {

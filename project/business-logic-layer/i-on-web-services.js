@@ -40,7 +40,7 @@ module.exports = function(data, sessionDB) {
 
 		const programmeCalendarTermOffers = offers
 		.filter(course => filteredCoursesId.includes(course.courseId))
-		
+
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign({
 			user: user,
@@ -153,7 +153,7 @@ module.exports = function(data, sessionDB) {
 
 	const getUserSubscribedClassesAndClassSections = async function(user) {
 		try {
-			let userClasses;
+			let userClasses = [];
 			if(user) {
 				const calendarTerm = await getCurrentCalendarTerm(data);
 				const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
@@ -199,6 +199,8 @@ module.exports = function(data, sessionDB) {
 					if(classes.length === 0)
 						await data.deleteUserClass(user, id);
 				}
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
 			}
 		} catch (err) {
 			switch (err) {
@@ -242,6 +244,8 @@ module.exports = function(data, sessionDB) {
 						await data.saveUserClassesAndClassSections(user, id, selectedClassesAndClassSections[id]);
 					}
 				}
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
 			}
 
 		} catch (err) {
@@ -355,8 +359,8 @@ module.exports = function(data, sessionDB) {
 /******* Helper function *******/
 
 const getCurrentCalendarTerm = async function(data) { 
-	const calendarTermObj = await data.loadCurrentCalendarTerm()
-	return calendarTermObj.calendarTerm;
+	const calendarTerm = await data.loadCurrentCalendarTerm()
+	return calendarTerm;
 }
 
 const getProgrammesByDegree = async function(data){

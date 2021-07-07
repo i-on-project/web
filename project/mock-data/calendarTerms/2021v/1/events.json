@@ -1,0 +1,30 @@
+{
+  "assignments": [
+    {
+      "event": "[SL]: Assignment #1",
+      "date": "2021-04-08",
+      "time": "23:59"
+    },
+    {
+      "event": "[SL]: Assignment #2",
+      "date": "2021-06-20",
+      "time": "23:59"
+    }
+  ],
+  "testsAndExams": [
+    {
+      "event": "1st Exam SL",
+      "date": "2021-06-10",
+      "startTime": "18:00",
+      "endTime": "19:30",
+      "location": "A.2.5"
+    },
+    {
+      "event": "2nd Exam SL",
+      "date": "2021-07-24",
+      "startTime": "10:00",
+      "endTime": "12:30",
+      "location": "F.1.2"
+    }
+  ]
+}
