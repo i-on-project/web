@@ -173,10 +173,7 @@ module.exports = function() {
 		try {
 		
 			return {
-				"metadata": {
-					"ETag": undefined,
-					"cache-control-max-age": undefined
-				},
+				"metadata": new Map(),
 				"data": {}
 			}; // Request still not suported by i-on Core
 
@@ -268,7 +265,7 @@ module.exports = function() {
 		try {
 		
 			return {
-				"metadata": {},
+				"metadata": new Map(),
 				"data": {}
 			}; // Request still not suported by i-on Core
 
@@ -285,7 +282,7 @@ module.exports = function() {
 	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
 		try {
 			return {
-				"metadata": {},
+				"metadata": new Map(),
 				"data": {}
 			}; // Request still not suported by i-on Core
 

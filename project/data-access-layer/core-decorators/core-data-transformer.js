@@ -198,9 +198,9 @@ module.exports = function(data) {
 
 		const receivedData = await data.loadAboutData(metadata);
 
-		const receivedmetadata = { // TO DO
-			"ETag": receivedData.metadata,
-			"cache-control-max-age": receivedData.metadata
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -372,8 +372,8 @@ module.exports = function(data) {
 		const receivedData = await data.loadCurrentCalendarTerm(metadata);
 
 		const receivedmetadata = {
-			//"ETag": receivedData.metadata.get('ETag'),
-			//"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"ETag": receivedData.metadata.get('ETag'),
+			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -388,8 +388,8 @@ module.exports = function(data) {
 		const receivedData = data.loadCalendarTermGeneralInfo(calendarTerm, metadata);
 
 		const receivedmetadata = {
-			//"ETag": receivedData.metadata.get('ETag'),
-			//"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"ETag": receivedData.metadata.get('ETag'),
+			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
