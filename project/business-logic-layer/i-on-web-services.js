@@ -31,7 +31,7 @@ module.exports = function(data, sessionDB) {
 		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
 
 		const calendarTerm = await getCurrentCalendarTerm(data);
-
+	
 		const filteredCoursesId = [];
 		for(let i = 0; i < courseIDs.length; i++) {
 			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm);

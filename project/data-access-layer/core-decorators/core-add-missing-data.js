@@ -34,14 +34,16 @@ module.exports = function(data) {
 		};
 	};
 
-	const loadAllProgrammeOffers = async function (programmeId) {
-		const response = await data.loadAllProgrammeOffers(programmeId);
+	const loadAllProgrammeOffers = async function (programmeId, metadata) {
+		const response = await data.loadAllProgrammeOffers(programmeId, metadata);
+
+		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
 
 		/* Adding missing data */ 
 		const path = '/offers/' + programmeId;
 		const mockDataToBeAdded = await getMockData(path);
 
-		const improvedResponse = response.map( offer => {
+		const improvedData = response.data.map( offer => {
 			const mockOffer = mockDataToBeAdded
 			.find( mockOffer => mockOffer.courseId == offer.courseId);
 
@@ -53,78 +55,186 @@ module.exports = function(data) {
 			return offer;
 		})
 
-		return improvedResponse;
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": 'hash(improvedData)',
+			"max-age": 10
+		}
+		
+		return {
+			"metadata": improvedMetadata,
+			"data": improvedData
+		};
 	};
 
-	const loadProgrammeData = async function (programmeId) {
-		const response = await data.loadProgrammeData(programmeId);
+	const loadProgrammeData = async function (programmeId, metadata) {
+		
+		const response = await data.loadProgrammeData(programmeId, metadata);
 	
+		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
+
 		/* Adding missing data */
 		const path = '/programmes/' + programmeId;
 		const mockDataToBeAdded = await getMockData(path);
-		
-		// TO DO - Change
-		response.name = mockDataToBeAdded.name;
-		response["department"] = mockDataToBeAdded.department;
-		response["department"] = mockDataToBeAdded.department;
-		response["coordination"] = mockDataToBeAdded.coordination;
-		response["contacts"] = mockDataToBeAdded.contacts;
-		response["sourceLink"] = mockDataToBeAdded.sourceLink;
-		response["description"] = mockDataToBeAdded.description;
 
-		return response;
+		const improvedData = {
+			"id": response.data.id,
+			"name": mockDataToBeAdded.name,
+			"department": mockDataToBeAdded.department,
+			"coordination": mockDataToBeAdded.coordination,
+			"contacts": mockDataToBeAdded.contacts,
+			"sourceLink": mockDataToBeAdded.sourceLink,
+			"description": mockDataToBeAdded.description
+		}
+
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": 'hash(improvedData)',
+			"max-age": 10
+		}
+		
+		return {
+			"metadata": improvedMetadata,
+			"data": improvedData
+		};
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
-		const response = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm) ;
+	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm, metadata)  {
+	
+		const response = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, metadata) ;
+		
+		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
 
 		/* Adding missing data */
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
 		const mockDataToBeAdded = await getMockData(path);
 
-		response['name'] = mockDataToBeAdded.name;
-		return response;
+		const improvedData = response.data;
+		improvedData['name'] = mockDataToBeAdded.name;
+	
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": 'hash(improvedData)',
+			"max-age": 10
+		}
+		
+		return {
+			"metadata": improvedMetadata,
+			"data": improvedData
+		};
 	}
 
-	const loadAboutData = async function () {
-		let response = await data.loadAboutData();
-
+	const loadAboutData = async function (metadata) {
+		const response = await data.loadAboutData(metadata);
+		
+		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
+		
 		/* Adding missing data */ 
-		response = await getMockData('/i-on-team');
+		const improvedData = await getMockData('/i-on-team');
 
-		return response;
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": 'hash(improvedData)',
+			"max-age": 10
+		}
+		
+		return {
+			"metadata": improvedMetadata,
+			"data": improvedData
+		};
 	};
 
-	const loadClassSectionSchedule = function(courseId, calendarTerm, classSection) {
-		return data.loadClassSectionSchedule(courseId, calendarTerm, classSection);
+	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) { 
+		const response = data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
+		
+		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
+				
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": 'hash(improvedData)',
+			"max-age": 10
+		}
+		
+		return {
+			"metadata": improvedMetadata,
+			"data": response
+		};
 	}
 
-	const loadCourseEventsInCalendarTerm = function(courseId, calendarTerm) {
-		return data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
+	const loadCourseEventsInCalendarTerm = function(courseId, calendarTerm, metadata) {
+		const response = data.loadCourseEventsInCalendarTerm(courseId, calendarTerm, metadata);
+
+		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
+				
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": 'hash(improvedData)',
+			"max-age": 10
+		}
+		
+		return {
+			"metadata": improvedMetadata,
+			"data": response
+		};
 	}
 
-	const loadCurrentCalendarTerm = async function() {
-		let response = await data.loadCurrentCalendarTerm();
+	const loadCurrentCalendarTerm = async function(metadata) {
+		const response = await data.loadCurrentCalendarTerm(metadata);
 
+		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
+		
 		/* Adding missing data */ 
-		response = await getMockData('/current_calendar_term');
-
-		return response;
+		const improvedData = await getMockData('/current_calendar_term');
+				
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": 'hash(improvedData)',
+			"max-age": 10
+		}
+		
+		return {
+			"metadata": improvedMetadata,
+			"data": improvedData.calendarTerm
+		};
 	}
 	
-	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
-		let response = await data.loadCalendarTermGeneralInfo(calendarTerm);
+	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
+		const response = await data.loadCalendarTermGeneralInfo(calendarTerm, metadata);
+
+		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
 
 		/* Adding missing data */ 
-		response = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
+		const improvedData = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
 
-		return response.calendarTerm;
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": 'hash(improvedData)',
+			"max-age": 10
+		}
+		
+		return {
+			"metadata": improvedMetadata,
+			"data": improvedData.calendarTerm
+		};
 	}
 
 	/* Authentication related methods */
 
-	const loadAuthenticationMethodsAndFeatures = function () {
-		return data.loadAuthenticationMethodsAndFeatures();
+	const loadAuthenticationMethodsAndFeatures = function (metadata) {
+		const response = data.loadAuthenticationMethodsAndFeatures(metadata);
+		
+		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
+				
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": 'hash(improvedData)',
+			"max-age": 10
+		}
+		
+		return {
+			"metadata": improvedMetadata,
+			"data": response
+		};
 	};
 
 	const submitInstitutionalEmail = function(email) {
@@ -162,8 +272,21 @@ module.exports = function(data) {
 		return data.editUser(user, newUsername);
 	}
 	
-	const loadUser = function(access_token, token_type) {
-		return data.loadUser(access_token, token_type);
+	const loadUser = function(access_token, token_type, metadata) {
+		const response = data.loadUser(access_token, token_type, metadata);
+		
+		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
+				
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": 'hash(improvedData)',
+			"max-age": 10
+		}
+		
+		return {
+			"metadata": improvedMetadata,
+			"data": response
+		};
 	}
 
 	const deleteUser = function(access_token, token_type) {

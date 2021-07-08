@@ -125,7 +125,6 @@ module.exports = function(baseUrl) {
 
 	const deleteAllUserSessions = async function (email) {
 		try {
-			console.log('email ' + email);
 			const options = {
 				method: 'POST', 
 				headers: { "Content-Type": contentType },

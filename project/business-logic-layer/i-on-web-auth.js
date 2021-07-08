@@ -53,7 +53,7 @@ module.exports = (app, data, sessionDB) => {
 
 			/// Check if pooling succeeded
 			if(receivedTokens.hasOwnProperty("access_token")) {
-
+			
 				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type);
 				const sessionId = await sessionDB.createUserSession(user.email, receivedTokens);
 				
@@ -87,8 +87,6 @@ module.exports = (app, data, sessionDB) => {
 					throw internalErrors.SERVICE_FAILURE;
 				}
 			})
-
-			console.log("LOGOUT -> " + JSON.stringify(user));
 
 			await data.revokeAccessToken(user);
 			await sessionDB.deleteUserSession(user.sessionId);

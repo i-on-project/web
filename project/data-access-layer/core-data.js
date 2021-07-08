@@ -34,7 +34,7 @@ module.exports = function() {
 			};
 
 			const response = await fetch(core_url + '/api/programmes/', options);	
-
+			
 			if(response.status === 200) {
 				return {
 					"metadata": response.headers,
@@ -58,18 +58,32 @@ module.exports = function() {
 		}
 	};
 
-	const loadAllProgrammeOffers = async function (programmeId) {
+	const loadAllProgrammeOffers = async function (programmeId, metadata) {
 		try {
 
 			const options = {
 				method: 'GET',
-				headers: {
+				headers: { 
+					'ETag': metadata,
 					'Authorization': read_token,
 					'Content-Type': contentType
 				}
 			};
 
-			return await coreRequest('/api/programmes/'+ programmeId, 200, options);	
+			const response = await fetch(core_url + '/api/programmes/'+ programmeId, options);	
+
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 204) {
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -81,18 +95,32 @@ module.exports = function() {
 		}
 	};
 
-	const loadProgrammeData = async function(programmeId) {
+	const loadProgrammeData = async function(programmeId, metadata) {
 		try {
 
 			const options = {
 				method: 'GET',
 				headers: {
+					'ETag': metadata,
 					'Authorization': read_token,
 					'Content-Type': contentType
 				}
 			};
 
-			return await coreRequest('/api/programmes/'+ programmeId, 200, options);
+			const response = await fetch(core_url + '/api/programmes/'+ programmeId, options);	
+
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 204) {
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -104,18 +132,32 @@ module.exports = function() {
 		}
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm) {
+	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm, metadata) {
 		try {
 
 			const options = {
 				method: 'GET',
 				headers: {
+					'ETag': metadata,
 					'Authorization': read_token,
 					'Content-Type': contentType
 				}
 			};
-
-			return await coreRequest('/api/courses/'+ courseId +'/classes/' + calendarTerm, 200, options);
+		
+			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm, options);	
+			
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 204) {
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
 
 		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -127,10 +169,16 @@ module.exports = function() {
 		}
 	}
 	
-	const loadAboutData = async function () {
+	const loadAboutData = async function (metadata) {
 		try {
 		
-			return {}; // Request still not suported by i-on Core
+			return {
+				"metadata": {
+					"ETag": undefined,
+					"cache-control-max-age": undefined
+				},
+				"data": {}
+			}; // Request still not suported by i-on Core
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -142,19 +190,32 @@ module.exports = function() {
 		}
 	};
 
-	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
+	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) {
 		try {
 
 			const options = {
 				method: 'GET',
 				headers: {
+					'ETag': metadata,
 					'Authorization': read_token,
 					'Accept': 'application/vnd.siren+json'
 				}
 			};
-	
 
-			return await coreRequest('/api/courses/'+ courseId +'/classes/' + calendarTerm + '/' + classSection + '/calendar', 200, options); 
+			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/' + classSection + '/calendar', options);	
+
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 204) {
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
 
 		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -166,18 +227,32 @@ module.exports = function() {
 		}
 	};
 
-	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm) {
+	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
 		try {
 
 			const options = {
 				method: 'GET',
 				headers: {
+					'ETag': metadata,
 					'Authorization': read_token,
 					'Accept': 'application/vnd.siren+json'
 				}
 			};
 
-			return await coreRequest('/api/courses/'+ courseId +'/classes/' + calendarTerm + '/calendar', 200, options);
+			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/calendar', options);	
+
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 204) {
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
 
 		} catch (err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -189,10 +264,13 @@ module.exports = function() {
 		}
 	};
 
-	const loadCurrentCalendarTerm = async function() {
+	const loadCurrentCalendarTerm = async function(metadata) {
 		try {
 		
-			return {}; // Request still not suported by i-on Core
+			return {
+				"metadata": {},
+				"data": {}
+			}; // Request still not suported by i-on Core
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -204,9 +282,12 @@ module.exports = function() {
 		}
 	};
 	
-	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
+	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
 		try {
-			return {}; // Request still not suported by i-on Core
+			return {
+				"metadata": {},
+				"data": {}
+			}; // Request still not suported by i-on Core
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -221,18 +302,32 @@ module.exports = function() {
 	
 	/* Authentication related methods */
 
-	const loadAuthenticationMethodsAndFeatures = async function () {
+	const loadAuthenticationMethodsAndFeatures = async function (metadata) {
 		try {
 
 			const options = {
 				method: 'GET',
 				headers: {
+					'ETag': metadata,
 					'Authorization': read_token,
 					'Content-Type': contentType
 				}
 			};
 			
-			return await coreRequest('/api/auth/methods', 200, options);
+			const response = await fetch(core_url + '/api/auth/methods', options);	
+
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 204) {
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
@@ -377,7 +472,6 @@ module.exports = function() {
 		}
 	};
 
-
 	const deleteUserClassSection = async function(user, id, classSection) {
 		try {
 			const options = {
@@ -460,17 +554,31 @@ module.exports = function() {
 		}
 	};
 
-	const loadUser = async function(access_token, token_type) {
+	const loadUser = async function(access_token, token_type, metadata) {
 		try {
 
 			const options = {
 				method: 'GET',
 				headers: {
+					'ETag': metadata,
 					'Authorization': token_type + ' ' + access_token
 				}
 			};
 
-			return await coreRequest('/api/users', 200, options);
+			const response = await fetch(core_url + '/api/users', options);	
+
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 204) {
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
 
 		} catch(err) { /// TO DO:  Add more error handling
 			switch (err) {
