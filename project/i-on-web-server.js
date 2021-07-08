@@ -9,7 +9,7 @@ const app = express();
 
 /// Cache
 const Cache = require('./cache/cache.js');
-const myCache = new Cache(100); /// Change
+const myCache = new Cache(0); /// Change
 
 async function configurations() {
 

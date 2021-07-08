@@ -87,13 +87,13 @@ module.exports = function(data) {
 		return data.editUser(user, newUsername);
 	};
 	
-	const loadUser = async function(access_token, token_type) {
-		const receivedData = await data.loadUser(access_token, token_type);
+	const loadUser = async function(access_token, token_type, email) {
+		const receivedData = await data.loadUser(access_token, token_type, email);
 		return receivedData.data;
 	};
 	
-	const deleteUser = function(access_token, token_type) {
-		return data.deleteUser(access_token, token_type);
+	const deleteUser = function(user) {
+		return data.deleteUser(user);
 	};
 	
 	const refreshAccessToken = function(user) {

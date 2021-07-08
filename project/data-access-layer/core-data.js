@@ -551,7 +551,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadUser = async function(access_token, token_type, metadata) {
+	const loadUser = async function(access_token, token_type, email, metadata) {
 		try {
 
 			const options = {
@@ -589,13 +589,13 @@ module.exports = function() {
 		}
 	};
 
-	const deleteUser = async function(access_token, token_type) {
+	const deleteUser = async function(user) {
 		try {
 
 			const options = {
 				method: 'DELETE',
 				headers: {
-					'Authorization': token_type + ' ' + access_token
+					'Authorization': user.token_type + ' ' + user.access_token
 				}
 			};
 

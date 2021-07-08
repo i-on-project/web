@@ -1,5 +1,7 @@
 'use strict'
 
+const maxAge = 24 * 60 * 60;
+
 module.exports = function(data) {
 
 	const loadAllProgrammes = async function (metadata) {
@@ -25,7 +27,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": 'hash(improvedData)',
-			"max-age": 10
+			"maxAge": maxAge
 		}
 		
 		return {
@@ -58,7 +60,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": 'hash(improvedData)',
-			"max-age": 10
+			"maxAge": maxAge
 		}
 		
 		return {
@@ -90,7 +92,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": 'hash(improvedData)',
-			"max-age": 10
+			"maxAge": maxAge
 		}
 		
 		return {
@@ -115,7 +117,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": 'hash(improvedData)',
-			"max-age": 10
+			"maxAge": maxAge
 		}
 		
 		return {
@@ -135,7 +137,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": 'hash(improvedData)',
-			"max-age": 10
+			"maxAge": maxAge
 		}
 		
 		return {
@@ -152,7 +154,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": 'hash(improvedData)',
-			"max-age": 10
+			"maxAge": maxAge
 		}
 		
 		return {
@@ -169,7 +171,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": 'hash(improvedData)',
-			"max-age": 10
+			"maxAge": maxAge
 		}
 		
 		return {
@@ -189,7 +191,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": 'hash(improvedData)',
-			"max-age": 10
+			"maxAge": maxAge
 		}
 		
 		return {
@@ -209,7 +211,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": 'hash(improvedData)',
-			"max-age": 10
+			"maxAge": maxAge
 		}
 		
 		return {
@@ -228,7 +230,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": 'hash(improvedData)',
-			"max-age": 10
+			"maxAge": maxAge
 		}
 		
 		return {
@@ -272,15 +274,15 @@ module.exports = function(data) {
 		return data.editUser(user, newUsername);
 	}
 	
-	const loadUser = function(access_token, token_type, metadata) {
-		const response = data.loadUser(access_token, token_type, metadata);
+	const loadUser = function(access_token, token_type, email, metadata) {
+		const response = data.loadUser(access_token, token_type, email, metadata);
 		
 		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": 'hash(improvedData)',
-			"max-age": 10
+			"maxAge": maxAge
 		}
 		
 		return {
@@ -289,8 +291,8 @@ module.exports = function(data) {
 		};
 	}
 
-	const deleteUser = function(access_token, token_type) {
-		return data.deleteUser(access_token, token_type);
+	const deleteUser = function(user) {
+		return data.deleteUser(user);
 	}
 
 	const refreshAccessToken = function(user) {

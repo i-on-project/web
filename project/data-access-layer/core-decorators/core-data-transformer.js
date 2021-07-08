@@ -8,7 +8,7 @@ module.exports = function(data) {
 		
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": receivedData.metadata.get('cache-control-max-age')
 		}
 
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -53,7 +53,7 @@ module.exports = function(data) {
 
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": receivedData.metadata.get('cache-control-max-age')
 		}
 
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -110,7 +110,7 @@ module.exports = function(data) {
 	
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": receivedData.metadata.get('cache-control-max-age')
 		}
 
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -157,7 +157,7 @@ module.exports = function(data) {
 	
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": receivedData.metadata.get('cache-control-max-age')
 		}
 
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -200,7 +200,7 @@ module.exports = function(data) {
 
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": receivedData.metadata.get('cache-control-max-age')
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -250,7 +250,7 @@ module.exports = function(data) {
 
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": receivedData.metadata.get('cache-control-max-age')
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -305,7 +305,7 @@ module.exports = function(data) {
 	
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": receivedData.metadata.get('cache-control-max-age')
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -373,7 +373,7 @@ module.exports = function(data) {
 
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": receivedData.metadata.get('cache-control-max-age')
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -389,7 +389,7 @@ module.exports = function(data) {
 
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": receivedData.metadata.get('cache-control-max-age')
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -407,7 +407,7 @@ module.exports = function(data) {
 		
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": receivedData.metadata.get('cache-control-max-age')
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -548,12 +548,12 @@ module.exports = function(data) {
 		return data.editUser(user, newUsername);
 	}
 
-	const loadUser = async function(access_token, token_type, metadata) {
-		const receivedData = await data.loadUser(access_token, token_type, metadata);
+	const loadUser = async function(access_token, token_type, email, metadata) {
+		const receivedData = await data.loadUser(access_token, token_type, email, metadata);
 
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"cache-control-max-age": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": receivedData.metadata.get('cache-control-max-age')
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -573,8 +573,8 @@ module.exports = function(data) {
 	* }
 	*/
 
-	const deleteUser = function(access_token, token_type) {
-		return data.deleteUser(access_token, token_type);
+	const deleteUser = function(user) {
+		return data.deleteUser(user);
 	}
 	
 	const refreshAccessToken = function(user) {

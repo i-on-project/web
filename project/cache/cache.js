@@ -15,8 +15,8 @@ class Cache {
         return ( Date.now() - this.cache.getTtl(key) ) > 0;
     }
 
-    set(key, value) {
-        return this.cache.set(key, value);
+    set(key, value, ttl) {
+        return this.cache.set(key, value, ttl);
     }
 
     getTtl(key) {
@@ -27,6 +27,9 @@ class Cache {
         return this.cache.ttl(key, ttl);
     }
 
+    del(key) {
+        return this.cache.del(key);
+    }
 }
 
 

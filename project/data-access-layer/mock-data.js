@@ -151,7 +151,7 @@ module.exports = function() {
 		users[user.email].username = newUsername;
 	}
 
-	const loadUser = async function(access_token, token_type) {
+	const loadUser = async function(access_token, token_type, email) {
 		return users[access_token];
 	}
 

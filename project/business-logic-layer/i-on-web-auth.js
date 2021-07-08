@@ -1,5 +1,6 @@
 'use strict'
 
+const jwt_decode = require('jwt-decode');
 const passport = require('passport');
 const session = require('express-session');
 const internalErrors = require('../common/i-on-web-errors.js');
@@ -53,9 +54,11 @@ module.exports = (app, data, sessionDB) => {
 
 			/// Check if pooling succeeded
 			if(receivedTokens.hasOwnProperty("access_token")) {
-			
-				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type);
-				const sessionId = await sessionDB.createUserSession(user.email, receivedTokens);
+				const tokens = receivedTokens.id_token.split(".");
+				console.log(jwt_decode(tokens[1], { header: true }).email);
+				const user_email = jwt_decode(tokens[1], { header: true }).email;
+				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type, user_email);
+				const sessionId = await sessionDB.createUserSession(user_email, receivedTokens);
 				
 				const userSessionInfo = Object.assign(
 					{'sessionId': sessionId},
@@ -102,7 +105,7 @@ module.exports = (app, data, sessionDB) => {
 				}
 			});
 			
-			await data.deleteUser(user.access_token, user.token_type);
+			await data.deleteUser(user);
 			await sessionDB.deleteAllUserSessions(user.email);
 		}
 
@@ -117,7 +120,9 @@ const getUserAndSessionInfo = async function(data, sessionDB, sessionId) { // Th
 	const sessionInfo = await sessionDB.getUserTokens(sessionId);
 
 	/// Obtaining user profile info from core
-	const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type);
+	const tokens = sessionInfo.id_token.split(".");
+	const user_email = jwt_decode(tokens[1], { header: true }).email;
+	const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type, user_email);
 
 	return Object.assign(
 		{'sessionId': sessionId},
