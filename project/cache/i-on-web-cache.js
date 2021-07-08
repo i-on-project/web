@@ -6,7 +6,7 @@ module.exports = function(data, myCache) {
 
 		const key = "programmes";
 
-		const fetchFunction = function() { /// TO DO test if this really works
+		const fetchFunction = function() {
 			return data.loadAllProgrammes(...arguments);
 		}
 		console.log('cache - loadAllProgrammes')
@@ -18,7 +18,7 @@ module.exports = function(data, myCache) {
 		
 		const key = 'offers/' + programmeId;
 
-		const fetchFunction = function() { /// TO DO test if this really works
+		const fetchFunction = function() { 
 			return data.loadAllProgrammeOffers(programmeId, ...arguments);
 		}
 		console.log('cache - loadAllProgrammeOffers')
@@ -29,7 +29,7 @@ module.exports = function(data, myCache) {
 	
 		const key = 'programme/' + programmeId;
 
-		const fetchFunction = function() { /// TO DO test if this really works
+		const fetchFunction = function() { 
 			return data.loadProgrammeData(programmeId, ...arguments);
 		}
 		console.log('cache - loadProgrammeData')
@@ -39,7 +39,7 @@ module.exports = function(data, myCache) {
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
 		const key = courseId + '/' + calendarTerm;
 
-		const fetchFunction = function() { /// TO DO test if this really works
+		const fetchFunction = function() { 
 			return data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, ...arguments);
 		}
 		console.log('cache - loadCourseClassesByCalendarTerm')
@@ -49,7 +49,7 @@ module.exports = function(data, myCache) {
 	const loadAboutData = async function () {
 		const key = 'about';
 
-		const fetchFunction = function() { /// TO DO test if this really works
+		const fetchFunction = function() {
 			return data.loadAboutData(...arguments);
 		}
 		console.log('cache - loadAboutData')
@@ -59,7 +59,7 @@ module.exports = function(data, myCache) {
 	const loadClassSectionSchedule = function(courseId, calendarTerm, classSection) {
 		const key = calendarTerm + '/' + courseId + '/' + classSection;
 
-		const fetchFunction = function() { /// TO DO test if this really works
+		const fetchFunction = function() {
 			return data.loadClassSectionSchedule(courseId, calendarTerm, classSection, ...arguments);
 		}
 		
@@ -69,7 +69,7 @@ module.exports = function(data, myCache) {
 	const loadCourseEventsInCalendarTerm = function(courseId, calendarTerm) {
 		const key = calendarTerm + '/' + courseId;
 
-		const fetchFunction = function() { /// TO DO test if this really works
+		const fetchFunction = function() {
 			return data.loadCourseEventsInCalendarTerm(courseId, calendarTerm, ...arguments);
 		}
 		
@@ -79,7 +79,7 @@ module.exports = function(data, myCache) {
 	const loadCurrentCalendarTerm = async function() {
 		const key = 'currentCalendarTerm';
 
-		const fetchFunction = function() { /// TO DO test if this really works
+		const fetchFunction = function() {
 			return data.loadCurrentCalendarTerm(...arguments);
 		}
 		
@@ -89,7 +89,7 @@ module.exports = function(data, myCache) {
 	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
 		const key = 'CalendarTermInfo';
 
-		const fetchFunction = function() { /// TO DO test if this really works
+		const fetchFunction = function() { 
 			return data.loadCalendarTermGeneralInfo(calendarTerm, ...arguments);
 		}
 		
@@ -100,7 +100,7 @@ module.exports = function(data, myCache) {
 	const loadAuthenticationMethodsAndFeatures = function () {
 		const key = 'CalendarTermInfo';
 
-		const fetchFunction = function() { /// TO DO test if this really works
+		const fetchFunction = function() {
 			return data.loadAuthenticationMethodsAndFeatures(...arguments);
 		}
 		
@@ -146,7 +146,7 @@ module.exports = function(data, myCache) {
 	const loadUser = function(access_token, token_type, email) {
 		const key = 'user/' + email;
 
-		const fetchFunction = function() { /// TO DO test if this really works
+		const fetchFunction = function() {
 			return data.loadUser(access_token, token_type, email, ...arguments);
 		}
 		
@@ -217,7 +217,6 @@ const getData = async function(myCache, key, fetchNewData) {
 
 		console.log("\n[Cache] - Value already exists but expired -> conditional request")
 		
-		console.log("--> " + value.metadata.ETag)
 		const resp = await fetchNewData.apply(this, [value.metadata.ETag]);
 
 		if(resp) {	/// The resource has been modified since the given date
