@@ -208,9 +208,9 @@ const getData = async function(myCache, key, fetchNewData) {
 	if(!value) {										/// Value does not exists
 
 		console.log("\n[Cache] - Value does not exists")
-		console.log("key: " + key + "function: " + fetchNewData);
+		
 		value = await fetchNewData();
-		console.log(JSON.stringify(value))
+	
 		myCache.set(key, value, value.metadata.maxAge);
 
 	} else if (myCache.hasExpired(key)) {				/// Value already exists but expired -> conditional request

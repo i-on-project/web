@@ -1,6 +1,7 @@
 'use strict'
 
 const maxAge = 24 * 60 * 60;
+const hash = require('object-hash');
 
 module.exports = function(data) {
 
@@ -26,7 +27,7 @@ module.exports = function(data) {
 		
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": 'hash(improvedData)',
+			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
 		
@@ -59,7 +60,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": 'hash(improvedData)',
+			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
 		
@@ -91,7 +92,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": 'hash(improvedData)',
+			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
 		
@@ -116,7 +117,7 @@ module.exports = function(data) {
 	
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": 'hash(improvedData)',
+			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
 		
@@ -136,7 +137,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": 'hash(improvedData)',
+			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
 		
@@ -153,7 +154,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": 'hash(improvedData)',
+			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
 		
@@ -170,7 +171,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": 'hash(improvedData)',
+			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
 		
@@ -190,7 +191,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": 'hash(improvedData)',
+			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
 		
@@ -210,7 +211,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": 'hash(improvedData)',
+			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
 		
@@ -229,7 +230,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": 'hash(improvedData)',
+			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
 		
@@ -281,7 +282,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": 'hash(improvedData)',
+			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
 		

@@ -6,11 +6,13 @@ module.exports = function(data) {
 		
 		const receivedData = await data.loadAllProgrammes(metadata);
 		
+		const cache_control = receivedData.metadata.get('Cache-Control');
+		
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": receivedData.metadata.get('cache-control-max-age')
-		}
-
+			"maxAge": getMaxAge(cache_control)
+		};
+		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
 
 		const transformedData = receivedData.data.entities
@@ -25,7 +27,7 @@ module.exports = function(data) {
 			response.push(programme);
 			return response;
 		}, []);
-
+		
 		return {
 			"metadata": receivedmetadata,
 			"data": transformedData
@@ -51,9 +53,11 @@ module.exports = function(data) {
 	const loadAllProgrammeOffers = async function(programmeId, metadata) {
 		const receivedData = await data.loadAllProgrammeOffers(programmeId, metadata);
 
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": getMaxAge(cache_control)
 		}
 
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -108,9 +112,11 @@ module.exports = function(data) {
 	const loadProgrammeData = async function(programmeId, metadata) {
 		const receivedData = await data.loadProgrammeData(programmeId, metadata);
 	
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": getMaxAge(cache_control)
 		}
 
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -155,9 +161,11 @@ module.exports = function(data) {
 	
 		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, metadata) ;
 	
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": getMaxAge(cache_control)
 		}
 
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -198,9 +206,11 @@ module.exports = function(data) {
 
 		const receivedData = await data.loadAboutData(metadata);
 
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": getMaxAge(cache_control)
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -248,9 +258,11 @@ module.exports = function(data) {
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) {
 		const receivedData = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
 
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": getMaxAge(cache_control)
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -303,9 +315,11 @@ module.exports = function(data) {
 	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
 		const receivedData = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm, metadata);
 	
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": getMaxAge(cache_control)
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -371,9 +385,11 @@ module.exports = function(data) {
 	const loadCurrentCalendarTerm = async function(metadata) {
 		const receivedData = await data.loadCurrentCalendarTerm(metadata);
 
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": getMaxAge(cache_control)
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -405,9 +421,11 @@ module.exports = function(data) {
 	const loadAuthenticationMethodsAndFeatures = async function (metadata) {
 		const receivedData = await data.loadAuthenticationMethodsAndFeatures(metadata);
 		
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": getMaxAge(cache_control)
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -551,9 +569,11 @@ module.exports = function(data) {
 	const loadUser = async function(access_token, token_type, email, metadata) {
 		const receivedData = await data.loadUser(access_token, token_type, email, metadata);
 
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": getMaxAge(cache_control)
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
@@ -623,3 +643,12 @@ module.exports = function(data) {
 		revokeAccessToken : revokeAccessToken
 	};
 }
+
+/******* Helper functions *******/
+const getMaxAge = function(cache_control) {
+	if(cache_control) {
+		const max_age_string = cache_control.substring((cache_control.indexOf("max-age=")));
+		const max_age = max_age_string.substring( max_age_string.indexOf('=') + 1, max_age_string.indexOf(','));
+		return max_age;
+	}
+};

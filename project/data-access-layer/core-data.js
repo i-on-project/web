@@ -27,20 +27,20 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: { 
-					'ETag': metadata,
+					'If-None-Match': metadata,
 					'Authorization': read_token,
 					'Content-Type': contentType
 				}
 			};
 
 			const response = await fetch(core_url + '/api/programmes/', options);	
-			
+		
 			if(response.status === 200) {
 				return {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 204) {
+			} else if(response.status === 304) {
 				return {
 					"metadata": response.headers
 				}
@@ -64,7 +64,7 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: { 
-					'ETag': metadata,
+					'If-None-Match': metadata,
 					'Authorization': read_token,
 					'Content-Type': contentType
 				}
@@ -77,7 +77,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 204) {
+			} else if(response.status === 304) {
 				return {
 					"metadata": response.headers
 				}
@@ -101,7 +101,7 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: {
-					'ETag': metadata,
+					'If-None-Match': metadata,
 					'Authorization': read_token,
 					'Content-Type': contentType
 				}
@@ -114,7 +114,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 204) {
+			} else if(response.status === 304) {
 				return {
 					"metadata": response.headers
 				}
@@ -138,7 +138,7 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: {
-					'ETag': metadata,
+					'If-None-Match': metadata,
 					'Authorization': read_token,
 					'Content-Type': contentType
 				}
@@ -151,7 +151,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 204) {
+			} else if(response.status === 304) {
 				return {
 					"metadata": response.headers
 				}
@@ -193,7 +193,7 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: {
-					'ETag': metadata,
+					'If-None-Match': metadata,
 					'Authorization': read_token,
 					'Accept': 'application/vnd.siren+json'
 				}
@@ -206,7 +206,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 204) {
+			} else if(response.status === 304) {
 				return {
 					"metadata": response.headers
 				}
@@ -230,7 +230,7 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: {
-					'ETag': metadata,
+					'If-None-Match': metadata,
 					'Authorization': read_token,
 					'Accept': 'application/vnd.siren+json'
 				}
@@ -243,7 +243,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 204) {
+			} else if(response.status === 304) {
 				return {
 					"metadata": response.headers
 				}
@@ -305,7 +305,7 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: {
-					'ETag': metadata,
+					'If-None-Match': metadata,
 					'Authorization': read_token,
 					'Content-Type': contentType
 				}
@@ -318,7 +318,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 204) {
+			} else if(response.status === 304) {
 				return {
 					"metadata": response.headers
 				}
@@ -557,7 +557,7 @@ module.exports = function() {
 			const options = {
 				method: 'GET',
 				headers: {
-					'ETag': metadata,
+					'If-None-Match': metadata,
 					'Authorization': token_type + ' ' + access_token
 				}
 			};
@@ -569,7 +569,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 204) {
+			} else if(response.status === 304) {
 				return {
 					"metadata": response.headers
 				}

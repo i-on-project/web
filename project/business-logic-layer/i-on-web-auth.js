@@ -55,8 +55,8 @@ module.exports = (app, data, sessionDB) => {
 			/// Check if pooling succeeded
 			if(receivedTokens.hasOwnProperty("access_token")) {
 				const tokens = receivedTokens.id_token.split(".");
-				console.log(jwt_decode(tokens[1], { header: true }).email);
 				const user_email = jwt_decode(tokens[1], { header: true }).email;
+				
 				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type, user_email);
 				const sessionId = await sessionDB.createUserSession(user_email, receivedTokens);
 				

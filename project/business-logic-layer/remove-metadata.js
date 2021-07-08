@@ -23,7 +23,6 @@ module.exports = function(data) {
 	};
 	
 	const loadAboutData = async function () {	
-		console.log('metadata - loadAboutData')
 		const receivedData = await data.loadAboutData();
 		return receivedData.data;
 	};
