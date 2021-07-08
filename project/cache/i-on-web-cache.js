@@ -140,7 +140,6 @@ module.exports = function(data, myCache) {
 		const key = 'user/' + user.email;
 		myCache.del(key);
 		return data.editUser(user, newUsername);
-		//tira o valor deste user da cache
 	};
 	
 	const loadUser = function(access_token, token_type, email) {
