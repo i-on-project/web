@@ -47,7 +47,7 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// More error handling
+		} catch(err) { /// Error handling
 			switch (err) {
 				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
