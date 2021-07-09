@@ -20,6 +20,8 @@ const coreRequest = async function(endpoint, expectedStatus, options) {
 
 module.exports = function() {
 
+	/* Methods to load general academic information */
+
 	const loadAllProgrammes = async function (metadata) {
 		try {
 			
@@ -39,7 +41,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 304) {
+			} else if(response.status === 304) { /// The resource has not been modified
 				return {
 					"metadata": response.headers
 				}
@@ -47,13 +49,13 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// Error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
 				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
 				case 503:	/// Service Unavailable
 					throw internalErrors.SERVICE_UNAVAILABLE;
-				default:	/// Internal Server Error
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -78,7 +80,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 304) {
+			} else if(response.status === 304) { /// The resource has not been modified
 				return {
 					"metadata": response.headers
 				}
@@ -86,11 +88,15 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
+				case 400: 	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -115,7 +121,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 304) {
+			} else if(response.status === 304) { /// The resource has not been modified
 				return {
 					"metadata": response.headers
 				}
@@ -123,11 +129,15 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
+				case 400: 	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -152,7 +162,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 304) {
+			} else if(response.status === 304) { /// The resource has not been modified
 				return {
 					"metadata": response.headers
 				}
@@ -160,145 +170,169 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch (err) { /// TO DO:  Add more error handling
+		} catch (err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
+				case 400: 	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	}
 	
+	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) {
+		try {
+			
+			const options = {
+				method: 'GET',
+				headers: {
+					'If-None-Match': metadata,
+					'Authorization': read_token,
+					'Accept': 'application/vnd.siren+json'
+				}
+			};
+			
+			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/' + classSection + '/calendar', options);	
+			
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 304) {  /// The resource has not been modified
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
+
+		} catch (err) {		/// Error handling
+			switch (err) {
+				case 400: 	/// Bad request
+				throw internalErrors.BAD_REQUEST;
+				case 404:	/// Not Found
+				throw internalErrors.RESOURCE_NOT_FOUND;
+				case 503:	/// Service Unavailable
+				throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
+				throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+	
+	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
+		try {
+			
+			const options = {
+				method: 'GET',
+				headers: {
+					'If-None-Match': metadata,
+					'Authorization': read_token,
+					'Accept': 'application/vnd.siren+json'
+				}
+			};
+			
+			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/calendar', options);	
+			
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 304) {  /// The resource has not been modified
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
+			
+		} catch (err) {		/// Error handling
+			switch (err) {
+				case 400: 	/// Bad request
+				throw internalErrors.BAD_REQUEST;
+				case 404:	/// Not Found
+				throw internalErrors.RESOURCE_NOT_FOUND;
+				case 503:	/// Service Unavailable
+				throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
+				throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+	
 	const loadAboutData = async function (metadata) {
+		/// Request still not suported by i-on Core (its data is filled in add missing data module)
 		try {
 		
 			return {
 				"metadata": new Map(),
 				"data": {}
-			}; // Request still not suported by i-on Core
-
-		} catch(err) { /// TO DO:  Add more error handling
-			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
-					throw internalErrors.SERVICE_FAILURE;
-			}
-		}
-	};
-
-	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) {
-		try {
-
-			const options = {
-				method: 'GET',
-				headers: {
-					'If-None-Match': metadata,
-					'Authorization': read_token,
-					'Accept': 'application/vnd.siren+json'
-				}
 			};
-
-			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/' + classSection + '/calendar', options);	
-
-			if(response.status === 200) {
-				return {
-					"metadata": response.headers,
-					"data": await response.json()
-				}
-			} else if(response.status === 304) {
-				return {
-					"metadata": response.headers
-				}
-			} else {
-				throw response.status;
-			}
-
-		} catch (err) { /// TO DO:  Add more error handling
+		
+		} catch(err) { /// Although the request is not yet supported by the core, there is already a possible error checking for when the request is implemented 
 			switch (err) {
-				case 404: /// Not Found
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
-					throw internalErrors.SERVICE_FAILURE;
-			}
-		}
-	};
-
-	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
-		try {
-
-			const options = {
-				method: 'GET',
-				headers: {
-					'If-None-Match': metadata,
-					'Authorization': read_token,
-					'Accept': 'application/vnd.siren+json'
-				}
-			};
-
-			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/calendar', options);	
-
-			if(response.status === 200) {
-				return {
-					"metadata": response.headers,
-					"data": await response.json()
-				}
-			} else if(response.status === 304) {
-				return {
-					"metadata": response.headers
-				}
-			} else {
-				throw response.status;
-			}
-
-		} catch (err) { /// TO DO:  Add more error handling
-			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
 
 	const loadCurrentCalendarTerm = async function(metadata) {
+		/// Request still not suported by i-on Core (its data is filled in add missing data module)
 		try {
 		
 			return {
 				"metadata": new Map(),
 				"data": {}
-			}; // Request still not suported by i-on Core
-
-		} catch(err) { /// TO DO:  Add more error handling
+			}; 
+			
+			// Request still not suported by i-on Core
+			
+		} catch(err) {	/// Although the request is not yet supported by the core, there is already a possible error checking for when the request is implemented 
 			switch (err) {
-				case 404: /// Not Found
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
 	
 	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
+		/// Request still not suported by i-on Core (its data is filled in add missing data module)
 		try {
+			
 			return {
 				"metadata": new Map(),
 				"data": {}
-			}; // Request still not suported by i-on Core
+			};
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {	/// Although the request is not yet supported by the core, there is already a possible error checking for when the request is implemented 
 			switch (err) {
-				case 404: /// Not Found
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
 
 	
-	/* Authentication related methods */
+	/* Methods related to authentication */
 
 	const loadAuthenticationMethodsAndFeatures = async function (metadata) {
 		try {
@@ -394,7 +428,8 @@ module.exports = function() {
 		}
 	};
 
-	/* User related methods */
+
+	/* Methods related to user api */
 
 	const saveUserClassesAndClassSections = async function(user, id, classSection) {
 		try {
@@ -677,7 +712,7 @@ module.exports = function() {
 	};
 
 	return {
-		/* Academic information related methods */
+		/* Methods to load generic academic information */
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,

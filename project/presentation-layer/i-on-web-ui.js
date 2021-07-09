@@ -128,9 +128,8 @@ function webui(service, auth) {
 		loginUI: async function(req, res) {
 			let commonInfo;
 			try {
-				//commonInfo = await getPagesCommonInfo(service);
 				const data = await auth.getAuthMethodsAndFeatures();
-				res.render( /// TO DO: create page
+				res.render(
 					'login',
 					Object.assign(
 						{'page': 'login'},
