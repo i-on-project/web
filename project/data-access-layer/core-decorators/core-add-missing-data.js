@@ -1,6 +1,6 @@
 'use strict'
 
-const maxAge = 24 * 60 * 60;
+const maxAge = 10;
 const hash = require('object-hash');
 
 module.exports = function(data) {
@@ -11,7 +11,7 @@ module.exports = function(data) {
 
 		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
 
-		/*** Adding missing data ***/
+		/*** Adding data ***/
 		const mockDataToBeAdded = await getMockData('/programmes');
 
 		const improvedData = response.data
@@ -30,7 +30,11 @@ module.exports = function(data) {
 			"ETag": hash(improvedData),
 			"maxAge": maxAge
 		}
+
+		/*response.data = improvedData;
+		response.metadata = improvedMetadata;
 		
+		return response;*/
 		return {
 			"metadata": improvedMetadata,
 			"data": improvedData
@@ -148,36 +152,36 @@ module.exports = function(data) {
 	};
 
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) { 
-		const response = data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
+		const response = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
 		
 		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": hash(response.data),
 			"maxAge": maxAge
 		}
 		
 		return {
 			"metadata": improvedMetadata,
-			"data": response
+			"data": response.data
 		};
 	}
 
-	const loadCourseEventsInCalendarTerm = function(courseId, calendarTerm, metadata) {
-		const response = data.loadCourseEventsInCalendarTerm(courseId, calendarTerm, metadata);
+	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
+		const response = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm, metadata);
 
 		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": hash(response.data),
 			"maxAge": maxAge
 		}
 		
 		return {
 			"metadata": improvedMetadata,
-			"data": response
+			"data": response.data
 		};
 	}
 
@@ -223,20 +227,21 @@ module.exports = function(data) {
 
 	/* Authentication related methods */
 
-	const loadAuthenticationMethodsAndFeatures = function (metadata) {
-		const response = data.loadAuthenticationMethodsAndFeatures(metadata);
-		
+	const loadAuthenticationMethodsAndFeatures = async function (metadata) {
+		const response = await data.loadAuthenticationMethodsAndFeatures(metadata);
 		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
-				
+
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": hash(response.data),
 			"maxAge": maxAge
 		}
+
+		console.log("AMD TESTE")
 		
 		return {
 			"metadata": improvedMetadata,
-			"data": response
+			"data": response.data
 		};
 	};
 
@@ -275,20 +280,22 @@ module.exports = function(data) {
 		return data.editUser(user, newUsername);
 	}
 	
-	const loadUser = function(access_token, token_type, email, metadata) {
-		const response = data.loadUser(access_token, token_type, email, metadata);
+	const loadUser = async function(access_token, token_type, email, metadata) {
+		const response = await data.loadUser(access_token, token_type, email, metadata);
+
+		console.log(`[LOAD_USER] ${JSON.stringify(response)}`)
 		
 		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": hash(response.data),
 			"maxAge": maxAge
 		}
 		
 		return {
 			"metadata": improvedMetadata,
-			"data": response
+			"data": response.data
 		};
 	}
 

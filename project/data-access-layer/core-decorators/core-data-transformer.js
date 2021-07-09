@@ -577,7 +577,7 @@ module.exports = function(data) {
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
-
+		
 		return {
 			"metadata": receivedmetadata,
 			"data": {

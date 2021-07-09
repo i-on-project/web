@@ -9,7 +9,8 @@ module.exports = function(data, myCache) {
 		const fetchFunction = function() {
 			return data.loadAllProgrammes(...arguments);
 		}
-		console.log('cache - loadAllProgrammes')
+
+		console.log('\n\n\n[Cache] - loadAllProgrammes is calling GetData')
 		return getData(myCache, key, fetchFunction);
 
 	};
@@ -201,12 +202,13 @@ module.exports = function(data, myCache) {
 /******* Helper functions *******/
 
 const getData = async function(myCache, key, fetchNewData) {
-
+	console.log("\n[Cache] - Get data has been called")
 	let value = myCache.get(key);
+	console.log("\n[Cache] - Value before conditions " + JSON.stringify(value) + "|");
 
 	if(!value) {										/// Value does not exists
 
-		console.log("\n[Cache] - Value does not exists")
+		console.log("\n[Cache] - Value does not exists -")
 		
 		value = await fetchNewData();
 	
@@ -214,11 +216,11 @@ const getData = async function(myCache, key, fetchNewData) {
 
 	} else if (myCache.hasExpired(key)) {				/// Value already exists but expired -> conditional request
 
-		console.log("\n[Cache] - Value already exists but expired -> conditional request")
+		console.log("\n[Cache] - Value already exists but expired -> conditional request -")
 		
 		const resp = await fetchNewData.apply(this, [value.metadata.ETag]);
 
-		if(resp) {	/// The resource has been modified since the given date
+		if(resp.data) {	/// The resource has been modified since the given date
 			value = resp;
 			myCache.set(key, value, value.metadata.maxAge);
 		} else {	/// The resource has not been modified since the given date, reset ttl to the initial value
@@ -226,10 +228,10 @@ const getData = async function(myCache, key, fetchNewData) {
 		}
 
 	} else {
-		console.log("\n[Cache] - Value exists")
+		console.log("\n[Cache] - Value exists - ")
 	}
 
-	//console.log('\n[Cache] - stored in cache: ' + JSON.stringify(value));
+	console.log('\n[Cache] returning .. ' + JSON.stringify(value));
 	return value;
 
 }
