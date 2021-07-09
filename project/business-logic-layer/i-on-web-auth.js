@@ -50,20 +50,20 @@ module.exports = (app, data, sessionDB) => {
         }, 
 
 		pollingCore: async function(req, authForPoll) {
-			const receivedTokens = await data.pollingCore(authForPoll);
+			const pollingResponse = await data.pollingCore(authForPoll);
 
 			/// Check if pooling succeeded
-			if(receivedTokens.hasOwnProperty("access_token")) {
-				const tokens = receivedTokens.id_token.split(".");
+			if(pollingResponse.hasOwnProperty("access_token")) {
+				const tokens = pollingResponse.id_token.split(".");
 				const user_email = jwt_decode(tokens[1], { header: true }).email;
 				
-				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type, user_email);
-				const sessionId = await sessionDB.createUserSession(user_email, receivedTokens);
+				const user = await data.loadUser(pollingResponse.access_token, pollingResponse.token_type, user_email);
+				const sessionId = await sessionDB.createUserSession(user_email, pollingResponse);
 				
 				const userSessionInfo = Object.assign(
 					{'sessionId': sessionId},
 					user,
-					receivedTokens
+					pollingResponse
 				);
 				
 				/// If the user doesn't have a username, we give one by default. 
@@ -78,6 +78,10 @@ module.exports = (app, data, sessionDB) => {
 				})
 				
 				return true;
+			} else if(pollingResponse.hasOwnProperty("error") && pollingResponse.error === "authorization_pending") {
+				return false;
+			} else {
+				throw internalErrors.SERVICE_FAILURE;
 			}
 		},
 		

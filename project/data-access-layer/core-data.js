@@ -11,6 +11,7 @@ const core_url = process.env.CORE_URL;
 const client_id = process.env.CORE_CLIENT_ID;
 const client_secret = process.env.CORE_CLIENT_SECRET;
 
+/******* Helper functions ******/
 const coreRequest = async function(endpoint, expectedStatus, options) {
 	const response = await fetch(core_url + endpoint, options);
 	if(response.status != expectedStatus) throw response.status;
@@ -321,6 +322,8 @@ module.exports = function() {
 
 		} catch(err) {	/// Although the request is not yet supported by the core, there is already a possible error checking for when the request is implemented 
 			switch (err) {
+				case 400: 	/// Bad request
+					throw internalErrors.BAD_REQUEST;
 				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
 				case 503:	/// Service Unavailable
@@ -353,7 +356,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 304) {
+			} else if(response.status === 304) { /// The resource has not been modified
 				return {
 					"metadata": response.headers
 				}
@@ -361,11 +364,11 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -386,13 +389,16 @@ module.exports = function() {
 					"login_hint": email
 				})
 			};
+
 			return await coreRequest('/api/auth/backchannel', 200, options);
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 400: 	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -415,14 +421,14 @@ module.exports = function() {
 			};
 			
 			const response = await fetch(core_url + '/api/auth/token', options);
-			// TO DO: Check response status code
+			if(response.status != 200 && response.status != 400) throw response.status;
 			return response.json();
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
