@@ -8,11 +8,11 @@ const contentType = 'application/json';
 /// Environment variables
 const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
-const client_id = process.env.CORE_CLIENT_ID; /// TO DO: In future remove dev client id
+const client_id = process.env.CORE_CLIENT_ID;
 const client_secret = process.env.CORE_CLIENT_SECRET;
 
+/******* Helper functions ******/
 const coreRequest = async function(endpoint, expectedStatus, options) {
-	// core_url + endpoint
 	const response = await fetch(core_url + endpoint, options);
 	if(response.status != expectedStatus) throw response.status;
 	
@@ -20,6 +20,8 @@ const coreRequest = async function(endpoint, expectedStatus, options) {
 };
 
 module.exports = function() {
+
+	/* Methods to load general academic information */
 
 	const loadAllProgrammes = async function (metadata) {
 		try {
@@ -40,7 +42,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 304) {
+			} else if(response.status === 304) { /// The resource has not been modified
 				return {
 					"metadata": response.headers
 				}
@@ -48,11 +50,13 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
 				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default:	/// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -77,7 +81,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 304) {
+			} else if(response.status === 304) { /// The resource has not been modified
 				return {
 					"metadata": response.headers
 				}
@@ -85,11 +89,15 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
+				case 400: 	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -114,7 +122,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 304) {
+			} else if(response.status === 304) { /// The resource has not been modified
 				return {
 					"metadata": response.headers
 				}
@@ -122,11 +130,15 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
+				case 400: 	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -151,7 +163,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 304) {
+			} else if(response.status === 304) { /// The resource has not been modified
 				return {
 					"metadata": response.headers
 				}
@@ -159,145 +171,171 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch (err) { /// TO DO:  Add more error handling
+		} catch (err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
+				case 400: 	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	}
 	
+	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) {
+		try {
+			
+			const options = {
+				method: 'GET',
+				headers: {
+					'If-None-Match': metadata,
+					'Authorization': read_token,
+					'Accept': 'application/vnd.siren+json'
+				}
+			};
+			
+			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/' + classSection + '/calendar', options);	
+			
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 304) {  /// The resource has not been modified
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
+
+		} catch (err) {		/// Error handling
+			switch (err) {
+				case 400: 	/// Bad request
+				throw internalErrors.BAD_REQUEST;
+				case 404:	/// Not Found
+				throw internalErrors.RESOURCE_NOT_FOUND;
+				case 503:	/// Service Unavailable
+				throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
+				throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+	
+	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
+		try {
+			
+			const options = {
+				method: 'GET',
+				headers: {
+					'If-None-Match': metadata,
+					'Authorization': read_token,
+					'Accept': 'application/vnd.siren+json'
+				}
+			};
+			
+			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/calendar', options);	
+			
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 304) {  /// The resource has not been modified
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
+			
+		} catch (err) {		/// Error handling
+			switch (err) {
+				case 400: 	/// Bad request
+				throw internalErrors.BAD_REQUEST;
+				case 404:	/// Not Found
+				throw internalErrors.RESOURCE_NOT_FOUND;
+				case 503:	/// Service Unavailable
+				throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
+				throw internalErrors.SERVICE_FAILURE;
+			}
+		}
+	};
+	
 	const loadAboutData = async function (metadata) {
+		/// Request still not suported by i-on Core (its data is filled in add missing data module)
 		try {
 		
 			return {
 				"metadata": new Map(),
 				"data": {}
-			}; // Request still not suported by i-on Core
-
-		} catch(err) { /// TO DO:  Add more error handling
-			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
-					throw internalErrors.SERVICE_FAILURE;
-			}
-		}
-	};
-
-	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) {
-		try {
-
-			const options = {
-				method: 'GET',
-				headers: {
-					'If-None-Match': metadata,
-					'Authorization': read_token,
-					'Accept': 'application/vnd.siren+json'
-				}
 			};
-
-			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/' + classSection + '/calendar', options);	
-
-			if(response.status === 200) {
-				return {
-					"metadata": response.headers,
-					"data": await response.json()
-				}
-			} else if(response.status === 304) {
-				return {
-					"metadata": response.headers
-				}
-			} else {
-				throw response.status;
-			}
-
-		} catch (err) { /// TO DO:  Add more error handling
+		
+		} catch(err) { /// Although the request is not yet supported by the core, there is already a possible error checking for when the request is implemented 
 			switch (err) {
-				case 404: /// Not Found
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
-					throw internalErrors.SERVICE_FAILURE;
-			}
-		}
-	};
-
-	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
-		try {
-
-			const options = {
-				method: 'GET',
-				headers: {
-					'If-None-Match': metadata,
-					'Authorization': read_token,
-					'Accept': 'application/vnd.siren+json'
-				}
-			};
-
-			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/calendar', options);	
-
-			if(response.status === 200) {
-				return {
-					"metadata": response.headers,
-					"data": await response.json()
-				}
-			} else if(response.status === 304) {
-				return {
-					"metadata": response.headers
-				}
-			} else {
-				throw response.status;
-			}
-
-		} catch (err) { /// TO DO:  Add more error handling
-			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
 
 	const loadCurrentCalendarTerm = async function(metadata) {
+		/// Request still not suported by i-on Core (its data is filled in add missing data module)
 		try {
 		
 			return {
 				"metadata": new Map(),
 				"data": {}
-			}; // Request still not suported by i-on Core
-
-		} catch(err) { /// TO DO:  Add more error handling
+			}; 
+			
+			// Request still not suported by i-on Core
+			
+		} catch(err) {	/// Although the request is not yet supported by the core, there is already a possible error checking for when the request is implemented 
 			switch (err) {
-				case 404: /// Not Found
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
 	
 	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
+		/// Request still not suported by i-on Core (its data is filled in add missing data module)
 		try {
+			
 			return {
 				"metadata": new Map(),
 				"data": {}
-			}; // Request still not suported by i-on Core
+			};
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {	/// Although the request is not yet supported by the core, there is already a possible error checking for when the request is implemented 
 			switch (err) {
-				case 404: /// Not Found
+				case 400: 	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
 
 	
-	/* Authentication related methods */
+	/* Methods related to authentication procedure */
 
 	const loadAuthenticationMethodsAndFeatures = async function (metadata) {
 		try {
@@ -318,7 +356,7 @@ module.exports = function() {
 					"metadata": response.headers,
 					"data": await response.json()
 				}
-			} else if(response.status === 304) {
+			} else if(response.status === 304) { /// The resource has not been modified
 				return {
 					"metadata": response.headers
 				}
@@ -326,11 +364,11 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -351,13 +389,16 @@ module.exports = function() {
 					"login_hint": email
 				})
 			};
+
 			return await coreRequest('/api/auth/backchannel', 200, options);
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 400: 	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -380,20 +421,21 @@ module.exports = function() {
 			};
 			
 			const response = await fetch(core_url + '/api/auth/token', options);
-			// TO DO: Check response status code
+			if(response.status != 200 && response.status != 400) throw response.status;
 			return response.json();
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Unexpected error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
 
-	/* User related methods */
+
+	/* Methods related to user api */
 
 	const saveUserClassesAndClassSections = async function(user, id, classSection) {
 		try {
@@ -407,15 +449,17 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/users/classes/' + id + '/' + classSection, options);
 		
-			if(response.status != 201 && response.status != 204) throw response.status; // TO DO - handle the status code
+			if(response.status != 201 && response.status != 204) throw response.status;
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 400:	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -433,13 +477,13 @@ module.exports = function() {
 
 			return await coreRequest('/api/users/classes/' + id, 200, options);
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -457,13 +501,13 @@ module.exports = function() {
 
 			return await coreRequest('/api/users/sections', 200, options);
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -481,15 +525,17 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/users/classes/' + id + '/' + classSection, options);
 	
-			if(response.status != 204) throw response.status; // TO DO - handle the status code
+			if(response.status != 204) throw response.status;
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 400:	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -507,15 +553,17 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/users/classes/' + courseId, options);
 
-			if(response.status != 204) throw response.status; // TO DO - handle the status code
+			if(response.status != 204) throw response.status;
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 400:	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -538,14 +586,15 @@ module.exports = function() {
 			
 			if(response.status != 204) throw response.status; // TO DO - handle the status code
 
-		} catch(err) { /// TO DO:  Add more error handling
-			
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 400:	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -577,13 +626,13 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -601,15 +650,15 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/users', options);
 			
-			if(response.status != 204) throw response.status; // TO DO - handle the status code
+			if(response.status != 204) throw response.status;
 			
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -634,11 +683,11 @@ module.exports = function() {
 
 			return await coreRequest('/api/auth/token', 200, options);
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -663,19 +712,20 @@ module.exports = function() {
 			
 			if(response.status != 204) throw response.status;
 		
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
 	};
 
 	return {
+		/* Methods to load generic academic information */
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
@@ -686,12 +736,12 @@ module.exports = function() {
 		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
 		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
-		/* Authentication related methods */
+		/* Methods related to authentication procedure */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
 
-		/* User related methods */
+		/* Methods related to user api */
 		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
 		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
 		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,

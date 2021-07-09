@@ -71,6 +71,17 @@ async function configurations() {
 
     app.use(`${pathPrefix}`, router);
 
+    /*
+        Since the main router positions our routes above the middleware defined below,
+        this means that Express will attempt to match & call routes before continuing on,
+        at which point we assume it's a 404 because no route has handled the request.
+    */
+
+    app.use(function(req, res) {
+        res.status(404);
+        res.render('errorPage', { status: 404, errorMessage: 'Not Found' });
+    });
+
     app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)
 
     app.listen(port);

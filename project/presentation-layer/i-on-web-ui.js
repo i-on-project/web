@@ -12,7 +12,7 @@ function webui(service, auth) {
 				const data = await service.getHome(req.user);
 				res.render('home', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Home Page');
+				await onErrorResponse(res, err, 'Failed to show home page');
 			}
 		},
 
@@ -21,7 +21,7 @@ function webui(service, auth) {
 				const data = await service.getProgrammeCalendarTermOffers(req.params['id'], req.user);
 				res.render('programmeCalendarTermOffers', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Offers');
+				await onErrorResponse(res, err, 'Failed to show programme offers');
 			}
 		},
 
@@ -30,7 +30,7 @@ function webui(service, auth) {
 				const data = await service.getProgrammeData(req.params['id'], req.user);
 				res.render('programme', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Programme Page');
+				await onErrorResponse(res, err, 'Failed to show programme page');
 			}
 		},
 
@@ -39,7 +39,7 @@ function webui(service, auth) {
 				const data = await service.getUserSchedule(req.user);
 				res.render('user-schedule', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Schedule');
+				await onErrorResponse(res, err, 'Failed to show schedule');
 			}
 		},
 
@@ -48,7 +48,7 @@ function webui(service, auth) {
 				const data = await service.getUserEvents(req.user);
 				res.render('user-calendar', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Calendar');
+				await onErrorResponse(res, err, 'Failed to show calendar');
 			}
 		},
 
@@ -57,7 +57,7 @@ function webui(service, auth) {
 				const data = await service.getUserSubscribedClassesAndClassSections(req.user);
 				res.render('user-classes', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show User Courses');
+				await onErrorResponse(res, err, 'Failed to show user courses');
 			}
 		},
 
@@ -66,7 +66,7 @@ function webui(service, auth) {
 				await service.editUserSubscribedClassesAndClassSections(req.user, req.body);
 				res.redirect('/classes');
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show User Courses');
+				await onErrorResponse(res, err, 'Failed to edit user classe sections');
 			}
 		},
 
@@ -75,7 +75,7 @@ function webui(service, auth) {
 				const data = await service.getClassSectionsFromSelectedClasses(req.user, req.query['id']);
 				res.render('class-sections', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Programme Offers');
+				await onErrorResponse(res, err, 'Failed to get class sections from selected classes');
 			}
 		},
 
@@ -84,7 +84,7 @@ function webui(service, auth) {
 				await service.saveUserClassesAndClassSections(req.user, req.body);
 				res.redirect('/classes');
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page');
+				await onErrorResponse(res, err, 'Failed to save user classe sections');
 			}
 		},
 
@@ -93,7 +93,7 @@ function webui(service, auth) {
 				const data = await service.getAboutData(req.user);
 				res.render('about', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page');
+				await onErrorResponse(res, err, 'Failed to show about page');
 			}
 		},
 
@@ -102,7 +102,7 @@ function webui(service, auth) {
 				const data = await service.getProfilePage(req.user);
 				res.render('user-profile', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page');
+				await onErrorResponse(res, err, 'Failed to show profile page');
 			}
 		},
 
@@ -111,7 +111,7 @@ function webui(service, auth) {
 				await service.editProfile(req.user, req.body);
 				res.redirect('/users/profile');
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page');
+				await onErrorResponse(res, err, 'Failed to edit profile');
 			}
 		},
 
@@ -120,7 +120,7 @@ function webui(service, auth) {
 				await auth.deleteUser(req);
 				res.redirect('/');
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page');
+				await onErrorResponse(res, err, 'Failed to delete user');
 			}
 		},
 
@@ -128,9 +128,8 @@ function webui(service, auth) {
 		loginUI: async function(req, res) {
 			let commonInfo;
 			try {
-				//commonInfo = await getPagesCommonInfo(service);
 				const data = await auth.getAuthMethodsAndFeatures();
-				res.render( /// TO DO: create page
+				res.render(
 					'login',
 					Object.assign(
 						{'page': 'login'},
@@ -139,7 +138,7 @@ function webui(service, auth) {
 					)
 				);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
+				await onErrorResponse(res, err, 'Failed to show login page', commonInfo);
 			}
 		},
 
@@ -148,7 +147,7 @@ function webui(service, auth) {
 				await auth.logout(req);	
 				res.redirect('/');
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
+				await onErrorResponse(res, err, 'Failed to logout', commonInfo);
 			}
 		},
 	}
@@ -177,6 +176,7 @@ function webui(service, auth) {
 	router.post('/users/delete',        	theWebUI.deleteUser							);
 
 	/*** Auth ***/
+
 	router.get(	'/login',					theWebUI.loginUI			   				);	/// Login UI page
 	router.get(	'/logout',					theWebUI.logout								);
 
@@ -191,7 +191,7 @@ async function onErrorResponse(res, err, defaultError) {
 	const translatedError = appErrorsToHttpErrors(err, defaultError);
 	
 	res.statusCode = translatedError.status;
-	res.render(page, translatedError);
+	res.render('errorPage', translatedError);
 
 }
 
@@ -199,11 +199,13 @@ function appErrorsToHttpErrors(err, defaultError) {
 
 	switch (err) {
 		case internalErrors.BAD_REQUEST:
-			return { status: 400, message: 'Bad Request' };
+			return { status: 400, errorMessage: 'Bad Request' };
 		case internalErrors.RESOURCE_NOT_FOUND:
-			return { status: 404, message: 'Resource Not Found' };
+			return { status: 404, errorMessage: 'Resource Not Found' };
+		case internalErrors.SERVICE_UNAVAILABLE:
+			return { status: 502, errorMessage: 'Service Unavailable' }; 
 		default:
-			return { status: 500, message: `An error has occured: ${defaultError} errorPage` };
+			return { status: 500, errorMessage: `An internal error has occured: ${defaultError}` };
 	}
 }
 

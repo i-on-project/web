@@ -24,11 +24,8 @@ module.exports = function(baseUrl) {
 				if(putResponseUsers.status != 200 && putResponseUsers.status != 201) throw putResponseUsers.status;
 			}
 
-		} catch (err) { // TODO handling errors
-			switch (err) {
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
+		} catch (err) { // Unexpected error
+			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
 
@@ -52,11 +49,8 @@ module.exports = function(baseUrl) {
 			const res = await fetchRequest(`${usersBaseUrl}/_doc/`, 201, options);
 			return res['_id'];
 
-		} catch (err) {  // TODO handling errors
-			switch (err) {
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
+		} catch (err) { // Unexpected error
+			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
 
@@ -84,11 +78,8 @@ module.exports = function(baseUrl) {
 
 			await fetchRequest(`${usersBaseUrl}/_update/${index}/`, 200, options);
 
-		} catch (err) { // TODO handling errors
-			switch (err) {
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
+		} catch (err) { // Unexpected error
+			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
 
@@ -99,17 +90,12 @@ module.exports = function(baseUrl) {
 	 */
 	const getUserTokens = async function (id) { /// Obtain user given the id
 		try {
+
 			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${id}`, 200);
-		
 			return answer._source;
 
-		} catch (err) { // TODO handling errors
-			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
+		} catch (err) { // Unexpected error
+			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
 
@@ -151,13 +137,8 @@ module.exports = function(baseUrl) {
 			
 			await fetchRequest(`${usersBaseUrl}/_delete_by_query`, 200, options);
 		
-		} catch (err) { // TODO handling errors
-			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
+		} catch (err) { // Unexpected error
+			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
 
