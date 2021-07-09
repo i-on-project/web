@@ -61,11 +61,11 @@ function appErrorsToHttpErrors(err, defaultError) {
 
 	switch (err) {
 		case internalErrors.BAD_REQUEST:
-			return { status: 400, message: 'Bad Request' };
+			return { status: 400, errorMessage: 'Bad Request' };
 		case internalErrors.RESOURCE_NOT_FOUND:
-			return { status: 404, message: 'Resource Not Found' };
+			return { status: 404, errorMessage: 'Resource Not Found' };
 		default:
-			return { status: 500, message: `An error has occured: ${defaultError} errorPage` };
+			return { status: 500, errorMessage: `An error has occured: ${defaultError} errorPage` };
 	}
 }
 

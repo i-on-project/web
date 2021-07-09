@@ -199,13 +199,13 @@ function appErrorsToHttpErrors(err, defaultError) {
 
 	switch (err) {
 		case internalErrors.BAD_REQUEST:
-			return { status: 400, message: 'Bad Request' };
+			return { status: 400, errorMessage: 'Bad Request' };
 		case internalErrors.RESOURCE_NOT_FOUND:
-			return { status: 404, message: 'Resource Not Found' };
+			return { status: 404, errorMessage: 'Resource Not Found' };
 		case internalErrors.SERVICE_UNAVAILABLE:
-			return { status: 502, message: 'Service Unavailable' }; 
+			return { status: 502, errorMessage: 'Service Unavailable' }; 
 		default:
-			return { status: 500, message: `An internal error has occured: ${defaultError}` };
+			return { status: 500, errorMessage: `An internal error has occured: ${defaultError}` };
 	}
 }
 
