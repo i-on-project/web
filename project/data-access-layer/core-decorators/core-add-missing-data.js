@@ -218,10 +218,7 @@ module.exports = function(data) {
 			"ETag": hash(improvedData),
 			"maxAge": default_maxAge
 		}
-		console.log("amd" + JSON.stringify({
-			"metadata": improvedMetadata,
-			"data": improvedData.calendarTerm
-		}))
+
 		return {
 			"metadata": improvedMetadata,
 			"data": improvedData.calendarTerm
@@ -284,8 +281,6 @@ module.exports = function(data) {
 	const loadUser = async function(access_token, token_type, email, metadata) {
 		const response = await data.loadUser(access_token, token_type, email, metadata);
 
-		console.log(`[LOAD_USER] ${JSON.stringify(response)}`)
-		
 		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
 				
 		/*** Adding metadata ***/

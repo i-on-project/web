@@ -11,7 +11,6 @@ class Cache {
     }
 
     hasExpired(key) {
-        console.log(`now: ${Date.now()} ttl: ${this.cache.getTtl(key)}`)
         return ( Date.now() - this.cache.getTtl(key) ) > 0;
     }
 

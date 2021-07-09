@@ -10,7 +10,6 @@ module.exports = function(data, myCache) {
 			return data.loadAllProgrammes(...arguments);
 		}
 
-		console.log('\n\n\n[Cache] - loadAllProgrammes is calling GetData')
 		return getData(myCache, key, fetchFunction);
 
 	};
@@ -22,7 +21,7 @@ module.exports = function(data, myCache) {
 		const fetchFunction = function() { 
 			return data.loadAllProgrammeOffers(programmeId, ...arguments);
 		}
-		console.log('cache - loadAllProgrammeOffers')
+
 		return getData(myCache, key, fetchFunction);
 	};
 
@@ -33,7 +32,7 @@ module.exports = function(data, myCache) {
 		const fetchFunction = function() { 
 			return data.loadProgrammeData(programmeId, ...arguments);
 		}
-		console.log('cache - loadProgrammeData')
+
 		return getData(myCache, key, fetchFunction);
 	};
 
@@ -43,7 +42,7 @@ module.exports = function(data, myCache) {
 		const fetchFunction = function() { 
 			return data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, ...arguments);
 		}
-		console.log('cache - loadCourseClassesByCalendarTerm')
+
 		return getData(myCache, key, fetchFunction);
 	};
 
@@ -52,8 +51,8 @@ module.exports = function(data, myCache) {
 
 		const fetchFunction = function() {
 			return data.loadAboutData(...arguments);
+
 		}
-		console.log('cache - loadAboutData')
 		return getData(myCache, key, fetchFunction);
 	};
 
@@ -93,7 +92,7 @@ module.exports = function(data, myCache) {
 		const fetchFunction = function() { 
 			return data.loadCalendarTermGeneralInfo(calendarTerm, ...arguments);
 		}
-		console.log('[Cache] loadCalendarTermGeneralInfo callling getData')
+
 		return getData(myCache, key, fetchFunction);
 	};
 
@@ -138,16 +137,12 @@ module.exports = function(data, myCache) {
 	};
 	
 	const editUser = function(user, newUsername) {
-		console.log('\n\n\n[Cache] - editUser is calling GetData')
-
 		const key = 'user/' + user.email;
 		myCache.del(key);
 		return data.editUser(user, newUsername);
 	};
 	
 	const loadUser = function(access_token, token_type, email) {
-		console.log('\n\n\n[Cache] - loadUser is calling GetData')
-
 		const key = 'user/' + email;
 
 		const fetchFunction = function() {
@@ -206,22 +201,16 @@ module.exports = function(data, myCache) {
 /******* Helper functions *******/
 
 const getData = async function(myCache, key, fetchNewData) {
-	console.log("\n[Cache] - Get data has been called")
 	let value = myCache.get(key);
-	console.log("\n[Cache] - Value before conditions " + JSON.stringify(value) + "|");
 
 	if(!value) {										/// Value does not exists
 
-		console.log("\n[Cache] - Value does not exists -")
-		
 		value = await fetchNewData();
 	
 		myCache.set(key, value, value.metadata.maxAge);
 
 	} else if (myCache.hasExpired(key)) {				/// Value already exists but expired -> conditional request
 
-		console.log("\n[Cache] - Value already exists but expired -> conditional request -")
-		
 		const resp = await fetchNewData.apply(this, [value.metadata.ETag]);
 
 		if(resp.data) {	/// The resource has been modified since the given date
@@ -231,11 +220,7 @@ const getData = async function(myCache, key, fetchNewData) {
 			myCache.ttl(key, resp.metadata.maxAge);
 		}
 
-	} else {
-		console.log("\n[Cache] - Value exists - ")
 	}
 
-	console.log('\n[Cache] returning .. ' + JSON.stringify(value));
 	return value;
-
 }
