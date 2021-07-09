@@ -42,7 +42,7 @@ module.exports = function(baseUrl) {
 					Object.assign(
 						{
 							'email': email,
-							'lastRefresh': new Date.now()
+							'lastRefresh': Date.now()
 						},
 						tokens	
 					)
@@ -73,7 +73,7 @@ module.exports = function(baseUrl) {
 				headers: { "Content-Type": contentType },
 				body: JSON.stringify({
 						"email" : email,
-						'lastRefresh' : new Date.now(),
+						'lastRefresh' : Date.now(),
 						"access_token" : tokens.access_token,
 						"token_type" : tokens.token_type,
 						"refresh_token" : tokens.refresh_token,

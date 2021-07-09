@@ -1,6 +1,6 @@
 'use strict'
 
-const maxAge = 10;
+const default_maxAge = 24 * 60 * 60;
 const hash = require('object-hash');
 
 module.exports = function(data) {
@@ -28,7 +28,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": hash(improvedData),
-			"maxAge": maxAge
+			"maxAge": default_maxAge
 		}
 
 		/*response.data = improvedData;
@@ -65,7 +65,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": hash(improvedData),
-			"maxAge": maxAge
+			"maxAge": default_maxAge
 		}
 		
 		return {
@@ -97,7 +97,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": hash(improvedData),
-			"maxAge": maxAge
+			"maxAge": default_maxAge
 		}
 		
 		return {
@@ -122,7 +122,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": hash(improvedData),
-			"maxAge": maxAge
+			"maxAge": default_maxAge
 		}
 		
 		return {
@@ -142,7 +142,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": hash(improvedData),
-			"maxAge": maxAge
+			"maxAge": default_maxAge
 		}
 		
 		return {
@@ -159,7 +159,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": hash(response.data),
-			"maxAge": maxAge
+			"maxAge": default_maxAge
 		}
 		
 		return {
@@ -176,7 +176,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": hash(response.data),
-			"maxAge": maxAge
+			"maxAge": default_maxAge
 		}
 		
 		return {
@@ -196,7 +196,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": hash(improvedData),
-			"maxAge": maxAge
+			"maxAge": default_maxAge
 		}
 		
 		return {
@@ -216,9 +216,12 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": hash(improvedData),
-			"maxAge": maxAge
+			"maxAge": default_maxAge
 		}
-		
+		console.log("amd" + JSON.stringify({
+			"metadata": improvedMetadata,
+			"data": improvedData.calendarTerm
+		}))
 		return {
 			"metadata": improvedMetadata,
 			"data": improvedData.calendarTerm
@@ -234,11 +237,9 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": hash(response.data),
-			"maxAge": maxAge
+			"maxAge": default_maxAge
 		}
 
-		console.log("AMD TESTE")
-		
 		return {
 			"metadata": improvedMetadata,
 			"data": response.data
@@ -290,7 +291,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": hash(response.data),
-			"maxAge": maxAge
+			"maxAge": 10 * 60
 		}
 		
 		return {

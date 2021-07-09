@@ -400,14 +400,16 @@ module.exports = function(data) {
 		};
 	}
 	
-	const loadCalendarTermGeneralInfo = function(calendarTerm, metadata) {
-		const receivedData = data.loadCalendarTermGeneralInfo(calendarTerm, metadata);
+	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
+
+		const receivedData = await data.loadCalendarTermGeneralInfo(calendarTerm, metadata);
+		const cache_control = receivedData.metadata.get('Cache-Control');
 
 		const receivedmetadata = {
 			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": receivedData.metadata.get('cache-control-max-age')
+			"maxAge": getMaxAge(cache_control)
 		}
-		
+
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
 
 		return {

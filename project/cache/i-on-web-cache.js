@@ -93,13 +93,13 @@ module.exports = function(data, myCache) {
 		const fetchFunction = function() { 
 			return data.loadCalendarTermGeneralInfo(calendarTerm, ...arguments);
 		}
-		
+		console.log('[Cache] loadCalendarTermGeneralInfo callling getData')
 		return getData(myCache, key, fetchFunction);
 	};
 
 	/* Authentication related methods */
 	const loadAuthenticationMethodsAndFeatures = function () {
-		const key = 'CalendarTermInfo';
+		const key = 'AuthenticationMethods';
 
 		const fetchFunction = function() {
 			return data.loadAuthenticationMethodsAndFeatures(...arguments);
@@ -138,12 +138,16 @@ module.exports = function(data, myCache) {
 	};
 	
 	const editUser = function(user, newUsername) {
+		console.log('\n\n\n[Cache] - editUser is calling GetData')
+
 		const key = 'user/' + user.email;
 		myCache.del(key);
 		return data.editUser(user, newUsername);
 	};
 	
 	const loadUser = function(access_token, token_type, email) {
+		console.log('\n\n\n[Cache] - loadUser is calling GetData')
+
 		const key = 'user/' + email;
 
 		const fetchFunction = function() {

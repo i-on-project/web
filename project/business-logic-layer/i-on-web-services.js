@@ -8,8 +8,10 @@ module.exports = function(data, sessionDB) {
 		let events;
 		
 		if(user) {
+			console.log('[SERVICES] getHome ' + JSON.stringify(user))
 			const userHomeEvents = await getUserEvents(user);
 			events = userHomeEvents.events;
+			console.log('[SERVICES] getHome user events 2')
 		}
 		
 		const commonInfo = await getProgrammesByDegree(data);
@@ -115,14 +117,15 @@ module.exports = function(data, sessionDB) {
 	const getUserEvents = async function(user) {
 		try {
 			const calendarTerm = await getCurrentCalendarTerm(data);
+			console.log('[SERVICES] getUserEvents antes' + JSON.stringify(calendarTerm))
 			const calendarEvents = await data.loadCalendarTermGeneralInfo(calendarTerm);
+			console.log('[SERVICES] getUserEvents apos' + JSON.stringify(calendarEvents))
 
 			let events = {
 				"calendar": calendarEvents,
 				"assignments": [],
 				"testsAndExams": []
 			};
-
 			if(user) {
 				const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
 				const userClassesOfPresentCalendarTerm = userClassesAndClassSections.filter(userClass => userClass.calendarTerm === calendarTerm);
