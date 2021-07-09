@@ -335,7 +335,7 @@ module.exports = function() {
 	};
 
 	
-	/* Methods related to authentication */
+	/* Methods related to authentication procedure */
 
 	const loadAuthenticationMethodsAndFeatures = async function (metadata) {
 		try {
@@ -449,15 +449,17 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/users/classes/' + id + '/' + classSection, options);
 		
-			if(response.status != 201 && response.status != 204) throw response.status; // TO DO - handle the status code
+			if(response.status != 201 && response.status != 204) throw response.status;
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 400:	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -475,13 +477,13 @@ module.exports = function() {
 
 			return await coreRequest('/api/users/classes/' + id, 200, options);
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -499,13 +501,13 @@ module.exports = function() {
 
 			return await coreRequest('/api/users/sections', 200, options);
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -523,15 +525,17 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/users/classes/' + id + '/' + classSection, options);
 	
-			if(response.status != 204) throw response.status; // TO DO - handle the status code
+			if(response.status != 204) throw response.status;
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 400:	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -549,15 +553,17 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/users/classes/' + courseId, options);
 
-			if(response.status != 204) throw response.status; // TO DO - handle the status code
+			if(response.status != 204) throw response.status;
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 400:	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -580,14 +586,15 @@ module.exports = function() {
 			
 			if(response.status != 204) throw response.status; // TO DO - handle the status code
 
-		} catch(err) { /// TO DO:  Add more error handling
-			
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 400:	/// Bad request
+					throw internalErrors.BAD_REQUEST;
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -619,13 +626,13 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -643,15 +650,15 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/users', options);
 			
-			if(response.status != 204) throw response.status; // TO DO - handle the status code
+			if(response.status != 204) throw response.status;
 			
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -676,11 +683,11 @@ module.exports = function() {
 
 			return await coreRequest('/api/auth/token', 200, options);
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -705,13 +712,13 @@ module.exports = function() {
 			
 			if(response.status != 204) throw response.status;
 		
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) {		/// Error handling
 			switch (err) {
-				case 403:
+				case 403:	/// The access token has expired and this exception will be catched, consequently, the access token will be refreshed
 					throw internalErrors.EXPIRED_ACCESS_TOKEN;
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
+				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
 		}
@@ -729,12 +736,12 @@ module.exports = function() {
 		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
 		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
-		/* Authentication related methods */
+		/* Methods related to authentication procedure */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
 
-		/* User related methods */
+		/* Methods related to user api */
 		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
 		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
 		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
