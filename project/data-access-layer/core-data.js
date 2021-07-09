@@ -8,11 +8,10 @@ const contentType = 'application/json';
 /// Environment variables
 const read_token = 'Bearer ' + process.env.CORE_READ_TOKEN;
 const core_url = process.env.CORE_URL;
-const client_id = process.env.CORE_CLIENT_ID; /// TO DO: In future remove dev client id
+const client_id = process.env.CORE_CLIENT_ID;
 const client_secret = process.env.CORE_CLIENT_SECRET;
 
 const coreRequest = async function(endpoint, expectedStatus, options) {
-	// core_url + endpoint
 	const response = await fetch(core_url + endpoint, options);
 	if(response.status != expectedStatus) throw response.status;
 	
@@ -48,10 +47,12 @@ module.exports = function() {
 				throw response.status;
 			}
 
-		} catch(err) { /// TO DO:  Add more error handling
+		} catch(err) { /// More error handling
 			switch (err) {
 				case 404:	/// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
+				case 503:	/// Service Unavailable
+					throw internalErrors.SERVICE_UNAVAILABLE;
 				default:	/// Internal Server Error
 					throw internalErrors.SERVICE_FAILURE;
 			}
@@ -676,6 +677,7 @@ module.exports = function() {
 	};
 
 	return {
+		/* Academic information related methods */
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,

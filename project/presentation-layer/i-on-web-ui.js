@@ -177,6 +177,7 @@ function webui(service, auth) {
 	router.post('/users/delete',        	theWebUI.deleteUser							);
 
 	/*** Auth ***/
+
 	router.get(	'/login',					theWebUI.loginUI			   				);	/// Login UI page
 	router.get(	'/logout',					theWebUI.logout								);
 
@@ -191,7 +192,7 @@ async function onErrorResponse(res, err, defaultError) {
 	const translatedError = appErrorsToHttpErrors(err, defaultError);
 	
 	res.statusCode = translatedError.status;
-	res.render(page, translatedError);
+	res.render('errorPage', translatedError);
 
 }
 
@@ -202,8 +203,10 @@ function appErrorsToHttpErrors(err, defaultError) {
 			return { status: 400, message: 'Bad Request' };
 		case internalErrors.RESOURCE_NOT_FOUND:
 			return { status: 404, message: 'Resource Not Found' };
+		case internalErrors.SERVICE_UNAVAILABLE:
+			return { status: 502, message: 'Service Unavailable' }; 
 		default:
-			return { status: 500, message: `An error has occured: ${defaultError} errorPage` };
+			return { status: 500, message: `An internal error has occured: ${defaultError}` };
 	}
 }
 
