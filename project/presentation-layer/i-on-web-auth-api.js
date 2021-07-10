@@ -13,7 +13,7 @@ function webapi(auth) {
 				const data = await auth.submitInstitutionalEmail(body.email);
 				res.json(data);
 			} catch(err) {
-                await onErrorResponse(res, err, 'Failed to submit email');
+                onErrorResponse(res, err, 'Failed to submit email');
 			}
 		},
 
@@ -27,7 +27,7 @@ function webapi(auth) {
 				} else res.status(202).json();
 
 			} catch(err) {
-                await onErrorResponse(res, err, 'Failed to authenticate user');
+                onErrorResponse(res, err, 'Failed to authenticate user');
 			}
 		}
 
@@ -50,11 +50,13 @@ function onErrorResponse(res, err, defaultError) {
 
 	switch (err) {
 
+		case internalErrors.BAD_REQUEST:
+			res.status(400).json({ cause: 'Bad Request' });
+			break;
 		case internalErrors.SERVICE_UNAVAILABLE:
-			console.log('oi1')
-			res.status(502).json({ cause: 'Service Unavailable' }); 
+			res.status(502).json({ cause: 'Service Unavailable' });
+			break;
 		default:
-			console.log('oi')
 			res.status(500).json({ cause: defaultError});
 			break;
 

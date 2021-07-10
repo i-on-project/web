@@ -153,9 +153,15 @@
 				body: JSON.stringify(userEmail)
 			});
 
-			if(response.status !== 200) {
+			if(response.status === 400) {
+				console.log("oi1")
 				userEmailElem.classList.add("is-invalid");
-				loading.innerHTML = "<br><p>Insira um email válido.</p>";
+				loading.innerHTML = "";
+				button.disabled = false;
+				return;
+			} else if(response.status !== 200) {
+				console.log("oi2")
+				loading.innerHTML = "<br><p>Ocorreu um erro, tente novamente.</p>";
 				button.disabled = false;
 				return;
 			}
