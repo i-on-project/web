@@ -1,6 +1,7 @@
 'use strict'
 
 const internalErrors = require('../common/i-on-web-errors.js');
+const CryptoJS = require("crypto-js");
 
 let users = {};
 const mock_users_limit = 3;
@@ -94,13 +95,21 @@ module.exports = function() {
 	};
 
 	const pollingCore = async function(authForPoll) {
-		return Object.keys(users).length < mock_users_limit || users.hasOwnProperty(authForPoll) ?  
-			{
+		if(Object.keys(users).length < mock_users_limit || users.hasOwnProperty(authForPoll)) {  
+			
+			const stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify({"email": authForPoll}));
+			const encodedData = base64url(stringifiedData);
+
+			const token = "eyJhbGciOiJIUzI1NiJ9" + "." + encodedData;
+
+			return {
 			 "access_token": authForPoll,
-			 "token_type": ""
-			} 
-			: 
-			{};
+			 "token_type": "",
+			 "id_token": token
+			}; 
+		} else {
+			return {};
+		}
 	};
 
 	/* User related methods */
