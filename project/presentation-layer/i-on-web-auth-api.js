@@ -13,8 +13,7 @@ function webapi(auth) {
 				const data = await auth.submitInstitutionalEmail(body.email);
 				res.json(data);
 			} catch(err) {
-                console.log("erro -> " + err);
-				//await onErrorResponse(res, err, 'Failed to show Home Page');
+                await onErrorResponse(res, err, 'Failed to show Home Page');
 			}
 		},
 
@@ -28,8 +27,7 @@ function webapi(auth) {
 				} else res.status(202).json();
 
 			} catch(err) {
-                console.log("erro -> " + err);
-				//await onErrorResponse(res, err, 'Failed to show Home Page');
+                await onErrorResponse(res, err, 'Failed to show Home Page');
 			}
 		}
 
@@ -48,25 +46,21 @@ function webapi(auth) {
 
 /******* Helper functions *******/
 
-async function onErrorResponse(res, err, defaultError) {
-
-	const translatedError = appErrorsToHttpErrors(err, defaultError);
-	
-	res.statusCode = translatedError.status;
-	res.render(page, translatedError);
-
-}
-
-function appErrorsToHttpErrors(err, defaultError) {
+function onErrorResponse(res, err, defaultError) {
 
 	switch (err) {
+
 		case internalErrors.BAD_REQUEST:
-			return { status: 400, errorMessage: 'Bad Request' };
+			res.status(400).json({ cause: 'Bad Request' });
 		case internalErrors.RESOURCE_NOT_FOUND:
-			return { status: 404, errorMessage: 'Resource Not Found' };
+			res.status(404).json({ cause: 'Resource Not Found' });
+		case internalErrors.SERVICE_UNAVAILABLE:
+			res.status(502).json({ cause: 'Service Unavailable' }); 
 		default:
-			return { status: 500, errorMessage: `An error has occured: ${defaultError} errorPage` };
+			res.status(500).json({ cause: defaultError});
+			break;
 	}
+
 }
 
 module.exports = webapi;

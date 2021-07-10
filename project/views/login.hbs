@@ -141,7 +141,7 @@
 			'</div>'
 
 			// Request to auth api to obtain auth_req_id and expiration
-			const data = {
+			const userEmail = {
 				'email' : document.querySelector('#emailValue').value
 			};
 
@@ -150,14 +150,17 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(data),
+				body: JSON.stringify(userEmail)
 			});
 			
 			const authData = await response.json();
 			
-			const auth_req_id = authData.auth_req_id;
+			const authReqId = {
+				'auth_req_id' : authData.auth_req_id;
+			};
+
+			const polling_uri = `/auth-api/poll`
 			let counter = authData.expires_in;
-			const polling_uri = `/auth-api/${auth_req_id}/poll`
 
 			// Polling loop
 			const pollingLoop = setInterval(async () => {
@@ -167,7 +170,8 @@
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
-					}
+					},
+					body: JSON.stringify(authReqId)
 				});
 
 				if(pollingResponse.status === 200) {
