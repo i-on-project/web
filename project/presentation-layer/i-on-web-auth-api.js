@@ -13,21 +13,21 @@ function webapi(auth) {
 				const data = await auth.submitInstitutionalEmail(body.email);
 				res.json(data);
 			} catch(err) {
-                await onErrorResponse(res, err, 'Failed to show Home Page');
+                await onErrorResponse(res, err, 'Failed to submit email');
 			}
 		},
 
 		pollingCore: async function(req, res) {
-            const params = req.params;
+            const body = req.body;
 			try {
-				const isCompleted = await auth.pollingCore(req, params['authId']);
+				const isCompleted = await auth.pollingCore(req, body.auth_req_id);
                 
 				if(isCompleted) {
 					res.json();
 				} else res.status(202).json();
 
 			} catch(err) {
-                await onErrorResponse(res, err, 'Failed to show Home Page');
+                await onErrorResponse(res, err, 'Failed to authenticate user');
 			}
 		}
 
@@ -37,8 +37,8 @@ function webapi(auth) {
 	router.use(express.json());	        /// Middleware to to create body property in request
 
 	/******* Mapping requests to handlers according to the path *******/
-	router.post('/email', 			theWebAPI.submitInstitutionalEmail	);	///
-	router.post('/:authId/poll',	theWebAPI.pollingCore				);	///
+	router.post('/email', 	theWebAPI.submitInstitutionalEmail	);	/// ...
+	router.post('/poll',	theWebAPI.pollingCore				);	/// ...
 
 	return router;
 }
@@ -50,15 +50,14 @@ function onErrorResponse(res, err, defaultError) {
 
 	switch (err) {
 
-		case internalErrors.BAD_REQUEST:
-			res.status(400).json({ cause: 'Bad Request' });
-		case internalErrors.RESOURCE_NOT_FOUND:
-			res.status(404).json({ cause: 'Resource Not Found' });
 		case internalErrors.SERVICE_UNAVAILABLE:
+			console.log('oi1')
 			res.status(502).json({ cause: 'Service Unavailable' }); 
 		default:
+			console.log('oi')
 			res.status(500).json({ cause: defaultError});
 			break;
+
 	}
 
 }

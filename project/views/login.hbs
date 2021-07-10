@@ -77,6 +77,7 @@
 	<script>
 
 		const allowed_domains = [];
+		const userEmailElem = document.querySelector('#emailValue');
 
 		{{#each data}}
 			if('{{this.type}}' === 'email') {
@@ -94,7 +95,7 @@
 		async function validateEmail() {
 
 			// Extract email
-			const userEmailElem = document.querySelector('#emailValue');
+			
 			const userEmail = userEmailElem.value;
 			
 			// Validate email
@@ -107,8 +108,7 @@
 
 			// Email is valid
 			if(userEmailElem.classList.contains("is-invalid")) userEmailElem.classList.remove("is-invalid");
-			userEmailElem.classList.add("is-valid");
-
+		
 			await submit();
 		}
 
@@ -152,11 +152,20 @@
 				},
 				body: JSON.stringify(userEmail)
 			});
-			
+
+			if(response.status !== 200) {
+				userEmailElem.classList.add("is-invalid");
+				loading.innerHTML = "<br><p>Insira um email válido.</p>";
+				button.disabled = false;
+				return;
+			}
+
+			userEmailElem.classList.add("is-valid");
+
 			const authData = await response.json();
-			
+
 			const authReqId = {
-				'auth_req_id' : authData.auth_req_id;
+				'auth_req_id' : authData.auth_req_id
 			};
 
 			const polling_uri = `/auth-api/poll`
@@ -164,29 +173,34 @@
 
 			// Polling loop
 			const pollingLoop = setInterval(async () => {
-				counter-=5;
 
-				const pollingResponse = await fetch(polling_uri, {
+				counter -= 5;
+
+				const pollingResponse = await fetch("/auth-api/poll", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify(authReqId)
 				});
-
+				
 				if(pollingResponse.status === 200) {
 					
 					clearInterval(pollingLoop);
 
 					setTimeout(async () => {
-						loading.innerHTML = "<p>Autenticação realizada com sucesso!</p>"
+						loading.innerHTML = "<br><p>Autenticação realizada com sucesso!</p>";
 						window.location.replace('/');
 					}, 500)
 					
+				} else if(pollingResponse.status !== 202) {
+					loading.innerHTML = "<br><p>Ocorreu um erro, tente novamente.</p>";
+					button.disabled = false;
+					clearInterval(pollingLoop);
 				}
 
 				if (counter === 0) {
-					loading.innerHTML = "<p>Tempo para autenticação excedido!</p>"
+					loading.innerHTML = "<br><p>Tempo para autenticação excedido!</p>";
 					clearInterval(pollingLoop);
 				}
 
