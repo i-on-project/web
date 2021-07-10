@@ -1,7 +1,7 @@
 'use strict'
 
 const internalErrors = require('../common/i-on-web-errors.js');
-const CryptoJS = require("crypto-js");
+const base64url = require('base64url');
 
 let users = {};
 const mock_users_limit = 3;
@@ -44,7 +44,7 @@ module.exports = function() {
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/classSections/' + classSection;
 		const data = getMockData(path);
-		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
+		if(!data) throw internalErrors.SERVICE_FAILURE;
 		return data;
 	}
 
@@ -65,7 +65,7 @@ module.exports = function() {
 	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
 		const path = '/calendarTerms/' + calendarTerm + '/semester_calendar';
 		const data = await getMockData(path);
-		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
+		if(!data) throw internalErrors.SERVICE_FAILURE;
 		return data;
 	}
 
@@ -97,13 +97,11 @@ module.exports = function() {
 	const pollingCore = async function(authForPoll) {
 		if(Object.keys(users).length < mock_users_limit || users.hasOwnProperty(authForPoll)) {  
 			
-			const stringifiedData = CryptoJS.enc.Utf8.parse(JSON.stringify({"email": authForPoll}));
-			const encodedData = base64url(stringifiedData);
-
-			const token = "eyJhbGciOiJIUzI1NiJ9" + "." + encodedData;
-
+			const encodedData = base64url(JSON.stringify({"email": authForPoll}));
+			const token = "eyJhbGciOiJIUzI1NiJ9." + encodedData;
+		
 			return {
-			 "access_token": authForPoll,
+			 "access_token": "",
 			 "token_type": "",
 			 "id_token": token
 			}; 
@@ -114,14 +112,15 @@ module.exports = function() {
 
 	/* User related methods */
 
-	const saveUserClassesAndClassSections = async function(user, id, classSection) { // TO DO
-		const path = '/user-courses/' + courseId;
+	const saveUserClassesAndClassSections = async function(user, id, classSection) {
+		const path = '/user-courses/' + id;
 		const data = await getMockData(path);
 
 		if(data) {
 			for(let i = 0; i < users[user.email].classesAndClassSections.length; i++) {
-				if(users[user.email].classesAndClassSections[i].courseId == courseId)
-					users[user.email].classesAndClassSections[i].classes.push(classSection);
+				if(users[user.email].classesAndClassSections[i].id == id)
+					if(!users[user.email].classesAndClassSections[i].classes.includes(classSection))
+						users[user.email].classesAndClassSections[i].classes.push(classSection);
 			} 
 			if(users[user.email].classesAndClassSections.length == 0) {
 				const course = data;
@@ -131,47 +130,49 @@ module.exports = function() {
 		};
 	}
 
-	const loadUserSubscribedClassSectionsInClass = function(user, id) {// TO DO
-		return users[user.email].classesAndClassSections.filter(course => course.courseId == courseId).find(__ => __).classes;
+	const loadUserSubscribedClassSectionsInClass = function(user, id) {
+		return users[user.email].classesAndClassSections.filter(course => course.id == id).find(__ => __).classes;
 	}
 
-	const loadUserSubscribedClassesAndClassSections = function(user) {// TO DO
+	const loadUserSubscribedClassesAndClassSections = function(user) {
 		return users[user.email].classesAndClassSections;
 	}
 
-	const deleteUserClassSection = async function(user, id, classSection) {// TO DO
+	const deleteUserClassSection = async function(user, id, classSection) {
 		const classSections = users[user.email].classesAndClassSections
-		.filter(course => course.courseId == courseId).find(__ => __).classes;
+		.filter(course => course.id == id).find(__ => __).classes;
 
 		const classSectionsSize = classSections.length;
 
 		for( let i = 0; i < classSectionsSize; i++){ 
 			if ( classSections[i] == classSection) { 
 				users[user.email].classesAndClassSections
-				.filter(course => course.courseId == courseId)
+				.filter(course => course.id == id)
 				.find(__ => __).classes.splice(i, 1); 
 			}
 		}
 	}
 
-	const deleteUserClass = async function(user, id) {// TO DO
+	const deleteUserClass = async function(user, id) {
 		for( let i = 0; i < users[user.email].classesAndClassSections.length; i++){ 
-			if ( users[user.email].classesAndClassSections[i].courseId == courseId) { 
+			if ( users[user.email].classesAndClassSections[i].id == id) { 
 				users[user.email].classesAndClassSections.splice(i, 1); 
 			}
 		}
 	}
 
-	const editUser = async function(user, newUsername) {// TO DO
+	const editUser = async function(user, newUsername) {
 		users[user.email].username = newUsername;
 	}
 
-	const loadUser = async function(access_token, token_type, email) {// TO DO
-		return users[access_token];
+	const loadUser = async function(access_token, token_type, email) {
+		return users[email];
 	}
 
-	const deleteUser = async function(user) { // TO DO
-		delete users[access_token];
+	const deleteUser = async function(user) {
+		console.log('users before delete : ' + JSON.stringify(users))
+		delete users[user.email];
+		console.log('users after delete : ' + JSON.stringify(users))
 	}
 
 	const refreshAccessToken = function(user) {};
