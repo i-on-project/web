@@ -59,7 +59,7 @@ module.exports = function(baseUrl) {
 	 * @param {*} email user email
 	 * @param {*} tokens user session tokens
 	 */
-	const storeUpdatedInfo = async function (email, tokens, index) {
+	const storeUpdatedInfo = async function (email, tokens, doc_id) {
 		try {
 
 			const options = {
@@ -76,7 +76,7 @@ module.exports = function(baseUrl) {
 				  })
 			};
 
-			await fetchRequest(`${usersBaseUrl}/_update/${index}/`, 200, options);
+			await fetchRequest(`${usersBaseUrl}/_update/${doc_id}/`, 200, options);
 
 		} catch (err) { // Unexpected error
 			throw internalErrors.SERVICE_FAILURE;

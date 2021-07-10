@@ -1,74 +1,80 @@
 'use strict'
 
+const internalErrors = require('../common/i-on-web-errors.js');
+
 let users = {};
 const mock_users_limit = 3;
 
 module.exports = function() {
 
-	const loadAllProgrammes = async function() {
-		const data = await getMockData('/programmes');
-		return data? data : [];
+	const loadAllProgrammes = function() {
+		const data = getMockData('/programmes');
+		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
+		return data;
 	};
 
 	const loadAllProgrammeOffers = async function(programmeId) {
 		const path = '/offers/' + programmeId;
-		const data = await getMockData(path);
-		return data? data : [];
+		const data = getMockData(path);
+		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
+		return data;
 	};
 
 	const loadProgrammeData = async function(programmeId) {
 		const path = '/programmes/' + programmeId;
-		const data = await getMockData(path);
-		return data ? data : {};
+		const data = getMockData(path);
+		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
+		return data;
 	};
 
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
-		const data = await getMockData(path);
-
-		return data? {
-			"id": data.id,
-			"courseId": data.courseId,
-			"acronym": data.acronym,
-			"name": data.name,
-			"classes": data.classes
-		} : {};
+		const data = getMockData(path);
+		if(!data) return {"classes": []};
+		return data;
 	};
 
 	const loadAboutData = async function() {
-		const data = await getMockData('/i-on-team');
-		return data? data : {};
+		const data = getMockData('/i-on-team');
+		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
+		return data;
 	};
 	
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/classSections/' + classSection;
-		const data = await getMockData(path);
-		return data? data : [];
+		const data = getMockData(path);
+		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
+		return data;
 	}
 
 	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm) {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/events';
-		const data = await getMockData(path);
-		return data? data : {};
+		const data = getMockData(path);
+		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
+		return data;
 	}
 
 	const loadCurrentCalendarTerm = async function() {
 		const path = '/current_calendar_term';
-		const data = await getMockData(path);
-		return data? data.calendarTerm : {};
+		const data = getMockData(path);
+		if(!data) throw internalErrors.SERVICE_FAILURE;
+		return data.calendarTerm;
 	}
 		
 	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
 		const path = '/calendarTerms/' + calendarTerm + '/semester_calendar';
 		const data = await getMockData(path);
-		return data? data : [];
+		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
+		return data;
 	}
 
 	/* Authentication related methods */
 
 	const loadAuthenticationMethodsAndFeatures = async function () {
 		const path = '/auth/authenticationMethodsAndFeatures';
-		return getMockData(path);
+		const data = getMockData(path);
+		if(!data) throw internalErrors.SERVICE_FAILURE;
+		return data;
 	};
 
 	const submitInstitutionalEmail = async function(email) {
@@ -99,7 +105,7 @@ module.exports = function() {
 
 	/* User related methods */
 
-	const saveUserClassesAndClassSections = async function(user, courseId, classSection) { 
+	const saveUserClassesAndClassSections = async function(user, id, classSection) { // TO DO
 		const path = '/user-courses/' + courseId;
 		const data = await getMockData(path);
 
@@ -116,15 +122,15 @@ module.exports = function() {
 		};
 	}
 
-	const loadUserSubscribedClassesAndClassSections = async function(user) {
-		return users[user.email].classesAndClassSections;
-	}
-
-	const loadUserSubscribedClassSectionsInClass = async function(user, courseId) { 
+	const loadUserSubscribedClassSectionsInClass = function(user, id) {// TO DO
 		return users[user.email].classesAndClassSections.filter(course => course.courseId == courseId).find(__ => __).classes;
 	}
 
-	const deleteUserClassSection = async function(user, courseId, classSection) {
+	const loadUserSubscribedClassesAndClassSections = function(user) {// TO DO
+		return users[user.email].classesAndClassSections;
+	}
+
+	const deleteUserClassSection = async function(user, id, classSection) {// TO DO
 		const classSections = users[user.email].classesAndClassSections
 		.filter(course => course.courseId == courseId).find(__ => __).classes;
 
@@ -139,7 +145,7 @@ module.exports = function() {
 		}
 	}
 
-	const deleteUserClass = async function(user, courseId) {
+	const deleteUserClass = async function(user, id) {// TO DO
 		for( let i = 0; i < users[user.email].classesAndClassSections.length; i++){ 
 			if ( users[user.email].classesAndClassSections[i].courseId == courseId) { 
 				users[user.email].classesAndClassSections.splice(i, 1); 
@@ -147,17 +153,21 @@ module.exports = function() {
 		}
 	}
 
-	const editUser = async function(user, newUsername) {
+	const editUser = async function(user, newUsername) {// TO DO
 		users[user.email].username = newUsername;
 	}
 
-	const loadUser = async function(access_token, token_type, email) {
+	const loadUser = async function(access_token, token_type, email) {// TO DO
 		return users[access_token];
 	}
 
-	const deleteUser = async function(access_token, token_type) {
+	const deleteUser = async function(user) { // TO DO
 		delete users[access_token];
 	}
+
+	const refreshAccessToken = function(user) {};
+	
+	const revokeAccessToken = function(user) {};
 
 	return {
         loadAllProgrammes : loadAllProgrammes,
@@ -183,14 +193,16 @@ module.exports = function() {
 		deleteUserClass : deleteUserClass,
 		editUser : editUser,
 		loadUser : loadUser,
-		deleteUser : deleteUser
+		deleteUser : deleteUser,
+		refreshAccessToken : refreshAccessToken,
+		revokeAccessToken : revokeAccessToken
 	};
 }
 
 /******* Helper functions *******/
 
 const mockDataPath = '../mock-data';
-const getMockData = async function(path) {
+const getMockData = function(path) {
 	try{
 		return require(mockDataPath + path);
 	} catch(err) {
