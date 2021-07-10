@@ -11,62 +11,62 @@ module.exports = function() {
 	const loadAllProgrammes = function() {
 		const data = getMockData('/programmes');
 		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
-		return data;
+		return JSON.parse(JSON.stringify(data));;
 	};
 
 	const loadAllProgrammeOffers = async function(programmeId) {
 		const path = '/offers/' + programmeId;
 		const data = getMockData(path);
 		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
-		return data;
+		return JSON.parse(JSON.stringify(data));;
 	};
 
 	const loadProgrammeData = async function(programmeId) {
 		const path = '/programmes/' + programmeId;
 		const data = getMockData(path);
 		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
-		return data;
+		return JSON.parse(JSON.stringify(data));
 	};
 
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
 		const data = getMockData(path);
 		if(!data) return {"classes": []};
-		return data;
+		return JSON.parse(JSON.stringify(data));;
 	};
 
 	const loadAboutData = async function() {
 		const data = getMockData('/i-on-team');
 		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
-		return data;
+		return JSON.parse(JSON.stringify(data));;
 	};
 	
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/classSections/' + classSection;
 		const data = getMockData(path);
 		if(!data) throw internalErrors.SERVICE_FAILURE;
-		return data;
+		return JSON.parse(JSON.stringify(data));;
 	}
 
 	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm) {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/events';
 		const data = getMockData(path);
 		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
-		return data;
+		return JSON.parse(JSON.stringify(data));;
 	}
 
 	const loadCurrentCalendarTerm = async function() {
 		const path = '/current_calendar_term';
 		const data = getMockData(path);
 		if(!data) throw internalErrors.SERVICE_FAILURE;
-		return data.calendarTerm;
+		return JSON.parse(JSON.stringify(data.calendarTerm));
 	}
 		
 	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
 		const path = '/calendarTerms/' + calendarTerm + '/semester_calendar';
 		const data = await getMockData(path);
 		if(!data) throw internalErrors.SERVICE_FAILURE;
-		return data;
+		return JSON.parse(JSON.stringify(data));
 	}
 
 	/* Authentication related methods */
@@ -75,7 +75,7 @@ module.exports = function() {
 		const path = '/auth/authenticationMethodsAndFeatures';
 		const data = getMockData(path);
 		if(!data) throw internalErrors.SERVICE_FAILURE;
-		return data;
+		return JSON.parse(JSON.stringify(data));
 	};
 
 	const submitInstitutionalEmail = async function(email) {
@@ -113,16 +113,26 @@ module.exports = function() {
 	/* User related methods */
 
 	const saveUserClassesAndClassSections = async function(user, id, classSection) {
-		const path = '/user-courses/' + id;
-		const data = await getMockData(path);
+		const calendarTerm = await loadCurrentCalendarTerm();
+		const path = '/calendarTerms/' + calendarTerm + '/' + id + '/class';
+		const receidedData = await getMockData(path);
 
-		if(data) {
+		if(receidedData) {
+			const data = JSON.parse(JSON.stringify(receidedData))
+			delete data.classes;
+			data['calendarTerm'] = calendarTerm;
+
+			let subscribedToCourse = false;
+
 			for(let i = 0; i < users[user.email].classesAndClassSections.length; i++) {
-				if(users[user.email].classesAndClassSections[i].id == id)
-					if(!users[user.email].classesAndClassSections[i].classes.includes(classSection))
+				if(users[user.email].classesAndClassSections[i].id == id) { // ===
+					subscribedToCourse = true;
+					if(!users[user.email].classesAndClassSections[i].classes.includes(classSection)) {
 						users[user.email].classesAndClassSections[i].classes.push(classSection);
+					}
+				}
 			} 
-			if(users[user.email].classesAndClassSections.length == 0) {
+			if(users[user.email].classesAndClassSections.length === 0 || !subscribedToCourse) {
 				const course = data;
 				course['classes'] = [classSection];
 				users[user.email].classesAndClassSections.push(course);
@@ -170,9 +180,7 @@ module.exports = function() {
 	}
 
 	const deleteUser = async function(user) {
-		console.log('users before delete : ' + JSON.stringify(users))
 		delete users[user.email];
-		console.log('users after delete : ' + JSON.stringify(users))
 	}
 
 	const refreshAccessToken = function(user) {};
@@ -211,7 +219,7 @@ module.exports = function() {
 
 /******* Helper functions *******/
 
-const mockDataPath = '../mock-data';
+const mockDataPath = '../mock-data/standalone';
 const getMockData = function(path) {
 	try{
 		return require(mockDataPath + path);

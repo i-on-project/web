@@ -23,16 +23,16 @@ module.exports = function(data, sessionDB) {
 		);
 	};
 
-	const getProgrammeCalendarTermOffers = async function(programmeId, user) { // TO DO: arg semester info
+	const getProgrammeCalendarTermOffers = async function(programmeId, user) {
 		if(user) {
 			const offers = await data.loadAllProgrammeOffers(programmeId);
 
 			const courseIDs = offers
 			.map(offer => offer.courseId)
-			.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
+			//.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
 
 			const calendarTerm = await getCurrentCalendarTerm(data);
-			console.log(JSON.stringify(courseIDs) + ' ' + calendarTerm)
+
 			const filteredCoursesId = [];
 			for(let i = 0; i < courseIDs.length; i++) {
 				const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm);
@@ -41,7 +41,7 @@ module.exports = function(data, sessionDB) {
 
 			const programmeCalendarTermOffers = offers
 			.filter(course => filteredCoursesId.includes(course.courseId))
-			console.log(JSON.stringify(programmeCalendarTermOffers))
+
 			const commonInfo = await getProgrammesByDegree(data);
 			return Object.assign({
 				user: user,

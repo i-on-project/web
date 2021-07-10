@@ -1,0 +1,13 @@
+{
+    "id": 9,
+    "name": "Engenharia Civil", 
+    "acronym": "LEC",
+    "termSize": 6,
+    "department": "ADEC",
+    "coordination": [
+        {"teacher": "Professor Luís Manuel da Rocha Evangelista"}
+    ],
+    "contacts": "",
+    "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-civil",
+    "description": "O Curso de Licenciatura tem a duração de 3 anos e desenvolve-se em 36 unidades curriculares, que se distribuem por 6 semestres lectivos, e inclui formação de base e formação especializada. Confere o grau académico de Licenciado em Engenharia Civil."
+}

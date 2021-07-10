@@ -1,0 +1,17 @@
+{
+    "id": 14,
+    "name": "Engenharia Informática e Multimédia", 
+    "acronym": "MEIM",
+    "termSize": 4,
+    "department": "ADEETC",
+    "coordination": [
+        {"teacher": "Professor Rui Manuel Feliciano de Jesus"},
+        {"teacher": "Professor Pedro Miguel Mendes Jorge"},
+        {"teacher": "Professor Carlos Jorge de Sousa Gonçalves"},
+        {"teacher": "Professor Luis Filipe Graça Morgado"},
+        {"teacher": "Professor Pedro Viçoso Fazenda"}
+    ],
+    "contacts": "",
+    "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-informatica-e-multimedia",
+    "description": "O curso de Mestrado em Engenharia Informática e Multimédia (MEIM) tem uma formação geral em Engenharia Informática que dá suporte à área de especialização em Multimédia e Inteligência Artificial, que é consolidada no Trabalho Final de Mestrado (Dissertação, Projecto ou Estágio curricular)."
+}
