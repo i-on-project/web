@@ -10,6 +10,18 @@ module.exports = function(data, sessionDB) {
 		if(user) {
 			const userHomeEvents = await getUserEvents(user);
 			events = userHomeEvents.events;
+			const currentDate = new Date().getTime();
+			
+			events.assignments = events.assignments.filter(event => {
+				const date = event.date.split('-');
+				const eventDate = new Date(date[0], date[1]-1, date[2]).getTime();
+				if(eventDate > currentDate) return true;
+			})
+			events.testsAndExams = events.testsAndExams.filter(event => {
+				const date = event.date.split('-');
+				const eventDate = new Date(date[0], date[1]-1, date[2]).getTime();
+				if(eventDate > currentDate) return true;
+			})
 		}
 		
 		const commonInfo = await getProgrammesByDegree(data);
