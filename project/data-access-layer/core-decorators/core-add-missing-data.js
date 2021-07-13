@@ -339,7 +339,7 @@ module.exports = function(data) {
 
 /******* Helper functions *******/
 
-const mockDataPath = '../../mock-data/core';
+const mockDataPath = '../../mock-data/integrated';
 const getMockData = async function(path) {
 	return require(mockDataPath + path);
 };
