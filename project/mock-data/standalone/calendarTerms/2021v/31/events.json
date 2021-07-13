@@ -1,0 +1,37 @@
+{
+  "assignments": [
+    {
+      "event": "[GAP] Entrega do 1º trabalho",
+      "date": "2021-05-12",
+      "time": "23:59"
+    },
+    {
+      "event": "[GAP] Entrega do 2º trabalho",
+      "date": "2021-06-17",
+      "time": "23:59"
+    }
+  ],
+  "testsAndExams": [
+    {
+      "event": "1º teste de GAP",
+      "date": "2021-05-14",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "location": "G.1.03"
+    },
+    {
+      "event": "2º teste de GAP",
+      "date": "2021-06-30",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "location": "G.1.03"
+    },
+    {
+      "event": "Exame de GAP",
+      "date": "2021-07-19",
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "location": "G.1.04"
+    }
+  ]
+}

@@ -13,23 +13,21 @@ function webapi(auth) {
 				const data = await auth.submitInstitutionalEmail(body.email);
 				res.json(data);
 			} catch(err) {
-                console.log("erro -> " + err);
-				//await onErrorResponse(res, err, 'Failed to show Home Page');
+                onErrorResponse(res, err, 'Failed to submit email');
 			}
 		},
 
 		pollingCore: async function(req, res) {
-            const params = req.params;
+            const body = req.body;
 			try {
-				const isCompleted = await auth.pollingCore(req, params['authId']);
+				const isCompleted = await auth.pollingCore(req, body.auth_req_id);
                 
 				if(isCompleted) {
 					res.json();
 				} else res.status(202).json();
 
 			} catch(err) {
-                console.log("erro -> " + err);
-				//await onErrorResponse(res, err, 'Failed to show Home Page');
+                onErrorResponse(res, err, 'Failed to authenticate user');
 			}
 		}
 
@@ -39,8 +37,8 @@ function webapi(auth) {
 	router.use(express.json());	        /// Middleware to to create body property in request
 
 	/******* Mapping requests to handlers according to the path *******/
-	router.post('/email', 			theWebAPI.submitInstitutionalEmail	);	///
-	router.post('/:authId/poll',	theWebAPI.pollingCore				);	///
+	router.post('/email', 	theWebAPI.submitInstitutionalEmail	);	/// ...
+	router.post('/poll',	theWebAPI.pollingCore				);	/// ...
 
 	return router;
 }
@@ -48,25 +46,22 @@ function webapi(auth) {
 
 /******* Helper functions *******/
 
-async function onErrorResponse(res, err, defaultError) {
-
-	const translatedError = appErrorsToHttpErrors(err, defaultError);
-	
-	res.statusCode = translatedError.status;
-	res.render(page, translatedError);
-
-}
-
-function appErrorsToHttpErrors(err, defaultError) {
+function onErrorResponse(res, err, defaultError) {
 
 	switch (err) {
+
 		case internalErrors.BAD_REQUEST:
-			return { status: 400, errorMessage: 'Bad Request' };
-		case internalErrors.RESOURCE_NOT_FOUND:
-			return { status: 404, errorMessage: 'Resource Not Found' };
+			res.status(400).json({ cause: 'Bad Request' });
+			break;
+		case internalErrors.SERVICE_UNAVAILABLE:
+			res.status(502).json({ cause: 'Service Unavailable' });
+			break;
 		default:
-			return { status: 500, errorMessage: `An error has occured: ${defaultError} errorPage` };
+			res.status(500).json({ cause: defaultError});
+			break;
+
 	}
+
 }
 
 module.exports = webapi;
