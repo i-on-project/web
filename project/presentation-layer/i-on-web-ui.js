@@ -12,7 +12,7 @@ function webui(service, auth) {
 				const data = await service.getHome(req.user);
 				res.render('home', data);
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to show home page');
+				onError(req, res, err, 'Failed to show home page');
 			}
 		},
 
@@ -21,7 +21,7 @@ function webui(service, auth) {
 				const data = await service.getProgrammeCalendarTermOffers(req.params['id'], req.user);
 				res.render('programmeCalendarTermOffers', data);
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to show programme offers');
+				onError(req, res, err, 'Failed to show programme offers');
 			}
 		},
 
@@ -30,7 +30,7 @@ function webui(service, auth) {
 				const data = await service.getProgrammeData(req.params['id'], req.user);
 				res.render('programme', data);
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to show programme page');
+				onError(req, res, err, 'Failed to show programme page');
 			}
 		},
 
@@ -39,7 +39,7 @@ function webui(service, auth) {
 				const data = await service.getUserSchedule(req.user);
 				res.render('user-schedule', data);
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to show schedule');
+				onError(req, res, err, 'Failed to show schedule');
 			}
 		},
 
@@ -48,7 +48,7 @@ function webui(service, auth) {
 				const data = await service.getUserEvents(req.user);
 				res.render('user-calendar', data);
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to show calendar');
+				onError(req, res, err, 'Failed to show calendar');
 			}
 		},
 
@@ -57,7 +57,7 @@ function webui(service, auth) {
 				const data = await service.getUserSubscribedClassesAndClassSections(req.user);
 				res.render('user-classes', data);
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to show user courses');
+				onError(req, res, err, 'Failed to show user courses');
 			}
 		},
 
@@ -66,7 +66,7 @@ function webui(service, auth) {
 				await service.editUserSubscribedClassesAndClassSections(req.user, req.body);
 				res.redirect('/classes');
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to edit user classe sections');
+				onError(req, res, err, 'Failed to edit user classe sections');
 			}
 		},
 
@@ -75,7 +75,7 @@ function webui(service, auth) {
 				const data = await service.getClassSectionsFromSelectedClasses(req.user, req.query['id']);
 				res.render('class-sections', data);
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to get class sections from selected classes');
+				onError(req, res, err, 'Failed to get class sections from selected classes');
 			}
 		},
 
@@ -84,7 +84,7 @@ function webui(service, auth) {
 				await service.saveUserClassesAndClassSections(req.user, req.body);
 				res.redirect('/classes');
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to save user classe sections');
+				onError(req, res, err, 'Failed to save user classe sections');
 			}
 		},
 
@@ -93,7 +93,7 @@ function webui(service, auth) {
 				const data = await service.getAboutData(req.user);
 				res.render('about', data);
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to show about page');
+				onError(req, res, err, 'Failed to show about page');
 			}
 		},
 
@@ -102,7 +102,7 @@ function webui(service, auth) {
 				const data = await service.getProfilePage(req.user);
 				res.render('user-profile', data);
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to show profile page');
+				onError(req, res, err, 'Failed to show profile page');
 			}
 		},
 
@@ -111,7 +111,7 @@ function webui(service, auth) {
 				await service.editProfile(req.user, req.body);
 				res.redirect('/users/profile');
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to edit profile');
+				onError(req, res, err, 'Failed to edit profile');
 			}
 		},
 
@@ -120,7 +120,7 @@ function webui(service, auth) {
 				await auth.deleteUser(req);
 				res.redirect('/');
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to delete user');
+				onError(req, res, err, 'Failed to delete user');
 			}
 		},
 
@@ -138,7 +138,7 @@ function webui(service, auth) {
 					)
 				);
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to show login page', commonInfo);
+				onError(req, res, err, 'Failed to show login page', commonInfo);
 			}
 		},
 
@@ -147,7 +147,7 @@ function webui(service, auth) {
 				await auth.logout(req);	
 				res.redirect('/');
 			} catch(err) {
-				await appErrorsToHttpErrors(req, res, err, 'Failed to logout', commonInfo);
+				onError(req, res, err, 'Failed to logout', commonInfo);
 			}
 		},
 	}
@@ -186,7 +186,9 @@ function webui(service, auth) {
 
 /******* Helper functions *******/
 
-function appErrorsToHttpErrors(req, res, err, defaultError) {
+function onError(req, res, err, defaultError) {
+
+	// Translates internal errors to HTTP errors
 
 	switch (err) {
 		case internalErrors.UNAUTHENTICATED:
@@ -201,6 +203,7 @@ function appErrorsToHttpErrors(req, res, err, defaultError) {
 		default:
 			return res.status(400).render('errorPage', { status: 500, errorMessage: `An internal error has occured: ${defaultError}`, user: req.user });
 	}
+
 }
 
 module.exports = webui;

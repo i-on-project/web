@@ -13,7 +13,7 @@ function webapi(auth) {
 				const data = await auth.submitInstitutionalEmail(body.email);
 				res.json(data);
 			} catch(err) {
-                onErrorResponse(res, err, 'Failed to submit email');
+                onError(res, err, 'Failed to submit email');
 			}
 		},
 
@@ -27,7 +27,7 @@ function webapi(auth) {
 				} else res.status(202).json();
 
 			} catch(err) {
-                onErrorResponse(res, err, 'Failed to authenticate user');
+                onError(res, err, 'Failed to authenticate user');
 			}
 		}
 
@@ -46,7 +46,9 @@ function webapi(auth) {
 
 /******* Helper functions *******/
 
-function onErrorResponse(res, err, defaultError) {
+function onError(res, err, defaultError) {
+	
+	// Translates internal errors to HTTP errors
 
 	switch (err) {
 

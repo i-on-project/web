@@ -14,8 +14,8 @@ module.exports = (app, data, sessionDB) => {
 	}
 	
 	async function refToUser(userRef, done) {
+
 		const userSessionInfo = await getUserAndSessionInfo(data, sessionDB, userRef);
-	
 		if (userSessionInfo) {
 			done(null, userSessionInfo);
 		} else {
@@ -26,14 +26,13 @@ module.exports = (app, data, sessionDB) => {
 
     /// Middleware to manage sessions
     app.use(session({
-		resave: true,              
+		resave: false,              
 		saveUninitialized: false,  
 		secret: 'secret',   // TO DO - Generate random string
-		store: new FileStore({logFn: function(){}}),
-		name: 'id',   
+		store: new FileStore() 
     }))
 
-    app.use(passport.initialize());
+	app.use(passport.initialize());
 	app.use(passport.session());
 
     passport.serializeUser(userToRef);
@@ -50,20 +49,21 @@ module.exports = (app, data, sessionDB) => {
         }, 
 
 		pollingCore: async function(req, authForPoll) {
-			const pollingResponse = await data.pollingCore(authForPoll);
+			const receivedTokens = await data.pollingCore(authForPoll);
 
 			/// Check if pooling succeeded
-			if(pollingResponse.hasOwnProperty("access_token")) {
-				const tokens = pollingResponse.id_token.split(".");
+			if(receivedTokens.hasOwnProperty("access_token")) {
+
+				const tokens = receivedTokens.id_token.split(".");
 				const user_email = jwt_decode(tokens[1], { header: true }).email;
 				
-				const user = await data.loadUser(pollingResponse.access_token, pollingResponse.token_type, user_email);
-				const sessionId = await sessionDB.createUserSession(user_email, pollingResponse);
+				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type, user_email);
+				const sessionId = await sessionDB.createUserSession(user_email, receivedTokens);
 				
 				const userSessionInfo = Object.assign(
 					{'sessionId': sessionId},
 					user,
-					pollingResponse
+					receivedTokens
 				);
 				
 				/// If the user doesn't have a username, we give one by default. 
@@ -119,18 +119,35 @@ module.exports = (app, data, sessionDB) => {
 /******* Helper functions *******/
 
 const getUserAndSessionInfo = async function(data, sessionDB, sessionId) { // Through the session identifier we will obtain information about the user as well as the session 
+		/// Obtaining user session info from elasticsearch db
+		const sessionInfo = await sessionDB.getUserTokens(sessionId);
 	
-	/// Obtaining user session info from elasticsearch db
-	const sessionInfo = await sessionDB.getUserTokens(sessionId);
+	try { 
+		const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type, sessionInfo.email);
 
-	/// Obtaining user profile info from core
-	const tokens = sessionInfo.id_token.split(".");
-	const user_email = jwt_decode(tokens[1], { header: true }).email;
-	const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type, user_email);
+		return Object.assign(
+			{'sessionId': sessionId},
+			userProfileInfo,
+			sessionInfo
+		);
 
-	return Object.assign(
-		{'sessionId': sessionId},
-		userProfileInfo,
-		sessionInfo
-	);
+	} catch (err) {
+
+		switch (err) {
+			
+			case internalErrors.EXPIRED_ACCESS_TOKEN:
+				await updateUserSession(data, sessionDB, sessionInfo, sessionId);
+				return getUserAndSessionInfo(data, sessionDB, sessionId);
+
+			default:
+				throw err;
+
+		}
+
+	}
+}
+
+const updateUserSession = async function(data, sessionDB, sessionInfo, sessionId) {// mudar assinatura pra receber o session id e talvez email
+	const newTokens = await data.refreshAccessToken(sessionInfo);
+	await sessionDB.storeUpdatedInfo(sessionInfo.email, newTokens, sessionId)
 }
