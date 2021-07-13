@@ -363,7 +363,7 @@ describe('Services', function () {
 
 			const service = serviceCreator(data, sessionDB);
 			
-			const user = null;
+			const user = testsUsers[0];
 			const programmeId = 1;
 			// Act
 			const response = await service.getProgrammeCalendarTermOffers(programmeId, user);
@@ -431,7 +431,7 @@ describe('Services', function () {
 
 			const service = serviceCreator(data, sessionDB);
 			
-			const user = null;
+			const user = testsUsers[0];;
 			const programmeId = 1;
 			// Act
 			const response = await service.getProgrammeCalendarTermOffers(programmeId, user);
