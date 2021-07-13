@@ -10,6 +10,18 @@ module.exports = function(data, sessionDB) {
 		if(user) {
 			const userHomeEvents = await getUserEvents(user);
 			events = userHomeEvents.events;
+			const currentDate = new Date().getTime();
+			
+			events.assignments = events.assignments.filter(event => {
+				const date = event.date.split('-');
+				const eventDate = new Date(date[0], date[1]-1, date[2]).getTime();
+				if(eventDate > currentDate) return true;
+			})
+			events.testsAndExams = events.testsAndExams.filter(event => {
+				const date = event.date.split('-');
+				const eventDate = new Date(date[0], date[1]-1, date[2]).getTime();
+				if(eventDate > currentDate) return true;
+			})
 		}
 		
 		const commonInfo = await getProgrammesByDegree(data);
@@ -23,29 +35,33 @@ module.exports = function(data, sessionDB) {
 		);
 	};
 
-	const getProgrammeCalendarTermOffers = async function(programmeId, user) { // TO DO: arg semester info
-		const offers = await data.loadAllProgrammeOffers(programmeId);
+	const getProgrammeCalendarTermOffers = async function(programmeId, user) {
+		if(user) {
+			const offers = await data.loadAllProgrammeOffers(programmeId);
 
-		const courseIDs = offers
-		.map(offer => offer.courseId)
-		.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
+			const courseIDs = offers
+			.map(offer => offer.courseId)
+			//.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
 
-		const calendarTerm = await getCurrentCalendarTerm(data);
-	
-		const filteredCoursesId = [];
-		for(let i = 0; i < courseIDs.length; i++) {
-			const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm);
-			if(courseClasses.classes.length != 0) filteredCoursesId.push(courseIDs[i]);
+			const calendarTerm = await getCurrentCalendarTerm(data);
+
+			const filteredCoursesId = [];
+			for(let i = 0; i < courseIDs.length; i++) {
+				const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm);
+				if(courseClasses.classes.length != 0) filteredCoursesId.push(courseIDs[i]);
+			}
+
+			const programmeCalendarTermOffers = offers
+			.filter(course => filteredCoursesId.includes(course.courseId))
+
+			const commonInfo = await getProgrammesByDegree(data);
+			return Object.assign({
+				user: user,
+				programmeCalendarTermOffers : programmeCalendarTermOffers
+			}, commonInfo);
+		} else {
+			throw internalErrors.UNAUTHENTICATED;
 		}
-
-		const programmeCalendarTermOffers = offers
-		.filter(course => filteredCoursesId.includes(course.courseId))
-
-		const commonInfo = await getProgrammesByDegree(data);
-		return Object.assign({
-			user: user,
-			programmeCalendarTermOffers : programmeCalendarTermOffers
-		}, commonInfo);
 	};
 
 	const getProgrammeData = async function(programmeId, user){
