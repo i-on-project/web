@@ -6,7 +6,7 @@ const hash = require('object-hash');
 module.exports = function(data) {
 
 	const loadAllProgrammes = async function (metadata) {
-		
+
 		const response = await data.loadAllProgrammes(metadata);
 
 		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
@@ -206,8 +206,9 @@ module.exports = function(data) {
 	}
 	
 	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
+		
 		const response = await data.loadCalendarTermGeneralInfo(calendarTerm, metadata);
-
+		
 		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
 
 		/* Adding missing data */ 
@@ -221,7 +222,7 @@ module.exports = function(data) {
 
 		return {
 			"metadata": improvedMetadata,
-			"data": improvedData.calendarTerm
+			"data": improvedData
 		};
 	}
 

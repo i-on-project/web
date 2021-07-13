@@ -141,34 +141,8 @@ describe('Services', function () {
 				],
 				"events": {
 					"calendar": [],
-					"assignments": [
-					  {
-						"event": "[PI]: Assignment #1",
-						"date": "2020-11-08",
-						"time": "23:59"
-					  },
-					  {
-						"event": "[PI]: Assignment #2",
-						"date": "2020-12-28",
-						"time": "23:59"
-					  }
-					],
-					"testsAndExams": [
-					  {
-						"event": "1st Exam PI",
-						"date": "2021-01-21",
-						"startTime": "18:00",
-						"endTime": "19:30",
-						"location": "A.2.5"
-					  },
-					  {
-						"event": "2nd Exam PI",
-						"date": "2021-02-03",
-						"startTime": "10:00",
-						"endTime": "12:30",
-						"location": "F.1.2"
-					  }
-					]
+					"assignments": [],
+					"testsAndExams": []
 				}
 			};
 			
