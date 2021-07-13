@@ -2,11 +2,20 @@
 
 module.exports = function(data) {
 
-	const loadAllProgrammes = async function () {
+	const loadAllProgrammes = async function (metadata) {
 		
-		const receivedData = await data.loadAllProgrammes();
+		const receivedData = await data.loadAllProgrammes(metadata);
 		
-		const transformedData = receivedData.entities
+		const cache_control = receivedData.metadata.get('Cache-Control');
+		
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"maxAge": getMaxAge(cache_control)
+		};
+		
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+
+		const transformedData = receivedData.data.entities
 		.map(entities => entities.properties)
 		.reduce(function(response, currentProgramme) {
 			const programme = {
@@ -18,10 +27,13 @@ module.exports = function(data) {
 			response.push(programme);
 			return response;
 		}, []);
-
-		return transformedData;
+		
+		return {
+			"metadata": receivedmetadata,
+			"data": transformedData
+		};
 	};
-	/* Return Example:
+	/* Returned data Example:
 	* [{
 	*	'programmeId': 3
 	*	'acronym': "LEIRT"
@@ -38,10 +50,19 @@ module.exports = function(data) {
 	*/
 
 
-	const loadAllProgrammeOffers = async function(programmeId) {
-		const receivedData = await data.loadAllProgrammeOffers(programmeId);
+	const loadAllProgrammeOffers = async function(programmeId, metadata) {
+		const receivedData = await data.loadAllProgrammeOffers(programmeId, metadata);
 
-		return receivedData.entities
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"maxAge": getMaxAge(cache_control)
+		}
+
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+		
+		const transformedData = receivedData.data.entities
 		.map(entities => entities.properties)
 		.reduce(function(response, currentCourse) {
 			const course = {
@@ -57,8 +78,13 @@ module.exports = function(data) {
 			response.push(course);
 			return response;
 		}, []);;
+
+		return {
+			"metadata": receivedmetadata,
+			"data": transformedData
+		};
 	};
-	/* Return Example:
+	/* Returned data Example:
 	* [{
 	*	'acronym': 'PI',
 	*	'name': 'Programação na Internet',
@@ -83,22 +109,36 @@ module.exports = function(data) {
 	*/
 
 
-	const loadProgrammeData = async function(programmeId) {
-		const receivedData = await data.loadProgrammeData(programmeId);
+	const loadProgrammeData = async function(programmeId, metadata) {
+		const receivedData = await data.loadProgrammeData(programmeId, metadata);
 	
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"maxAge": getMaxAge(cache_control)
+		}
+
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+
+		const transformedData = {
+			"id": receivedData.data.properties.id,
+			"name": receivedData.data.properties.name,
+			"acronym": receivedData.data.properties.acronym,
+			"termSize": receivedData.data.properties.termSize,
+			"department": receivedData.data.properties.department,
+			"coordination": receivedData.data.properties.coordination,
+			"contacts": receivedData.data.properties.contacts,
+			"sourceLink": receivedData.data.properties.sourceLink,
+			"description": receivedData.data.properties.description,
+		};
+
 		return {
-			"id": receivedData.properties.id,
-			"name": receivedData.properties.name,
-			"acronym": receivedData.properties.acronym,
-			"termSize": receivedData.properties.termSize,
-			"department": receivedData.properties.department,
-			"coordination": receivedData.properties.coordination,
-			"contacts": receivedData.properties.contacts,
-			"sourceLink": receivedData.properties.sourceLink,
-			"description": receivedData.properties.description,
+			"metadata": receivedmetadata,
+			"data": transformedData
 		};
 	};
-	/* Return Example:
+	/* Returned data Example:
 	* {
 	*	'id': '3',
 	*	'name': 'Licenciatura em Engenharia Informática, Redes e Telecomunicações',
@@ -117,10 +157,20 @@ module.exports = function(data) {
 	*/
 
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
-		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm) ;
-		
-		const courseData = receivedData.properties;
+	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm, metadata)  {
+	
+		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, metadata) ;
+	
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"maxAge": getMaxAge(cache_control)
+		}
+
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+
+		const courseData = receivedData.data.properties;
 		const course = {
 			'id' : courseData.id,
 			'courseId' : courseData.courseId,
@@ -129,15 +179,20 @@ module.exports = function(data) {
 			'classes': []
 		} 
 
-		return receivedData.entities
+		const transformedData = receivedData.data.entities
 		.filter(entity => entity.properties.hasOwnProperty('id'))
 		.map(entity => entity.properties)
 		.reduce(function(newResponse, currentClass) {
 			newResponse.classes.push(currentClass.id);
 			return newResponse;
 		  }, course);
+
+		return {
+			"metadata": receivedmetadata,
+			"data": transformedData
+		};
 	}
-	/* Return Example:
+	/* Returned data Example:
 	* {
 	*	'id' : 2, 
 	*	'courseId' : 2,
@@ -147,10 +202,25 @@ module.exports = function(data) {
 	* } 
 	*/
 
-	const loadAboutData = async function () {
-		return await data.loadAboutData();
+	const loadAboutData = async function (metadata) {
+
+		const receivedData = await data.loadAboutData(metadata);
+
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"maxAge": getMaxAge(cache_control)
+		}
+		
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+		
+		return {
+			"metadata": receivedmetadata,
+			"data": receivedData
+		};
 	};
-	/* Return Example:
+	/* Returned data Example:
 	* {
 	*	"department": "ADEETC",
 	*	"departmentImage": "ADEETC.png",
@@ -185,10 +255,19 @@ module.exports = function(data) {
 	*/
 
 
-	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection) {
-		const receivedData = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection);
+	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) {
+		const receivedData = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
 
-		return receivedData.properties.subComponents		
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"maxAge": getMaxAge(cache_control)
+		}
+		
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+
+		const transformedData = receivedData.data.properties.subComponents		
 		.map(subcomponent => subcomponent.properties)
 		.reduce(function(response, currentClassSection) {
 			const classSection = {
@@ -208,8 +287,14 @@ module.exports = function(data) {
 			response.push(classSection);
 			return response;
 		}, []);	
+		
+		return {
+			"metadata": receivedmetadata,
+			"data": transformedData
+		};
+
 	}
-	/* Return Example:
+	/* Returned data Example:
 	* [
 	*	{
 	*		'startDate': '08:00',
@@ -227,10 +312,19 @@ module.exports = function(data) {
 	*/
 
 
-	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm) {
-		const receivedData = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
+	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
+		const receivedData = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm, metadata);
 	
-		return receivedData.properties.subComponents		
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"maxAge": getMaxAge(cache_control)
+		}
+		
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+
+		const transformedData = receivedData.data.properties.subComponents		
 		.reduce(function(response, currentEvent) {
 			let event = {
 				"event": currentEvent.properties.summary.value
@@ -266,8 +360,13 @@ module.exports = function(data) {
 			"assignments": [],
 			"testsAndExams": []
 		});		
+
+		return {
+			"metadata": receivedmetadata,
+			"data": transformedData
+		};
 	}
-	/* Return Example:  
+	/* Returned data Example:  
 	* {
 	*	'assignments': [
 	*		{'event': 'Trabalho de CN', 'date':'2021-06-11', 'time':'19:30'}, 
@@ -283,20 +382,62 @@ module.exports = function(data) {
 	* }
 	*/
 
-	const loadCurrentCalendarTerm = function() {
-		return data.loadCurrentCalendarTerm();
+	const loadCurrentCalendarTerm = async function(metadata) {
+		const receivedData = await data.loadCurrentCalendarTerm(metadata);
+
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"maxAge": getMaxAge(cache_control)
+		}
+		
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+
+		return {
+			"metadata": receivedmetadata,
+			"data": receivedData.calendarTerm
+		};
 	}
 	
-	const loadCalendarTermGeneralInfo = function(calendarTerm) {
-		return data.loadCalendarTermGeneralInfo(calendarTerm);
+	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
+
+		const receivedData = await data.loadCalendarTermGeneralInfo(calendarTerm, metadata);
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"maxAge": getMaxAge(cache_control)
+		}
+
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+
+		return {
+			"metadata": receivedmetadata,
+			"data": receivedData
+		};
 	}
 	
 	/******* Authentication *******/ 
 
-	const loadAuthenticationMethodsAndFeatures = async function () {
-		return data.loadAuthenticationMethodsAndFeatures();
+	const loadAuthenticationMethodsAndFeatures = async function (metadata) {
+		const receivedData = await data.loadAuthenticationMethodsAndFeatures(metadata);
+		
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"maxAge": getMaxAge(cache_control)
+		}
+		
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+
+		return {
+			"metadata": receivedmetadata,
+			"data": receivedData.data
+		};
 	};
-	/* Return Example:
+	/* Returned data Example:
 	* [
 	*	{
 	*		"allowed_domains": [
@@ -318,7 +459,7 @@ module.exports = function(data) {
 			"expires_in": receivedData.expires_in
 		}
 	};
-	/* Return Example:
+	/* Returned data Example:
 	* [
 	*	{
 	*		'auth_req_id': '55fe0c2e-2c8c-45ab-b7d4-0299c10c32bc',
@@ -345,7 +486,7 @@ module.exports = function(data) {
 		}
 		return test;
 	};
-	/* Return Example:
+	/* Returned data Example:
 	* {
 	*	'access_token': 'SZ84SGZA7ACALtc37S29PgQ7pVnIpXH-zBYGMq6UVheiNXkD1jqZB5tkAiLJALIO3prDatd_VD2O4OewzuStgw',
 	*	'token_type': 'Bearer',
@@ -377,7 +518,7 @@ module.exports = function(data) {
 			return response;
 		}, []);
 	}
-	/* Return Example:
+	/* Returned data Example:
 	* [
 	*	'1D',
 	*	'2D',
@@ -427,28 +568,41 @@ module.exports = function(data) {
 		return data.editUser(user, newUsername);
 	}
 
-	const loadUser = async function(access_token, token_type) {
-		const receivedData = await data.loadUser(access_token, token_type);
+	const loadUser = async function(access_token, token_type, email, metadata) {
+		const receivedData = await data.loadUser(access_token, token_type, email, metadata);
+
+		const cache_control = receivedData.metadata.get('Cache-Control');
+
+		const receivedmetadata = {
+			"ETag": receivedData.metadata.get('ETag'),
+			"maxAge": getMaxAge(cache_control)
+		}
+		
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+		
 		return {
-			'email': receivedData.properties.email,
-			'username': receivedData.properties.name
+			"metadata": receivedmetadata,
+			"data": {
+				'email': receivedData.data.properties.email,
+				'username': receivedData.data.properties.name
+			}
 		};
 	}
-	/* Return Example:
+	/* Returned data Example:
 	* {
 	*	'email': 'A12345@alunos.isel.pt',
 	*	'username': 'João'
 	* }
 	*/
 
-	const deleteUser = function(access_token, token_type) {
-		return data.deleteUser(access_token, token_type);
+	const deleteUser = function(user) {
+		return data.deleteUser(user);
 	}
 	
 	const refreshAccessToken = function(user) {
 		return data.refreshAccessToken(user);
 	}
-	/* Return Example:
+	/* Returned data Example:
 	* {
 	*	'access_token': 'The new access token',
 	*	'token_type': 'Bearer',
@@ -491,3 +645,12 @@ module.exports = function(data) {
 		revokeAccessToken : revokeAccessToken
 	};
 }
+
+/******* Helper functions *******/
+const getMaxAge = function(cache_control) {
+	if(cache_control) {
+		const max_age_string = cache_control.substring((cache_control.indexOf("max-age=")));
+		const max_age = max_age_string.substring( max_age_string.indexOf('=') + 1, max_age_string.indexOf(','));
+		return max_age;
+	}
+};

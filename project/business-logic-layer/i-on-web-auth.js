@@ -1,5 +1,6 @@
 'use strict'
 
+const jwt_decode = require('jwt-decode');
 const passport = require('passport');
 const session = require('express-session');
 const internalErrors = require('../common/i-on-web-errors.js');
@@ -13,8 +14,8 @@ module.exports = (app, data, sessionDB) => {
 	}
 	
 	async function refToUser(userRef, done) {
+
 		const userSessionInfo = await getUserAndSessionInfo(data, sessionDB, userRef);
-	
 		if (userSessionInfo) {
 			done(null, userSessionInfo);
 		} else {
@@ -25,14 +26,13 @@ module.exports = (app, data, sessionDB) => {
 
     /// Middleware to manage sessions
     app.use(session({
-		resave: true,              
+		resave: false,              
 		saveUninitialized: false,  
 		secret: 'secret',   // TO DO - Generate random string
-		store: new FileStore({logFn: function(){}}),
-		name: 'id',   
+		store: new FileStore() 
     }))
 
-    app.use(passport.initialize());
+	app.use(passport.initialize());
 	app.use(passport.session());
 
     passport.serializeUser(userToRef);
@@ -54,8 +54,11 @@ module.exports = (app, data, sessionDB) => {
 			/// Check if pooling succeeded
 			if(receivedTokens.hasOwnProperty("access_token")) {
 
-				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type);
-				const sessionId = await sessionDB.createUserSession(user.email, receivedTokens);
+				const tokens = receivedTokens.id_token.split(".");
+				const user_email = jwt_decode(tokens[1], { header: true }).email;
+				
+				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type, user_email);
+				const sessionId = await sessionDB.createUserSession(user_email, receivedTokens);
 				
 				const userSessionInfo = Object.assign(
 					{'sessionId': sessionId},
@@ -75,6 +78,10 @@ module.exports = (app, data, sessionDB) => {
 				})
 				
 				return true;
+			} else if(pollingResponse.hasOwnProperty("error") && pollingResponse.error === "authorization_pending") {
+				return false;
+			} else {
+				throw internalErrors.SERVICE_FAILURE;
 			}
 		},
 		
@@ -87,8 +94,6 @@ module.exports = (app, data, sessionDB) => {
 					throw internalErrors.SERVICE_FAILURE;
 				}
 			})
-
-			console.log("LOGOUT -> " + JSON.stringify(user));
 
 			await data.revokeAccessToken(user);
 			await sessionDB.deleteUserSession(user.sessionId);
@@ -104,7 +109,7 @@ module.exports = (app, data, sessionDB) => {
 				}
 			});
 			
-			await data.deleteUser(user.access_token, user.token_type);
+			await data.deleteUser(user);
 			await sessionDB.deleteAllUserSessions(user.email);
 		}
 
@@ -114,16 +119,35 @@ module.exports = (app, data, sessionDB) => {
 /******* Helper functions *******/
 
 const getUserAndSessionInfo = async function(data, sessionDB, sessionId) { // Through the session identifier we will obtain information about the user as well as the session 
+		/// Obtaining user session info from elasticsearch db
+		const sessionInfo = await sessionDB.getUserTokens(sessionId);
 	
-	/// Obtaining user session info from elasticsearch db
-	const sessionInfo = await sessionDB.getUserTokens(sessionId);
+	try { 
+		const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type, sessionInfo.email);
 
-	/// Obtaining user profile info from core
-	const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type);
+		return Object.assign(
+			{'sessionId': sessionId},
+			userProfileInfo,
+			sessionInfo
+		);
 
-	return Object.assign(
-		{'sessionId': sessionId},
-		userProfileInfo,
-		sessionInfo
-	);
+	} catch (err) {
+
+		switch (err) {
+			
+			case internalErrors.EXPIRED_ACCESS_TOKEN:
+				await updateUserSession(data, sessionDB, sessionInfo, sessionId);
+				return getUserAndSessionInfo(data, sessionDB, sessionId);
+
+			default:
+				throw err;
+
+		}
+
+	}
+}
+
+const updateUserSession = async function(data, sessionDB, sessionInfo, sessionId) {// mudar assinatura pra receber o session id e talvez email
+	const newTokens = await data.refreshAccessToken(sessionInfo);
+	await sessionDB.storeUpdatedInfo(sessionInfo.email, newTokens, sessionId)
 }

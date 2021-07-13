@@ -1,13 +1,6 @@
 'use strict'
 
-
-const Cache = require('./cache.js');
-
-const default_ttl = 60;
-const myCache = new Cache(default_ttl); /// 1 Day
-
-
-module.exports = function(data) {
+module.exports = function(data, myCache) {
 
 	const loadAllProgrammes = async function() {
 
@@ -17,34 +10,103 @@ module.exports = function(data) {
 			return data.loadAllProgrammes(...arguments);
 		}
 
-		return getData(key, fetchFunction, default_ttl);
+		return getData(myCache, key, fetchFunction);
 
 	};
 
-	const loadAllProgrammeOffers = async function(programmeId) {
-		return data.loadAllProgrammeOffers(programmeId) 
+	const loadAllProgrammeOffers = async function (programmeId) {
+		
+		const key = 'offers/' + programmeId;
+
+		const fetchFunction = function() { 
+			return data.loadAllProgrammeOffers(programmeId, ...arguments);
+		}
+
+		return getData(myCache, key, fetchFunction);
 	};
 
 	const loadProgrammeData = async function(programmeId) {
-		return data.loadProgrammeData(programmeId);
+	
+		const key = 'programme/' + programmeId;
+
+		const fetchFunction = function() { 
+			return data.loadProgrammeData(programmeId, ...arguments);
+		}
+
+		return getData(myCache, key, fetchFunction);
 	};
 
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
-		return data.loadCourseClassesByCalendarTerm(courseId, calendarTerm);
-	}
+		const key = courseId + '/' + calendarTerm;
+
+		const fetchFunction = function() { 
+			return data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, ...arguments);
+		}
+
+		return getData(myCache, key, fetchFunction);
+	};
 
 	const loadAboutData = async function () {
-		return await data.loadAboutData();
+		const key = 'about';
+
+		const fetchFunction = function() {
+			return data.loadAboutData(...arguments);
+
+		}
+		return getData(myCache, key, fetchFunction);
 	};
 
-	const loadAuthenticationTypes = function () {
-		return data.loadAuthenticationTypes();
+	const loadClassSectionSchedule = function(courseId, calendarTerm, classSection) {
+		const key = calendarTerm + '/' + courseId + '/' + classSection;
+
+		const fetchFunction = function() {
+			return data.loadClassSectionSchedule(courseId, calendarTerm, classSection, ...arguments);
+		}
+		
+		return getData(myCache, key, fetchFunction);
+	};
+	
+	const loadCourseEventsInCalendarTerm = function(courseId, calendarTerm) {
+		const key = calendarTerm + '/' + courseId;
+
+		const fetchFunction = function() {
+			return data.loadCourseEventsInCalendarTerm(courseId, calendarTerm, ...arguments);
+		}
+		
+		return getData(myCache, key, fetchFunction);
+	};
+	
+	const loadCurrentCalendarTerm = async function() {
+		const key = 'currentCalendarTerm';
+
+		const fetchFunction = function() {
+			return data.loadCurrentCalendarTerm(...arguments);
+		}
+		
+		return getData(myCache, key, fetchFunction);
+	};
+		
+	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
+		const key = 'CalendarTermInfo';
+
+		const fetchFunction = function() { 
+			return data.loadCalendarTermGeneralInfo(calendarTerm, ...arguments);
+		}
+
+		return getData(myCache, key, fetchFunction);
 	};
 
-	const loadAuthenticationMethodFeatures = function () {
-		return data.loadAuthenticationMethodFeatures();
-	};
+	/* Authentication related methods */
+	const loadAuthenticationMethodsAndFeatures = function () {
+		const key = 'AuthenticationMethods';
 
+		const fetchFunction = function() {
+			return data.loadAuthenticationMethodsAndFeatures(...arguments);
+		}
+		
+		return getData(myCache, key, fetchFunction);
+	};
+					
 	const submitInstitutionalEmail = function(email) {
 		return data.submitInstitutionalEmail(email);
 	};
@@ -52,62 +114,113 @@ module.exports = function(data) {
 	const pollingCore = function(authForPoll) {
 		return data.pollingCore(authForPoll);
 	};
-
-
-	// TO DO:
-	const loadCourseEventCalendar = async function(courseId, semester) {
-
+	
+	/* User related methods */
+	const saveUserClassesAndClassSections = function(user, id, classSection) {
+		return data.saveUserClassesAndClassSections(user, id, classSection);
 	};
 	
-	const loadClassSchedule = async function(courseId, classId, semester) {
-
+	const loadUserSubscribedClassSectionsInClass = function(user, id) {
+		return data.loadUserSubscribedClassSectionsInClass(user, id);
 	};
 	
+	const loadUserSubscribedClassesAndClassSections = function(user) {
+		return data.loadUserSubscribedClassesAndClassSections(user);
+	};
+	
+	const deleteUserClassSection = function(user, id, classSection) {
+		return data.deleteUserClassSection(user, id, classSection);
+	};
+	
+	const deleteUserClass = function(user, id) {
+		return data.deleteUserClass(user, id);
+	};
+	
+	const editUser = function(user, newUsername) {
+		const key = 'user/' + user.email;
+		myCache.del(key);
+		return data.editUser(user, newUsername);
+	};
+	
+	const loadUser = function(access_token, token_type, email) {
+		const key = 'user/' + email;
+
+		const fetchFunction = function() {
+			return data.loadUser(access_token, token_type, email, ...arguments);
+		}
+		
+		return getData(myCache, key, fetchFunction);
+	};
+	
+	const deleteUser = function(user) {
+		const key = 'user/' + user.email;
+		myCache.del(key);
+		return data.deleteUser(user);
+	};
+	
+	const refreshAccessToken = function(user) {
+		return data.refreshAccessToken(user);
+	};
+	
+	const revokeAccessToken = function(user) {
+		return data.revokeAccessToken(user);
+	};
+
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
-		loadAuthenticationTypes : loadAuthenticationTypes,
-		loadAuthenticationMethodFeatures : loadAuthenticationMethodFeatures,
+		loadClassSectionSchedule : loadClassSectionSchedule,
+		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
+		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
+
+		/* Authentication related methods */
+		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
-		loadCourseEventCalendar : loadCourseEventCalendar,
-		loadClassSchedule : loadClassSchedule
+
+		/* User related methods */
+		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
+		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
+		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
+		deleteUserClassSection : deleteUserClassSection,
+		deleteUserClass : deleteUserClass,
+		editUser : editUser,
+		loadUser : loadUser,
+		deleteUser : deleteUser,
+		refreshAccessToken : refreshAccessToken,
+		revokeAccessToken : revokeAccessToken
 	};
+
 }
 
 
 /******* Helper functions *******/
 
-const getData = async function(key, fetchNewData, ttl) {
-	
+const getData = async function(myCache, key, fetchNewData) {
 	let value = myCache.get(key);
 
 	if(!value) {										/// Value does not exists
-		console.log("\n[Cache] - Value does not exists")
-		console.log("key: " + key + "function: " + fetchNewData + "ttl: " + ttl);
+
 		value = await fetchNewData();
-		console.log("After");
-		myCache.set(key, value);
+	
+		myCache.set(key, value, value.metadata.maxAge);
 
 	} else if (myCache.hasExpired(key)) {				/// Value already exists but expired -> conditional request
-		console.log("\n[Cache] - Value already exists but expired -> conditional request")
-		
-		console.log("--> " + value.metadata.lastModified)
-		const resp = await fetchNewData.apply(this, [value.metadata.lastModified]);
 
-		if(resp) {	/// The resource has been modified since the given date
+		const resp = await fetchNewData.apply(this, [value.metadata.ETag]);
+
+		if(resp.data) {	/// The resource has been modified since the given date
 			value = resp;
-			myCache.set(key, value);
+			myCache.set(key, value, value.metadata.maxAge);
 		} else {	/// The resource has not been modified since the given date, reset ttl to the initial value
-			myCache.ttl(key, ttl);
+			myCache.ttl(key, resp.metadata.maxAge);
 		}
 
-	} else {console.log("\n[Cache] - Value exists")}
+	}
 
-	//console.log('\n[Cache] - stored in cache: ' + JSON.stringify(value));
 	return value;
-
 }

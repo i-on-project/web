@@ -12,7 +12,7 @@ function webui(service, auth) {
 				const data = await service.getHome(req.user);
 				res.render('home', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Home Page');
+				onError(req, res, err, 'Failed to show home page');
 			}
 		},
 
@@ -21,7 +21,7 @@ function webui(service, auth) {
 				const data = await service.getProgrammeCalendarTermOffers(req.params['id'], req.user);
 				res.render('programmeCalendarTermOffers', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Offers');
+				onError(req, res, err, 'Failed to show programme offers');
 			}
 		},
 
@@ -30,7 +30,7 @@ function webui(service, auth) {
 				const data = await service.getProgrammeData(req.params['id'], req.user);
 				res.render('programme', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Programme Page');
+				onError(req, res, err, 'Failed to show programme page');
 			}
 		},
 
@@ -39,7 +39,7 @@ function webui(service, auth) {
 				const data = await service.getUserSchedule(req.user);
 				res.render('user-schedule', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Schedule');
+				onError(req, res, err, 'Failed to show schedule');
 			}
 		},
 
@@ -48,7 +48,7 @@ function webui(service, auth) {
 				const data = await service.getUserEvents(req.user);
 				res.render('user-calendar', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Calendar');
+				onError(req, res, err, 'Failed to show calendar');
 			}
 		},
 
@@ -57,7 +57,7 @@ function webui(service, auth) {
 				const data = await service.getUserSubscribedClassesAndClassSections(req.user);
 				res.render('user-classes', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show User Courses');
+				onError(req, res, err, 'Failed to show user courses');
 			}
 		},
 
@@ -66,7 +66,7 @@ function webui(service, auth) {
 				await service.editUserSubscribedClassesAndClassSections(req.user, req.body);
 				res.redirect('/classes');
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show User Courses');
+				onError(req, res, err, 'Failed to edit user classe sections');
 			}
 		},
 
@@ -75,7 +75,7 @@ function webui(service, auth) {
 				const data = await service.getClassSectionsFromSelectedClasses(req.user, req.query['id']);
 				res.render('class-sections', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Programme Offers');
+				onError(req, res, err, 'Failed to get class sections from selected classes');
 			}
 		},
 
@@ -84,7 +84,7 @@ function webui(service, auth) {
 				await service.saveUserClassesAndClassSections(req.user, req.body);
 				res.redirect('/classes');
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page');
+				onError(req, res, err, 'Failed to save user classe sections');
 			}
 		},
 
@@ -93,7 +93,7 @@ function webui(service, auth) {
 				const data = await service.getAboutData(req.user);
 				res.render('about', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page');
+				onError(req, res, err, 'Failed to show about page');
 			}
 		},
 
@@ -102,16 +102,16 @@ function webui(service, auth) {
 				const data = await service.getProfilePage(req.user);
 				res.render('user-profile', data);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page');
+				onError(req, res, err, 'Failed to show profile page');
 			}
 		},
 
 		editProfile: async function(req, res) {
 			try {
 				await service.editProfile(req.user, req.body);
-				res.redirect('/profile');
+				res.redirect('/users/profile');
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page');
+				onError(req, res, err, 'Failed to edit profile');
 			}
 		},
 
@@ -120,7 +120,7 @@ function webui(service, auth) {
 				await auth.deleteUser(req);
 				res.redirect('/');
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show About Page');
+				onError(req, res, err, 'Failed to delete user');
 			}
 		},
 
@@ -128,9 +128,8 @@ function webui(service, auth) {
 		loginUI: async function(req, res) {
 			let commonInfo;
 			try {
-				//commonInfo = await getPagesCommonInfo(service);
 				const data = await auth.getAuthMethodsAndFeatures();
-				res.render( /// TO DO: create page
+				res.render(
 					'login',
 					Object.assign(
 						{'page': 'login'},
@@ -139,7 +138,7 @@ function webui(service, auth) {
 					)
 				);
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
+				onError(req, res, err, 'Failed to show login page', commonInfo);
 			}
 		},
 
@@ -148,7 +147,7 @@ function webui(service, auth) {
 				await auth.logout(req);	
 				res.redirect('/');
 			} catch(err) {
-				await onErrorResponse(res, err, 'Failed to show Login Page', commonInfo);
+				onError(req, res, err, 'Failed to logout', commonInfo);
 			}
 		},
 	}
@@ -158,27 +157,28 @@ function webui(service, auth) {
 
 	/******* Mapping requests to handlers according to the path *******/
 
-	router.get(	'/', 					theWebUI.home											);	/// Home page
+	router.get(	'/', 						theWebUI.home								);	/// Home page
 
-	router.get(	'/programme/:id', 		theWebUI.programme										);	/// Programme info page
-	router.get(	'/programme-offers/:id',theWebUI.programmeCalendarTermOffers					); 	/// Programme offers page
+	router.get(	'/programmes/:id', 			theWebUI.programme							);	/// Programme info page
+	router.get(	'/programme-offers/:id',	theWebUI.programmeCalendarTermOffers		); 	/// Programme offers page
 	
-	router.get(	'/available-class-sections',	theWebUI.classSectionsFromSelectedClasses		);		/// Available classes of the selected courses
-	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections			);	/// todo review
+	router.get(	'/available-class-sections',theWebUI.classSectionsFromSelectedClasses	);	/// Available classes of the selected courses
+	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections	);
 
-	router.get(	'/classes',				theWebUI.userClassesAndClassSections					); 	/// Users courses page
-	router.post('/classes/edit',		theWebUI.userClassesAndClassSectionsEdit				);
-	router.get(	'/schedule', 			theWebUI.userSchedule									);	/// Users schedule page
-	router.get(	'/calendar', 			theWebUI.userCalendar									);	/// Users calendar page
+	router.get(	'/classes',					theWebUI.userClassesAndClassSections		); 	/// Users courses page
+	router.post('/classes/edit',			theWebUI.userClassesAndClassSectionsEdit	);
+	router.get(	'/schedule', 				theWebUI.userSchedule						);	/// Users schedule page
+	router.get(	'/calendar', 				theWebUI.userCalendar						);	/// Users calendar page
 
-	router.get(	'/about', 				theWebUI.about							);	/// About Page
-	router.get( '/profile', 			theWebUI.profile						);  /// User Profile Page
-	router.post('/profile', 			theWebUI.editProfile					);
-	router.post('/delete-user',         theWebUI.deleteUser						);
+	router.get(	'/about', 					theWebUI.about								);	/// About Page
+	router.get( '/users/profile', 			theWebUI.profile							);  /// User Profile Page
+	router.post('/users/profile', 			theWebUI.editProfile						);
+	router.post('/users/delete',        	theWebUI.deleteUser							);
 
 	/*** Auth ***/
-	router.get(	'/login',				theWebUI.loginUI			   							);	/// Login UI page
-	router.get(	'/logout',				theWebUI.logout											);
+
+	router.get(	'/login',					theWebUI.loginUI			   				);	/// Login UI page
+	router.get(	'/logout',					theWebUI.logout								);
 
 	return router;
 }
@@ -186,25 +186,24 @@ function webui(service, auth) {
 
 /******* Helper functions *******/
 
-async function onErrorResponse(res, err, defaultError) {
+function onError(req, res, err, defaultError) {
 
-	const translatedError = appErrorsToHttpErrors(err, defaultError);
-	
-	res.statusCode = translatedError.status;
-	res.render(page, translatedError);
-
-}
-
-function appErrorsToHttpErrors(err, defaultError) {
+	// Translates internal errors to HTTP errors
 
 	switch (err) {
+		case internalErrors.UNAUTHENTICATED:
+			res.status(401).redirect('/login');
+			break;
 		case internalErrors.BAD_REQUEST:
-			return { status: 400, message: 'Bad Request' };
+			return res.status(400).render('errorPage', { status: 400, errorMessage: 'Bad Request', user: req.user});
 		case internalErrors.RESOURCE_NOT_FOUND:
-			return { status: 404, message: 'Resource Not Found' };
+			return res.status(400).render('errorPage', { status: 404, errorMessage: 'Resource Not Found', user: req.user });
+		case internalErrors.SERVICE_UNAVAILABLE:
+			return res.status(400).render('errorPage', { status: 502, errorMessage: 'Service Unavailable', user: req.user }); 
 		default:
-			return { status: 500, message: `An error has occured: ${defaultError} errorPage` };
+			return res.status(400).render('errorPage', { status: 500, errorMessage: `An internal error has occured: ${defaultError}`, user: req.user });
 	}
+
 }
 
 module.exports = webui;
