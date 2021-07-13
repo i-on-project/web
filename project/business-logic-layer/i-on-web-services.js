@@ -64,7 +64,7 @@ module.exports = function(data, sessionDB) {
 		}
 	};
 
-	const getProgrammeData = async function(programmeId, user){
+	const getProgrammeData = async function(programmeId, user) {
 
 		const programme = await data.loadProgrammeData(programmeId);
 		const offers = await data.loadAllProgrammeOffers(programmeId);
@@ -274,7 +274,7 @@ module.exports = function(data, sessionDB) {
 		}
 	};
 
-	const getAboutData = async function(user){
+	const getAboutData = async function(user) {
 		const aboutData = await data.loadAboutData();		
 
 		const commonInfo = await getProgrammesByDegree(data);
