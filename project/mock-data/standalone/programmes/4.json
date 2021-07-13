@@ -1,0 +1,17 @@
+{
+    "id": 4,
+    "name": "Licenciatura em Engenharia Electrónica e Telecomunicações e de Computadores", 
+    "acronym": "LEETC",
+    "termSize": 6,
+    "department": "ADEETC",
+    "coordination": [
+        {"teacher": "Professor Carlos Eduardo Meneses Ribeiro"},
+        {"teacher": "Professor Vitor Jesus Sousa de Almeida"},
+        {"teacher": "Professor Jorge Manuel Rodrigues Martins Pião"},
+        {"teacher": "Professor António João Nunes Serrador"},
+        {"teacher": "Professor Pedro Miguel Fernandes Sampaio"}
+    ],
+    "contacts": "",
+    "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-electronica-e-telecomunicacoes-e-de-computadores",
+    "description": "A Licenciatura em Engenharia Electrónica e Telecomunicações e de Computadores (LEETC) no ISEL tem como objetivo principal formar engenheiros aptos a responder com competência aos desafios colocados pelo mercado de trabalho no sector das Tecnologias de Informação e Comunicação (TIC), nomeadamente nas áreas de eletrónica, telecomunicações e de computadores.  O curso concilia uma sólida formação de base de engenharia com componentes profissionalizantes e de especialização. Confere competências profissionais ao fim de 3 anos de licenciatura, associado a capacidade de adaptação às mudanças resultantes do grande dinamismo do setor. A finalização do curso LEETC permite a admissão as ordens profissionais de engenharia e dá acesso ao Mestrado em Engenharia de Eletrónica e Telecomunicações."
+}

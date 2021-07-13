@@ -24,11 +24,8 @@ module.exports = function(baseUrl) {
 				if(putResponseUsers.status != 200 && putResponseUsers.status != 201) throw putResponseUsers.status;
 			}
 
-		} catch (err) { // TODO handling errors
-			switch (err) {
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
+		} catch (err) { // Unexpected error
+			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
 
@@ -40,7 +37,10 @@ module.exports = function(baseUrl) {
 				headers: { "Content-Type": contentType },
 				body: JSON.stringify(
 					Object.assign(
-						{'email': email},
+						{
+							'email': email,
+							'lastRefresh': Date.now()
+						},
 						tokens	
 					)
 				)
@@ -49,11 +49,8 @@ module.exports = function(baseUrl) {
 			const res = await fetchRequest(`${usersBaseUrl}/_doc/`, 201, options);
 			return res['_id'];
 
-		} catch (err) {  // TODO handling errors
-			switch (err) {
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
+		} catch (err) { // Unexpected error
+			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
 
@@ -62,7 +59,7 @@ module.exports = function(baseUrl) {
 	 * @param {*} email user email
 	 * @param {*} tokens user session tokens
 	 */
-	const storeUpdatedInfo = async function (email, tokens, index) {
+	const storeUpdatedInfo = async function (email, tokens, doc_id) {
 		try {
 
 			const options = {
@@ -70,6 +67,7 @@ module.exports = function(baseUrl) {
 				headers: { "Content-Type": contentType },
 				body: JSON.stringify({
 						"email" : email,
+						'lastRefresh' : Date.now(),
 						"access_token" : tokens.access_token,
 						"token_type" : tokens.token_type,
 						"refresh_token" : tokens.refresh_token,
@@ -78,13 +76,10 @@ module.exports = function(baseUrl) {
 				  })
 			};
 
-			await fetchRequest(`${usersBaseUrl}/_update/${index}/`, 200, options);
+			await fetchRequest(`${usersBaseUrl}/_update/${doc_id}/`, 200, options);
 
-		} catch (err) { // TODO handling errors
-			switch (err) {
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
+		} catch (err) { // Unexpected error
+			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
 
@@ -95,17 +90,12 @@ module.exports = function(baseUrl) {
 	 */
 	const getUserTokens = async function (id) { /// Obtain user given the id
 		try {
+
 			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${id}`, 200);
-		
 			return answer._source;
 
-		} catch (err) { // TODO handling errors
-			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
+		} catch (err) { // Unexpected error
+			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
 
@@ -125,7 +115,6 @@ module.exports = function(baseUrl) {
 
 	const deleteAllUserSessions = async function (email) {
 		try {
-			console.log('email ' + email);
 			const options = {
 				method: 'POST', 
 				headers: { "Content-Type": contentType },
@@ -148,13 +137,8 @@ module.exports = function(baseUrl) {
 			
 			await fetchRequest(`${usersBaseUrl}/_delete_by_query`, 200, options);
 		
-		} catch (err) { // TODO handling errors
-			switch (err) {
-				case 404: /// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				default: /// Internal Server Error and others..
-					throw internalErrors.SERVICE_FAILURE;
-			}
+		} catch (err) { // Unexpected error
+			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
 

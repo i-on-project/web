@@ -1,0 +1,142 @@
+[
+	{
+		"acronym": "MAE",
+		"name": "Matemática Aplicada à Engenharia",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [1],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "MAT"
+	},
+	{
+		"acronym": "MDP",
+		"name": "Matemática Discreta e Programação",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [1],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "MAT"
+	},
+	{
+		"acronym": "MAV",
+		"name": "Modelação de Ambientes Virtuais",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [1],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "INF"
+	},
+	{
+		"acronym": "TI",
+		"name": "Tecnologias de Informação",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [1],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "INF"
+	},
+	{
+		"acronym": "SA",
+		"name": "Sensores e Atuadores",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [1],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "FIS"
+	},
+	{
+		"acronym": "MCG",
+		"name": "Matemática para Computação Gráfica",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [2],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "MAT"
+	},
+	{
+		"acronym": "PDS",
+		"name": "Processamento Digital de Sinais",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [2],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "TEL"
+	},
+	{
+		"acronym": "CF",
+		"name": "Computação Física",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [2],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "TEL"
+	},
+	{
+		"acronym": "RPS",
+		"name": "Raciocínio Probabilístico e Simulação",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [2],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "MAT"
+	},
+	{
+		"acronym": "MP",
+		"name": "Modelação e Programação",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [2],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "INF"
+	},
+	{
+		"acronym": "CPS",
+		"name": "Comunicações e Processamento de Sinais",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [3],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "TEL"
+	},
+	{
+		"acronym": "FSO",
+		"name": "Fundamentos de Sistemas Operativos",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [3],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "INF"
+	},
+	{
+		"acronym": "PCM",
+		"name": "Produção de Conteúdos Multimédia",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [3],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "INF"
+	},
+	{
+		"acronym": "MSSN",
+		"name": "Modelação e Simulação de Sistemas Naturais",
+		"courseId": 0,
+		"id": 0,
+		"termNumber": [3],
+		"optional": false,
+		"ects": 6,
+		"scientificArea": "INF"
+	}
+]

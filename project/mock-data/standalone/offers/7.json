@@ -1,0 +1,23 @@
+[
+    {
+        "acronym": "AL",
+        "name": "Álgebra Linear",
+        "courseId": 0,
+        "id": 0,
+        "termNumber": [1],
+        "optional": false,
+        "ects": 6,
+        "scientificArea": "MAT"
+    },
+    {
+        "acronym": "CDI",
+        "name": "Cálculo Diferencial e Integral",
+        "courseId": 0,
+        "id": 0,
+        "termNumber": [1],
+        "optional": false,
+        "ects": 7.5,
+        "scientificArea": "MAT"
+    }
+]
+

@@ -2,14 +2,18 @@
 <div id="showAllMethods" class="row justify-content-center">
 	
     <div class="col-md-4">
-		<h2 class="text-center">Métodos de autenticação</h2><br>
+		<h2 class="text-center">Bem-vinda(o) de volta!</h2><br><br>
 		
 		<div class="divSpacing">
+			<h5>Métodos de autenticação disponíveis:</h5><br>
+
 			{{#each this.data}}
 					<a class="btn btn-outline-dark btn-lg" role="button" onclick=showSpecifiedMethod('{{this.type}}') id="{{this.type}}button"></a>
 			{{/each}}
+
 		</div>
     </div>
+	
 </div>
 
 
@@ -73,6 +77,7 @@
 	<script>
 
 		const allowed_domains = [];
+		const userEmailElem = document.querySelector('#emailValue');
 
 		{{#each data}}
 			if('{{this.type}}' === 'email') {
@@ -90,7 +95,7 @@
 		async function validateEmail() {
 
 			// Extract email
-			const userEmailElem = document.querySelector('#emailValue');
+			
 			const userEmail = userEmailElem.value;
 			
 			// Validate email
@@ -103,8 +108,7 @@
 
 			// Email is valid
 			if(userEmailElem.classList.contains("is-invalid")) userEmailElem.classList.remove("is-invalid");
-			userEmailElem.classList.add("is-valid");
-
+		
 			await submit();
 		}
 
@@ -137,7 +141,7 @@
 			'</div>'
 
 			// Request to auth api to obtain auth_req_id and expiration
-			const data = {
+			const userEmail = {
 				'email' : document.querySelector('#emailValue').value
 			};
 
@@ -146,39 +150,64 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify(data),
+				body: JSON.stringify(userEmail)
 			});
-			
+
+			if(response.status === 400) {
+
+				userEmailElem.classList.add("is-invalid");
+				loading.innerHTML = "";
+				button.disabled = false;
+				return;
+				
+			} else if(response.status !== 200) {
+
+				loading.innerHTML = "<br><p>Ocorreu um erro, tente novamente.</p>";
+				button.disabled = false;
+				return;
+			}
+
+			userEmailElem.classList.add("is-valid");
+
 			const authData = await response.json();
-			
-			const auth_req_id = authData.auth_req_id;
+
+			const authReqId = {
+				'auth_req_id' : authData.auth_req_id
+			};
+
+			const polling_uri = `/auth-api/poll`
 			let counter = authData.expires_in;
-			const polling_uri = `/auth-api/${auth_req_id}/poll`
 
 			// Polling loop
 			const pollingLoop = setInterval(async () => {
-				counter-=5;
 
-				const pollingResponse = await fetch(polling_uri, {
+				counter -= 5;
+
+				const pollingResponse = await fetch("/auth-api/poll", {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
-					}
+					},
+					body: JSON.stringify(authReqId)
 				});
-
+				
 				if(pollingResponse.status === 200) {
 					
 					clearInterval(pollingLoop);
 
 					setTimeout(async () => {
-						loading.innerHTML = "<p>Autenticação realizada com sucesso!</p>"
+						loading.innerHTML = "<br><p>Autenticação realizada com sucesso!</p>";
 						window.location.replace('/');
 					}, 500)
 					
+				} else if(pollingResponse.status !== 202) {
+					loading.innerHTML = "<br><p>Ocorreu um erro, tente novamente.</p>";
+					button.disabled = false;
+					clearInterval(pollingLoop);
 				}
 
 				if (counter === 0) {
-					loading.innerHTML = "<p>Tempo para autenticação excedido!</p>"
+					loading.innerHTML = "<br><p>Tempo para autenticação excedido!</p>";
 					clearInterval(pollingLoop);
 				}
 

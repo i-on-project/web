@@ -1,0 +1,10 @@
+[
+  {
+    "allowed_domains": [
+      "*.isel.pt",
+      "*.isel.ipl.pt"
+    ],
+    "type": "email",
+    "create": true
+  }
+]

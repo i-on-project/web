@@ -1,0 +1,30 @@
+{
+  "assignments": [
+      {
+      "event": "[DAW] Entrega do 1º trabalho",
+      "date": "2021-04-24",
+      "time": "23:59"
+    },
+    {
+      "event": "[DAW] Entrega do 2º trabalho",
+      "date": "2021-06-12",
+      "time": "23:59"
+    }
+  ],
+  "testsAndExams": [
+    {
+      "event": "Exame de DAW",
+      "date": "2021-06-28",
+      "startTime": "19:00",
+      "endTime": "22:00",
+      "location": "G.1.03"
+    },
+    {
+      "event": "Exame de DAW",
+      "date": "2021-07-21",
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "location": "G.1.04"
+    }
+  ]
+}

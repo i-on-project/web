@@ -1,5 +1,6 @@
 'use strict'
 
+const jwt_decode = require('jwt-decode');
 const passport = require('passport');
 const session = require('express-session');
 const internalErrors = require('../common/i-on-web-errors.js');
@@ -49,18 +50,20 @@ module.exports = (app, data, sessionDB) => {
         }, 
 
 		pollingCore: async function(req, authForPoll) {
-			const receivedTokens = await data.pollingCore(authForPoll);
+			const pollingResponse = await data.pollingCore(authForPoll);
 
 			/// Check if pooling succeeded
-			if(receivedTokens.hasOwnProperty("access_token")) {
-
-				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type);
-				const sessionId = await sessionDB.createUserSession(user.email, receivedTokens);
+			if(pollingResponse.hasOwnProperty("access_token")) {
+				const tokens = pollingResponse.id_token.split(".");
+				const user_email = jwt_decode(tokens[1], { header: true }).email;
+				
+				const user = await data.loadUser(pollingResponse.access_token, pollingResponse.token_type, user_email);
+				const sessionId = await sessionDB.createUserSession(user_email, pollingResponse);
 				
 				const userSessionInfo = Object.assign(
 					{'sessionId': sessionId},
 					user,
-					receivedTokens
+					pollingResponse
 				);
 				
 				/// If the user doesn't have a username, we give one by default. 
@@ -75,6 +78,10 @@ module.exports = (app, data, sessionDB) => {
 				})
 				
 				return true;
+			} else if(pollingResponse.hasOwnProperty("error") && pollingResponse.error === "authorization_pending") {
+				return false;
+			} else {
+				throw internalErrors.SERVICE_FAILURE;
 			}
 		},
 		
@@ -87,8 +94,6 @@ module.exports = (app, data, sessionDB) => {
 					throw internalErrors.SERVICE_FAILURE;
 				}
 			})
-
-			console.log("LOGOUT -> " + JSON.stringify(user));
 
 			await data.revokeAccessToken(user);
 			await sessionDB.deleteUserSession(user.sessionId);
@@ -104,7 +109,7 @@ module.exports = (app, data, sessionDB) => {
 				}
 			});
 			
-			await data.deleteUser(user.access_token, user.token_type);
+			await data.deleteUser(user);
 			await sessionDB.deleteAllUserSessions(user.email);
 		}
 
@@ -119,7 +124,9 @@ const getUserAndSessionInfo = async function(data, sessionDB, sessionId) { // Th
 	const sessionInfo = await sessionDB.getUserTokens(sessionId);
 
 	/// Obtaining user profile info from core
-	const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type);
+	const tokens = sessionInfo.id_token.split(".");
+	const user_email = jwt_decode(tokens[1], { header: true }).email;
+	const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type, user_email);
 
 	return Object.assign(
 		{'sessionId': sessionId},

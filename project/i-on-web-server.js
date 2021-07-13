@@ -7,6 +7,10 @@ const port = process.env.PORT || 8080;
 const express = require('express');
 const app = express();
 
+/// Cache
+const Cache = require('./cache/cache.js');
+const myCache = new Cache(0); /// Change
+
 async function configurations() {
 
     /// Paths
@@ -16,7 +20,7 @@ async function configurations() {
 
     const coreDecoratorsPath     = `${dataAccessLayerPath}/core-decorators`
 
-    let pathPrefix = process.env.PATH_PREFIX;
+    let pathPrefix = process.env.PATH_PREFIX; /// TO DO can be simplified
     if(!pathPrefix) pathPrefix = "";
 
     /// ElasticSearch initializer
@@ -27,16 +31,22 @@ async function configurations() {
     /// Data
     let data;
 
-    if(process.env.OPERATION_MODE === "standalone") {
+   // if(process.env.OPERATION_MODE === "standalone") {
+
         data = require(`${dataAccessLayerPath}/mock-data.js`)();
-    } else {
+
+   /* } else {
+
         const core = require(`${dataAccessLayerPath}/core-data.js`)();
 
         /// Decorators
         const coreTransformer = require(`${coreDecoratorsPath}/core-data-transformer.js`)(core);
         const addMissingData  = require(`${coreDecoratorsPath}/core-add-missing-data.js`)(coreTransformer);
-        data = addMissingData; // require('./i-on-web-cache.js')(addMissingData); // ... add cache ...
-    }
+        const cache = require('./cache/i-on-web-cache.js')(addMissingData, myCache);
+        const metadata = require(`${businessLogicLayerPath}/remove-metadata.js`)(cache);
+        
+        data = metadata;
+    }*/
 
     /// Auth
     const auth = require(`${businessLogicLayerPath}/i-on-web-auth.js`)(app, data, sessionDB);
@@ -56,10 +66,21 @@ async function configurations() {
     router.use('/auth-api', webAuthApi);
     router.use(webUI);
 
-    router.use('/dependecies', express.static('node_modules')); // TO DO - Remove
+    router.use('/dependecies', express.static('node_modules')); // TO DO todo - Remove
     router.use('/public', express.static('static-files'));
 
     app.use(`${pathPrefix}`, router);
+
+    /*
+        Since the main router positions our routes above the middleware defined below,
+        this means that Express will attempt to match & call routes before continuing on,
+        at which point we assume it's a 404 because no route has handled the request.
+    */
+
+    app.use(function(req, res) {
+        res.status(404);
+        res.render('errorPage', { status: 404, errorMessage: 'Not Found' });
+    });
 
     app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)
 
@@ -68,5 +89,5 @@ async function configurations() {
 
 };
 
-setTimeout(configurations , 1000); /// 60 secs - to do: Improve this 
+setTimeout(configurations , 1000); /// 60 secs - TO DO: Improve this and index initializer
 //configurations();
