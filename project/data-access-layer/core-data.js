@@ -670,7 +670,7 @@ module.exports = function() {
 			const options = {
 				method: 'POST',
 				headers: {
-					'Authorization': tokens.token_type + ' ' + tokens.access_token,
+					'Authorization': user.token_type + ' ' + user.access_token,
 					'Content-Type': contentType
 				},
 				body: JSON.stringify({
@@ -680,7 +680,7 @@ module.exports = function() {
 					"client_secret": client_secret
 				})
 			};
-
+			
 			return await coreRequest('/api/auth/token', 200, options);
 
 		} catch(err) {		/// Error handling

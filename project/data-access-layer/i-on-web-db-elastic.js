@@ -38,8 +38,8 @@ module.exports = function(baseUrl) {
 				body: JSON.stringify(
 					Object.assign(
 						{
-							'email': email,
-							'lastRefresh': Date.now()
+							"email": email,
+							"lastRefresh": Date.now()
 						},
 						tokens	
 					)
@@ -67,7 +67,7 @@ module.exports = function(baseUrl) {
 				headers: { "Content-Type": contentType },
 				body: JSON.stringify({
 						"email" : email,
-						'lastRefresh' : Date.now(),
+						"lastRefresh" : Date.now(),
 						"access_token" : tokens.access_token,
 						"token_type" : tokens.token_type,
 						"refresh_token" : tokens.refresh_token,
@@ -76,7 +76,7 @@ module.exports = function(baseUrl) {
 				  })
 			};
 
-			await fetchRequest(`${usersBaseUrl}/_update/${doc_id}/`, 200, options);
+			await fetchRequest(`${usersBaseUrl}/_doc/${doc_id}/`, 200, options);
 
 		} catch (err) { // Unexpected error
 			throw internalErrors.SERVICE_FAILURE;
