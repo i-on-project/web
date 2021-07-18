@@ -50,7 +50,6 @@ module.exports = (app, data, sessionDB) => {
 
 		pollingCore: async function(req, authForPoll) {
 			const pollingResponse = await data.pollingCore(authForPoll);
-			console.log("---> " + JSON.stringify(pollingResponse));
 
 			/// Check if pooling succeeded
 			if(pollingResponse.hasOwnProperty("access_token")) {

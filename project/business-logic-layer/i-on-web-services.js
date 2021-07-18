@@ -43,6 +43,9 @@ module.exports = function(data, sessionDB) {
 	};
 
 	const getProgrammeOffers = async function(programmeId, user) {
+
+		if(!isIdValid(programmeId)) throw internalErrors.BAD_REQUEST;
+
 		if(user) {
 			const offers = await data.loadAllProgrammeOffers(programmeId);
 
@@ -59,7 +62,7 @@ module.exports = function(data, sessionDB) {
 			}
 
 			const programmeOffers = offers
-			.filter(course => filteredCoursesId.includes(course.courseId))
+				.filter(course => filteredCoursesId.includes(course.courseId))
 
 			const commonInfo = await getProgrammesByDegree(data);
 			return Object.assign({
@@ -72,6 +75,8 @@ module.exports = function(data, sessionDB) {
 	};
 
 	const getProgrammeData = async function(programmeId, user) {
+
+		if(!isIdValid(programmeId)) throw internalErrors.BAD_REQUEST;
 
 		const programme = await data.loadProgrammeData(programmeId);
 		const offers = await data.loadAllProgrammeOffers(programmeId);
@@ -211,18 +216,23 @@ module.exports = function(data, sessionDB) {
 	};
 
 	const editUserSubscribedClassesAndClassSections = async function(user, selectedClassesAndClassSections) {
+
 		try {
 			if(user) {
-				for(let id in selectedClassesAndClassSections) {
-					if(Array.isArray(selectedClassesAndClassSections[id])) {
-						for(let i = 0; i < selectedClassesAndClassSections[id].length; i++)
-							await data.deleteUserClassSection(user, id, selectedClassesAndClassSections[id][i]);
+				for(let classId in selectedClassesAndClassSections) {
+
+					// Check if the class id is valid and if it has class sections
+					if(!isIdValid(classId) || !selectedClassesAndClassSections[classId]) throw internalErrors.BAD_REQUEST;
+
+					if(Array.isArray(selectedClassesAndClassSections[classId])) {
+						for(let i = 0; i < selectedClassesAndClassSections[classId].length; i++)
+							await data.deleteUserClassSection(user, classId, selectedClassesAndClassSections[classId][i]);
 					} else {
-						await data.deleteUserClassSection(user, id, selectedClassesAndClassSections[id]);
+						await data.deleteUserClassSection(user, classId, selectedClassesAndClassSections[classId]);
 					}
-					const classes = await data.loadUserSubscribedClassSectionsInClass(user, id);
+					const classes = await data.loadUserSubscribedClassSectionsInClass(user, classId);
 					if(classes.length === 0)
-						await data.deleteUserClass(user, id);
+						await data.deleteUserClass(user, classId);
 				}
 			} else {
 				throw internalErrors.UNAUTHENTICATED;
@@ -238,15 +248,21 @@ module.exports = function(data, sessionDB) {
 		}
 	}
 
-	const getClassSectionsFromSelectedClasses = async function(user, coursesIDs) {
+	const getClassSectionsFromSelectedClasses = async function(user, classesIds) {
+
+		// Check if the classes ids are valid 
+		classesIds.forEach(classId => {
+			if(!isIdValid(classId)) throw internalErrors.BAD_REQUEST;
+		})
+
 		const classesByCourses = [];
 		if(user) {
 			const calendarTerm = await getCurrentCalendarTerm(data);
-			if(Array.isArray(coursesIDs)) {
-				for(let i = 0; i < coursesIDs.length; i++)
-					classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs[i], calendarTerm));
+			if(Array.isArray(classesIds)) {
+				for(let i = 0; i < classesIds.length; i++)
+					classesByCourses.push(await data.loadCourseClassesByCalendarTerm(classesIds[i], calendarTerm));
 			} else {
-				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(coursesIDs, calendarTerm));
+				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(classesIds, calendarTerm));
 			}
 		}
 
@@ -257,18 +273,25 @@ module.exports = function(data, sessionDB) {
 		});
 	};
 
-	const saveUserClassesAndClassSections = async function(user, selectedClassesAndClassSections){
+	const saveUserClassesAndClassSections = async function(user, selectedClassesAndClassSections) {
+
 		try {
 
 			if(user) {
-				for(let id in selectedClassesAndClassSections) {
-					if(Array.isArray(selectedClassesAndClassSections[id])) {
-						for(let i = 0; i < selectedClassesAndClassSections[id].length; i++) 
-							await data.saveUserClassesAndClassSections(user, id, selectedClassesAndClassSections[id][i]);
+
+				for(let classId in selectedClassesAndClassSections) {
+					
+					// Check if the class id is valid and if it has class sections
+					if(!isIdValid(classId) || !selectedClassesAndClassSections[classId]) throw internalErrors.BAD_REQUEST;
+
+					if(Array.isArray(selectedClassesAndClassSections[classId])) {
+						for(let i = 0; i < selectedClassesAndClassSections[classId].length; i++) 
+							await data.saveUserClassesAndClassSections(user, classId, selectedClassesAndClassSections[classId][i]);
 					} else {
-						await data.saveUserClassesAndClassSections(user, id, selectedClassesAndClassSections[id]);
+						await data.saveUserClassesAndClassSections(user, classId, selectedClassesAndClassSections[classId]);
 					}
 				}
+
 			} else {
 				throw internalErrors.UNAUTHENTICATED;
 			}
@@ -309,8 +332,9 @@ module.exports = function(data, sessionDB) {
 	
 	const editProfile = async function(user, newUserInfo) {
 		try {
-			
+		
 			if(user) {
+				if(!newUserInfo || !newUserInfo.newUsername) throw internalErrors.BAD_REQUEST;
 				await data.editUser(user, newUserInfo.newUsername);
 	
 				const commonInfo = await getProgrammesByDegree(data);
@@ -406,3 +430,8 @@ const updateUserSession = async function(data, sessionsDb, user) {
 	user.expires_in		= newTokens.expires_in;
 	user.id_token		= newTokens.id_token;
 };
+
+function isIdValid(id) {
+	const numberId = Number(id);
+	return typeof(numberId) === 'number' && Math.round(numberId) === numberId && numberId > 0;
+}
