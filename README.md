@@ -73,7 +73,7 @@ __Note:__ Usually Docker uses the default `172.17.0.0/16` subnet for container n
 The i-on Web application has two operation modes and you can use either one of them.
 
 ### Standalone mode
-The standalone mode allows us to run the i-on Web application using mock data stored in .json files, which we can view [here](https://github.com/i-on-project/web/tree/main/Project/data).
+The standalone mode allows us to run the i-on Web application using mock data stored in .json files, which we can view [here](https://github.com/i-on-project/web/tree/main/project/mock-data/standalone).
 
 When building the docker image we can specify the development operation mode by setting the build-time variable `OPERATION_MODE` with the value `standalone` by using the following command on the __root directory__:
 ```
