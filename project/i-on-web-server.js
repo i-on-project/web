@@ -59,7 +59,7 @@ async function configurations() {
 
     /// Auth WebAPI
     const webAuthApi = require(`${presentationLayerPath}/i-on-web-auth-api`)(auth);
-  
+
     /// Prefix router
     const router = express.Router();
 
@@ -89,5 +89,20 @@ async function configurations() {
 
 };
 
-setTimeout(configurations , 1000); /// 60 secs - TO DO: Improve this and index initializer
-//configurations();
+//setTimeout(configurations , 1000); /// 60 secs - TO DO: Improve this and index initializer
+
+const timeToRetry = 60000;
+const retryInterval = 5000;
+let timePassed = 0;
+const myInterval = setInterval(async () => {
+    if(timePassed < timeToRetry) {
+        timePassed = timePassed + retryInterval;
+        try {
+            await configurations();
+            clearInterval(myInterval);
+        } catch(err) {
+            console.log('Trying to connect to Elasticsearch..')
+        }
+    }
+}, retryInterval);
+
