@@ -14,7 +14,7 @@
 
    <div class="row row-content">
       <div class="offset-1 col-11 col-sm-5 col-md-5">
-         <p class="text-left"><strong>Coordenação:</strong></p>
+         <p class="text-left boldText ">Coordenação:</p>
          <p class="text-left">
             {{#each this.programme.coordination}}
                {{this.teacher}}<br>
@@ -22,9 +22,9 @@
          </p>
       </div>
       <div class="offset-1  col-11 col-sm-5 col-md-5"> 
-         <p class="text-left"><strong>Departamento:</strong> {{this.programme.department}}</p>
-         <p class="text-left"><strong>Duração do curso:</strong> {{this.programme.termSize}} semestres</p>
-         <p class="text-left"><strong>Contactos: </strong>{{this.programme.contacts}}</p>
+         <p class="text-left"><b>Departamento:</b> {{this.programme.department}}</p>
+         <p class="text-left"><b>Duração do curso:</b> {{this.programme.termSize}} semestres</p>
+         <p class="text-left"><b>Contactos:</b> {{this.programme.contacts}}</p>
          <a class="text-left" target="_blank" href="{{this.programme.sourceLink}}">Mais informação</a>
       </div>
    </div>

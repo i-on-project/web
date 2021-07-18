@@ -118,9 +118,10 @@ module.exports = function() {
 		const receidedData = await getMockData(path);
 
 		if(receidedData) {
+			const data = JSON.parse(JSON.stringify(receidedData));
 			delete data.classes;
 			data['calendarTerm'] = calendarTerm;
-
+			console.log(JSON.stringify(users))
 			let subscribedToCourse = false;
 
 			for(let i = 0; i < users[user.email].classesAndClassSections.length; i++) {
@@ -137,6 +138,7 @@ module.exports = function() {
 				users[user.email].classesAndClassSections.push(course);
 			}
 		};
+		console.log(JSON.stringify(users))
 	}
 
 	const loadUserSubscribedClassSectionsInClass = function(user, id) {
