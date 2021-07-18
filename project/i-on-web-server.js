@@ -89,8 +89,6 @@ async function configurations() {
 
 };
 
-//setTimeout(configurations , 1000); /// 60 secs - TO DO: Improve this and index initializer
-
 const timeToRetry = 60000;
 const retryInterval = 5000;
 let timePassed = 0;
@@ -101,7 +99,7 @@ const myInterval = setInterval(async () => {
             await configurations();
             clearInterval(myInterval);
         } catch(err) {
-            console.log('Trying to connect to Elasticsearch..')
+            console.log('Executing initial configurations..')
         }
     }
 }, retryInterval);
