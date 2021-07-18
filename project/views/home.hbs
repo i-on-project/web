@@ -13,10 +13,13 @@
     </div>
     
     {{#if user}}
+    
         <div class="row row-content justify-content-center">
             <h3>Próximos eventos</h3>
         </div>
+
         <div class="row row-content">
+
             <div class="col-12 col-sm-6">
                 <h4 class="text-center">Trabalhos</h4>
                 {{#each events.assignments}}
@@ -29,6 +32,7 @@
                     </div>
                 {{/each}}
             </div>
+
             <div class="col col-sm-6">
                 <h4 class="text-center">Testes e Exames</h4>
                 {{#each events.testsAndExams}}
@@ -39,9 +43,11 @@
                             <span aria-hidden="true">&times;</span>
                         </button>         
                     </div>            
-        {{/each}}
+                {{/each}}
             </div>
+
         </div>
+
     {{/if}}
     
     <div class="row row-content justify-content-center divSpacing">
