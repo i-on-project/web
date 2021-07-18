@@ -9,7 +9,7 @@ module.exports = function(data) {
 
 		const response = await data.loadAllProgrammes(metadata);
 
-		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
+		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 
 		/*** Adding data ***/
 		const mockDataToBeAdded = await getMockData('/programmes');
@@ -40,15 +40,15 @@ module.exports = function(data) {
 	const loadAllProgrammeOffers = async function (programmeId, metadata) {
 		const response = await data.loadAllProgrammeOffers(programmeId, metadata);
 
-		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
+		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 
 		/* Adding missing data */ 
 		const path = '/offers/' + programmeId;
 		const mockDataToBeAdded = await getMockData(path);
 
-		const improvedData = response.data
-		.filter( offer => { 
-			const mockOffer = mockDataToBeAdded
+		const improvedData = response.data  
+		.filter( offer => { 						// Due to core inconsistencies we verify if the returned offers are actually part of the programme curricular plan, 
+			const mockOffer = mockDataToBeAdded		// this filter can be removed when the Core inconsistency is resolved
 				.find( mockOffer => mockOffer.courseId == offer.courseId);
 
 			return mockOffer;
@@ -82,7 +82,7 @@ module.exports = function(data) {
 		
 		const response = await data.loadProgrammeData(programmeId, metadata);
 	
-		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
+		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 
 		/* Adding missing data */
 		const path = '/programmes/' + programmeId;
@@ -114,7 +114,7 @@ module.exports = function(data) {
 	
 		const response = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, metadata) ;
 		
-		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
+		if(!response.hasOwnProperty('data')) return response; // The resource has not been modified 
 
 		/* Adding missing data */
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
@@ -139,7 +139,7 @@ module.exports = function(data) {
 	const loadAboutData = async function (metadata) {
 		const response = await data.loadAboutData(metadata);
 		
-		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
+		if(!response.hasOwnProperty('data')) return response; // The resource has not been modified 
 		
 		/* Adding missing data */ 
 		const improvedData = await getMockData('/i-on-team');
@@ -158,8 +158,8 @@ module.exports = function(data) {
 
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) { 
 		const response = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
-		
-		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
+		console.log(JSON.stringify(response));
+		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
@@ -176,7 +176,7 @@ module.exports = function(data) {
 	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
 		const response = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm, metadata);
 
-		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
+		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
@@ -193,7 +193,7 @@ module.exports = function(data) {
 	const loadCurrentCalendarTerm = async function(metadata) {
 		const response = await data.loadCurrentCalendarTerm(metadata);
 
-		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
+		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 		
 		/* Adding missing data */ 
 		const improvedData = await getMockData('/current_calendar_term');
@@ -214,7 +214,7 @@ module.exports = function(data) {
 		
 		const response = await data.loadCalendarTermGeneralInfo(calendarTerm, metadata);
 		
-		if(!response.hasOwnProperty('data')) return response;	/// The resource has not been modified 
+		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 
 		/* Adding missing data */ 
 		const improvedData = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
@@ -235,7 +235,7 @@ module.exports = function(data) {
 
 	const loadAuthenticationMethodsAndFeatures = async function (metadata) {
 		const response = await data.loadAuthenticationMethodsAndFeatures(metadata);
-		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
+		if(!response.hasOwnProperty('data')) return response; // The resource has not been modified 
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
@@ -287,7 +287,7 @@ module.exports = function(data) {
 	const loadUser = async function(access_token, token_type, email, metadata) {
 		const response = await data.loadUser(access_token, token_type, email, metadata);
 
-		if(!response.hasOwnProperty('data')) return response; /// The resource has not been modified 
+		if(!response.hasOwnProperty('data')) return response; // The resource has not been modified 
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
