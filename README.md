@@ -45,12 +45,12 @@ i-on Web has the following functionalities available:
 - Make it possible to view the list of selected courses;
 - Notify the student, on the home page, of upcoming events (tests, exams, among others) of the courses he / she attends;
 - Construction of the student's calendar with the events of the courses to which he is enrolled;
+- Make it possible to download the student's schedule.
 
 i-on Web is continuously being developt, as such, more funcionalities will be / are being added, namely:
 
 - User settings that allow the user to change the programme, username, among other information;
-- Switch the language (between Portuguese and English) of the web interface;
-- Make it possible to download the student's schedule.
+- Switch the language (between Portuguese and English) of the web interface.
 
 # Getting started
 Next we will see how we can run the i-on Web application according to its operation modes and using docker compose.
