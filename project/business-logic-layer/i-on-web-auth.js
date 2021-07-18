@@ -45,6 +45,11 @@ module.exports = (app, data, sessionDB) => {
         },
 
 		submitInstitutionalEmail: async function(email) {
+			if(!email)  throw internalErrors.BAD_REQUEST;
+
+			const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			if(!re.test(email)) throw internalErrors.BAD_REQUEST;
+			
 			return data.submitInstitutionalEmail(email);
         }, 
 
@@ -119,8 +124,8 @@ module.exports = (app, data, sessionDB) => {
 /******* Helper functions *******/
 
 const getUserAndSessionInfo = async function(data, sessionDB, sessionId) { // Through the session identifier we will obtain information about the user as well as the session 
-		/// Obtaining user session info from elasticsearch db
-		const sessionInfo = await sessionDB.getUserTokens(sessionId);
+	/// Obtaining user session info from elasticsearch db
+	const sessionInfo = await sessionDB.getUserTokens(sessionId);
 	
 	try { 
 		const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type, sessionInfo.email);
