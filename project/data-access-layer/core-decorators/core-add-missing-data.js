@@ -31,10 +31,6 @@ module.exports = function(data) {
 			"maxAge": default_maxAge
 		}
 
-		/*response.data = improvedData;
-		response.metadata = improvedMetadata;
-		
-		return response;*/
 		return {
 			"metadata": improvedMetadata,
 			"data": improvedData
@@ -50,17 +46,25 @@ module.exports = function(data) {
 		const path = '/offers/' + programmeId;
 		const mockDataToBeAdded = await getMockData(path);
 
-		const improvedData = response.data.map( offer => {
+		const improvedData = response.data
+		.filter( offer => { 
 			const mockOffer = mockDataToBeAdded
-			.find( mockOffer => mockOffer.courseId == offer.courseId);
+				.find( mockOffer => mockOffer.courseId == offer.courseId);
 
+			return mockOffer;
+		 })
+		.map( offer => {
+			const mockOffer = mockDataToBeAdded
+				.find( mockOffer => mockOffer.courseId == offer.courseId);
+	
 			offer["name"] = mockOffer.name;
 			offer["acronym"] = mockOffer.acronym;
 			offer["optional"] = mockOffer.optional;
 			offer["ects"] = mockOffer.ects;
 			offer["scientificArea"] = mockOffer.scientificArea;
+
 			return offer;
-		})
+		});
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
@@ -114,10 +118,11 @@ module.exports = function(data) {
 
 		/* Adding missing data */
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
+
 		const mockDataToBeAdded = await getMockData(path);
 
 		const improvedData = response.data;
-		improvedData['name'] = mockDataToBeAdded.name;
+		if(mockDataToBeAdded) improvedData['name'] = mockDataToBeAdded.name;
 	
 		/*** Adding metadata ***/
 		const improvedMetadata = {

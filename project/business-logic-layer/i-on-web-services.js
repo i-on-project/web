@@ -41,7 +41,7 @@ module.exports = function(data, sessionDB) {
 
 			const courseIDs = offers
 			.map(offer => offer.courseId)
-			//.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
+			.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
 
 			const calendarTerm = await getCurrentCalendarTerm(data);
 

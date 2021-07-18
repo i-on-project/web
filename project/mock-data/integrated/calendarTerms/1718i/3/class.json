@@ -1,6 +1,7 @@
 {
+	"id": 3,
 	"courseId" : 3,
-	"acronym" : "DM",
-	"name" : "Dissertação MEIC",
+	"acronym" : "TMD",
+	"name" : "Tópicos de Matemática Discreta",
 	"classes": ["1D", "2D", "1N"]
 }

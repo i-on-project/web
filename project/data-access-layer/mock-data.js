@@ -118,7 +118,6 @@ module.exports = function() {
 		const receidedData = await getMockData(path);
 
 		if(receidedData) {
-			const data = JSON.parse(JSON.stringify(receidedData))
 			delete data.classes;
 			data['calendarTerm'] = calendarTerm;
 
