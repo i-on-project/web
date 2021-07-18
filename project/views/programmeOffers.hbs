@@ -1,6 +1,6 @@
 <div class="container-fluid pageBeginning">
     <h3 class="text-center">Unidades Curriculares disponíveis</h3>
-    {{#if programmeCalendarTermOffers}}
+    {{#if programmeOffers}}
         <br>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
             <div class="row row-content align-items-center">
@@ -30,7 +30,7 @@
                             <input type="checkbox" onClick="toggle(this, 'id')">
                         </th>
                     </tr>
-                        {{#each programmeCalendarTermOffers}}
+                        {{#each programmeOffers}}
                         <tr class="border_bottom">
                             <td class="col-md-4">{{this.name}}</td>
                             <td class="col-md-1 text-center">{{this.ects}}</td>

@@ -42,7 +42,7 @@ module.exports = function(data, sessionDB) {
 
 	};
 
-	const getProgrammeCalendarTermOffers = async function(programmeId, user) {
+	const getProgrammeOffers = async function(programmeId, user) {
 		if(user) {
 			const offers = await data.loadAllProgrammeOffers(programmeId);
 
@@ -58,13 +58,13 @@ module.exports = function(data, sessionDB) {
 				if(courseClasses.classes.length != 0) filteredCoursesId.push(courseIDs[i]);
 			}
 
-			const programmeCalendarTermOffers = offers
+			const programmeOffers = offers
 			.filter(course => filteredCoursesId.includes(course.courseId))
 
 			const commonInfo = await getProgrammesByDegree(data);
 			return Object.assign({
 				user: user,
-				programmeCalendarTermOffers : programmeCalendarTermOffers
+				programmeOffers : programmeOffers
 			}, commonInfo);
 		} else {
 			throw internalErrors.UNAUTHENTICATED;
@@ -339,7 +339,7 @@ module.exports = function(data, sessionDB) {
 
 	return {
 		getHome : getHome,
-		getProgrammeCalendarTermOffers : getProgrammeCalendarTermOffers,
+		getProgrammeOffers : getProgrammeOffers,
 		getProgrammeData : getProgrammeData,
 		getUserSchedule : getUserSchedule,
 		getUserCalendar : getUserCalendar,
