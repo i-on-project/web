@@ -255,21 +255,42 @@ module.exports = function(data, sessionDB) {
 			if(!isIdValid(classId)) throw internalErrors.BAD_REQUEST;
 		})
 
-		const classesByCourses = [];
+		const classeSectionsByClass = [];
+		let userClasses;
+
 		if(user) {
+
+			/**** Obtain user subscribed Classes ****/
+			
 			const calendarTerm = await getCurrentCalendarTerm(data);
+			const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
+			const userClassesOfPresentCalendarTerm = userClassesAndClassSections.filter(userClass => userClass.calendarTerm === calendarTerm);
+
+			for(let i = 0; i < userClassesOfPresentCalendarTerm.length; i++) {
+				const course = await data.loadCourseClassesByCalendarTerm(userClassesOfPresentCalendarTerm[i].courseId , calendarTerm)
+				const userClass = userClassesOfPresentCalendarTerm[i];
+				userClass['name'] = course.name;
+			}
+
+			userClasses = userClassesOfPresentCalendarTerm;
+
 			if(Array.isArray(classesIds)) {
 				for(let i = 0; i < classesIds.length; i++)
-					classesByCourses.push(await data.loadCourseClassesByCalendarTerm(classesIds[i], calendarTerm));
+					classeSectionsByClass.push(await data.loadCourseClassesByCalendarTerm(classesIds[i], calendarTerm));
 			} else {
-				classesByCourses.push(await data.loadCourseClassesByCalendarTerm(classesIds, calendarTerm));
+				classeSectionsByClass.push(await data.loadCourseClassesByCalendarTerm(classesIds, calendarTerm));
 			}
-		}
 
+			userClasses = userClasses.filter(userClass => {
+				return classeSectionsByClass.some(selectedClass => selectedClass.id === userClass.id && selectedClass.courseId === userClass.courseId);
+			})
+		}
+		
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			user: user, 
-			classesByCourses: classesByCourses
+			classeSectionsByClass: classeSectionsByClass,
+			userSubscribedClasses : userClasses
 		});
 	};
 
