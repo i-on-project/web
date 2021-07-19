@@ -27,7 +27,7 @@ async function configurations() {
     const storageCreator = require(`${dataAccessLayerPath}/i-on-web-db-elastic.js`);
     const sessionDB = storageCreator(process.env.DB_ELASTIC_URL); // TO DO
     await sessionDB.initializeDatabaseIndexes();               /// Initialize elastic indexes
-    //sessionDB.deleteOldSessionsScheduler();
+    sessionDB.deleteOldSessionsScheduler();
 
     /// Data
     let data;

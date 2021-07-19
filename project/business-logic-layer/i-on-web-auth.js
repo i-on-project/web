@@ -29,6 +29,7 @@ module.exports = (app, data, sessionDB) => {
 		resave: false,              
 		saveUninitialized: false,  
 		secret: 'secret',   // TO DO - Generate random string
+		cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
 		store: new FileStore() 
     }))
 
