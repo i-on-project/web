@@ -37,8 +37,8 @@ module.exports = function(data) {
 		return receivedData.data;
 	};
 	
-	const loadCurrentCalendarTerm = async function() {
-		const receivedData = await data.loadCurrentCalendarTerm();
+	const loadCalendarTerm = async function() {
+		const receivedData = await data.loadCalendarTerm();
 		return receivedData.data;
 	};
 		
@@ -111,7 +111,7 @@ module.exports = function(data) {
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
-		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTerm : loadCalendarTerm,
 		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
 		/* Authentication related methods */

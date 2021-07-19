@@ -387,8 +387,21 @@ module.exports = function(data, sessionDB) {
 
 			}
 
-		}
+		};
+
 	};
+
+	const getAuthMethodsAndFeatures = async function() {
+		const authMethods = await data.loadAuthenticationMethodsAndFeatures();
+		const commonInfo = await getProgrammesByDegree(data);
+		
+		return Object.assign(
+			{'page': 'login'},
+			commonInfo,
+			{'data': authMethods}
+		);
+	};
+
 
 	return {
 		getHome : getHome,
@@ -402,7 +415,8 @@ module.exports = function(data, sessionDB) {
 		saveUserClassesAndClassSections : saveUserClassesAndClassSections,		
 		getAboutData : getAboutData,
 		getProfilePage : getProfilePage,
-		editProfile : editProfile
+		editProfile : editProfile,
+		getAuthMethodsAndFeatures : getAuthMethodsAndFeatures
 	};
 	
 }
@@ -433,8 +447,9 @@ const getUserEvents = async function(data, user, calendarTerm) {
 	return userEvents;
 };
 
-const getCurrentCalendarTerm = function(data) { 
-	return data.loadCurrentCalendarTerm(); // todo change loadCurrentCalendarTerm remove current 
+const getCurrentCalendarTerm = async function(data) { 
+	const calendarTerm = await data.loadCalendarTerm(); 
+	return calendarTerm.currentCalendarTerm;
 }
 
 const getProgrammesByDegree = async function(data) {

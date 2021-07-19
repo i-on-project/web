@@ -41,10 +41,6 @@ module.exports = (app, data, sessionDB) => {
     	
     return {
 
-		getAuthMethodsAndFeatures: async function() {
-			return data.loadAuthenticationMethodsAndFeatures();
-        },
-
 		submitInstitutionalEmail: async function(email) {
 			if(!email)  throw internalErrors.BAD_REQUEST;
 

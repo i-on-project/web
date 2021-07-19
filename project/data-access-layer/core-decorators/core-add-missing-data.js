@@ -1,7 +1,7 @@
 'use strict'
 
 const default_maxAge = 24 * 60 * 60;
-const hash = require('object-hash');
+const defaulEtag = 'Etag';
 
 module.exports = function(data) {
 
@@ -27,7 +27,7 @@ module.exports = function(data) {
 		
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 
@@ -68,7 +68,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -100,7 +100,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -126,7 +126,7 @@ module.exports = function(data) {
 	
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -146,7 +146,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -163,7 +163,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(response.data),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -180,7 +180,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(response.data),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -190,38 +190,47 @@ module.exports = function(data) {
 		};
 	}
 
-	const loadCurrentCalendarTerm = async function(metadata) {
-		const response = await data.loadCurrentCalendarTerm(metadata);
-
+	const loadCalendarTerm = async function(metadata) {
+		const response = await data.loadCalendarTerm(metadata);
+	
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
-		
-		/* Adding missing data */ 
-		const improvedData = await getMockData('/current_calendar_term');
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
-		
+	
 		return {
 			"metadata": improvedMetadata,
-			"data": improvedData.calendarTerm
+			"data": response.data
 		};
 	}
 	
 	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
 		
 		const response = await data.loadCalendarTermGeneralInfo(calendarTerm, metadata);
-		
+	
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 
 		/* Adding missing data */ 
-		const improvedData = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
+		const mockDataToBeAdded = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
+	
+		const improvedData = response.data.map(season => {
+	
+			const mockSeason = mockDataToBeAdded.find(mockSeason => ( mockSeason.date === season.date && mockSeason.id === season.id )) 
+	
+			return {
+				"date": season.date,
+				"title": mockSeason.title,
+			  	"description": mockSeason.description
+			}
+		})
+
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 
@@ -239,7 +248,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(response.data),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 
@@ -291,7 +300,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(response.data),
+			"ETag": defaulEtag,
 			"maxAge": 10 * 60
 		}
 		
@@ -321,7 +330,7 @@ module.exports = function(data) {
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
-		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTerm : loadCalendarTerm,
 		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
 		/* Authentication related methods */

@@ -55,11 +55,11 @@ module.exports = function() {
 		return JSON.parse(JSON.stringify(data));;
 	}
 
-	const loadCurrentCalendarTerm = async function() {
+	const loadCalendarTerm = async function() {
 		const path = '/current_calendar_term';
 		const data = getMockData(path);
 		if(!data) throw internalErrors.SERVICE_FAILURE;
-		return JSON.parse(JSON.stringify(data.calendarTerm));
+		return JSON.parse(JSON.stringify(data));
 	}
 		
 	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
@@ -113,7 +113,7 @@ module.exports = function() {
 	/* User related methods */
 
 	const saveUserClassesAndClassSections = async function(user, id, classSection) {
-		const calendarTerm = await loadCurrentCalendarTerm();
+		const calendarTerm = await loadCalendarTerm();
 		const path = '/calendarTerms/' + calendarTerm + '/' + id + '/class';
 		const receidedData = await getMockData(path);
 
@@ -121,7 +121,7 @@ module.exports = function() {
 			const data = JSON.parse(JSON.stringify(receidedData));
 			delete data.classes;
 			data['calendarTerm'] = calendarTerm;
-			console.log(JSON.stringify(users))
+	
 			let subscribedToCourse = false;
 
 			for(let i = 0; i < users[user.email].classesAndClassSections.length; i++) {
@@ -138,7 +138,7 @@ module.exports = function() {
 				users[user.email].classesAndClassSections.push(course);
 			}
 		};
-		console.log(JSON.stringify(users))
+
 	}
 
 	const loadUserSubscribedClassSectionsInClass = async function(user, id) {
@@ -189,6 +189,7 @@ module.exports = function() {
 	const revokeAccessToken = function(user) {};
 
 	return {
+		/* Methods to load generic academic information */
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
@@ -196,15 +197,15 @@ module.exports = function() {
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
-		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTerm : loadCalendarTerm,
 		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
-		/* Authentication related methods */
+		/* Methods related to authentication */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
 
-		/* User related methods */
+		/* Methods related to user */
 		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
 		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
 		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
