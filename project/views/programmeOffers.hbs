@@ -16,6 +16,7 @@
                 <span aria-hidden="true">&times;</span>
             </button>         
         </div>
+
         <form method="GET" action="/available-class-sections">
         <div class="row row-content">
             <div class="col-md divSpacing">
@@ -44,11 +45,7 @@
                                 {{/if}}
                             </td>
                             <td class="col-md-1 text-center">
-                                {{#if this.optional}}
-                                    <input type="checkbox" name="id" value={{this.courseId}}>
-                                {{else}}
-                                    <input type="checkbox" name="id" value={{this.courseId}}>
-                                {{/if}}
+                                <input type="checkbox" name="id" value={{this.courseId}}>
                             </td>
                         </tr>
                     {{/each}}
