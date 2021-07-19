@@ -182,7 +182,9 @@ describe('Services', function () {
 				},
 
 				loadCalendarTerm: async function() {
-					return "2021i";
+					return {
+						"currentCalendarTerm": "2021i"
+					};
 				},
 
 				loadCalendarTermGeneralInfo: async function(calendarTerm) {
@@ -329,7 +331,9 @@ describe('Services', function () {
 				},
 
 				loadCalendarTerm: async function() {
-					return "2021i";
+					return {
+						"currentCalendarTerm": "2021i"
+					};
 				}
 			}
 			const sessionDB = null;
@@ -397,7 +401,9 @@ describe('Services', function () {
 				},
 
 				loadCalendarTerm: async function() {
-					return '2021v';
+					return {
+						"currentCalendarTerm": "2021v"
+					};
 				}
 			}
 			const sessionDB = null;
@@ -593,7 +599,9 @@ describe('Services', function () {
 				},
 
 				loadCalendarTerm: async function() {
-					return "2021i";
+					return {
+						"currentCalendarTerm": "2021i"
+					};
 				},
 
 				loadUserSubscribedClassesAndClassSections: async function(user) {
@@ -666,7 +674,9 @@ describe('Services', function () {
 				},
 
 				loadCalendarTerm: async function() {
-					return "2021i";
+					return {
+						"currentCalendarTerm": "2021i"
+					};
 				},
 
 				loadUserSubscribedClassesAndClassSections: async function(user) {
@@ -751,7 +761,9 @@ describe('Services', function () {
 				},
 
 				loadCalendarTerm: async function() {
-					return "2021v";
+					return {
+						"currentCalendarTerm": "2021v"
+					};
 				},
 
 				loadCalendarTermGeneralInfo: async function() {
@@ -857,7 +869,9 @@ describe('Services', function () {
 				},
 
 				loadCalendarTerm: async function() {
-					return "2021v";
+					return {
+						"currentCalendarTerm": "2021v"
+					};
 				},
 
 				loadCalendarTermGeneralInfo: async function() {
@@ -1025,7 +1039,9 @@ describe('Services', function () {
 				},
 
 				loadCalendarTerm: async function() {
-					return "2021v";
+					return {
+						"currentCalendarTerm": "2021v"
+					};
 				},
 
 				loadUserSubscribedClassesAndClassSections: async function(user) {
@@ -1108,7 +1124,9 @@ describe('Services', function () {
 				},
 
 				loadCalendarTerm: async function() {
-					return "2021i";
+					return {
+						"currentCalendarTerm": "2021i"
+					};
 				},
 
 				loadUserSubscribedClassesAndClassSections: async function() {
