@@ -223,7 +223,7 @@
   .ds{
     display: none;
   }
-  @media (max-width: 800px) {
+  @media (max-width: 950px) {
     .schedule{
         display: inline-grid;
         overflow: hidden;
@@ -285,9 +285,7 @@
       .ds{
         display: block;
       }
-  
 
-    
       .grid-last{
         height: 98px;
       }
