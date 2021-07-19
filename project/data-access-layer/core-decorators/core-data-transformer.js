@@ -382,9 +382,10 @@ module.exports = function(data) {
 	* }
 	*/
 
-	const loadCurrentCalendarTerm = async function(metadata) {
-		const receivedData = await data.loadCurrentCalendarTerm(metadata);
-
+	const loadCalendarTerm = async function(metadata) {
+		
+		const receivedData = await data.loadCalendarTerm(metadata);
+		
 		const cache_control = receivedData.metadata.get('Cache-Control');
 
 		const receivedmetadata = {
@@ -394,9 +395,16 @@ module.exports = function(data) {
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
 
+		const transformedData = receivedData.data.entities.map(entity => {
+			
+			return {
+				"currentCalendarTerm": entity.properties.name
+			};
+		}).find(__ => __);
+	
 		return {
 			"metadata": receivedmetadata,
-			"data": receivedData.calendarTerm
+			"data": transformedData
 		};
 	}
 	
@@ -411,10 +419,48 @@ module.exports = function(data) {
 		}
 
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+	
+		const transformedData = receivedData.data.properties.examSeasons
+		.reduce((seasons, currentValue) => {
+
+			seasons.push(
+				{
+					"date": currentValue.startDate,
+					"id": currentValue.id,
+					"description": currentValue.description,
+				});
+
+			seasons.push({
+					"date": currentValue.endDate,
+					"id": currentValue.id,
+					"description": currentValue.description,
+				});
+			
+			return seasons;
+
+		}, [])
+		.concat(
+			[
+				{
+					"date": receivedData.data.properties.startDate.substring( 0,
+						receivedData.data.properties.startDate.lastIndexOf("T")
+					),
+					"id": receivedData.data.properties.id,
+					"description": receivedData.data.properties.description,
+				},
+				{
+					"date": receivedData.data.properties.endDate.substring( 0,
+						receivedData.data.properties.endDate.lastIndexOf("T")
+					),
+					"id": receivedData.data.properties.id,
+					"description": receivedData.data.properties.description,
+				}
+			]
+		);
 
 		return {
 			"metadata": receivedmetadata,
-			"data": receivedData
+			"data": transformedData
 		};
 	}
 	
@@ -624,7 +670,7 @@ module.exports = function(data) {
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
-		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTerm : loadCalendarTerm,
 		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
 		/* Authentication related methods */

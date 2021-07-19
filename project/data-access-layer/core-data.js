@@ -288,17 +288,32 @@ module.exports = function() {
 		}
 	};
 
-	const loadCurrentCalendarTerm = async function(metadata) {
-		/// Request still not suported by i-on Core (its data is filled in add missing data module)
-		try {
-		
-			return {
-				"metadata": new Map(),
-				"data": {}
-			}; 
+	const loadCalendarTerm = async function(metadata) {
+		try {		
+			const options = {
+				method: 'GET',
+				headers: {
+					'If-None-Match': metadata,
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
+			};
 			
-			// Request still not suported by i-on Core
+			const response = await fetch(core_url + '/api/calendar-terms', options);	
 			
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 304) { /// The resource has not been modified
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
+
 		} catch(err) {	/// Although the request is not yet supported by the core, there is already a possible error checking for when the request is implemented 
 			switch (err) {
 				case 404:	/// Not Found
@@ -312,13 +327,31 @@ module.exports = function() {
 	};
 	
 	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
-		/// Request still not suported by i-on Core (its data is filled in add missing data module)
 		try {
 			
-			return {
-				"metadata": new Map(),
-				"data": {}
+			const options = {
+				method: 'GET',
+				headers: {
+					'If-None-Match': metadata,
+					'Authorization': read_token,
+					'Content-Type': contentType
+				}
 			};
+			
+			const response = await fetch(core_url + '/api/calendar-terms/' + calendarTerm, options);	
+			
+			if(response.status === 200) {
+				return {
+					"metadata": response.headers,
+					"data": await response.json()
+				}
+			} else if(response.status === 304) { /// The resource has not been modified
+				return {
+					"metadata": response.headers
+				}
+			} else {
+				throw response.status;
+			}
 
 		} catch(err) {	/// Although the request is not yet supported by the core, there is already a possible error checking for when the request is implemented 
 			switch (err) {
@@ -733,7 +766,7 @@ module.exports = function() {
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
-		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTerm : loadCalendarTerm,
 		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
 		/* Methods related to authentication procedure */

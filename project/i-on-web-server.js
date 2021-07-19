@@ -32,11 +32,11 @@ async function configurations() {
     /// Data
     let data;
 
-    //if(process.env.OPERATION_MODE === "standalone") {
+    if(process.env.OPERATION_MODE === "standalone") {
 
        data = require(`${dataAccessLayerPath}/mock-data.js`)();
 
-    /*} else {
+    } else {
 
         const core = require(`${dataAccessLayerPath}/core-data.js`)();
 
@@ -47,7 +47,7 @@ async function configurations() {
         const metadata = require(`${businessLogicLayerPath}/remove-metadata.js`)(cache);
         
         data = metadata;
-    }*/
+    }
 
     /// Auth
     const auth = require(`${businessLogicLayerPath}/i-on-web-auth.js`)(app, data, sessionDB);

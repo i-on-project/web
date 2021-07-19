@@ -53,7 +53,6 @@ module.exports = function(baseUrl) {
 				};
 				
 				const res = await fetchRequest(`${usersBaseUrl}/_delete_by_query`, 200, options);
-				console.log("res  " + JSON.stringify(res));
 			
 			} catch (err) { // Unexpected error
 				throw internalErrors.SERVICE_FAILURE;

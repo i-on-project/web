@@ -76,11 +76,11 @@ module.exports = function(data, myCache) {
 		return getData(myCache, key, fetchFunction);
 	};
 	
-	const loadCurrentCalendarTerm = async function() {
-		const key = 'currentCalendarTerm';
+	const loadCalendarTerm = async function() {
+		const key = 'CalendarTerm';
 
 		const fetchFunction = function() {
-			return data.loadCurrentCalendarTerm(...arguments);
+			return data.loadCalendarTerm(...arguments);
 		}
 		
 		return getData(myCache, key, fetchFunction);
@@ -174,7 +174,7 @@ module.exports = function(data, myCache) {
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
-		loadCurrentCalendarTerm : loadCurrentCalendarTerm,
+		loadCalendarTerm : loadCalendarTerm,
 		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
 		/* Authentication related methods */

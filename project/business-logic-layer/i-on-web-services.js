@@ -447,8 +447,9 @@ const getUserEvents = async function(data, user, calendarTerm) {
 	return userEvents;
 };
 
-const getCurrentCalendarTerm = function(data) { 
-	return data.loadCurrentCalendarTerm(); // todo change loadCurrentCalendarTerm remove current 
+const getCurrentCalendarTerm = async function(data) { 
+	const calendarTerm = await data.loadCalendarTerm(); 
+	return calendarTerm.currentCalendarTerm;
 }
 
 const getProgrammesByDegree = async function(data) {

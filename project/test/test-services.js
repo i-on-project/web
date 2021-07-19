@@ -181,7 +181,7 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
+				loadCalendarTerm: async function() {
 					return "2021i";
 				},
 
@@ -328,7 +328,7 @@ describe('Services', function () {
 					return [];
 				},
 
-				loadCurrentCalendarTerm: async function() {
+				loadCalendarTerm: async function() {
 					return "2021i";
 				}
 			}
@@ -396,7 +396,7 @@ describe('Services', function () {
 					return [];
 				},
 
-				loadCurrentCalendarTerm: async function() {
+				loadCalendarTerm: async function() {
 					return '2021v';
 				}
 			}
@@ -592,7 +592,7 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
+				loadCalendarTerm: async function() {
 					return "2021i";
 				},
 
@@ -665,7 +665,7 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
+				loadCalendarTerm: async function() {
 					return "2021i";
 				},
 
@@ -750,7 +750,7 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
+				loadCalendarTerm: async function() {
 					return "2021v";
 				},
 
@@ -856,7 +856,7 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
+				loadCalendarTerm: async function() {
 					return "2021v";
 				},
 
@@ -1024,7 +1024,7 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
+				loadCalendarTerm: async function() {
 					return "2021v";
 				},
 
@@ -1107,7 +1107,7 @@ describe('Services', function () {
 					return [];
 				},
 
-				loadCurrentCalendarTerm: async function() {
+				loadCalendarTerm: async function() {
 					return "2021i";
 				},
 
