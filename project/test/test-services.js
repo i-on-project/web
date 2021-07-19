@@ -140,7 +140,6 @@ describe('Services', function () {
 					}
 				],
 				"events": {
-					"calendar": [],
 					"assignments": [],
 					"testsAndExams": []
 				}
@@ -704,7 +703,7 @@ describe('Services', function () {
 		})
 	}),
 
-	describe('getUserEvents', function() { 
+	describe('getUserCalendar', function() { 
 		
 		it('should only return pages common info (unauthenticated user)', async function () {
 		
@@ -779,7 +778,7 @@ describe('Services', function () {
 			const user = undefined;
 
 			// Act
-			const response = await service.getUserEvents(user);
+			const response = await service.getUserCalendar(user);
 
 			// Assert
 			expect(response).to.deep.eql(expected);
@@ -929,7 +928,7 @@ describe('Services', function () {
 			const user = testsUsers[0];
 
 			// Act
-			const response = await service.getUserEvents(user);
+			const response = await service.getUserCalendar(user);
 
 			// Assert
 			expect(response).to.deep.eql(expected);	
@@ -1095,9 +1094,9 @@ describe('Services', function () {
 
 	describe('getClassSectionsFromSelectedClasses', function() { 
 		
-		it('should return classes from one selected course', async function () {			
+		it('should return classes from selected class', async function () {			
 			// Arrange
-			const expectedclassesByCourses = [{"id": 1, "courseId": 1,"name": "Laboratório de Software","classes": ["1D","1N","2D"]}];
+			const expectedclassSectionsByClasses = [{"id": 1, "courseId": 1,"name": "Laboratório de Software","classes": ["1D","1N","2D"]}];
 			
 			const data = {
 				loadCourseClassesByCalendarTerm: async function() {
@@ -1110,6 +1109,10 @@ describe('Services', function () {
 
 				loadCurrentCalendarTerm: async function() {
 					return "2021i";
+				},
+
+				loadUserSubscribedClassesAndClassSections: async function() {
+					return [];
 				}
 			}
 
@@ -1123,7 +1126,7 @@ describe('Services', function () {
 			const response = await service.getClassSectionsFromSelectedClasses(user, coursesIDs);
 
 			// Assert
-			expect(response.classesByCourses).to.deep.eql(expectedclassesByCourses);
+			expect(response.classeSectionsByClass).to.deep.eql(expectedclassSectionsByClasses);
 		})
 
 	}),
