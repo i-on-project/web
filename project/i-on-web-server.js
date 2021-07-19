@@ -67,7 +67,7 @@ async function configurations() {
     router.use('/auth-api', webAuthApi);
     router.use(webUI);
 
-    router.use('/dependecies', express.static('node_modules')); // TO DO todo - Remove
+    router.use('/dependecies', express.static('node_modules')); // TO DO - Remove
     router.use('/public', express.static('static-files'));
 
     app.use(`${pathPrefix}`, router);
