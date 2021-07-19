@@ -59,7 +59,7 @@ module.exports = function() {
 		const path = '/current_calendar_term';
 		const data = getMockData(path);
 		if(!data) throw internalErrors.SERVICE_FAILURE;
-		return JSON.parse(JSON.stringify(data.calendarTerm));
+		return JSON.parse(JSON.stringify(data));
 	}
 		
 	const loadCalendarTermGeneralInfo = async function(calendarTerm) {
@@ -189,6 +189,7 @@ module.exports = function() {
 	const revokeAccessToken = function(user) {};
 
 	return {
+		/* Methods to load generic academic information */
         loadAllProgrammes : loadAllProgrammes,
 		loadAllProgrammeOffers : loadAllProgrammeOffers,
 		loadProgrammeData : loadProgrammeData,
@@ -199,12 +200,12 @@ module.exports = function() {
 		loadCalendarTerm : loadCalendarTerm,
 		loadCalendarTermGeneralInfo : loadCalendarTermGeneralInfo,
 
-		/* Authentication related methods */
+		/* Methods related to authentication */
 		loadAuthenticationMethodsAndFeatures : loadAuthenticationMethodsAndFeatures,
 		submitInstitutionalEmail : submitInstitutionalEmail,
 		pollingCore : pollingCore,
 
-		/* User related methods */
+		/* Methods related to user */
 		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
 		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
 		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
