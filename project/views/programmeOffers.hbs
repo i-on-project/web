@@ -19,10 +19,13 @@
 
         <form method="GET" action="/available-class-sections">
         <div class="row row-content">
-            <div class="col-md divSpacing">
+            <div class="col-md divSpacing table-responsive-md">
                 <table class="table table-bordered">
                     <tr>
-                        <th>Unidade Curricular</th>
+                        <th>
+                            <span class="classSectionM">Unidade Curricular</span>
+                            <span class="classSectionS">U.C.</span>
+                        </th>
                         <th class="text-center">ECTS</th>
                         <th class="text-center">Área</th>
                         <th class="text-center">Semestre</th>
@@ -33,7 +36,10 @@
                     </tr>
                         {{#each programmeOffers}}
                         <tr class="border_bottom">
-                            <td class="col-md-4">{{this.name}}</td>
+                            <td class="col-md-4">
+                                <span class="classSectionM">{{this.name}}</span>
+                                <span class="classSectionS">{{this.acronym}}</span>
+                            </td>
                             <td class="col-md-1 text-center">{{this.ects}}</td>
                             <td class="col-md-1 text-center">{{this.scientificArea}}</td>
                             <td class="col-md-1 text-center">{{this.termNumber}}º</td>

@@ -146,3 +146,20 @@ hr.solid {
 .home-table-row{
   cursor: pointer;
 }
+
+/* Tetse */
+.classSectionS{
+  display: none;
+}
+
+@media (max-width: 700px) {
+
+  .classSectionM {
+    display:none;
+ }
+
+ .classSectionS {
+   display: block;
+ }
+
+}
