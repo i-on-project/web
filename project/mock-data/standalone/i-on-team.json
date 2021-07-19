@@ -51,9 +51,9 @@
 	],
 
 	"teachers": [
-		{"teacher": "Professor João Trindade"},
-		{"teacher": "Professor Luís Falcão"},
-		{"teacher": "Professor Paulo Pereira"},
-		{"teacher": "Professor Pedro Felix"}
+		{"teacher": "João Trindade"},
+		{"teacher": "Luís Falcão"},
+		{"teacher": "Paulo Pereira"},
+		{"teacher": "Pedro Felix"}
 	]
 }

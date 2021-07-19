@@ -147,3 +147,8 @@ hr.solid {
 .boldText {
   font-weight: bold;
 }
+
+/* Home Page Tables */
+.home-table-row{
+  cursor: pointer;
+}

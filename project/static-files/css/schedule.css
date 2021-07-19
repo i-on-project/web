@@ -223,61 +223,61 @@
   .ds{
     display: none;
   }
-  @media (max-width: 800px) {
+  @media (max-width: 950px) {
     .schedule{
         display: inline-grid;
         overflow: hidden;
-        grid-template-columns: [time] 40px
+        grid-template-columns: [time] 30px
           [monday] minmax(auto, 125px) 
           [tuesday] minmax(auto, 125px) 
           [wednesday] minmax(auto, 125px) 
           [thursday]minmax(auto, 125px) 
           [friday] minmax(auto, 125px) 
           [saturday] minmax(auto, 125px) ;
-        grid-template-rows: [header] 40px
-          [s] 40px 49px
-          [sf] 40px 49px
-          [st] 40px 49px
-          [sff] 40px 49px
-          [e] 40px 49px
-          [ef] 40px 49px
-          [et] 40px 49px
-          [eff] 40px 49px
-          [n] 40px 49px
-          [nf] 40px 49px
-          [nt] 40px 49px
-          [nff] 40px 49px
-          [a] 40px 49px
-          [af] 40px 49px
-          [at] 40px 49px
-          [aff] 40px 49px
-          [b] 40px 49px
-          [bf] 40px 49px
-          [bt] 40px 49px
-          [bff] 40px 49px
-          [c] 40px 49px
-          [cf] 40px 49px
-          [ct] 40px 49px
-          [cff] 40px 49px
-          [d] 40px 49px
-          [df] 40px 49px
-          [dt] 40px 49px
-          [dff] 40px 49px
-          [g] 40px 49px
-          [gf] 40px 49px
-          [gt] 40px 49px;
+        grid-template-rows: [header] 30px
+          [s] 30px 30px
+          [sf] 30px 30px
+          [st] 30px 30px
+          [sff] 30px 30px
+          [e] 30px 30px
+          [ef] 30px 30px
+          [et] 30px 30px
+          [eff] 30px 30px
+          [n] 30px 30px
+          [nf] 30px 30px
+          [nt] 30px 30px
+          [nff] 30px 30px
+          [a] 30px 30px
+          [af] 30px 30px
+          [at] 30px 30px
+          [aff] 30px 30px
+          [b] 30px 30px
+          [bf] 30px 30px
+          [bt] 30px 30px
+          [bff] 30px 30px
+          [c] 30px 30px
+          [cf] 30px 30px
+          [ct] 30px 30px
+          [cff] 30px 30px
+          [d] 30px 30px
+          [df] 30px 30px
+          [dt] 30px 30px
+          [dff] 30px 30px
+          [g] 30px 30px
+          [gf] 30px 30px
+          [gt] 30px 30px;
       }
     
       .schedule_time {
-        -ms-transform: rotate(-90deg) translate(-100px);
-        -webkit-transform: rotate(-90deg) translate(-100px);
-        transform: rotate(-90deg) translate(-100px);
+        -ms-transform: rotate(-90deg) translate(-60px);
+        -webkit-transform: rotate(-90deg) translate(-60px);
+        transform: rotate(-90deg) translate(-60px);
         -webkit-transform-origin: left 50%;
         -ms-transform-origin: left 50%;
         transform-origin: left top;
-        width:90px;
+        width:60px;
       }
-      
+
       .dl {
          display:none;
       }
@@ -285,14 +285,10 @@
       .ds{
         display: block;
       }
-  
-      /* .schedule-item {
-        height: 70px;
-      } */
-    
-    .grid-last{
-      height: 98px;
-    }
+
+      .grid-last{
+        height: 98px;
+      }
   
   }
   

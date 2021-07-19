@@ -42,8 +42,8 @@
 	{
 		"acronym": "DM",
 		"name": "Dissertação MEIC",
-		"courseId": 3,
-		"id": 6,
+		"courseId": 0,
+		"id": 0,
 		"termNumber": [3, 4],
 		"optional": false,
 		"ects": 6,

@@ -6,13 +6,9 @@
 
 
     <div class="row row-content divSpacing">
-        <div class="col-12 col-sm-6 text-center">
+        <div class="col-12 text-center">
             <h5>Nome de utilizador</h5>       
             <p>{{user.username}}</p>
-        </div>
-        <div class="col col-sm text-center">
-            <h5>Curso</h5>
-            <p></p> <!-- TODO -->
         </div>
     </div>
 
@@ -33,40 +29,9 @@
         <!-- Edit Profile Form -->
         <form method="POST" action="/users/profile" id="editingProfile" style="display:none">
 
-            <!-- Disclaimer -->
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-
-                <div class="row row-content align-items-center">
-                    <div class="col-1 col-sm-1 col-md-1">
-                        <img src="/public/images/disclaimer.png" alt="Projeto i-on Web disclaimer" class="img-fluid">
-                    </div>
-
-                    <div class="col col-sm col-md">
-                        <h5>Aviso!</h5>
-                        <p>A selecção de curso não substitui a inscrição oficial ao mesmo na instituição frequentada.</p>
-                    </div>
-                </div>
-
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>   
-
-            </div>
-
             <!-- New username -->
             <label class="col-form-label">Nome de utilizador:</label><br>
             <input type="text" class="form-control" name="newUsername" value={{user.username}} required>      
-
-            <!-- New programme -->
-            <label class="col-form-label">Curso do utilizador: </label><br>
-            <select class="form-control" name="newProgramme">
-                {{#each bachelor}}
-                    <option value={{this.programmeId}}>{{this.acronym}} ({{this.name}})</option>
-                {{/each}}
-                {{#each master}}
-                    <option value={{this.programmeId}}>{{this.acronym}} ({{this.name}})</option>
-                {{/each}}
-            </select>
 
             <!-- Buttons -->
             <div class="buttonsDiv"></div>
