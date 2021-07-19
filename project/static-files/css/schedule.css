@@ -228,12 +228,12 @@
         display: inline-grid;
         overflow: hidden;
         grid-template-columns: [time] 30px
-          [monday] minmax(auto, 125px) 
-          [tuesday] minmax(auto, 125px) 
-          [wednesday] minmax(auto, 125px) 
-          [thursday]minmax(auto, 125px) 
-          [friday] minmax(auto, 125px) 
-          [saturday] minmax(auto, 125px) ;
+          [monday] minmax(125px, 125px) 
+          [tuesday] minmax(125px, 125px) 
+          [wednesday] minmax(125px, 125px) 
+          [thursday]minmax(125px, 125px) 
+          [friday] minmax(125px, 125px) 
+          [saturday] minmax(125px, 125px) ;
         grid-template-rows: [header] 30px
           [s] 30px 30px
           [sf] 30px 30px

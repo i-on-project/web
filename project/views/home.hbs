@@ -13,40 +13,57 @@
     </div>
     
     {{#if user}}
-    
-        <div class="row row-content justify-content-center">
-            <h3>Próximos eventos</h3>
-        </div>
-
-        <div class="row row-content">
-
-            <div class="col-12 col-sm-6">
-                <h4 class="text-center">Trabalhos</h4>
-                {{#each events.assignments}}
-                    <div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
-                        <h5>{{this.event}}</h5>
-                        <p><strong>Data de Entrega:</strong> {{this.date}}         <strong>Hora:</strong> {{this.time}}</p>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>         
-                    </div>
-                {{/each}}
+        
+            <div class="row row-content justify-content-center">
+                <h3>Próximos eventos</h3>
             </div>
 
-            <div class="col col-sm-6">
-                <h4 class="text-center">Testes e Exames</h4>
-                {{#each events.testsAndExams}}
-                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                        <h5>{{this.event}}</h5>
-                        <p><strong>Data:</strong> {{this.date}}         <strong>Duração:</strong> {{this.startTime}}-{{this.endTime}}         <strong>Sala:</strong> {{this.location}}</p>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>         
-                    </div>            
-                {{/each}}
-            </div>
+            <div class="row row-content">
 
-        </div>
+                <div class="col-12 col-sm-6">
+                    <h4 class="text-center">Trabalhos</h4>
+
+                    {{#if events.assignments}}
+
+                        {{#each events.assignments}}
+                            <div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+                                <h5>{{this.event}}</h5>
+                                <p><strong>Data de Entrega:</strong> {{this.date}}         <strong>Hora:</strong> {{this.time}}</p>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>         
+                            </div>
+                        {{/each}}
+
+                    {{else}}
+                        <br></be><p class="text-center">Que sorte! Não tens trabalhos para entregar.</p>
+                    {{/if}}
+
+                </div>
+
+                <div class="col col-sm-6">
+                    <h4 class="text-center">Testes e Exames</h4>
+
+                    {{#if events.testsAndExams}}
+
+                        {{#each events.testsAndExams}}
+                            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                                <h5>{{this.event}}</h5>
+                                <p><strong>Data:</strong> {{this.date}}         <strong>Duração:</strong> {{this.startTime}}-{{this.endTime}}         <strong>Sala:</strong> {{this.location}}</p>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>         
+                            </div>            
+                        {{/each}}
+
+                    {{else}}
+                        <br><p class="text-center">Não tens exames!</p>
+                    {{/if}}
+
+                </div>
+
+            </div>
+      
 
     {{/if}}
     
