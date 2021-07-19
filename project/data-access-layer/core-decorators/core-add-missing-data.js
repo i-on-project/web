@@ -1,7 +1,7 @@
 'use strict'
 
 const default_maxAge = 24 * 60 * 60;
-const hash = require('object-hash');
+const defaulEtag = 'Etag';
 
 module.exports = function(data) {
 
@@ -27,7 +27,7 @@ module.exports = function(data) {
 		
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 
@@ -68,7 +68,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -100,7 +100,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -126,7 +126,7 @@ module.exports = function(data) {
 	
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -146,7 +146,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -163,7 +163,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(response.data),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -180,7 +180,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(response.data),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 		
@@ -197,7 +197,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(response.data),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 	
@@ -230,7 +230,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(improvedData),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 
@@ -248,7 +248,7 @@ module.exports = function(data) {
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(response.data),
+			"ETag": defaulEtag,
 			"maxAge": default_maxAge
 		}
 
@@ -300,7 +300,7 @@ module.exports = function(data) {
 				
 		/*** Adding metadata ***/
 		const improvedMetadata = {
-			"ETag": hash(response.data),
+			"ETag": defaulEtag,
 			"maxAge": 10 * 60
 		}
 		
