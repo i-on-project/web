@@ -29,6 +29,7 @@ module.exports = (app, data, sessionDB) => {
 		resave: false,              
 		saveUninitialized: false,  
 		secret: 'secret',   // TO DO - Generate random string
+		cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
 		store: new FileStore() 
     }))
 
@@ -45,25 +46,30 @@ module.exports = (app, data, sessionDB) => {
         },
 
 		submitInstitutionalEmail: async function(email) {
+			if(!email)  throw internalErrors.BAD_REQUEST;
+
+			const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			if(!re.test(email)) throw internalErrors.BAD_REQUEST;
+			
 			return data.submitInstitutionalEmail(email);
         }, 
 
 		pollingCore: async function(req, authForPoll) {
-			const receivedTokens = await data.pollingCore(authForPoll);
+			const pollingResponse = await data.pollingCore(authForPoll);
 
 			/// Check if pooling succeeded
-			if(receivedTokens.hasOwnProperty("access_token")) {
+			if(pollingResponse.hasOwnProperty("access_token")) {
 
-				const tokens = receivedTokens.id_token.split(".");
+				const tokens = pollingResponse.id_token.split(".");
 				const user_email = jwt_decode(tokens[1], { header: true }).email;
 				
-				const user = await data.loadUser(receivedTokens.access_token, receivedTokens.token_type, user_email);
-				const sessionId = await sessionDB.createUserSession(user_email, receivedTokens);
+				const user = await data.loadUser(pollingResponse.access_token, pollingResponse.token_type, user_email);
+				const sessionId = await sessionDB.createUserSession(user_email, pollingResponse);
 				
 				const userSessionInfo = Object.assign(
 					{'sessionId': sessionId},
 					user,
-					receivedTokens
+					pollingResponse
 				);
 				
 				/// If the user doesn't have a username, we give one by default. 
@@ -119,8 +125,8 @@ module.exports = (app, data, sessionDB) => {
 /******* Helper functions *******/
 
 const getUserAndSessionInfo = async function(data, sessionDB, sessionId) { // Through the session identifier we will obtain information about the user as well as the session 
-		/// Obtaining user session info from elasticsearch db
-		const sessionInfo = await sessionDB.getUserTokens(sessionId);
+	/// Obtaining user session info from elasticsearch db
+	const sessionInfo = await sessionDB.getUserTokens(sessionId);
 	
 	try { 
 		const userProfileInfo = await data.loadUser(sessionInfo.access_token, sessionInfo.token_type, sessionInfo.email);

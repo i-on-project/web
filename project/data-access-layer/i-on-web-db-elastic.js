@@ -29,6 +29,43 @@ module.exports = function(baseUrl) {
 		}
 	};
 
+	const deleteOldSessionsScheduler = async function () {
+		const interval = 7 * 24 * 60 * 60 * 1000; /// 2 * 15 * 1000; // 2mins //7 * 24 * 60 * 60 * 1000 ) /// 7 dias em milisegundos
+		console.log("fora do interval")
+		setInterval( async () => {
+
+			const now = Date.now();
+			
+			console.log("no intervalo" + now);
+
+			try {
+				const options = {
+					method: 'POST', 
+					headers: { "Content-Type": contentType },
+					body: JSON.stringify(
+						{
+							"query": {
+								"range" : {
+									"lastRefresh": {
+										"lte": now - interval
+									}
+								}
+							}
+						}
+					)
+				};
+				
+				const res = await fetchRequest(`${usersBaseUrl}/_delete_by_query`, 200, options);
+				console.log("res  " + JSON.stringify(res));
+			
+			} catch (err) { // Unexpected error
+				throw internalErrors.SERVICE_FAILURE;
+			}
+
+		}, interval);
+
+	};
+
 	const createUserSession = async function (email, tokens) { /// Saving a new user in the database
 		try {
 
@@ -95,7 +132,7 @@ module.exports = function(baseUrl) {
 			return answer._source;
 
 		} catch (err) { // Unexpected error
-			throw internalErrors.SERVICE_FAILURE;
+			throw internalErrors.UNAUTHENTICATED;
 		}
 	};
 
@@ -148,7 +185,8 @@ module.exports = function(baseUrl) {
 		createUserSession : createUserSession,
 		getUserTokens : getUserTokens,
 		deleteUserSession : deleteUserSession,
-		deleteAllUserSessions : deleteAllUserSessions
+		deleteAllUserSessions : deleteAllUserSessions,
+		deleteOldSessionsScheduler : deleteOldSessionsScheduler
 	};
 }
 

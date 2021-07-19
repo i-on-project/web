@@ -113,13 +113,13 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/programme-offers/:id'", () => {
+	describe("Testing '/programmes/:id/offers'", () => {
 		
-		describe('GET /programme-offers/:id', () => {
+		describe('GET /programmes/:id/offers', () => {
 		
 			it ('should return programme offers page', () => {
 				return frisby
-				.fetch(`${app_base_url}/programme-offers/1`)
+				.fetch(`${app_base_url}/programmes/:id/offers`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");

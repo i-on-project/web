@@ -253,7 +253,7 @@ describe('Services', function () {
 
 	}),
 
-	describe('getProgrammeCalendarTermOffers', function() { 
+	describe('getProgrammeOffers', function() { 
 		
 		it('should return 1 offer', async function () {			
 			// Arrange
@@ -340,10 +340,10 @@ describe('Services', function () {
 			const user = testsUsers[0];
 			const programmeId = 1;
 			// Act
-			const response = await service.getProgrammeCalendarTermOffers(programmeId, user);
+			const response = await service.getProgrammeOffers(programmeId, user);
 
 			// Assert
-			expect(response.programmeCalendarTermOffers).to.deep.eql(expected);
+			expect(response.programmeOffers).to.deep.eql(expected);
 		}),
 
 		it('should return 0 offers', async function () {			
@@ -408,10 +408,10 @@ describe('Services', function () {
 			const user = testsUsers[0];;
 			const programmeId = 1;
 			// Act
-			const response = await service.getProgrammeCalendarTermOffers(programmeId, user);
+			const response = await service.getProgrammeOffers(programmeId, user);
 
 			// Assert
-			expect(response.programmeCalendarTermOffers).to.deep.eql(expected);
+			expect(response.programmeOffers).to.deep.eql(expected);
 		})
 		
 	}),

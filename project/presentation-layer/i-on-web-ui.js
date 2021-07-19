@@ -16,10 +16,10 @@ function webui(service, auth) {
 			}
 		},
 
-		programmeCalendarTermOffers: async function(req, res) {
+		programmeOffers: async function(req, res) {
 			try {
-				const data = await service.getProgrammeCalendarTermOffers(req.params['id'], req.user);
-				res.render('programmeCalendarTermOffers', data);
+				const data = await service.getProgrammeOffers(req.params['id'], req.user);
+				res.render('programmeOffers', data);
 			} catch(err) {
 				onError(req, res, err, 'Failed to show programme offers');
 			}
@@ -45,7 +45,7 @@ function webui(service, auth) {
 
 		userCalendar: async function(req, res) {
 			try {
-				const data = await service.getUserEvents(req.user);
+				const data = await service.getUserCalendar(req.user);
 				res.render('user-calendar', data);
 			} catch(err) {
 				onError(req, res, err, 'Failed to show calendar');
@@ -160,7 +160,7 @@ function webui(service, auth) {
 	router.get(	'/', 						theWebUI.home								);	/// Home page
 
 	router.get(	'/programmes/:id', 			theWebUI.programme							);	/// Programme info page
-	router.get(	'/programme-offers/:id',	theWebUI.programmeCalendarTermOffers		); 	/// Programme offers page
+	router.get(	'/programmes/:id/offers',	theWebUI.programmeOffers					); 	/// Programme offers page
 	
 	router.get(	'/available-class-sections',theWebUI.classSectionsFromSelectedClasses	);	/// Available classes of the selected courses
 	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections	);

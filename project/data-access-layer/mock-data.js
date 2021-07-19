@@ -140,7 +140,7 @@ module.exports = function() {
 		};
 	}
 
-	const loadUserSubscribedClassSectionsInClass = function(user, id) {
+	const loadUserSubscribedClassSectionsInClass = async function(user, id) {
 		return users[user.email].classesAndClassSections.filter(course => course.id == id).find(__ => __).classes;
 	}
 
