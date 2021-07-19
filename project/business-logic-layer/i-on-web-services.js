@@ -387,8 +387,21 @@ module.exports = function(data, sessionDB) {
 
 			}
 
-		}
+		};
+
 	};
+
+	const getAuthMethodsAndFeatures = async function() {
+		const authMethods = await data.loadAuthenticationMethodsAndFeatures();
+		const commonInfo = await getProgrammesByDegree(data);
+		
+		return Object.assign(
+			{'page': 'login'},
+			commonInfo,
+			{'data': authMethods}
+		);
+	};
+
 
 	return {
 		getHome : getHome,
@@ -402,7 +415,8 @@ module.exports = function(data, sessionDB) {
 		saveUserClassesAndClassSections : saveUserClassesAndClassSections,		
 		getAboutData : getAboutData,
 		getProfilePage : getProfilePage,
-		editProfile : editProfile
+		editProfile : editProfile,
+		getAuthMethodsAndFeatures : getAuthMethodsAndFeatures
 	};
 	
 }
