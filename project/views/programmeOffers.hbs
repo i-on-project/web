@@ -1,25 +1,27 @@
 <div class="container-fluid pageBeginning">
-    <h3 class="text-center">Unidades Curriculares disponíveis</h3>
+    <h3 class="text-center">Oferta letiva</h3>
     {{#if programmeOffers}}
         <br>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <div class="row row-content align-items-center">
-                <div class="col-1 col-sm-2 col-md-2">
-                    <img src="/public/images/disclaimer.png" alt="Projeto i-on Web disclaimer" class="img-fluid">
+        <div class="row justify-content-center">
+            <div class="alert alert-warning alert-dismissible fade show col-md-8" role="alert">
+                <div class="row row-content align-items-center">
+                    <div class="col-1 col-sm-2 col-md-2">
+                        <img src="/public/images/disclaimer.png" alt="Projeto i-on Web disclaimer" class="img-fluid">
+                    </div>
+                    <div class="col col-sm col-md">
+                        <h5>Aviso!</h5>
+                        <p>A selecção de unidades curriculares não substitui a inscrição oficial às mesmas na instituição frequentada.</p>
+                    </div>
                 </div>
-                <div class="col col-sm col-md">
-                    <h5>Aviso!</h5>
-                    <p>A selecção de unidades curriculares não substitui a inscrição oficial às mesmas na instituição frequentada.</p>
-                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>         
             </div>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>         
         </div>
 
         <form method="GET" action="/available-class-sections">
-        <div class="row row-content">
-            <div class="col-md divSpacing table-responsive-md">
+        <div class="row row-content justify-content-center">
+            <div class="col-md divSpacing table-responsive-md col-md-8">
                 <table class="table table-bordered">
                     <tr>
                         <th>
@@ -28,7 +30,10 @@
                         </th>
                         <th class="text-center">ECTS</th>
                         <th class="text-center">Área</th>
-                        <th class="text-center">Semestre</th>
+                        <th>
+                            <span class="classSectionM">Semestre</span>
+                            <span class="classSectionS">Sem.</span>
+                        </th>
                         <th class="text-center">Obrigatória</th>
                         <th class="text-center">
                             <input type="checkbox" onClick="toggle(this, 'id')">
@@ -58,9 +63,13 @@
                 </table>
             </div>
         </div>
-        <div class="divSpacing text-center">
-			<button type="submit" class="btn btn-dark btn-lg btn-block"  id="checkBtn">Concluir selecção</button>
+        
+        <div class="row justify-content-center">
+            <div class="divSpacing text-center col-md-8">
+                <button type="submit" class="btn btn-dark btn-lg btn-block"  id="checkBtn">Concluir selecção</button>
+            </div>
         </div>
+
         </form>
     {{else}}
         <div class="divSpacing text-center">
