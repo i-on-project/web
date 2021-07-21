@@ -114,13 +114,13 @@ module.exports = function() {
 
 	const saveUserClassesAndClassSections = async function(user, id, classSection) {
 		const calendarTerm = await loadCalendarTerm();
-		const path = '/calendarTerms/' + calendarTerm + '/' + id + '/class';
+		const path = '/calendarTerms/' + calendarTerm.currentCalendarTerm + '/' + id + '/class';
 		const receidedData = await getMockData(path);
 
 		if(receidedData) {
 			const data = JSON.parse(JSON.stringify(receidedData));
 			delete data.classes;
-			data['calendarTerm'] = calendarTerm;
+			data['calendarTerm'] = calendarTerm.currentCalendarTerm;
 	
 			let subscribedToCourse = false;
 
