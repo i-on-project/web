@@ -20,13 +20,13 @@ async function configurations() {
 
     const coreDecoratorsPath     = `${dataAccessLayerPath}/core-decorators`
 
-    let pathPrefix = process.env.PATH_PREFIX; /// TO DO can be simplified
-    if(!pathPrefix) pathPrefix = "";
+    const pathPrefix = process.env.PATH_PREFIX || ""; /// TO DO can be simplified
+   // if(!pathPrefix) pathPrefix = "";
 
     /// ElasticSearch initializer
     const storageCreator = require(`${dataAccessLayerPath}/i-on-web-db-elastic.js`);
-    const sessionDB = storageCreator(process.env.DB_ELASTIC_URL); // TO DO
-    await sessionDB.initializeDatabaseIndexes();               /// Initialize elastic indexes
+    const sessionDB = storageCreator(process.env.DB_ELASTIC_URL);
+    await sessionDB.initializeDatabaseIndexes();    /// Initialize elastic indexes
     sessionDB.deleteOldSessionsScheduler();
 
     /// Data

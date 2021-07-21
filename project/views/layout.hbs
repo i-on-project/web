@@ -7,12 +7,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
 		<!-- CSS -->
-		<link rel="stylesheet" href="/public/dependencies/bootstrap.min.css"> 		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="/public/dependencies/bootstrap-icons.css">	<!-- Bootstrap icons -->
-		<link rel="stylesheet" href="/public/dependencies/font-awesome.min.css"> 		<!-- FontAwesome icons -->
+		<link rel="stylesheet" href="{{pathPrefix}}/public/dependencies/bootstrap.min.css"> 		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{{pathPrefix}}/public/dependencies/bootstrap-icons.css">	<!-- Bootstrap icons -->
+		<link rel="stylesheet" href="{{pathPrefix}}/public/dependencies/font-awesome.min.css"> 		<!-- FontAwesome icons -->
 		
 		<!-- Costum CSS -->
-		<link rel="stylesheet" href="/public/css/master.css" type="text/css">
+		<link rel="stylesheet" href="{{pathPrefix}}/public/css/master.css" type="text/css">
 
 		<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">-->
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -25,7 +25,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>  
 
 		<title>i-on Web</title>
-		<link rel="shortcut icon" type="image/png" href="/public/images/logo2.png">
+		<link rel="shortcut icon" type="image/png" href="{{pathPrefix}}/public/images/logo2.png">
 	</head>
 	
 	<body>
@@ -34,9 +34,9 @@
 		<nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top">
 
 			<!-- Brand -->
-			<a class="navbar-brand" href="/">
+			<a class="navbar-brand" href="{{pathPrefix}}/">
 				<div class="logo-image">
-						<img src="/public/images/logo.png" class="img-fluid">
+						<img src="{{pathPrefix}}/public/images/logo.png" class="img-fluid">
 				</div>
 			</a>
 
@@ -49,16 +49,16 @@
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav">
 					<li id="home" class="nav-item">
-						<a href="/" class="nav-link"><i class="fa fa-fw fa-home fa-lg" aria-hidden="true"></i>Home</a>
+						<a href="{{pathPrefix}}/" class="nav-link"><i class="fa fa-fw fa-home fa-lg" aria-hidden="true"></i>Home</a>
 					</li>
 					<li id="schedule" class="nav-item">
-						<a href="/schedule" class="nav-link"><i class="fa fa-fw fa-clock-o fa-lg" aria-hidden="true"></i>Horário</a>
+						<a href="{{pathPrefix}}/schedule" class="nav-link"><i class="fa fa-fw fa-clock-o fa-lg" aria-hidden="true"></i>Horário</a>
 					</li>
 					<li id="calendar" class="nav-item">
-						<a href="/calendar" class="nav-link"><i class="fa fa-fw fa-calendar fa-lg" aria-hidden="true"></i>Calendário</a>
+						<a href="{{pathPrefix}}/calendar" class="nav-link"><i class="fa fa-fw fa-calendar fa-lg" aria-hidden="true"></i>Calendário</a>
 					</li>
 					<li id="user-courses" class="nav-item">
-						<a href="/classes" class="nav-link"><i class="fa fa-fw fa-book fa-lg" aria-hidden="true"></i>As minhas disciplinas</a>
+						<a href="{{pathPrefix}}/classes" class="nav-link"><i class="fa fa-fw fa-book fa-lg" aria-hidden="true"></i>As minhas disciplinas</a>
 					</li>
 					<li id="programmes" class="nav-item">
 						
@@ -72,7 +72,7 @@
 											<a  class="dropdown-item" href="#">Licenciaturas</a>
 											<ul class="dropdown-menu">
 												{{#each bachelor}}
-													<li class="dropdown-item"><a href="/programmes/{{this.programmeId}}">{{this.acronym}}</a></li>
+													<li class="dropdown-item"><a href="{{../pathPrefix}}/programmes/{{this.programmeId}}">{{this.acronym}}</a></li>
 												{{/each}}
 											</ul>
 										</li>
@@ -80,7 +80,7 @@
 											<a  class="dropdown-item" href="#">Mestrados</a>
 											<ul class="dropdown-menu">
 												{{#each master}}
-													<li class="dropdown-item"><a href="/programmes/{{this.programmeId}}">{{this.acronym}}</a></li>
+													<li class="dropdown-item"><a href="{{../pathPrefix}}/programmes/{{this.programmeId}}">{{this.acronym}}</a></li>
 												{{/each}}
 											</ul>
 										</li>
@@ -99,14 +99,14 @@
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
 					  	{{#if user}}
-							<a href="/users/profile" class="nav-link"><i class="fa fa-fw fa-user fa-lg" aria-hidden="true"></i><strong>{{user.username}}</strong></a>
+							<a href="{{pathPrefix}}/users/profile" class="nav-link"><i class="fa fa-fw fa-user fa-lg" aria-hidden="true"></i><strong>{{user.username}}</strong></a>
 						{{/if}}
 					</li>
 					<li class="nav-item">
 					  	{{#if user}}
-							<a href="/logout" class="nav-link"><i class="fa fa-fw fa-sign-out fa-lg" aria-hidden="true"></i>Sair</a>
+							<a href="{{pathPrefix}}/logout" class="nav-link"><i class="fa fa-fw fa-sign-out fa-lg" aria-hidden="true"></i>Sair</a>
 						{{else}}
-							<a id="login" href="/login" class="nav-link"><i class="fa fa-fw fa-sign-in fa-lg" aria-hidden="true"></i>Iniciar sessão</a>
+							<a id="login" href="{{pathPrefix}}/login" class="nav-link"><i class="fa fa-fw fa-sign-in fa-lg" aria-hidden="true"></i>Iniciar sessão</a>
 						{{/if}}
 					</li>
 				</ul>
@@ -128,9 +128,9 @@
 		</script>
 
 		<!-- jQuery first, then Popper.js, then Bootstrap JS. (Bootstrap dependencies) -->
-		<script src="/public/dependencies/jquery.slim.min.js"></script>
-		<script src="/public/dependencies/popper.min.js"></script>
-		<script src="/public/dependencies/bootstrap.min.js"></script>
+		<script src="{{pathPrefix}}/public/dependencies/jquery.slim.min.js"></script>
+		<script src="{{pathPrefix}}/public/dependencies/popper.min.js"></script>
+		<script src="{{pathPrefix}}/public/dependencies/bootstrap.min.js"></script>
 
 	</body>
 	

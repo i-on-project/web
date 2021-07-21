@@ -12,5 +12,7 @@ services:
         CORE_URL: "${CORE_URL-http://172.17.0.1:10023}"
         CORE_READ_TOKEN: "${CORE_READ_TOKEN-l7kowOOkliu21oXxNpuCyM47u2omkysxb8lv3qEhm5U}"
         CORE_CLIENT_ID: "${CORE_CLIENT_ID-22dd1551-db23-481b-acde-d286440388a5}"
+        DB_ELASTIC_URL: "${DB_ELASTIC_URL-http://elasticsearch:9200}"
+        PATH_PREFIX: "${PATH_PREFIX-/i-on-web}"
     ports:
       - 8080:8080

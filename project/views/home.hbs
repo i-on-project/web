@@ -2,7 +2,7 @@
     
     <div class="row row-content align-items-center">
         <div class="col-12 col-sm-4 col-md-3">
-            <a href="https://www.isel.pt" target="_blank"><img src="/public/images/isel.png" alt="ISEL Logo" class="img-fluid"></a>
+            <a href="https://www.isel.pt" target="_blank"><img src="{{pathPrefix}}/public/images/isel.png" alt="ISEL Logo" class="img-fluid"></a>
         </div>
         <div class="col col-sm col-md">
             <h2>Bem vindo ao i-on Web!</h2>
@@ -84,7 +84,7 @@
                 </thead>
                 {{#each bachelor}}
                     <tbody>
-                        <tr class="home-table-row" onclick="window.location.href = '/programmes/{{this.programmeId}}';">
+                        <tr class="home-table-row" onclick="window.location.href = '{{../pathPrefix}}/programmes/{{this.programmeId}}';">
                             <td>{{this.name}}</td>
                             <td><i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></td>
                         </tr>
@@ -104,7 +104,7 @@
                 </thead>
                 {{#each master}}
                     <tbody>
-                       <tr class="home-table-row" onclick="window.location.href = '/programmes/{{this.programmeId}}';">
+                       <tr class="home-table-row" onclick="window.location.href = '{{../pathPrefix}}/programmes/{{this.programmeId}}';">
                             <td>{{this.name}}</td>
                             <td><i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></td>
                         </tr>
@@ -160,7 +160,7 @@
             <p>O projeto i-on Web faz parte da iniciativa i-on que engloba um conjunto de projetos com a finalidade de melhorar
                 a vida académica dos estudantes fornecendo-lhes os recursos académicos de uma forma computacionalmente conveniente
                 e num formato extensível. A iniciativa i-on é open-source, podendo ser estudada por qualquer um. Tu podes ser o
-                próximo a contribuir, junta-te aos <a href="/about">docentes e alunos</a> que participaram nesta iniciativa.</p>
+                próximo a contribuir, junta-te aos <a href="{{pathPrefix}}/about">docentes e alunos</a> que participaram nesta iniciativa.</p>
             </div>
             <!--Grid column-->
 

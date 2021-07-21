@@ -1,7 +1,7 @@
 /* CSS files to import */
 
-@import "/public/css/common.css";
-@import "/public/css/errors.css";
-@import "/public/css/loading.css";
-@import "/public/css/schedule.css";
-@import "/public/css/calendar.css";
+@import "/i-on-web/public/css/common.css";
+@import "/i-on-web/public/css/errors.css";
+@import "/i-on-web/public/css/loading.css";
+@import "/i-on-web/public/css/schedule.css";
+@import "/i-on-web/public/css/calendar.css"; 
