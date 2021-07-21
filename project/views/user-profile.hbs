@@ -1,49 +1,47 @@
 <div class="container-fluid pageBeginning">
     
-    <div class="row row-content justify-content-center">
+    <div class="text-center">
         <h3>O meu perfil</h3>
     </div>
 
-
-    <div class="row row-content divSpacing">
-        <div class="col-12 text-center">
-            <h5>Nome de utilizador</h5>       
-            <p>{{user.username}}</p>
-        </div>
+    <div class="col-12 divSpacing text-center">
+        <h5>Nome de utilizador</h5>       
+        <p>{{user.username}}</p>
     </div>
 
+    <div class="row justify-content-center">
+        <div class="form-group divSpacing col-md-6">
 
-    <div class="form-group divSpacing">
-
-        <div class="buttonsDiv" onsubmit="return confirm('Tem a certeza que deseja apagar a sua conta ? Esta ação não é reversível.');" id="notEditing">
-            <!-- Edit button -->
-            <button type="button" onclick=edit() class="btn btn-outline-dark pull-right" aria-hidden="true">Editar perfil</button> 
-            
-            <form method="POST" action="/users/delete">
-                <!-- Delete user account button -->
-                <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Apagar conta</button>
-            </form>
-        </div>
-         
- 
-        <!-- Edit Profile Form -->
-        <form method="POST" action="/users/profile" id="editingProfile" style="display:none">
-
-            <!-- New username -->
-            <label class="col-form-label">Nome de utilizador:</label><br>
-            <input type="text" class="form-control" name="newUsername" value={{user.username}} required>      
-
-            <!-- Buttons -->
-            <div class="buttonsDiv"></div>
-                <!-- Back button -->
-                <button type="button" onclick=back() class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</button>
-
-                <!-- Save button -->
-                <button type="submit" href="/users/profile" class="btn btn-success pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar alterações</button>
+            <div class="buttonsDiv" onsubmit="return confirm('Tem a certeza que deseja apagar a sua conta ? Esta ação não é reversível.');" id="notEditing">
+                <!-- Edit button -->
+                <button type="button" onclick=edit() class="btn btn-outline-dark pull-right" aria-hidden="true">Editar perfil</button> 
+                
+                <form method="POST" action="/users/delete">
+                    <!-- Delete user account button -->
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Apagar conta</button>
+                </form>
             </div>
+            
+            
+            <!-- Edit Profile Form -->
+            <form method="POST" action="/users/profile" id="editingProfile" style="display:none">
 
-        </form>
+                <!-- New username -->
+                <label class="col-form-label">Novo nome de utilizador:</label><br>
+                <input type="text" class="form-control" name="newUsername" value={{user.username}} required>      
 
+                <!-- Buttons -->
+                <div class="buttonsDiv"></div>
+                    <!-- Back button -->
+                    <button type="button" onclick=back() class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</button>
+
+                    <!-- Save button -->
+                    <button type="submit" href="/users/profile" class="btn btn-success pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar alterações</button>
+                </div>
+
+            </form>
+
+        </div>
     </div>
 
 </div>
