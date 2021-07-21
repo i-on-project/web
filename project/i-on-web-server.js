@@ -67,9 +67,9 @@ async function configurations() {
     router.use('/auth-api', webAuthApi);
     router.use(webUI);
 
+    router.use('/public', express.static('static-files'));
+    
     app.use(`${pathPrefix}`, router);
-
-    app.use('/public', express.static('static-files'));
 
     /*
         Since the main router positions our routes above the middleware defined below,
