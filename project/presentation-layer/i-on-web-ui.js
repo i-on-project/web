@@ -2,6 +2,7 @@
 
 const express = require('express');
 const internalErrors = require('../common/i-on-web-errors.js');
+const pathPrefix = process.env.PATH_PREFIX || "";
 
 function webui(service, auth) {
 	
@@ -64,7 +65,7 @@ function webui(service, auth) {
 		userClassesAndClassSectionsEdit: async function(req, res) {
 			try {
 				await service.editUserSubscribedClassesAndClassSections(req.user, req.body);
-				res.redirect('/classes');
+				res.redirect(pathPrefix + '/classes');
 			} catch(err) {
 				onError(req, res, err, 'Failed to edit user classe sections');
 			}
@@ -82,7 +83,7 @@ function webui(service, auth) {
 		saveUserClassesAndClassSections: async function(req, res) { 
 			try {
 				await service.saveUserClassesAndClassSections(req.user, req.body);
-				res.redirect('/classes');
+				res.redirect(pathPrefix + '/classes');
 			} catch(err) {
 				onError(req, res, err, 'Failed to save user classe sections');
 			}
@@ -109,7 +110,7 @@ function webui(service, auth) {
 		editProfile: async function(req, res) {
 			try {
 				await service.editProfile(req.user, req.body);
-				res.redirect('/users/profile');
+				res.redirect(pathPrefix + '/users/profile');
 			} catch(err) {
 				onError(req, res, err, 'Failed to edit profile');
 			}
@@ -118,7 +119,7 @@ function webui(service, auth) {
 		deleteUser: async function(req, res) {
 			try {
 				await auth.deleteUser(req);
-				res.redirect('/');
+				res.redirect(pathPrefix + '/');
 			} catch(err) {
 				onError(req, res, err, 'Failed to delete user');
 			}
@@ -137,7 +138,7 @@ function webui(service, auth) {
 		logout: async function(req, res) {
 			try {
 				await auth.logout(req);	
-				res.redirect('/');
+				res.redirect(pathPrefix + '/');
 			} catch(err) {
 				onError(req, res, err, 'Failed to logout', commonInfo);
 			}
@@ -184,7 +185,7 @@ function onError(req, res, err, defaultError) {
 
 	switch (err) {
 		case internalErrors.UNAUTHENTICATED:
-			res.status(401).redirect('/login');
+			res.status(401).redirect(pathPrefix + '/login');
 			break;
 		case internalErrors.BAD_REQUEST:
 			return res.status(400).render('errorPage', { status: 400, errorMessage: 'Bad Request', user: req.user});
