@@ -4,7 +4,7 @@ const internalErrors = require('../common/i-on-web-errors.js');
 const base64url = require('base64url');
 
 let users = {};
-const mock_users_limit = 3;
+const mock_users_limit = 50;
 
 module.exports = function() {
 
