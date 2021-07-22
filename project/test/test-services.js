@@ -259,39 +259,6 @@ describe('Services', function () {
 		it('should return 1 offer', async function () {			
 			// Arrange
 
-			const testOffers = [
-				{
-					"acronym":"DAW",
-					"name":"Desenvolvimento de Aplicações Web",
-					"courseId":2,
-					"id":1,
-					"termNumber":[6,4],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"LS",
-					"name":"Laboratório de Software",
-					"courseId":1,
-					"id":2,
-					"termNumber":[6],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"CN",
-					"name":"Computação na Nuvem",
-					"courseId":5,
-					"id":5,
-					"termNumber":[6],
-					"optional":true,
-					"ects":6,
-					"scientificArea":"IC"
-				}
-			];
-
 			const expected =  [
 				{
 					"acronym":"DAW",
@@ -316,8 +283,39 @@ describe('Services', function () {
 			];
 
 			const data = {
-				loadAllProgrammeOffers: async function() {
-					return testOffers;
+				loadProgramme: async function() {
+					return {'offers': [
+						{
+							"acronym":"DAW",
+							"name":"Desenvolvimento de Aplicações Web",
+							"courseId":2,
+							"id":1,
+							"termNumber":[6,4],
+							"optional":false,
+							"ects":6,
+							"scientificArea":"IC"
+						},
+						{
+							"acronym":"LS",
+							"name":"Laboratório de Software",
+							"courseId":1,
+							"id":2,
+							"termNumber":[6],
+							"optional":false,
+							"ects":6,
+							"scientificArea":"IC"
+						},
+						{
+							"acronym":"CN",
+							"name":"Computação na Nuvem",
+							"courseId":5,
+							"id":5,
+							"termNumber":[6],
+							"optional":true,
+							"ects":6,
+							"scientificArea":"IC"
+						}
+					]};
 				},
 
 				loadCourseClassesByCalendarTerm: async function(courseId) {
@@ -352,44 +350,44 @@ describe('Services', function () {
 		it('should return 0 offers', async function () {			
 			// Arrange
 
-			const testOffers = [
-				{
-					"acronym":"DAW",
-					"name":"Desenvolvimento de Aplicações Web",
-					"courseId":2,
-					"id":1,
-					"termNumber":[6,4],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"LS",
-					"name":"Laboratório de Software",
-					"courseId":1,
-					"id":2,
-					"termNumber":[6],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"CN",
-					"name":"Computação na Nuvem",
-					"courseId":5,
-					"id":5,
-					"termNumber":[6],
-					"optional":true,
-					"ects":6,
-					"scientificArea":"IC"
-				}
-			];
-
 			const expected =  [];
 
 			const data = {
-				loadAllProgrammeOffers: async function() {
-					return testOffers;
+				loadProgramme: async function() {
+					return {
+						'offers': [
+							{
+								"acronym":"DAW",
+								"name":"Desenvolvimento de Aplicações Web",
+								"courseId":2,
+								"id":1,
+								"termNumber":[6,4],
+								"optional":false,
+								"ects":6,
+								"scientificArea":"IC"
+							},
+							{
+								"acronym":"LS",
+								"name":"Laboratório de Software",
+								"courseId":1,
+								"id":2,
+								"termNumber":[6],
+								"optional":false,
+								"ects":6,
+								"scientificArea":"IC"
+							},
+							{
+								"acronym":"CN",
+								"name":"Computação na Nuvem",
+								"courseId":5,
+								"id":5,
+								"termNumber":[6],
+								"optional":true,
+								"ects":6,
+								"scientificArea":"IC"
+							}
+						]
+					};
 				},
 
 				loadCourseClassesByCalendarTerm: async function(courseId) {
@@ -426,39 +424,6 @@ describe('Services', function () {
 		it('should return programme data', async function () {			
 			// Arrange
 
-			const testOffers = [
-				{
-					"acronym":"DAW",
-					"name":"Desenvolvimento de Aplicações Web",
-					"courseId":2,
-					"id":1,
-					"termNumber":[6,4],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"LS",
-					"name":"Laboratório de Software",
-					"courseId":1,
-					"id":2,
-					"termNumber":[6],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"CN",
-					"name":"Computação na Nuvem",
-					"courseId":5,
-					"id":5,
-					"termNumber":[6],
-					"optional":true,
-					"ects":6,
-					"scientificArea":"IC"
-				}
-			];
-
 			const testData = {
 				"id":1,
 				"name":"Licenciatura em Engenharia Informática e de Computadores",
@@ -470,22 +435,54 @@ describe('Services', function () {
 					{"teacher":"José Manuel de Campos Lages Garcia Simão"},
 					{"teacher":"Nuno Miguel Soares Datia"},
 					{"teacher":"Pedro Miguel Florindo Miguéns Matutino"}
-				],"contacts":"",
+				],
+				"contacts":"",
 				"sourceLink":"https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-e-de-computadores",
-				"description":"O ciclo de estudos conducente ao grau de licenciado em Engenharia Informática...."}
+				"description":"O ciclo de estudos conducente ao grau de licenciado em Engenharia Informática....",
+				"offers": [
+					{
+						"acronym":"DAW",
+						"name":"Desenvolvimento de Aplicações Web",
+						"courseId":2,
+						"id":1,
+						"termNumber":[6,4],
+						"optional":false,
+						"ects":6,
+						"scientificArea":"IC"
+					},
+					{
+						"acronym":"LS",
+						"name":"Laboratório de Software",
+						"courseId":1,
+						"id":2,
+						"termNumber":[6],
+						"optional":false,
+						"ects":6,
+						"scientificArea":"IC"
+					},
+					{
+						"acronym":"CN",
+						"name":"Computação na Nuvem",
+						"courseId":5,
+						"id":5,
+						"termNumber":[6],
+						"optional":true,
+						"ects":6,
+						"scientificArea":"IC"
+					}
+				]
+			}
 
 			const expectedOffersByAcademicTerms =  {
-				"4":[{"acronym":"DAW","name":"Desenvolvimento de Aplicações Web","courseId":2,"id":1,"termNumber":[6,4],"optional":false,"ects":6,"scientificArea":"IC"}],
-				"6":[{"acronym":"DAW","name":"Desenvolvimento de Aplicações Web","courseId":2,"id":1,"termNumber":[6,4],"optional":false,"ects":6,"scientificArea":"IC"},{"acronym":"LS","name":"Laboratório de Software","courseId":1,"id":2,"termNumber":[6],"optional":false,"ects":6,"scientificArea":"IC"},{"acronym":"CN","name":"Computação na Nuvem","courseId":5,"id":5,"termNumber":[6],"optional":true,"ects":6,"scientificArea":"IC"}]};
-			
-			const expectedProgrammeData = testData;
-			
-			const data = {
-				loadAllProgrammeOffers: async function() {
-					return testOffers;
-				},
+					"4":[{"acronym":"DAW","name":"Desenvolvimento de Aplicações Web","courseId":2,"id":1,"termNumber":[6,4],"optional":false,"ects":6,"scientificArea":"IC"}],
+					"6":[{"acronym":"DAW","name":"Desenvolvimento de Aplicações Web","courseId":2,"id":1,"termNumber":[6,4],"optional":false,"ects":6,"scientificArea":"IC"},
+						{"acronym":"LS","name":"Laboratório de Software","courseId":1,"id":2,"termNumber":[6],"optional":false,"ects":6,"scientificArea":"IC"},
+						{"acronym":"CN","name":"Computação na Nuvem","courseId":5,"id":5,"termNumber":[6],"optional":true,"ects":6,"scientificArea":"IC"}
+					]
+			};
 
-				loadProgrammeData: async function() {
+			const data = {
+				loadProgramme: async function() {
 					return testData;
 				},
 
@@ -501,12 +498,12 @@ describe('Services', function () {
 			
 			const user = null;
 			const programmeId = 1;
+			
 			// Act
 			const response = await service.getProgrammeData(programmeId, user);
-
+			
 			// Assert
-			expect(response.offersByAcademicTerms).to.deep.eql(expectedOffersByAcademicTerms);
-			expect(response.programme).to.deep.eql(expectedProgrammeData);
+			expect(response.programme.offers).to.deep.eql(expectedOffersByAcademicTerms);
 		})
 
 	}),
