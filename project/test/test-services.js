@@ -191,7 +191,7 @@ describe('Services', function () {
 					return [];
 				},
 
-				loadUserSubscribedClassesAndClassSections: async function(user) {
+				getUserSubscriptions: async function(user) {
 					return [
 						{
 							"id": 1,
@@ -605,7 +605,7 @@ describe('Services', function () {
 					};
 				},
 
-				loadUserSubscribedClassesAndClassSections: async function(user) {
+				getUserSubscriptions: async function(user) {
 					return [
 						{
 							"id": 1,
@@ -682,7 +682,7 @@ describe('Services', function () {
 					};
 				},
 
-				loadUserSubscribedClassesAndClassSections: async function(user) {
+				getUserSubscriptions: async function(user) {
 					return [
 						{
 							"id": 1,
@@ -895,7 +895,7 @@ describe('Services', function () {
 					];
 				},
 				
-				loadUserSubscribedClassesAndClassSections: async function(user) {
+				getUserSubscriptions: async function(user) {
 					return [
 						{
 							"id": 1,
@@ -960,7 +960,7 @@ describe('Services', function () {
 
 	}),
 
-	describe('getUserSubscribedClassesAndClassSections', function() { 
+	describe('getUserSubscriptions', function() { 
 		
 		it('should only return pages common info (unauthenticated user)', async function () {
 		
@@ -1000,7 +1000,7 @@ describe('Services', function () {
 			const user = undefined;
 
 			// Act
-			const response = await service.getUserSubscribedClassesAndClassSections(user);
+			const response = await service.getUserSubscriptions(user);
 
 			// Assert
 			expect(response.userClasses).to.deep.eql(expected.userClasses);
@@ -1054,7 +1054,7 @@ describe('Services', function () {
 					};
 				},
 
-				loadUserSubscribedClassesAndClassSections: async function(user) {
+				getUserSubscriptions: async function(user) {
 					return [
 						{
 							"id": 2,
@@ -1085,7 +1085,7 @@ describe('Services', function () {
 			const user = testsUsers[1];
 
 			// Act
-			const response = await service.getUserSubscribedClassesAndClassSections(user);
+			const response = await service.getUserSubscriptions(user);
 
 			// Assert
 			expect(response.userClasses).to.deep.eql(expected.userClasses);
@@ -1096,7 +1096,7 @@ describe('Services', function () {
 
 	}),
 
-	describe('editUserSubscribedClassesAndClassSections', function() { 
+	describe('deleteUserSubscriptions', function() { 
 		
 		it('should return unauthenticated error (unauthenticated user)', async function () {
 		
@@ -1111,7 +1111,7 @@ describe('Services', function () {
 
 			// Act
 			try {
-				await service.editUserSubscribedClassesAndClassSections(user, selectedClassesAndClassSections);
+				await service.deleteUserSubscriptions(user, selectedClassesAndClassSections);
 			} catch (err) {
 				// Assert
 				expect(err).to.deep.eql(5);
@@ -1141,7 +1141,7 @@ describe('Services', function () {
 					};
 				},
 
-				loadUserSubscribedClassesAndClassSections: async function() {
+				getUserSubscriptions: async function() {
 					return [];
 				}
 			}
@@ -1161,7 +1161,7 @@ describe('Services', function () {
 
 	}),
 
-	describe('saveUserClassesAndClassSections', function() { 
+	describe('saveUserSubscriptions', function() { 
 		
 		it('should return unauthenticated error (unauthenticated user)', async function () {
 		
@@ -1176,7 +1176,7 @@ describe('Services', function () {
 
 			// Act
 			try {
-				await service.saveUserClassesAndClassSections(user, selectedClassesAndClassSections);
+				await service.saveUserSubscriptions(user, selectedClassesAndClassSections);
 			} catch (err) {
 				// Assert
 				expect(err).to.deep.eql(5);

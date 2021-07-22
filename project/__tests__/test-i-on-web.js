@@ -131,7 +131,7 @@ describe(`Integration tests on ${app_base_url}`, () => {
 		
 			it ('should return the user subscribed classes and class sections', () => {
 				return frisby
-				.fetch(`${app_base_url}/classes`)
+				.fetch(`${app_base_url}/subscriptions`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
@@ -144,13 +144,13 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/classes/edit'", () => {
+	describe("Testing '/subscriptions/delete'", () => {
 		
-		describe('GET /classes/edit', () => {
+		describe('GET /subscriptions/delete', () => {
 		
 			it ('should return the user subscribed classes and class sections', () => {
 				return frisby
-				.fetch(`${app_base_url}/classes/edit`)
+				.fetch(`${app_base_url}/subscriptions/delete`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");

@@ -105,7 +105,7 @@ module.exports = function() {
 
 	/* User related methods */
 
-	const saveUserClassesAndClassSections = async function(user, id, classSection) {
+	const saveUserSubscriptions = async function(user, id, classSection) {
 		const calendarTerm = await loadCalendarTerm();
 		const path = '/calendarTerms/' + calendarTerm.currentCalendarTerm + '/' + id + '/class';
 		const receidedData = await getMockData(path);
@@ -138,11 +138,11 @@ module.exports = function() {
 		return users[user.email].classesAndClassSections.filter(course => course.id == id).find(__ => __).classes;
 	}
 
-	const loadUserSubscribedClassesAndClassSections = function(user) {
+	const getUserSubscriptions = function(user) {
 		return users[user.email].classesAndClassSections;
 	}
 
-	const deleteUserClassSection = async function(user, id, classSection) {
+	const deleteUserSubscriptions = async function(user, id, classSection) {
 		const classSections = users[user.email].classesAndClassSections
 		.filter(course => course.id == id).find(__ => __).classes;
 
@@ -198,10 +198,10 @@ module.exports = function() {
 		pollingCore : pollingCore,
 
 		/* Methods related to user */
-		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
+		saveUserSubscriptions : saveUserSubscriptions,
 		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
-		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
-		deleteUserClassSection : deleteUserClassSection,
+		getUserSubscriptions : getUserSubscriptions,
+		deleteUserSubscriptions : deleteUserSubscriptions,
 		deleteUserClass : deleteUserClass,
 		editUser : editUser,
 		loadUser : loadUser,
