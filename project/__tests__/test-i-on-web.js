@@ -132,13 +132,13 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/available-class-sections'", () => {
+	describe("Testing '/class-sections'", () => {
 		
-		describe('GET /available-class-sections', () => {
+		describe('GET /class-sections', () => {
 			
 			it ('should return the available class sections of the selected classes', () => {
 				return frisby
-				.fetch(`${app_base_url}/available-class-sections`)
+				.fetch(`${app_base_url}/class-sections`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
@@ -151,9 +151,9 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/class-sections'", () => {
+	describe("Testing '/subscriptions'", () => {
 		
-		describe('POST /class-sections', () => {
+		describe('POST /subscriptions', () => {
 		
 
 			
@@ -161,13 +161,13 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/classes'", () => {
+	describe("Testing '/subscriptions'", () => {
 		
-		describe('GET /classes', () => {
+		describe('GET /subscriptions', () => {
 		
 			it ('should return the user subscribed classes and class sections', () => {
 				return frisby
-				.fetch(`${app_base_url}/classes`)
+				.fetch(`${app_base_url}/subscriptions`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
@@ -180,13 +180,13 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/classes/edit'", () => {
+	describe("Testing '/subscriptions/delete'", () => {
 		
-		describe('GET /classes/edit', () => {
+		describe('GET /subscriptions/delete', () => {
 		
 			it ('should return the user subscribed classes and class sections', () => {
 				return frisby
-				.fetch(`${app_base_url}/classes/edit`)
+				.fetch(`${app_base_url}/subscriptions/delete`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
@@ -198,7 +198,7 @@ describe(`Integration tests on ${app_base_url}`, () => {
 		});
 
 
-		describe('POST /classes/edit', () => {
+		describe('POST /subscriptions/delete', () => {
 		
 
 			
