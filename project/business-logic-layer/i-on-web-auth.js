@@ -7,6 +7,9 @@ const internalErrors = require('../common/i-on-web-errors.js');
 
 const FileStore = require('session-file-store')(session); 
 
+/// Session expiration time
+const sessionMaxAge = 7 * 24 * 60 * 60 * 1000; 
+
 module.exports = (app, data, sessionDB) => {
 
 	function userToRef(user, done) {
@@ -28,8 +31,8 @@ module.exports = (app, data, sessionDB) => {
     app.use(session({
 		resave: false,              
 		saveUninitialized: false,  
-		secret: 'secret',   // TO DO - Generate random string
-		cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
+		secret: 'secret',
+		cookie: { maxAge: sessionMaxAge },
 		store: new FileStore() 
     }))
 
@@ -87,25 +90,29 @@ module.exports = (app, data, sessionDB) => {
 			}
 		},
 		
-		logout: async function(req) { /// TODO: Verify if user is authenticated and handling errors
-			const user = req.user;
-			
-			req.logout();
-			req.session.destroy(err => { /// TODO : replace ...
-				if (err) {
-					throw internalErrors.SERVICE_FAILURE;
-				}
-			})
+		logout: async function(req) {
+			if(req.user) {
+				const user = req.user;
+				
+				req.logout();
+				req.session.destroy(err => {
+					if (err) {
+						throw internalErrors.SERVICE_FAILURE;
+					}
+				})
 
-			await data.revokeAccessToken(user);
-			await sessionDB.deleteUserSession(user.sessionId);
+				await data.revokeAccessToken(user);
+				await sessionDB.deleteUserSession(user.sessionId);
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
+			}
 		},
 
 		deleteUser: async function(req) {
 			const user = JSON.parse(JSON.stringify(req.user));;
 
 			req.logout();
-			req.session.destroy(err => { /// TODO : replace ...
+			req.session.destroy(err => {
 				if (err) {
 					throw internalErrors.SERVICE_FAILURE;
 				}
@@ -149,7 +156,7 @@ const getUserAndSessionInfo = async function(data, sessionDB, sessionId) { // Th
 	}
 }
 
-const updateUserSession = async function(data, sessionDB, sessionInfo, sessionId) {// mudar assinatura pra receber o session id e talvez email
+const updateUserSession = async function(data, sessionDB, sessionInfo, sessionId) {
 	const newTokens = await data.refreshAccessToken(sessionInfo);
 	await sessionDB.storeUpdatedInfo(sessionInfo.email, newTokens, sessionId)
 }

@@ -5,13 +5,415 @@
     "termSize": 6,
     "department": "ADEETC",
     "coordination": [
-        {"teacher": "Professor Carlos Eduardo Meneses Ribeiro"},
-        {"teacher": "Professor Vitor Jesus Sousa de Almeida"},
-        {"teacher": "Professor Jorge Manuel Rodrigues Martins Pião"},
-        {"teacher": "Professor António João Nunes Serrador"},
-        {"teacher": "Professor Pedro Miguel Fernandes Sampaio"}
+        {"teacher": "Carlos Eduardo Meneses Ribeiro"},
+        {"teacher": "Vitor Jesus Sousa de Almeida"},
+        {"teacher": "Jorge Manuel Rodrigues Martins Pião"},
+        {"teacher": "António João Nunes Serrador"},
+        {"teacher": "Pedro Miguel Fernandes Sampaio"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-electronica-e-telecomunicacoes-e-de-computadores",
-    "description": "A Licenciatura em Engenharia Electrónica e Telecomunicações e de Computadores (LEETC) no ISEL tem como objetivo principal formar engenheiros aptos a responder com competência aos desafios colocados pelo mercado de trabalho no sector das Tecnologias de Informação e Comunicação (TIC), nomeadamente nas áreas de eletrónica, telecomunicações e de computadores.  O curso concilia uma sólida formação de base de engenharia com componentes profissionalizantes e de especialização. Confere competências profissionais ao fim de 3 anos de licenciatura, associado a capacidade de adaptação às mudanças resultantes do grande dinamismo do setor. A finalização do curso LEETC permite a admissão as ordens profissionais de engenharia e dá acesso ao Mestrado em Engenharia de Eletrónica e Telecomunicações."
+    "description": "A Licenciatura em Engenharia Electrónica e Telecomunicações e de Computadores (LEETC) no ISEL tem como objetivo principal formar engenheiros aptos a responder com competência aos desafios colocados pelo mercado de trabalho no sector das Tecnologias de Informação e Comunicação (TIC), nomeadamente nas áreas de eletrónica, telecomunicações e de computadores.  O curso concilia uma sólida formação de base de engenharia com componentes profissionalizantes e de especialização. Confere competências profissionais ao fim de 3 anos de licenciatura, associado a capacidade de adaptação às mudanças resultantes do grande dinamismo do setor. A finalização do curso LEETC permite a admissão as ordens profissionais de engenharia e dá acesso ao Mestrado em Engenharia de Eletrónica e Telecomunicações.",
+    "offers": [
+        {
+            "acronym": "AM1",
+            "name": "Análise Matemática I",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "ALGA",
+            "name": "Álgebra Linear e Geometria Analítica",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "LSD",
+            "name": "Lógica e Sistemas Digitais",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PG1",
+            "name": "Programação I",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "IC",
+            "name": "Introdução aos Circuitos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 5,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "IT",
+            "name": "Introdução às Telecomunicações",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 1,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "PE",
+            "name": "Probabilidades e Estatística",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "FAE",
+            "name": "Física Aplicada à Eletrónica",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "FIS"
+        },
+        {
+            "acronym": "SS",
+            "name": "Sinais e Sistemas",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "AC",
+            "name": "Arquitetura de Computadores",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "AM2",
+            "name": "Análise Matemática II",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "PG2",
+            "name": "Programação II",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "Tel1",
+            "name": "Telecomunicações I",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "MAET",
+            "name": "Matemática Aplicada à Eletrónica e Telecomunicações",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "EA",
+            "name": "Eletromagnetismo Aplicado",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "FIS"
+        },
+        {
+            "acronym": "E1",
+            "name": "Eletrónica I",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "RcP",
+            "name": "Redes de Computadores",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "Tel2",
+            "name": "Telecomunicações II",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "PR",
+            "name": "Propagação e Radiação",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "SO",
+            "name": "Sistemas Operativos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "E2",
+            "name": "Eletrónica II",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "SEAD",
+            "name": "Sistemas Eletrónicos Analógicos e Digitais",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "PG3",
+            "name": "Programação III",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "Ctrl",
+            "name": "Controlo",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "RI",
+            "name": "Redes de Internet",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "BD",
+            "name": "Bases de Dados",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "SEADP",
+            "name": "Sistemas Eletrónicos Analógicos e Digitais Programáveis",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "SE1",
+            "name": "Sistemas Embebidos I",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "RCom",
+            "name": "Rádio Comunicações",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "ST",
+            "name": "Sistemas de Telecomunicações",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "PFC",
+            "name": "Projeto Final de Curso",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": false,
+            "ects": 12,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "TAR",
+            "name": "Tecnologias Avançadas de Redes",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "SCD",
+            "name": "Sistemas Computacionais Distribuídos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "SE2",
+            "name": "Sistemas Embebidos II",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "CSE",
+            "name": "Complementos de Sistemas Eletrónicos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "CTVS",
+            "name": "Comunicações Terrestres e Via Satélite",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "IM",
+            "name": "Instrumentação e Medidas",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "PIT",
+            "name": "Projecto de Infraestruturas de Telecomunicações",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 7,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "SG",
+            "name": "Sistemas de Gestão",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "CSO"
+        },	
+        {
+            "acronym": "EGP",
+            "name": "Economia e Gestão de Projeto",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "CSO"
+        }		
+    ]
 }

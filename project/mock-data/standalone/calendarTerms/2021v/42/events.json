@@ -8,14 +8,14 @@
   ],
   "testsAndExams": [
     {
-      "event": "Exame de CN",
+      "event": "Exame de CN (Época normal)",
       "date": "2021-07-15",
       "startTime": "10:00",
       "endTime": "13:00",
       "location": "G.1.03"
     },
     {
-      "event": "Exame de CN",
+      "event": "Exame de CN (Época de recurso)",
       "date": "2021-07-29",
       "startTime": "19:00",
       "endTime": "22:00",

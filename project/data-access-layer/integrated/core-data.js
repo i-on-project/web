@@ -62,53 +62,12 @@ module.exports = function() {
 		}
 	};
 
-	const loadAllProgrammeOffers = async function (programmeId, metadata) {
+	const loadProgramme = async function (programmeId, metadata) {
 		try {
 
 			const options = {
 				method: 'GET',
 				headers: { 
-					'If-None-Match': metadata,
-					'Authorization': read_token,
-					'Content-Type': contentType
-				}
-			};
-
-			const response = await fetch(core_url + '/api/programmes/'+ programmeId, options);	
-
-			if(response.status === 200) {
-				return {
-					"metadata": response.headers,
-					"data": await response.json()
-				}
-			} else if(response.status === 304) { /// The resource has not been modified
-				return {
-					"metadata": response.headers
-				}
-			} else {
-				throw response.status;
-			}
-
-		} catch(err) {		/// Error handling
-			switch (err) {
-				case 400: 	/// Bad request
-					throw internalErrors.BAD_REQUEST;
-				case 404:	/// Not Found
-					throw internalErrors.RESOURCE_NOT_FOUND;
-				case 503:	/// Service Unavailable
-					throw internalErrors.SERVICE_UNAVAILABLE;
-				default:	/// Unexpected error
-					throw internalErrors.SERVICE_FAILURE;
-			}
-		}
-	};
-
-	const loadProgrammeData = async function(programmeId, metadata) {
-		try {
-
-			const options = {
-				method: 'GET',
-				headers: {
 					'If-None-Match': metadata,
 					'Authorization': read_token,
 					'Content-Type': contentType
@@ -617,7 +576,7 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/users', options);
 			
-			if(response.status != 204) throw response.status; // TO DO - handle the status code
+			if(response.status != 204) throw response.status;
 
 		} catch(err) {		/// Error handling
 			switch (err) {
@@ -760,8 +719,7 @@ module.exports = function() {
 	return {
 		/* Methods to load generic academic information */
         loadAllProgrammes : loadAllProgrammes,
-		loadAllProgrammeOffers : loadAllProgrammeOffers,
-		loadProgrammeData : loadProgrammeData,
+		loadProgramme : loadProgramme,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,

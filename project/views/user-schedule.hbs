@@ -155,7 +155,7 @@
     <script>
 
         let itemsSchedule = [];
-        const arrColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink'];
+        const arrColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'grey'];
         const acrColors = {};
         
         {{#each schedule}}
@@ -321,6 +321,8 @@
             if (index > -1) {
                 arrColors.splice(index, 1);
             }
+
+            if(arrColors.length === 0) arrColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'grey'];
 
             return color;
         }

@@ -131,6 +131,12 @@
     border: 2px solid #ec0393;
   }
 
+  .bg-grey {
+    background: #797678a1;
+    color: #252424;
+    border: 2px solid #2e2d2d;
+  }
+
   .schedule-monday { grid-column: monday / span 1; }
   .schedule-tuesday { grid-column: tuesday / span 1; }
   .schedule-wednesday { grid-column: wednesday / span 1; }

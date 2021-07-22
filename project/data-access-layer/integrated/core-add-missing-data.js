@@ -37,24 +37,26 @@ module.exports = function(data) {
 		};
 	};
 
-	const loadAllProgrammeOffers = async function (programmeId, metadata) {
-		const response = await data.loadAllProgrammeOffers(programmeId, metadata);
+	const loadProgramme = async function (programmeId, metadata) {
+		const response = await data.loadProgramme(programmeId, metadata);
 
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 
 		/* Adding missing data */ 
-		const path = '/offers/' + programmeId;
+		const path = '/programmes/' + programmeId;
 		const mockDataToBeAdded = await getMockData(path);
 
-		const improvedData = response.data  
+		const offers = response.data.offers  
 		.filter( offer => { 						// Due to core inconsistencies we verify if the returned offers are actually part of the programme curricular plan, 
-			const mockOffer = mockDataToBeAdded		// this filter can be removed when the Core inconsistency is resolved
+
+			const mockOffer = mockDataToBeAdded.offers		// this filter can be removed when the Core inconsistency is resolved
 				.find( mockOffer => mockOffer.courseId == offer.courseId);
 
 			return mockOffer;
 		 })
 		.map( offer => {
-			const mockOffer = mockDataToBeAdded
+
+			const mockOffer = mockDataToBeAdded.offers
 				.find( mockOffer => mockOffer.courseId == offer.courseId);
 	
 			offer["name"] = mockOffer.name;
@@ -66,36 +68,17 @@ module.exports = function(data) {
 			return offer;
 		});
 
-		/*** Adding metadata ***/
-		const improvedMetadata = {
-			"ETag": defaulEtag,
-			"maxAge": default_maxAge
-		}
-
-		return {
-			"metadata": improvedMetadata,
-			"data": improvedData
-		};
-	};
-
-	const loadProgrammeData = async function (programmeId, metadata) {
-		
-		const response = await data.loadProgrammeData(programmeId, metadata);
-	
-		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
-
-		/* Adding missing data */
-		const path = '/programmes/' + programmeId;
-		const mockDataToBeAdded = await getMockData(path);
-
 		const improvedData = {
 			"id": response.data.id,
-			"name": mockDataToBeAdded.name,
+			"name": response.data.name,
+			"acronym": mockDataToBeAdded.acronym,
+			"termSize": response.data.termSize,
 			"department": mockDataToBeAdded.department,
 			"coordination": mockDataToBeAdded.coordination,
 			"contacts": mockDataToBeAdded.contacts,
 			"sourceLink": mockDataToBeAdded.sourceLink,
-			"description": mockDataToBeAdded.description
+			"description": mockDataToBeAdded.description,
+			"offers" : offers
 		}
 
 		/*** Adding metadata ***/
@@ -324,8 +307,7 @@ module.exports = function(data) {
 
 	return {
 		loadAllProgrammes : loadAllProgrammes,
-		loadAllProgrammeOffers : loadAllProgrammeOffers,
-		loadProgrammeData : loadProgrammeData,
+		loadProgramme : loadProgramme,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,

@@ -5,13 +5,315 @@
     "termSize": 6,
     "department": "ADEM",
     "coordination": [
-        {"teacher": "Professor Luís Manuel Vicente Ferreira Simões"},
-        {"teacher": "Professor Alda Cristina Jesus N. de Carvalho "},
-        {"teacher": "Professor Mário José Gonçalves Cavaco Mendes "},
-        {"teacher": "Professor Nuno Paulo Ferreira Henriques"},
-        {"teacher": "Professor Nuno Ricardo da Piedade Antunes Serra"}
+        {"teacher": "Luís Manuel Vicente Ferreira Simões"},
+        {"teacher": "Alda Cristina Jesus N. de Carvalho "},
+        {"teacher": "Mário José Gonçalves Cavaco Mendes "},
+        {"teacher": "Nuno Paulo Ferreira Henriques"},
+        {"teacher": "Nuno Ricardo da Piedade Antunes Serra"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-mecanica",
-    "description": "O Ciclo de Estudos conducente à Licenciatura em Engenharia Mecânica, assenta nos princípios orientadores e objectivos subjacentes à sua integração no espaço de Ensino Superior Europeu corporizados no DL nº42/2006 e no DL nº74/2006. Com esse desígnio, o Engenheiro Mecânico que se pretende formar irá operar no espaço nacional e internacional em ambientes de elevada competitividade, regendo-se a sua formação, e inerente organização do Curso, por elevados padrões de exigência."
+    "description": "O Ciclo de Estudos conducente à Licenciatura em Engenharia Mecânica, assenta nos princípios orientadores e objectivos subjacentes à sua integração no espaço de Ensino Superior Europeu corporizados no DL nº42/2006 e no DL nº74/2006. Com esse desígnio, o Engenheiro Mecânico que se pretende formar irá operar no espaço nacional e internacional em ambientes de elevada competitividade, regendo-se a sua formação, e inerente organização do Curso, por elevados padrões de exigência.",
+    "offers": [
+        {
+            "acronym": "Mts",
+            "name": "Materiais",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "AM",
+            "name": "Análise Matemática",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 7,
+            "scientificArea": "CB"
+        },
+        {
+            "acronym": "ALA",
+            "name": "Álgebra Linear Aplicada",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "CB"
+        },
+        {
+            "acronym": "FG1",
+            "name": "Física Geral I",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 4,
+            "scientificArea": "CB"
+        },
+        {
+            "acronym": "DT",
+            "name": "Desenho Técnico",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 3,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "IP",
+            "name": "Introdução à Programação",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 4,
+            "scientificArea": "ECS"
+        },
+        {
+            "acronym": "AVED",
+            "name": "Análise Vetorial e Equações Diferenciais",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 7,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "FG2",
+            "name": "Física Geral II",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 5.5,
+            "scientificArea": "CB"
+        },
+        {
+            "acronym": "MT",
+            "name": "Mecânica Técnica",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 5.5,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "DAC",
+            "name": "Desenho Assistido por Computador",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 4,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "EG",
+            "name": "Eletrotecnia Geral",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 4,
+            "scientificArea": "ECS"
+        },
+        {
+            "acronym": "QA",
+            "name": "Química Aplicada",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 4,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "MN",
+            "name": "Métodos Numéricos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 4.5,
+            "scientificArea": "CB"
+        },
+        {
+            "acronym": "TD",
+            "name": "Termodinâmica",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 5.5,
+            "scientificArea": "CB"
+        },
+        {
+            "acronym": "FME",
+            "name": "Fundamentos de Máquinas Elétricas",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 4,
+            "scientificArea": "ECS"
+        },
+        {
+            "acronym": "DCM",
+            "name": "Desenho de Construções Mecânicas",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 5,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "TM1",
+            "name": "Tecnologia Mecânica I",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 5.5,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "MM1",
+            "name": "Mecânica dos Materiais I",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 5.5,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "EAE",
+            "name": "Estatística Aplicada à Engenharia",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 5.5,
+            "scientificArea": "CB"
+        },
+        {
+            "acronym": "TA",
+            "name": "Termodinâmica Aplicada",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 5.5,
+            "scientificArea": "ECS"
+        },
+        {
+            "acronym": "MM2",
+            "name": "Mecânica dos Materiais II",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 5.5,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "MF",
+            "name": "Mecânica de Fluidos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 5.5,
+            "scientificArea": "ECS"
+        },
+        {
+            "acronym": "EI",
+            "name": "Eletrónica e Instrumentação",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 4,
+            "scientificArea": "ECS"
+        },
+        {
+            "acronym": "GP",
+            "name": "Gestão da Produção",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 4,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "TM2",
+            "name": "Tecnologia Mecânica II",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 5,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "Ct",
+            "name": "Climatização",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 5.5,
+            "scientificArea": "ECS"
+        },
+        {
+            "acronym": "TC",
+            "name": "Transmissão de Calor",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 5.5,
+            "scientificArea": "ECS"
+        },
+        {
+            "acronym": "MA",
+            "name": "Motores Alternativos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 5,
+            "scientificArea": "ECS"
+        },
+        {
+            "acronym": "OM",
+            "name": "Órgãos de Máquinas",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 4.5,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "SM1-IP",
+            "name": "Seminário I - Introdução ao Projeto",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 0.5,
+            "scientificArea": "PMPMI"
+        }
+    ]
 }

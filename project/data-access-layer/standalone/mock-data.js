@@ -14,14 +14,7 @@ module.exports = function() {
 		return JSON.parse(JSON.stringify(data));;
 	};
 
-	const loadAllProgrammeOffers = async function(programmeId) {
-		const path = '/offers/' + programmeId;
-		const data = getMockData(path);
-		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
-		return JSON.parse(JSON.stringify(data));;
-	};
-
-	const loadProgrammeData = async function(programmeId) {
+	const loadProgramme = async function(programmeId) {
 		const path = '/programmes/' + programmeId;
 		const data = getMockData(path);
 		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
@@ -191,8 +184,7 @@ module.exports = function() {
 	return {
 		/* Methods to load generic academic information */
         loadAllProgrammes : loadAllProgrammes,
-		loadAllProgrammeOffers : loadAllProgrammeOffers,
-		loadProgrammeData : loadProgrammeData,
+		loadProgramme : loadProgramme,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,

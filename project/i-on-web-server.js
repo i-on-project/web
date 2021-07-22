@@ -76,7 +76,7 @@ async function configurations() {
 
     app.use(function(req, res) {
         res.status(404);
-        res.render('errorPage', { status: 404, errorMessage: 'Not Found' });
+        res.render('errorPage', { status: 404, errorMessage: 'Not Found', user: req.user });
     });
     
     app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)

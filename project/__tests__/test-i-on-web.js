@@ -49,32 +49,6 @@ describe(`Integration tests on ${app_base_url}`, () => {
 		});
 	});
 
-/*	beforeAll(async function () {
-		return frisby
-		.fetch(`${app_base_url}/auth-api/email`, {
-			method: 'POST',
-			headers: { cookie: cookie},
-			body: JSON.stringify({
-				email: "A12345@alunos.isel.pt"
-			})
-		})
-		.expect('status', 200)
-		.expect('header', 'Content-Type', 'application/json; charset=utf-8')
-		.then((response) => {
-			return frisby
-			.post(`${app_base_url}/${response.body.auth_req_id}/poll`)
-			.expect('status', 200)
-			.expect('header', 'Content-Type', 'application/json; charset=utf-8')
-			.then(res => {
-				const sessionCookie = setCookieParser.parseString( 
-					res.headers.get('set-cookie') 
-				);
-				cookie = `${sessionCookie.name}=${sessionCookie.value}`;
-			});
-		})
-	
-	});*/
-
 	describe("Testing '/'", () => {
 		
 		describe('GET /', () => {
@@ -132,13 +106,13 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/class-sections'", () => {
+	describe("Testing '/subscriptions'", () => {
 		
-		describe('GET /class-sections', () => {
+		describe('GET /subscriptions', () => {
 			
 			it ('should return the available class sections of the selected classes', () => {
 				return frisby
-				.fetch(`${app_base_url}/class-sections`)
+				.fetch(`${app_base_url}/subscriptions`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
@@ -146,16 +120,6 @@ describe(`Integration tests on ${app_base_url}`, () => {
 				.expect('status', 200)
 				.expect('header', 'Content-Type', 'text/html; charset=utf-8');
 			});
-			
-		});
-
-	});
-
-	describe("Testing '/subscriptions'", () => {
-		
-		describe('POST /subscriptions', () => {
-		
-
 			
 		});
 
@@ -194,13 +158,6 @@ describe(`Integration tests on ${app_base_url}`, () => {
 				.expect('status', 200)
 				.expect('header', 'Content-Type', 'text/html; charset=utf-8');
 			});
-			
-		});
-
-
-		describe('POST /subscriptions/delete', () => {
-		
-
 			
 		});
 
@@ -258,22 +215,6 @@ describe(`Integration tests on ${app_base_url}`, () => {
 				.expect('status', 200)
 				.expect('header', 'Content-Type', 'text/html; charset=utf-8');
 			});
-			
-		});
-
-	});
-
-	describe("Testing '/users/profile'", () => {
-		
-		describe('GET /users/profile', () => {
-		
-			
-		});
-
-
-		describe('POST /users/profile', () => {
-		
-
 			
 		});
 

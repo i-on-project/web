@@ -465,11 +465,11 @@ describe('Services', function () {
 				"acronym":"LEIC",
 				"termSize":6,
 				"department":"ADEETC","coordination":[
-					{"teacher":"Professor Artur Jorge Ferreira"},
-					{"teacher":"Professora Cátia Raquel Jesus Vaz"},
-					{"teacher":"Professor  Manuel de Campos Lages Garcia Simão"},
-					{"teacher":"Professor Nuno Miguel Soares Datia"},
-					{"teacher":"Professor Pedro Miguel Florindo Miguéns Matutino"}
+					{"teacher":"Artur Jorge Ferreira"},
+					{"teacher":"Cátia Raquel Jesus Vaz"},
+					{"teacher":"José Manuel de Campos Lages Garcia Simão"},
+					{"teacher":"Nuno Miguel Soares Datia"},
+					{"teacher":"Pedro Miguel Florindo Miguéns Matutino"}
 				],"contacts":"",
 				"sourceLink":"https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-e-de-computadores",
 				"description":"O ciclo de estudos conducente ao grau de licenciado em Engenharia Informática...."}
@@ -1212,8 +1212,8 @@ describe('Services', function () {
 						}
 					],
 					"teachers": [
-						{"teacher": "Professor João Trindade"},
-						{"teacher": "Professor Luís Falcão"}
+						{"teacher": "João Trindade"},
+						{"teacher": "Luís Falcão"}
 					]
 				}
 			};
@@ -1243,8 +1243,8 @@ describe('Services', function () {
 							}
 						],
 						"teachers": [
-							{"teacher": "Professor João Trindade"},
-							{"teacher": "Professor Luís Falcão"}
+							{"teacher": "João Trindade"},
+							{"teacher": "Luís Falcão"}
 						]
 					}
 				}
@@ -1413,6 +1413,72 @@ describe('Services', function () {
 				expect(err).to.deep.eql(5);
 			}
 		})
-	})
+	}),
 	
+
+	describe('getAuthMethodsAndFeatures', function() {
+
+		it('should return the authentication mehotds and features', async function () {
+
+			const expected = {
+				"bachelor": [
+					{
+						"programmeId": 3,
+						"acronym": "LEIRT",
+						"name": "Engenharia Informática, Redes e Telecomunicações",
+						"degree": "bachelor"
+					}
+				], 
+				"master": [],
+				"data": [
+					{
+					  "allowed_domains": [
+						"*.isel.pt",
+						"*.isel.ipl.pt"
+					  ],
+					  "type": "email"
+					}
+				]
+			};
+			
+			const data = {
+				loadAllProgrammes: async function() {
+					return [
+						{
+							"programmeId": 3,
+							"acronym": "LEIRT",
+							"name": "Engenharia Informática, Redes e Telecomunicações",
+							"degree": "bachelor"
+						}
+					];
+				},
+
+				loadAuthenticationMethodsAndFeatures: async function() {
+					return [
+						{
+						  "allowed_domains": [
+							"*.isel.pt",
+							"*.isel.ipl.pt"
+						  ],
+						  "type": "email"
+						}
+					];
+				}
+			};
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+
+			// Act
+			const response = await service.getAuthMethodsAndFeatures();
+
+			// Assert
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.data).to.deep.eql(expected.data);
+
+		})
+
+	})
 })

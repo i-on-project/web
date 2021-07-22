@@ -5,6 +5,9 @@ const fetch = require('node-fetch');
 
 const contentType = 'application/json';
 
+/// Sessions expiration time
+const sessionsDeletionPeriod = 7 * 24 * 60 * 60 * 1000; 
+
 module.exports = function(baseUrl) {
 
 	const usersBaseUrl = `${baseUrl}/sessions`;
@@ -30,7 +33,6 @@ module.exports = function(baseUrl) {
 	};
 
 	const deleteOldSessionsScheduler = async function () {
-		const interval = 7 * 24 * 60 * 60 * 1000; /// 2 * 15 * 1000; // 2mins //7 * 24 * 60 * 60 * 1000 ) /// 7 dias em milisegundos
 		setInterval( async () => {
 
 			const now = Date.now();
@@ -44,7 +46,7 @@ module.exports = function(baseUrl) {
 							"query": {
 								"range" : {
 									"lastRefresh": {
-										"lte": now - interval
+										"lte": now - sessionsDeletionPeriod
 									}
 								}
 							}
@@ -58,7 +60,7 @@ module.exports = function(baseUrl) {
 				throw internalErrors.SERVICE_FAILURE;
 			}
 
-		}, interval);
+		}, sessionsDeletionPeriod);
 
 	};
 
@@ -136,7 +138,7 @@ module.exports = function(baseUrl) {
 		try {
 			await fetchRequest(`${usersBaseUrl}/_doc/${id}`, 200, {method: 'DELETE'});
 
-		} catch (err) { // TODO handling errors
+		} catch (err) {
 			switch (err) {
 				case 404: /// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
