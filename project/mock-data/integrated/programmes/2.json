@@ -13,5 +13,57 @@
     ],
     "contacts": "meic.coordenacao@deetc.isel.ipl.pt",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-informatica-e-de-computadores",
-    "description": "O mestrado em Engenharia Informática e de Computadores (MEIC), corresponde ao 2º ciclo no âmbito da Declaração de Bolonha. O MEIC oferece aos seus estudantes uma formação sólida com o ADN do ISEL - equilíbrio entre conceitos teóricos e a sua aplicação prática - recorrendo às mais modernas tecnologias. A organização curricular do MEIC permite ao estudante construir um percurso de formação individualizado, direcionado para quem pretende aprofundar as competências adquiridas no ciclo de estudos anterior, mas também para atualizar os conhecimentos e melhorar as competências de quem já está no mercado de trabalho. "
+    "description": "O mestrado em Engenharia Informática e de Computadores (MEIC), corresponde ao 2º ciclo no âmbito da Declaração de Bolonha. O MEIC oferece aos seus estudantes uma formação sólida com o ADN do ISEL - equilíbrio entre conceitos teóricos e a sua aplicação prática - recorrendo às mais modernas tecnologias. A organização curricular do MEIC permite ao estudante construir um percurso de formação individualizado, direcionado para quem pretende aprofundar as competências adquiridas no ciclo de estudos anterior, mas também para atualizar os conhecimentos e melhorar as competências de quem já está no mercado de trabalho. ",
+    "offers": [
+        {
+            "acronym": "CD",
+            "name": "Computação Distribuída",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "ES",
+            "name": "Engenharia de Software",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "ISD",
+            "name": "Infra-estruturas de Sistemas Distribuídos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "ASI",
+            "name": "Arquiteturas de Sistemas de Informação",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3, 4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "DM",
+            "name": "Dissertação MEIC",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3, 4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        }
+    ]
 }
