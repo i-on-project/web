@@ -6,7 +6,7 @@
 
         {{#if userClasses}} <!-- If the user has selected any courses -->
             
-            <form method="POST" action="{{pathPrefix}}/classes-sections/delete" onsubmit="return confirm('Tem a certeza que pretende anular a inscrição a estas turmas?');">
+            <form method="POST" action="{{pathPrefix}}/subscriptions/delete" onsubmit="return confirm('Tem a certeza que pretende anular a inscrição a estas turmas?');">
 
                 {{#each userClasses}} <!-- Iterate all user courses -->
                     {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->

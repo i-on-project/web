@@ -159,7 +159,7 @@ function webui(service, auth) {
 	
 	router.post('/subscriptions', 			theWebUI.saveUserClassesAndClassSections	);
 	router.get(	'/subscriptions',			theWebUI.userClassesAndClassSections		); 	/// Users courses page
-	router.post('/classes-sections/delete',	theWebUI.userClassesAndClassSectionsEdit	);
+	router.post('/subscriptions/delete',	theWebUI.userClassesAndClassSectionsEdit	);
 	
 	router.get(	'/schedule', 				theWebUI.userSchedule						);	/// Users schedule page
 	router.get(	'/calendar', 				theWebUI.userCalendar						);	/// Users calendar page
