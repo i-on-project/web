@@ -146,9 +146,9 @@ module.exports = function(data) {
 	*	'termSize': 6,
 	*	'department': 'ADEETC',
 	*	'coordination': [
-    *    	{'teacher': 'Professor ...'},
+    *    	{'teacher': '...'},
     *   	...,
-    *    	{'teacher': 'Professor ...'}
+    *    	{'teacher': '...'}
     *	],
     *	'contacts': 'ccleirt@deetc.isel.ipl.pt',
     *	'sourceLink': 'https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-redes-e-telecomunicacoes',
@@ -246,10 +246,10 @@ module.exports = function(data) {
 	*		}
 	*	],
 	*	"teachers": [
-	*		{"teacher": "Professor João Trindade"},
-	*		{"teacher": "Professor Luís Falcão"},
-	*		{"teacher": "Professor Paulo Pereira"},
-	*		{"teacher": "Professor Pedro Felix"}
+	*		{"teacher": "João Trindade"},
+	*		{"teacher": "Luís Falcão"},
+	*		{"teacher": "Paulo Pereira"},
+	*		{"teacher": "Pedro Felix"}
 	*	]
 	* }
 	*/

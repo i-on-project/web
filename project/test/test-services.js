@@ -465,11 +465,11 @@ describe('Services', function () {
 				"acronym":"LEIC",
 				"termSize":6,
 				"department":"ADEETC","coordination":[
-					{"teacher":"Professor Artur Jorge Ferreira"},
-					{"teacher":"Professora Cátia Raquel Jesus Vaz"},
-					{"teacher":"Professor  Manuel de Campos Lages Garcia Simão"},
-					{"teacher":"Professor Nuno Miguel Soares Datia"},
-					{"teacher":"Professor Pedro Miguel Florindo Miguéns Matutino"}
+					{"teacher":"Artur Jorge Ferreira"},
+					{"teacher":"Cátia Raquel Jesus Vaz"},
+					{"teacher":"José Manuel de Campos Lages Garcia Simão"},
+					{"teacher":"Nuno Miguel Soares Datia"},
+					{"teacher":"Pedro Miguel Florindo Miguéns Matutino"}
 				],"contacts":"",
 				"sourceLink":"https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-e-de-computadores",
 				"description":"O ciclo de estudos conducente ao grau de licenciado em Engenharia Informática...."}
@@ -1212,8 +1212,8 @@ describe('Services', function () {
 						}
 					],
 					"teachers": [
-						{"teacher": "Professor João Trindade"},
-						{"teacher": "Professor Luís Falcão"}
+						{"teacher": "João Trindade"},
+						{"teacher": "Luís Falcão"}
 					]
 				}
 			};
@@ -1243,8 +1243,8 @@ describe('Services', function () {
 							}
 						],
 						"teachers": [
-							{"teacher": "Professor João Trindade"},
-							{"teacher": "Professor Luís Falcão"}
+							{"teacher": "João Trindade"},
+							{"teacher": "Luís Falcão"}
 						]
 					}
 				}

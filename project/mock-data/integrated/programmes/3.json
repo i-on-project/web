@@ -5,8 +5,8 @@
     "termSize": 6,
     "department": "ADEETC",
     "coordination": [
-        {"teacher": "Doutor Paulo Alexandre Carapinha Marques"},
-        {"teacher": "Doutor António João Nunes Serrador"},
+        {"teacher": "Paulo Alexandre Carapinha Marques"},
+        {"teacher": "António João Nunes Serrador"},
         {"teacher": "Jorge Manuel Rodrigues Pião"},
         {"teacher": "Vítor Jesus Sousa de Almeida"}
     ],
