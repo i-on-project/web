@@ -20,8 +20,7 @@ async function configurations() {
     const dataAccessStandaloneModePath = `${dataAccessLayerPath}/standalone`;
     const dataAccessIntegratedModePath = `${dataAccessLayerPath}/integrated`;
 
-
-    let pathPrefix = ""; //process.env.PATH_PREFIX || ""; 
+    const pathPrefix = process.env.PATH_PREFIX || "";
 
     /// ElasticSearch initializer
     const storageCreator = require(`${dataAccessLayerPath}/elasticsearch/i-on-web-db-elastic.js`);
@@ -66,7 +65,7 @@ async function configurations() {
     router.use(webUI);
 
     router.use('/public', express.static('static-files'));
-
+    
     app.use(`${pathPrefix}`, router);
 
     /*
@@ -87,9 +86,6 @@ async function configurations() {
 
 };
 
-configurations();
-
-/*
 const timeToRetry = 60000;
 const retryInterval = 5000;
 let timePassed = 0;
@@ -103,5 +99,5 @@ const myInterval = setInterval(async () => {
             console.log('Executing initial configurations..')
         }
     }
-}, retryInterval);*/
+}, retryInterval);
 
