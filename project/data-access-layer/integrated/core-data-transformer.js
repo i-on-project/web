@@ -33,7 +33,7 @@ module.exports = function(data) {
 			"data": transformedData
 		};
 	};
-	/* Returned data Example:
+	/* Returned data example:
 	* [{
 	*	'programmeId': 3
 	*	'acronym': "LEIRT"
@@ -98,7 +98,7 @@ module.exports = function(data) {
 			"data": transformedData
 		};
 	};
-	/* Returned data Example:
+	/* Returned data example:
 	* {
 	*	'id': '3',
 	*	'name': 'Licenciatura em Engenharia Informática, Redes e Telecomunicações',
@@ -172,7 +172,7 @@ module.exports = function(data) {
 			"data": transformedData
 		};
 	}
-	/* Returned data Example:
+	/* Returned data example:
 	* {
 	*	'id' : 2, 
 	*	'courseId' : 2,
@@ -346,7 +346,7 @@ module.exports = function(data) {
 			"data": transformedData
 		};
 	}
-	/* Returned data Example:  
+	/* Returned data example:  
 	* {
 	*	'assignments': [
 	*		{'event': 'Trabalho de CN', 'date':'2021-06-11', 'time':'19:30'}, 
@@ -467,8 +467,8 @@ module.exports = function(data) {
 	* [
 	*	{
 	*		"allowed_domains": [
-	*		"*.isel.pt",
-	*		"*.isel.ipl.pt"
+	*			"*.isel.pt",
+	*			"*.isel.ipl.pt"
 	*		],
 	*		"type": "email",
 	*		"create": true
@@ -617,7 +617,7 @@ module.exports = function(data) {
 	/* Returned data Example:
 	* {
 	*	'email': 'A12345@alunos.isel.pt',
-	*	'username': 'João'
+	*	'username': 'João Domingues'
 	* }
 	*/
 

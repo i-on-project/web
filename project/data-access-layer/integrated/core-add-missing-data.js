@@ -47,7 +47,7 @@ module.exports = function(data) {
 		const mockDataToBeAdded = await getMockData(path);
 
 		const offers = response.data.offers  
-		.filter( offer => { 						// Due to core inconsistencies we verify if the returned offers are actually part of the programme curricular plan, 
+		.filter( offer => { 	// Due to core inconsistencies we verify if the returned offers are actually part of the programme curricular plan, 
 
 			const mockOffer = mockDataToBeAdded.offers		// this filter can be removed when the Core inconsistency is resolved
 				.find( mockOffer => mockOffer.courseId == offer.courseId);
@@ -284,7 +284,7 @@ module.exports = function(data) {
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": defaulEtag,
-			"maxAge": 10 * 60
+			"maxAge": 5 * 60
 		}
 		
 		return {

@@ -191,20 +191,20 @@ module.exports = function(data, myCache) {
 const getData = async function(myCache, key, fetchNewData) {
 	let value = myCache.get(key);
 
-	if(!value) {										/// Value does not exists
+	if(!value) { /// Value does not exists
 
 		value = await fetchNewData();
 	
 		myCache.set(key, value, value.metadata.maxAge);
 
-	} else if (myCache.hasExpired(key)) {				/// Value already exists but expired -> conditional request
+	} else if (myCache.hasExpired(key)) { /// Value already exists but expired -> conditional request
 
 		const resp = await fetchNewData.apply(this, [value.metadata.ETag]);
 
 		if(resp.data) {	/// The resource has been modified since the given date
 			value = resp;
 			myCache.set(key, value, value.metadata.maxAge);
-		} else {	/// The resource has not been modified since the given date, reset ttl to the initial value
+		} else { /// The resource has not been modified since the given date, reset ttl to the initial value
 			myCache.ttl(key, resp.metadata.maxAge);
 		}
 
