@@ -361,7 +361,7 @@ module.exports = function(data, sessionDB) {
 				user: user,
 				pathPrefix : pathPrefix
 			});
-			
+
 		} else {
 			throw internalErrors.UNAUTHENTICATED;
 		}
@@ -369,7 +369,6 @@ module.exports = function(data, sessionDB) {
 	
 	const editProfile = async function(user, newUserInfo) {
 		try {
-		
 			if(user) {
 				if(!newUserInfo || !newUserInfo.newUsername) throw internalErrors.BAD_REQUEST;
 				await data.editUser(user, newUserInfo.newUsername);
@@ -395,9 +394,7 @@ module.exports = function(data, sessionDB) {
 					throw err;
 
 			}
-
 		};
-
 	};
 
 	const getAuthMethodsAndFeatures = async function() {
@@ -405,10 +402,9 @@ module.exports = function(data, sessionDB) {
 		const commonInfo = await getProgrammesByDegree(data);
 		
 		return Object.assign(
-			{'page': 'login',
-			'pathPrefix': pathPrefix},
-			commonInfo,
-			{'data': authMethods}
+			{pathPrefix: pathPrefix,
+			'data': authMethods},
+			commonInfo
 		);
 	};
 
