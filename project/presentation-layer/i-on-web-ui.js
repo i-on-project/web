@@ -65,7 +65,7 @@ function webui(service, auth) {
 		userClassesAndClassSectionsEdit: async function(req, res) {
 			try {
 				await service.editUserSubscribedClassesAndClassSections(req.user, req.body);
-				res.redirect(pathPrefix + '/classes');
+				res.redirect(pathPrefix + '/subscriptions');
 			} catch(err) {
 				onError(req, res, err, 'Failed to edit user classe sections');
 			}
@@ -83,7 +83,7 @@ function webui(service, auth) {
 		saveUserClassesAndClassSections: async function(req, res) { 
 			try {
 				await service.saveUserClassesAndClassSections(req.user, req.body);
-				res.redirect(pathPrefix + '/classes');
+				res.redirect(pathPrefix + '/subscriptions');
 			} catch(err) {
 				onError(req, res, err, 'Failed to save user classe sections');
 			}
@@ -155,11 +155,12 @@ function webui(service, auth) {
 	router.get(	'/programmes/:id', 			theWebUI.programme							);	/// Programme info page
 	router.get(	'/programmes/:id/offers',	theWebUI.programmeOffers					); 	/// Programme offers page
 	
-	router.get(	'/class-sections',			theWebUI.classSectionsFromSelectedClasses	);	/// Available classes of the selected courses
-	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections	);
-
-	router.get(	'/classes',					theWebUI.userClassesAndClassSections		); 	/// Users courses page
-	router.post('/classes/edit',			theWebUI.userClassesAndClassSectionsEdit	);
+	router.get('/class-sections',			theWebUI.classSectionsFromSelectedClasses	);	/// Available classes of the selected courses
+	
+	router.post('/subscriptions', 			theWebUI.saveUserClassesAndClassSections	);
+	router.get(	'/subscriptions',			theWebUI.userClassesAndClassSections		); 	/// Users courses page
+	router.post('/classes-sections/delete',	theWebUI.userClassesAndClassSectionsEdit	);
+	
 	router.get(	'/schedule', 				theWebUI.userSchedule						);	/// Users schedule page
 	router.get(	'/calendar', 				theWebUI.userCalendar						);	/// Users calendar page
 
