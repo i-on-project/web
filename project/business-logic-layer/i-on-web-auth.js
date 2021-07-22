@@ -109,7 +109,7 @@ module.exports = (app, data, sessionDB) => {
 			const user = JSON.parse(JSON.stringify(req.user));;
 
 			req.logout();
-			req.session.destroy(err => { /// TODO : replace ...
+			req.session.destroy(err => {
 				if (err) {
 					throw internalErrors.SERVICE_FAILURE;
 				}
