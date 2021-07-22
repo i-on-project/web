@@ -5,11 +5,11 @@
     "termSize": 4,
     "department": "ADEQ",
     "coordination": [
-        {"teacher": "Professor Doutor João Miguel Silva (Coordenador do MEQA)"},
-        {"teacher": "Professor Doutor João Gomes"},
-        {"teacher": "Professora Doutora Isabel João"},
-        {"teacher": "Professor Feliz Mil Homens"},
-        {"teacher": "Professora Doutora Teresa Santos"}
+        {"teacher": "João Miguel Silva (Coordenador do MEQA)"},
+        {"teacher": "João Gomes"},
+        {"teacher": "Isabel João"},
+        {"teacher": "Feliz Mil Homens"},
+        {"teacher": "Doutora Teresa Santos"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-da-qualidade-e-ambiente",

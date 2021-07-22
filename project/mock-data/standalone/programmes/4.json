@@ -5,11 +5,11 @@
     "termSize": 6,
     "department": "ADEETC",
     "coordination": [
-        {"teacher": "Professor Carlos Eduardo Meneses Ribeiro"},
-        {"teacher": "Professor Vitor Jesus Sousa de Almeida"},
-        {"teacher": "Professor Jorge Manuel Rodrigues Martins Pião"},
-        {"teacher": "Professor António João Nunes Serrador"},
-        {"teacher": "Professor Pedro Miguel Fernandes Sampaio"}
+        {"teacher": "Carlos Eduardo Meneses Ribeiro"},
+        {"teacher": "Vitor Jesus Sousa de Almeida"},
+        {"teacher": "Jorge Manuel Rodrigues Martins Pião"},
+        {"teacher": "António João Nunes Serrador"},
+        {"teacher": "Pedro Miguel Fernandes Sampaio"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-electronica-e-telecomunicacoes-e-de-computadores",

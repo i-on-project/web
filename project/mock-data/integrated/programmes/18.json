@@ -5,11 +5,11 @@
     "termSize": 4,
     "department": "ADEQ",
     "coordination": [
-        {"teacher": "Professor João Fernando Pereira Gomes"},
-        {"teacher": "Professor Jaime Puna"},
-        {"teacher": "Professora Rita Pacheco"},
-        {"teacher": "Professor Teodoro Trindade"},
-        {"teacher": "Professora Isabel Maria da Silva João"}
+        {"teacher": "João Fernando Pereira Gomes"},
+        {"teacher": "Jaime Puna"},
+        {"teacher": "Rita Pacheco"},
+        {"teacher": "Teodoro Trindade"},
+        {"teacher": "Isabel Maria da Silva João"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-quimica-e-biologica",

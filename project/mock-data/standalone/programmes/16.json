@@ -5,11 +5,11 @@
     "termSize": 4,
     "department": "ADEM",
     "coordination": [
-        {"teacher": "Professor Silvério João Crespo Marques"},
-        {"teacher": "Professora Cláudia Sofia Senéca da Luz Casaca"},
-        {"teacher": "Professor Gonçalo Nuno de Oliveira Duarte"},
-        {"teacher": "Professora Maria Teresa Oliveira de Moura e Silva"},
-        {"teacher": "Professor Vitor Manuel Rodrigues Anes"}
+        {"teacher": "Silvério João Crespo Marques"},
+        {"teacher": "Cláudia Sofia Senéca da Luz Casaca"},
+        {"teacher": "Gonçalo Nuno de Oliveira Duarte"},
+        {"teacher": "Maria Teresa Oliveira de Moura e Silva"},
+        {"teacher": "Vitor Manuel Rodrigues Anes"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-mecanica",

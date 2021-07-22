@@ -5,11 +5,11 @@
     "termSize": 4,
     "department": "ADEM",
     "coordination": [
-        {"teacher": "Professor João Manuel Ferreira Calado "},
-        {"teacher": "Professora Ana Sofia da Eira Dias"},
-        {"teacher": "Professor António João Pina da Costa Feliciano Abreu"},
-        {"teacher": "Professor José Duarte Moleiro Martins (ISCAL)"},
-        {"teacher": "Professor José Manuel Prista do Valle Cardoso Igreja"}
+        {"teacher": "João Manuel Ferreira Calado "},
+        {"teacher": "Ana Sofia da Eira Dias"},
+        {"teacher": "António João Pina da Costa Feliciano Abreu"},
+        {"teacher": "José Duarte Moleiro Martins (ISCAL)"},
+        {"teacher": "José Manuel Prista do Valle Cardoso Igreja"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-e-gestao-industrial",

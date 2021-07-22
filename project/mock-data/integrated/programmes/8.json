@@ -5,11 +5,11 @@
     "termSize": 6,
     "department": "ADM",
     "coordination": [
-        {"teacher": "Professora Sandra Maria da Silva Figueiredo Aleixo"},
-        {"teacher": "Professor Bruno Miguel Almeida Martins Pereira"},
-        {"teacher": "Professor Filipa Soares de Almeida"},
-        {"teacher": "Professor Nuno David Jesus Lopes"},
-        {"teacher": "Professor Ricardo Roque Enguiça"}
+        {"teacher": "Sandra Maria da Silva Figueiredo Aleixo"},
+        {"teacher": "Bruno Miguel Almeida Martins Pereira"},
+        {"teacher": "Filipa Soares de Almeida"},
+        {"teacher": "Nuno David Jesus Lopes"},
+        {"teacher": "Ricardo Roque Enguiça"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/licenciaturas/matematica-aplicada-a-tecnologia-e-a-empresa",

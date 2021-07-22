@@ -5,14 +5,14 @@
     "termSize": 4,
     "department": "ADEQ",
     "coordination": [
-        {"teacher": "Professora Cecília Calado"},
-        {"teacher": "Professor Manuel Matos (ISEL)"},
-        {"teacher": "Professor António Jorge Silvestre (ISEL)"},
-        {"teacher": "Professor Miguel Minhalma (ISEL)"},
-        {"teacher": "Professor João Pedro Costa (ISEL)"},
-        {"teacher": "Professor Ricardo Teresa Ribeiro (ESTeSL)"},
-        {"teacher": "Professora Margarida Ribeiro (ESTeSL)"},
-        {"teacher": "Professora Lina Viera (ESTeSL)"}
+        {"teacher": "Cecília Calado"},
+        {"teacher": "Manuel Matos"},
+        {"teacher": "António Jorge Silvestre"},
+        {"teacher": "Miguel Minhalma"},
+        {"teacher": "João Pedro Costa"},
+        {"teacher": "Ricardo Teresa Ribeiro"},
+        {"teacher": "Margarida Ribeiro"},
+        {"teacher": "Lina Viera"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-biomedica",

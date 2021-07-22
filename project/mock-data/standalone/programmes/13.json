@@ -5,11 +5,11 @@
     "termSize": 4,
     "department": "ADEETC",
     "coordination": [
-        {"teacher": "Professor António João Nunes Serrador"},
-        {"teacher": "Professor António Manuel Albuquerque Couto Pinto"},
-        {"teacher": "Professor Carlos Eduardo Meneses Ribeiro"},
-        {"teacher": "Professor Nuno Miguel Machado Cruz"},
-        {"teacher": "Professor Nuno António Fraga Juliano Cota"}
+        {"teacher": "António João Nunes Serrador"},
+        {"teacher": "António Manuel Albuquerque Couto Pinto"},
+        {"teacher": "Carlos Eduardo Meneses Ribeiro"},
+        {"teacher": "Nuno Miguel Machado Cruz"},
+        {"teacher": "Nuno António Fraga Juliano Cota"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-de-eletronica-e-telecomunicacoes",

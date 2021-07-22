@@ -5,10 +5,10 @@
     "termSize": 6,
     "department": "ADEETC",
     "coordination": [
-        {"teacher": "Professor Doutor Paulo Alexandre Carapinha Marques"},
-        {"teacher": "Professor Doutor António João Nunes Serrador"},
-        {"teacher": "Professor Jorge Manuel Rodrigues Pião"},
-        {"teacher": "Professor Vítor Jesus Sousa de Almeida"}
+        {"teacher": "Doutor Paulo Alexandre Carapinha Marques"},
+        {"teacher": "Doutor António João Nunes Serrador"},
+        {"teacher": "Jorge Manuel Rodrigues Pião"},
+        {"teacher": "Vítor Jesus Sousa de Almeida"}
     ],
     "contacts": "ccleirt@deetc.isel.ipl.pt",
     "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-redes-e-telecomunicacoes",

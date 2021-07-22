@@ -5,11 +5,11 @@
     "termSize": 4,
     "department": "ADEETC",
     "coordination": [
-        {"teacher": "Professor Rui Manuel Feliciano de Jesus"},
-        {"teacher": "Professor Pedro Miguel Mendes Jorge"},
-        {"teacher": "Professor Carlos Jorge de Sousa Gonçalves"},
-        {"teacher": "Professor Luis Filipe Graça Morgado"},
-        {"teacher": "Professor Pedro Viçoso Fazenda"}
+        {"teacher": "Rui Manuel Feliciano de Jesus"},
+        {"teacher": "Pedro Miguel Mendes Jorge"},
+        {"teacher": "Carlos Jorge de Sousa Gonçalves"},
+        {"teacher": "Luis Filipe Graça Morgado"},
+        {"teacher": "Pedro Viçoso Fazenda"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-informatica-e-multimedia",

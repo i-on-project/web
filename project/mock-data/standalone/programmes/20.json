@@ -5,11 +5,11 @@
     "termSize": 4,
     "department": "ADEM",
     "coordination": [
-        {"teacher": "Professor João Manuel Ferreira Calado"},
-        {"teacher": "Professor António Afonso Roque"},
-        {"teacher": "Professor Filipe Martins Rodrigues"},
-        {"teacher": "Professor José Augusto da Silva Sobral"},
-        {"teacher": "Professor Mário José Gonçalves Cavaco Mendes"}
+        {"teacher": "João Manuel Ferreira Calado"},
+        {"teacher": "António Afonso Roque"},
+        {"teacher": "Filipe Martins Rodrigues"},
+        {"teacher": "José Augusto da Silva Sobral"},
+        {"teacher": "Mário José Gonçalves Cavaco Mendes"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-de-manutencao",

@@ -5,11 +5,11 @@
     "termSize": 6,
     "department": "ADEM",
     "coordination": [
-        {"teacher": "Professor Luís Manuel Vicente Ferreira Simões"},
-        {"teacher": "Professor Alda Cristina Jesus N. de Carvalho "},
-        {"teacher": "Professor Mário José Gonçalves Cavaco Mendes "},
-        {"teacher": "Professor Nuno Paulo Ferreira Henriques"},
-        {"teacher": "Professor Nuno Ricardo da Piedade Antunes Serra"}
+        {"teacher": "Luís Manuel Vicente Ferreira Simões"},
+        {"teacher": "Alda Cristina Jesus N. de Carvalho "},
+        {"teacher": "Mário José Gonçalves Cavaco Mendes "},
+        {"teacher": "Nuno Paulo Ferreira Henriques"},
+        {"teacher": "Nuno Ricardo da Piedade Antunes Serra"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-mecanica",

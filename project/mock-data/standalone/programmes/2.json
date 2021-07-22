@@ -5,11 +5,11 @@
     "termSize": 6,
     "department": "ADEETC",
     "coordination": [
-        {"teacher": "Professor Nuno Miguel Soares Datia"},
-        {"teacher": "Professor Carlos Jorge de Sousa Gonçalves"},
-        {"teacher": "Professor  Manuel de Campos Lages Garcia Simão"},
-        {"teacher": "Professor Nuno Miguel Machado Cruz"},
-        {"teacher": "Professor Tiago Miguel Braga da Silva Dias"}
+        {"teacher": "Nuno Miguel Soares Datia"},
+        {"teacher": "Carlos Jorge de Sousa Gonçalves"},
+        {"teacher": "Manuel de Campos Lages Garcia Simão"},
+        {"teacher": "Nuno Miguel Machado Cruz"},
+        {"teacher": "Tiago Miguel Braga da Silva Dias"}
     ],
     "contacts": "meic.coordenacao@deetc.isel.ipl.pt",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-informatica-e-de-computadores",
