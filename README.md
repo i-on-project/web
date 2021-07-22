@@ -69,6 +69,8 @@ __Note:__ Usually Docker uses the default `172.17.0.0/16` subnet for container n
 
 - __`DB_ELASTIC_URL`__ - Where we can indicate the location of the Elasticsearch database. By default is set to `http://elasticsearch:9200`;
 
+- __`PATH_PREFIX`__ - Where we can indicate a path prefix to the applicattion. By default it has no value.
+
 ## Operation Modes
 The i-on Web application has two operation modes and you can use either one of them.
 
@@ -101,4 +103,4 @@ docker-compose -f .docker/docker-compose.yml -p i-on-web up web_app
 After running the previous command i-on Web should be available on port `8080`.
 
 ## i-on Web online
-The i-on Web application is also available online since we deploy it to heroku. You can check it out [here](https://i-on-web.herokuapp.com).
+The i-on Web application is also available online since we deploy it to heroku. You can check it out [here](https://i-on-web.herokuapp.com). Please notice that since its a demo version the only programmes that contain classes and class sections to subscribe to are the programmes 'LEIRT' and 'LEIC'.
