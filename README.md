@@ -45,11 +45,11 @@ i-on Web has the following functionalities available:
 - Make it possible to view the list of selected courses;
 - Notify the student, on the home page, of upcoming events (tests, exams, among others) of the courses he / she attends;
 - Construction of the student's calendar with the events of the courses to which he is enrolled;
-- Make it possible to download the student's schedule.
+- Make it possible to download (pdf file) the student's schedule;
+- Allow the user to change his/hers username.
 
 i-on Web is continuously being developt, as such, more funcionalities will be / are being added, namely:
 
-- User settings that allow the user to change the programme, username, among other information;
 - Switch the language (between Portuguese and English) of the web interface.
 
 # Getting started
@@ -57,7 +57,7 @@ Next we will see how we can run the i-on Web application according to its operat
 
 ## Docker-compose
 The docker compose file contains the following enviroment variables:
-- __`OPERATION_MODE`__ - Where we can specify the operation mode. As seen previously, the operation mode by default, is using the i-on Core data;
+- __`OPERATION_MODE`__ - Where we can specify the operation mode. By default, its integrated mode which connects to i-on Core;
 
 - __`CORE_URL`__ - Where we can indicate the location of i-on Core. By default is set to `http://172.17.0.1:10023` since i-on Core listens on port `10023` and since both applications are running locally but in isolated containers, in order to make requests from i-on Web to i-on Core we can use the IP `172.17.0.1`;
 
@@ -82,17 +82,16 @@ When building the docker image we can specify the development operation mode by 
 docker-compose -f .docker/docker-compose.yml build --build-arg OPERATION_MODE="standalone"
 ```
 
-In similarity to the command previously shown, where we assigned a value to the variable `OPERATION_MODE`, the same can be done with the remaining variables. Assigning the multiple variables can be done, like the following example:
-```
-docker-compose -f .docker/docker-compose.yml build --build-arg OPERATION_MODE="standalone" --build-arg CORE_CLIENT_ID="22dd1551-db23-481b-acde-d286440388a5"
-```
-
 ### Integrated mode
 This mode allows us to run the i-on Web application using the data provided by i-on Core, as such, both i-on Web and i-on Core need to be running locally. In order to download and run i-on Core please head to the [i-on Core GitHub repository](https://github.com/i-on-project/core).
 
 The environment variables present in the docker compose file should be enough for us to establish a connection to i-on Core, as such, we only need to execute the following command on the __root directory__:
 ```
 docker-compose -f .docker/docker-compose.yml build
+```
+In similarity to the command previously shown, we can assign values to the enviroment variables, as shown in the following example:
+```
+docker-compose -f .docker/docker-compose.yml build --build-arg PATH_PREFIX="/i-on-web" --build-arg CORE_READ_TOKEN="l7kowOOkliu21oXxNpuCyM47u2omkysxb8lv3qEhm5U"
 ```
 
 ## Running i-on Web

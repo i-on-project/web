@@ -81,8 +81,8 @@ async function configurations() {
 
 };
 
-const timeToRetry = 60000;
-const retryInterval = 5000;
+const timeToRetry = 5 * 60000; // 5 min
+const retryInterval = 4 * 5000;    // 20s 
 let timePassed = 0;
 const myInterval = setInterval(async () => {
     if(timePassed < timeToRetry) {
