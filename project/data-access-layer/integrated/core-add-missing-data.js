@@ -38,26 +38,24 @@ module.exports = function(data) {
 	};
 
 	const loadProgramme = async function (programmeId, metadata) {
-		console.log('A1')
 		const response = await data.loadProgramme(programmeId, metadata);
-		console.log('A2' + JSON.stringify(response));
 
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 
 		/* Adding missing data */ 
 		const path = '/programmes/' + programmeId;
 		const mockDataToBeAdded = await getMockData(path);
-		console.log('A3')
+
 		const offers = response.data.offers  
 		.filter( offer => { 						// Due to core inconsistencies we verify if the returned offers are actually part of the programme curricular plan, 
-			console.log('oi0' + JSON.stringify(mockDataToBeAdded.offers))
+
 			const mockOffer = mockDataToBeAdded.offers		// this filter can be removed when the Core inconsistency is resolved
 				.find( mockOffer => mockOffer.courseId == offer.courseId);
-				console.log('oi0.2')
+
 			return mockOffer;
 		 })
 		.map( offer => {
-			console.log('oi')
+
 			const mockOffer = mockDataToBeAdded.offers
 				.find( mockOffer => mockOffer.courseId == offer.courseId);
 	
@@ -69,7 +67,7 @@ module.exports = function(data) {
 
 			return offer;
 		});
-		console.log('A4')
+
 		const improvedData = {
 			"id": response.data.id,
 			"name": response.data.name,
@@ -82,7 +80,7 @@ module.exports = function(data) {
 			"description": mockDataToBeAdded.description,
 			"offers" : offers
 		}
-		console.log('A5')
+
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": defaulEtag,
@@ -143,7 +141,7 @@ module.exports = function(data) {
 
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) { 
 		const response = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
-		console.log(JSON.stringify(response));
+	
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 				
 		/*** Adding metadata ***/
