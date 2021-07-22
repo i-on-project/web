@@ -13,5 +13,47 @@
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-e-gestao-industrial",
-    "description": "O Mestrado em Engenharia e Gestão Industrial tem como objetivo formar profissionais com uma sólida preparação em ciências de engenharia base nos domínios da gestão, necessários para uma visão holística da gestão dos processos. Esta oferta formativa visa dar resposta à crescente procura por parte do mercado de profissionais de engenharia com um conjunto de competências de banda larga. O curso encontra-se vocacionado para dar resposta aos novos desafios empresariais, como por exemplo a internet das coisas e os modelos de negócio de servitização, nos domínios da Gestão Industrial (produção, logística, qualidade e manutenção). Os Mestres em Engenharia e Gestão Industrial deverão ser capazes de implementar processos mais eficientes que contribuam para a eliminação dos desperdícios s, bem como, de entender as interdependências duma grande diversidade de fatores, económicos, tecnológicos e mercado, contribuindo para um aumento da competitividade das organizações."
+    "description": "O Mestrado em Engenharia e Gestão Industrial tem como objetivo formar profissionais com uma sólida preparação em ciências de engenharia base nos domínios da gestão, necessários para uma visão holística da gestão dos processos. Esta oferta formativa visa dar resposta à crescente procura por parte do mercado de profissionais de engenharia com um conjunto de competências de banda larga. O curso encontra-se vocacionado para dar resposta aos novos desafios empresariais, como por exemplo a internet das coisas e os modelos de negócio de servitização, nos domínios da Gestão Industrial (produção, logística, qualidade e manutenção). Os Mestres em Engenharia e Gestão Industrial deverão ser capazes de implementar processos mais eficientes que contribuam para a eliminação dos desperdícios s, bem como, de entender as interdependências duma grande diversidade de fatores, económicos, tecnológicos e mercado, contribuindo para um aumento da competitividade das organizações.",
+    "offers": [
+        {
+            "acronym": "MOI",
+            "name": "Métodos de Otimização Industrial",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "ECS"
+        },
+        {
+            "acronym": "GL",
+            "name": "Gestão Logística",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6.5,
+            "scientificArea": "EGI"
+        },
+        {
+            "acronym": "MPTGL",
+            "name": "Manutenção Produtiva Total e Gestão Lean",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6.5,
+            "scientificArea": "PMPMI"
+        },
+        {
+            "acronym": "ASI",
+            "name": "Arquiteturas de Sistemas Informáticos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "EGI"
+        }
+    ]    
 }
