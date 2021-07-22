@@ -2,7 +2,7 @@
     
     <div class="row row-content align-items-center">
         <div class="col-12 col-sm-4 col-md-3">
-            <a href="https://www.isel.pt" target="_blank"><img src="/public/images/isel.png" alt="ISEL Logo" class="img-fluid"></a>
+            <a href="https://www.isel.pt" target="_blank"><img src="{{pathPrefix}}/public/images/isel.png" alt="ISEL Logo" class="img-fluid"></a>
         </div>
         <div class="col col-sm col-md">
             <h2>Bem vindo ao i-on Web!</h2>
@@ -13,73 +13,81 @@
     </div>
     
     {{#if user}}
-        <div class="row row-content justify-content-center">
-            <h3>Próximos eventos</h3>
-        </div>
-        <div class="row row-content">
-            <div class="col-12 col-sm-6">
-                <h4 class="text-center">Trabalhos</h4>
-                {{#each events.assignments}}
-                    <div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
-                        <h5>{{this.event}}</h5>
-                        <p><strong>Data de Entrega:</strong> {{this.date}}         <strong>Hora:</strong> {{this.time}}</p>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>         
-                    </div>
-                {{/each}}
+        
+            <div class="row row-content justify-content-center">
+                <h3>Próximos eventos</h3>
             </div>
-            <div class="col col-sm-6">
-                <h4 class="text-center">Testes e Exames</h4>
-                {{#each events.testsAndExams}}
-                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-                        <h5>{{this.event}}</h5>
-                        <p><strong>Data:</strong> {{this.date}}         <strong>Duração:</strong> {{this.startTime}}-{{this.endTime}}         <strong>Sala:</strong> {{this.location}}</p>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>         
-                    </div>            
-        {{/each}}
+
+            <div class="row row-content">
+
+                <div class="col-12 col-sm-6">
+                    <h4 class="text-center">Trabalhos</h4>
+
+                    {{#if events.assignments}}
+
+                        {{#each events.assignments}}
+                            <div class="alert alert-primary alert-dismissible fade show text-center" role="alert">
+                                <h5>{{this.event}}</h5>
+                                <p><strong>Data de Entrega:</strong> {{this.date}}         <strong>Hora:</strong> {{this.time}}</p>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>         
+                            </div>
+                        {{/each}}
+
+                    {{else}}
+                        <br></be><p class="text-center">Que sorte! De momento, não tens trabalhos para entregar.</p>
+                    {{/if}}
+
+                </div>
+
+                <div class="col col-sm-6">
+                    <h4 class="text-center">Testes e Exames</h4>
+
+                    {{#if events.testsAndExams}}
+
+                        {{#each events.testsAndExams}}
+                            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                                <h5>{{this.event}}</h5>
+                                <p><strong>Data:</strong> {{this.date}}         <strong>Duração:</strong> {{this.startTime}}-{{this.endTime}}         <strong>Sala:</strong> {{this.location}}</p>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>         
+                            </div>            
+                        {{/each}}
+
+                    {{else}}
+                        <br><p class="text-center">Não tens exames!</p>
+                    {{/if}}
+
+                </div>
+
             </div>
-        </div>
+      
+
     {{/if}}
     
     <div class="row row-content justify-content-center divSpacing">
         <h3>Cursos</h3>
     </div>
-<!--
-    <div class="row row-content">
-        <div class="col-12 col-sm-6">
-            <h4 class="text-center">Licenciaturas</h4>
-            {{#each bachelor}}
-                <a class="offset-3" href="/programmes/{{this.programmeId}}">{{this.name}}</a><br>
-            {{/each}}
-        </div>
-        <div class="col col-sm-6">
-            <h4 class="text-center">Mestrados</h4>
-            {{#each master}}
-                <a class="offset-3" href="/programmes/{{this.programmeId}}">{{this.name}}</a><br>
-            {{/each}}
-         </div>
-    </div>
--->
+    
     <div class="row row-content">
 
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-md-6">
             <h4 class="text-center">Licenciaturas</h4>
-            <table class="table table-striped table-hover"> <!--table-responsive-sm-->
+            <table class="table table-striped table-hover">
                 <caption>Licenciaturas</caption>
                 <thead>
                     <tr>
-                        <th class="my-auto" scope="col">Curso</th>
-                        <th class="my-auto" scope="col"></th>
+                        <th>Curso</th>
+                        <th></th>
                     </tr>
                 </thead>
                 {{#each bachelor}}
                     <tbody>
-                        <tr>
-                            <td class="my-auto">{{this.name}}</td>
-                            <td class="my-auto"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></td>
+                        <tr class="home-table-row" onclick="window.location.href = '{{../pathPrefix}}/programmes/{{this.programmeId}}';">
+                            <td>{{this.name}}</td>
+                            <td><i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></td>
                         </tr>
                     </tbody>
                 {{/each}}
@@ -87,27 +95,23 @@
             </table>
         </div>
 
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-md-6">
             <h4 class="text-center">Mestrados</h4>
-            <table class="table table-striped table-hover"> <!--table-responsive-sm-->
+            <table class="table table-striped table-hover ">
                 <caption>Mestrados</caption>
                 <thead>
-                    <tr>
-                        <th class="my-auto" scope="col">Curso</th>
-                        <th class="my-auto" scope="col"></th>
-                    </tr>
+                    <th>Curso</th>
+                    <th></th>
                 </thead>
                 {{#each master}}
                     <tbody>
-                        <tr>
-                            <td class="my-auto">{{this.name}}</td>
-                            <td class="my-auto"><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></td>
+                       <tr class="home-table-row" onclick="window.location.href = '{{../pathPrefix}}/programmes/{{this.programmeId}}';">
+                            <td>{{this.name}}</td>
+                            <td><i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></td>
                         </tr>
                     </tbody>
                 {{/each}}
-
             </table>
-            
         </div>
 
     </div><br><br><br><br>
@@ -155,7 +159,7 @@
             <p>O projeto i-on Web faz parte da iniciativa i-on que engloba um conjunto de projetos com a finalidade de melhorar
                 a vida académica dos estudantes fornecendo-lhes os recursos académicos de uma forma computacionalmente conveniente
                 e num formato extensível. A iniciativa i-on é open-source, podendo ser estudada por qualquer um. Tu podes ser o
-                próximo a contribuir, junta-te aos <a href="/about">docentes e alunos</a> que participaram nesta iniciativa.</p>
+                próximo a contribuir, junta-te aos <a href="{{pathPrefix}}/about">docentes e alunos</a> que participaram nesta iniciativa.</p>
             </div>
             <!--Grid column-->
 
@@ -194,3 +198,9 @@
 
 </footer>
 <!-- Footer -->
+
+<script>
+    const elem = document.querySelector('#home');
+    elem.classList.add("active");
+</script>
+

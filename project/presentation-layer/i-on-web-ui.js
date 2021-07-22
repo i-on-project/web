@@ -2,6 +2,7 @@
 
 const express = require('express');
 const internalErrors = require('../common/i-on-web-errors.js');
+const pathPrefix = process.env.PATH_PREFIX || "";
 
 function webui(service, auth) {
 	
@@ -16,10 +17,10 @@ function webui(service, auth) {
 			}
 		},
 
-		programmeCalendarTermOffers: async function(req, res) {
+		programmeOffers: async function(req, res) {
 			try {
-				const data = await service.getProgrammeCalendarTermOffers(req.params['id'], req.user);
-				res.render('programmeCalendarTermOffers', data);
+				const data = await service.getProgrammeOffers(req.params['id'], req.user);
+				res.render('programmeOffers', data);
 			} catch(err) {
 				onError(req, res, err, 'Failed to show programme offers');
 			}
@@ -45,26 +46,26 @@ function webui(service, auth) {
 
 		userCalendar: async function(req, res) {
 			try {
-				const data = await service.getUserEvents(req.user);
+				const data = await service.getUserCalendar(req.user);
 				res.render('user-calendar', data);
 			} catch(err) {
 				onError(req, res, err, 'Failed to show calendar');
 			}
 		},
 
-		userClassesAndClassSections: async function(req, res) {
+		getUserSubscriptions: async function(req, res) {
 			try {
-				const data = await service.getUserSubscribedClassesAndClassSections(req.user);
+				const data = await service.getUserSubscriptions(req.user);
 				res.render('user-classes', data);
 			} catch(err) {
 				onError(req, res, err, 'Failed to show user courses');
 			}
 		},
 
-		userClassesAndClassSectionsEdit: async function(req, res) {
+		deleteUserSubscriptions: async function(req, res) {
 			try {
-				await service.editUserSubscribedClassesAndClassSections(req.user, req.body);
-				res.redirect('/classes');
+				await service.deleteUserSubscriptions(req.user, req.body);
+				res.redirect(pathPrefix + '/subscriptions');
 			} catch(err) {
 				onError(req, res, err, 'Failed to edit user classe sections');
 			}
@@ -79,10 +80,10 @@ function webui(service, auth) {
 			}
 		},
 
-		saveUserClassesAndClassSections: async function(req, res) { 
+		saveUserSubscriptions: async function(req, res) { 
 			try {
-				await service.saveUserClassesAndClassSections(req.user, req.body);
-				res.redirect('/classes');
+				await service.saveUserSubscriptions(req.user, req.body);
+				res.redirect(pathPrefix + '/subscriptions');
 			} catch(err) {
 				onError(req, res, err, 'Failed to save user classe sections');
 			}
@@ -109,7 +110,7 @@ function webui(service, auth) {
 		editProfile: async function(req, res) {
 			try {
 				await service.editProfile(req.user, req.body);
-				res.redirect('/users/profile');
+				res.redirect(pathPrefix + '/users/profile');
 			} catch(err) {
 				onError(req, res, err, 'Failed to edit profile');
 			}
@@ -118,36 +119,29 @@ function webui(service, auth) {
 		deleteUser: async function(req, res) {
 			try {
 				await auth.deleteUser(req);
-				res.redirect('/');
+				res.redirect(pathPrefix + '/');
 			} catch(err) {
 				onError(req, res, err, 'Failed to delete user');
 			}
 		},
 
 		/******* Authentication Pages *******/
+
 		loginUI: async function(req, res) {
-			let commonInfo;
 			try {
-				const data = await auth.getAuthMethodsAndFeatures();
-				res.render(
-					'login',
-					Object.assign(
-						{'page': 'login'},
-						commonInfo,
-						{'data': data}
-					)
-				);
+				const data = await service.getAuthMethodsAndFeatures();
+				res.render('login', data);
 			} catch(err) {
-				onError(req, res, err, 'Failed to show login page', commonInfo);
+				onError(req, res, err, 'Failed to show login page');
 			}
 		},
 
 		logout: async function(req, res) {
 			try {
 				await auth.logout(req);	
-				res.redirect('/');
+				res.redirect(pathPrefix + '/');
 			} catch(err) {
-				onError(req, res, err, 'Failed to logout', commonInfo);
+				onError(req, res, err, 'Failed to logout');
 			}
 		},
 	}
@@ -160,13 +154,14 @@ function webui(service, auth) {
 	router.get(	'/', 						theWebUI.home								);	/// Home page
 
 	router.get(	'/programmes/:id', 			theWebUI.programme							);	/// Programme info page
-	router.get(	'/programme-offers/:id',	theWebUI.programmeCalendarTermOffers		); 	/// Programme offers page
+	router.get(	'/programmes/:id/offers',	theWebUI.programmeOffers					); 	/// Programme offers page
 	
-	router.get(	'/available-class-sections',theWebUI.classSectionsFromSelectedClasses	);	/// Available classes of the selected courses
-	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections	);
-
-	router.get(	'/classes',					theWebUI.userClassesAndClassSections		); 	/// Users courses page
-	router.post('/classes/edit',			theWebUI.userClassesAndClassSectionsEdit	);
+	router.get('/class-sections',			theWebUI.classSectionsFromSelectedClasses	);	/// Available class-sections of the selected classes
+	
+	router.post('/subscriptions', 			theWebUI.saveUserSubscriptions				);
+	router.get(	'/subscriptions',			theWebUI.getUserSubscriptions				); 	/// Users subscriptions page
+	router.post('/subscriptions/delete',	theWebUI.deleteUserSubscriptions			);
+	
 	router.get(	'/schedule', 				theWebUI.userSchedule						);	/// Users schedule page
 	router.get(	'/calendar', 				theWebUI.userCalendar						);	/// Users calendar page
 
@@ -192,16 +187,15 @@ function onError(req, res, err, defaultError) {
 
 	switch (err) {
 		case internalErrors.UNAUTHENTICATED:
-			res.status(401).redirect('/login');
-			break;
+			return res.status(401).redirect(pathPrefix + '/login');
 		case internalErrors.BAD_REQUEST:
 			return res.status(400).render('errorPage', { status: 400, errorMessage: 'Bad Request', user: req.user});
 		case internalErrors.RESOURCE_NOT_FOUND:
-			return res.status(400).render('errorPage', { status: 404, errorMessage: 'Resource Not Found', user: req.user });
+			return res.status(404).render('errorPage', { status: 404, errorMessage: 'Resource Not Found', user: req.user });
 		case internalErrors.SERVICE_UNAVAILABLE:
-			return res.status(400).render('errorPage', { status: 502, errorMessage: 'Service Unavailable', user: req.user }); 
+			return res.status(502).render('errorPage', { status: 502, errorMessage: 'Service Unavailable', user: req.user }); 
 		default:
-			return res.status(400).render('errorPage', { status: 500, errorMessage: `An internal error has occured: ${defaultError}`, user: req.user });
+			return res.status(500).render('errorPage', { status: 500, errorMessage: `An internal error has occured: ${defaultError}`, user: req.user });
 	}
 
 }

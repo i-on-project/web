@@ -8,8 +8,8 @@ const express = require('express');
 const app = express();
 
 /// Cache
-const Cache = require('./cache/cache.js');
-const myCache = new Cache(0); /// Change
+const Cache = require('./data-access-layer/cache/cache.js');
+const myCache = new Cache(0);
 
 async function configurations() {
 
@@ -17,33 +17,31 @@ async function configurations() {
     const presentationLayerPath  = './presentation-layer';
     const businessLogicLayerPath = './business-logic-layer';
     const dataAccessLayerPath    = './data-access-layer';
+    const dataAccessStandaloneModePath = `${dataAccessLayerPath}/standalone`;
+    const dataAccessIntegratedModePath = `${dataAccessLayerPath}/integrated`;
 
-    const coreDecoratorsPath     = `${dataAccessLayerPath}/core-decorators`
-
-    let pathPrefix = process.env.PATH_PREFIX; /// TO DO can be simplified
-    if(!pathPrefix) pathPrefix = "";
+    const pathPrefix = process.env.PATH_PREFIX || "";
 
     /// ElasticSearch initializer
-    const storageCreator = require(`${dataAccessLayerPath}/i-on-web-db-elastic.js`);
-    const sessionDB = storageCreator(process.env.DB_ELASTIC_URL); // TO DO
-    await sessionDB.initializeDatabaseIndexes();               /// Initialize elastic indexes
+    const storageCreator = require(`${dataAccessLayerPath}/elasticsearch/i-on-web-db-elastic.js`);
+    const sessionDB = storageCreator(process.env.DB_ELASTIC_URL);
+    await sessionDB.initializeDatabaseIndexes();    /// Initialize elastic indexes
+    sessionDB.deleteOldSessionsScheduler();
 
     /// Data
     let data;
 
     if(process.env.OPERATION_MODE === "standalone") {
 
-        data = require(`${dataAccessLayerPath}/mock-data.js`)();
+       data = require(`${dataAccessStandaloneModePath}/mock-data.js`)();
 
     } else {
 
-        const core = require(`${dataAccessLayerPath}/core-data.js`)();
-
-        /// Decorators
-        const coreTransformer = require(`${coreDecoratorsPath}/core-data-transformer.js`)(core);
-        const addMissingData  = require(`${coreDecoratorsPath}/core-add-missing-data.js`)(coreTransformer);
-        const cache = require('./cache/i-on-web-cache.js')(addMissingData, myCache);
-        const metadata = require(`${businessLogicLayerPath}/remove-metadata.js`)(cache);
+        const core = require(`${dataAccessIntegratedModePath}/core-data.js`)();
+        const coreTransformer = require(`${dataAccessIntegratedModePath}/core-data-transformer.js`)(core);
+        const addMissingData  = require(`${dataAccessIntegratedModePath}/core-add-missing-data.js`)(coreTransformer);
+        const cache = require(`${dataAccessIntegratedModePath}/core-cache.js`)(addMissingData, myCache);
+        const metadata = require(`${dataAccessIntegratedModePath}/remove-metadata.js`)(cache);
         
         data = metadata;
     }
@@ -59,27 +57,21 @@ async function configurations() {
 
     /// Auth WebAPI
     const webAuthApi = require(`${presentationLayerPath}/i-on-web-auth-api`)(auth);
-  
+
     /// Prefix router
     const router = express.Router();
 
     router.use('/auth-api', webAuthApi);
     router.use(webUI);
 
-    router.use('/dependecies', express.static('node_modules')); // TO DO todo - Remove
     router.use('/public', express.static('static-files'));
-
+    
     app.use(`${pathPrefix}`, router);
 
-    /*
-        Since the main router positions our routes above the middleware defined below,
-        this means that Express will attempt to match & call routes before continuing on,
-        at which point we assume it's a 404 because no route has handled the request.
-    */
-
+    /// We assume it's a 404 because no route has handled the request
     app.use(function(req, res) {
         res.status(404);
-        res.render('errorPage', { status: 404, errorMessage: 'Not Found' });
+        res.render('errorPage', { status: 404, errorMessage: 'Not Found', user: req.user });
     });
     
     app.set('view engine', 'hbs') /// Setting the template engine to use (hbs)
@@ -89,5 +81,18 @@ async function configurations() {
 
 };
 
-setTimeout(configurations , 1000); /// 60 secs - TO DO: Improve this and index initializer
-//configurations();
+const timeToRetry = 60000;
+const retryInterval = 5000;
+let timePassed = 0;
+const myInterval = setInterval(async () => {
+    if(timePassed < timeToRetry) {
+        timePassed = timePassed + retryInterval;
+        try {
+            await configurations();
+            clearInterval(myInterval);
+        } catch(err) {
+            console.log('Executing initial configurations..')
+        }
+    }
+}, retryInterval);
+

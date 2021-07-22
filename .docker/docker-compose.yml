@@ -13,7 +13,7 @@ services:
         CORE_READ_TOKEN: "${CORE_READ_TOKEN-l7kowOOkliu21oXxNpuCyM47u2omkysxb8lv3qEhm5U}"
         CORE_CLIENT_ID: "${CORE_CLIENT_ID-22dd1551-db23-481b-acde-d286440388a5}"
         DB_ELASTIC_URL: "${DB_ELASTIC_URL-http://elasticsearch:9200}"
-        PATH_PREFIX: "${PATH_PREFIX-/i-on-web}"
+        PATH_PREFIX: "${PATH_PREFIX-}"
     ports:
       - 8080:8080
     depends_on:
@@ -34,7 +34,7 @@ services:
           soft: -1
           hard: -1
         nofile:
-          soft: 65536 # maximum number of open files for the Elasticsearch user, set to at least 65536 on modern systems
+          soft: 65536
           hard: 65536
 
 volumes:

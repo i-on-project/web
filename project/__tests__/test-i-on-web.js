@@ -5,11 +5,8 @@ const fetch = require('node-fetch');
 const setCookieParser = require('set-cookie-parser');
 //const Joi = frisby.Joi;
 
-const app_base_url = 'http://localhost:8080/'; // TO DO port and prefix generic
+const app_base_url = 'http://localhost:' + process.env.PORT;
 const db_base_url = process.env.DB_ELASTIC_URL;
-
-//const storageCreator = require('../covida-db-elastic.js');
-//const database = storageCreator('localhost', 9200);
 
 let cookie;
 
@@ -42,38 +39,11 @@ afterAll(async function () {
 });
 
 describe(`Integration tests on ${app_base_url}`, () => {
-	/// Verificar se o servidor está a correr
 	describe('Checking if server is running', () => {
 		test ('the server must be running', () => {
 			return frisby.get(`${app_base_url}/`);
 		});
 	});
-
-/*	beforeAll(async function () {
-		return frisby
-		.fetch(`${app_base_url}/auth-api/email`, {
-			method: 'POST',
-			headers: { cookie: cookie},
-			body: JSON.stringify({
-				email: "A12345@alunos.isel.pt"
-			})
-		})
-		.expect('status', 200)
-		.expect('header', 'Content-Type', 'application/json; charset=utf-8')
-		.then((response) => {
-			return frisby
-			.post(`${app_base_url}/${response.body.auth_req_id}/poll`)
-			.expect('status', 200)
-			.expect('header', 'Content-Type', 'application/json; charset=utf-8')
-			.then(res => {
-				const sessionCookie = setCookieParser.parseString( 
-					res.headers.get('set-cookie') 
-				);
-				cookie = `${sessionCookie.name}=${sessionCookie.value}`;
-			});
-		})
-	
-	});*/
 
 	describe("Testing '/'", () => {
 		
@@ -113,32 +83,13 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/programme-offers/:id'", () => {
+	describe("Testing '/programmes/:id/offers'", () => {
 		
-		describe('GET /programme-offers/:id', () => {
+		describe('GET /programmes/:id/offers', () => {
 		
 			it ('should return programme offers page', () => {
 				return frisby
-				.fetch(`${app_base_url}/programme-offers/1`)
-				.then(data => {
-					const $ = cheerio.load(data.body);
-					expect($("head [charset]").attr("charset")).toBe("utf-8");
-				})
-				.expect('status', 200)
-				.expect('header', 'Content-Type', 'text/html; charset=utf-8');
-			});
-			
-		});
-
-	});
-
-	describe("Testing '/available-class-sections'", () => {
-		
-		describe('GET /available-class-sections', () => {
-			
-			it ('should return the available class sections of the selected classes', () => {
-				return frisby
-				.fetch(`${app_base_url}/available-class-sections`)
+				.fetch(`${app_base_url}/programmes/1/offers`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
@@ -153,21 +104,11 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	describe("Testing '/class-sections'", () => {
 		
-		describe('POST /class-sections', () => {
-		
-
+		describe('GET /class-sections', () => {
 			
-		});
-
-	});
-
-	describe("Testing '/classes'", () => {
-		
-		describe('GET /classes', () => {
-		
-			it ('should return the user subscribed classes and class sections', () => {
+			it ('should return the available class sections of the selected classes', () => {
 				return frisby
-				.fetch(`${app_base_url}/classes`)
+				.fetch(`${app_base_url}/class-sections`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
@@ -180,13 +121,13 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/classes/edit'", () => {
+	describe("Testing '/subscriptions'", () => {
 		
-		describe('GET /classes/edit', () => {
+		describe('GET /subscriptions', () => {
 		
 			it ('should return the user subscribed classes and class sections', () => {
 				return frisby
-				.fetch(`${app_base_url}/classes/edit`)
+				.fetch(`${app_base_url}/subscriptions`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
@@ -194,13 +135,6 @@ describe(`Integration tests on ${app_base_url}`, () => {
 				.expect('status', 200)
 				.expect('header', 'Content-Type', 'text/html; charset=utf-8');
 			});
-			
-		});
-
-
-		describe('POST /classes/edit', () => {
-		
-
 			
 		});
 
@@ -258,22 +192,6 @@ describe(`Integration tests on ${app_base_url}`, () => {
 				.expect('status', 200)
 				.expect('header', 'Content-Type', 'text/html; charset=utf-8');
 			});
-			
-		});
-
-	});
-
-	describe("Testing '/users/profile'", () => {
-		
-		describe('GET /users/profile', () => {
-		
-			
-		});
-
-
-		describe('POST /users/profile', () => {
-		
-
 			
 		});
 

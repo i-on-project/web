@@ -6,33 +6,33 @@
         <div class="schedule schedulepdf">
             <div class="schedule_header">
                 <span class="dl boldText">Hora</span>
-                <span class="ds">Ti</span>
+                <span class="ds boldText">H</span>
             </div>  
 
             <!-- Week days-->
             <div class="schedule_header schedule-monday">
                 <span class="dl boldText">Segunda</span>
-                <span class="ds">M</span>
+                <span class="ds boldText">2ª</span>
             </div>
             <div class="schedule_header schedule-tuesday">
                 <span class="dl boldText">Terça</span>
-                <span class="ds">T</span>
+                <span class="ds boldText">3ª</span>
             </div>
             <div class="schedule_header schedule-wednesday">
                 <span class="dl boldText">Quarta</span>
-                <span class="ds">W</span>
+                <span class="ds boldText">4ª</span>
             </div>
             <div class="schedule_header schedule-thursday">
                 <span class="dl boldText">Quinta</span>
-                <span class="ds">Th</span>
+                <span class="ds boldText">5ª</span>
             </div>
             <div class="schedule_header schedule-friday">
                 <span class="dl boldText">Sexta</span>
-                <span class="ds">F</span>
+                <span class="ds boldText">6ª</span>
             </div>
             <div class="schedule_header schedule-saturday">
                 <span class="dl boldText">Sábado</span>
-                <span class="ds">Sa</span>
+                <span class="ds boldText">Sab</span>
             </div>
             <!-- ./Week days-->
             
@@ -155,7 +155,7 @@
     <script>
 
         let itemsSchedule = [];
-        const arrColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink'];
+        const arrColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'grey'];
         const acrColors = {};
         
         {{#each schedule}}
@@ -292,8 +292,6 @@
                     return 'friday';
                 case 'ST':
                     return 'saturday';
-                case 'SU':
-                    return 'sunday';
     
                 default:
                     console.log(`Error, incorrect weekday acr: ${acr}.`);
@@ -323,6 +321,8 @@
             if (index > -1) {
                 arrColors.splice(index, 1);
             }
+
+            if(arrColors.length === 0) arrColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'grey'];
 
             return color;
         }
@@ -357,3 +357,8 @@
         })
 }
 </script>  
+
+<script>
+    const elem = document.querySelector('#schedule');
+    elem.classList.add("active");
+</script>

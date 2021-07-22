@@ -1,0 +1,105 @@
+<div class="container-fluid pageBeginning">
+    <h3 class="text-center">Oferta letiva</h3>
+    {{#if programmeOffers}}
+        <br>
+        <div class="row justify-content-center">
+            <div class="alert alert-warning alert-dismissible fade show col-md-8" role="alert">
+                <div class="row row-content align-items-center">
+                    <div class="col-1 col-sm-2 col-md-2">
+                        <img src="{{pathPrefix}}/public/images/disclaimer.png" alt="Projeto i-on Web disclaimer" class="img-fluid">
+                    </div>
+                    <div class="col col-sm col-md">
+                        <h5>Aviso!</h5>
+                        <p>A selecção de unidades curriculares não substitui a inscrição oficial às mesmas na instituição frequentada.</p>
+                    </div>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>         
+            </div>
+        </div>
+
+        <form method="GET" action="{{pathPrefix}}/class-sections">
+        <div class="row row-content justify-content-center">
+            <div class="col-md divSpacing table-responsive-md col-md-8">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>
+                            <span class="classSectionM">Unidade Curricular</span>
+                            <span class="classSectionS">U.C.</span>
+                        </th>
+                        <th class="text-center">ECTS</th>
+                        <th class="text-center">Área</th>
+                        <th>
+                            <span class="classSectionM">Semestre</span>
+                            <span class="classSectionS">Sem.</span>
+                        </th>
+                        <th class="text-center">Obrigatória</th>
+                        <th class="text-center">
+                            <input type="checkbox" onClick="toggle(this, 'id')">
+                        </th>
+                    </tr>
+                        {{#each programmeOffers}}
+                        <tr class="border_bottom">
+                            <td class="col-md-4">
+                                <span class="classSectionM">{{this.name}}</span>
+                                <span class="classSectionS">{{this.acronym}}</span>
+                            </td>
+                            <td class="col-md-1 text-center">{{this.ects}}</td>
+                            <td class="col-md-1 text-center">{{this.scientificArea}}</td>
+                            <td class="col-md-1 text-center">{{this.termNumber}}º</td>
+                            <td class="col-md-1 text-center">
+                                {{#if this.optional}}
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                {{else}}
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                {{/if}}
+                            </td>
+                            <td class="col-md-1 text-center">
+                                <input type="checkbox" name="id" value={{this.courseId}}>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="divSpacing text-center col-md-8">
+                <button type="submit" class="btn btn-dark btn-lg btn-block"  id="checkBtn">Concluir selecção</button>
+            </div>
+        </div>
+
+        </form>
+    {{else}}
+        <div class="divSpacing text-center">
+            <p>Não existem unidades curriculares disponíveis</p>
+        </div>
+    {{/if}}
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#checkBtn').click(function() {
+		  checked = $("input[type=checkbox]:checked").length;
+
+		  if(!checked) {
+			alert("Seleccione pelo menos uma disciplina");
+			return false;
+		  }
+
+		});
+	});
+</script>
+
+<script>
+
+    function toggle(source, term) {
+        checkboxes = document.getElementsByName(term);
+    
+        for(let i = 0, n = checkboxes.length; i<n ; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+
+</script>

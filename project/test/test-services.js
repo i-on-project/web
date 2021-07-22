@@ -140,7 +140,6 @@ describe('Services', function () {
 					}
 				],
 				"events": {
-					"calendar": [],
 					"assignments": [],
 					"testsAndExams": []
 				}
@@ -182,15 +181,17 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
-					return "2021i";
+				loadCalendarTerm: async function() {
+					return {
+						"currentCalendarTerm": "2021i"
+					};
 				},
 
 				loadCalendarTermGeneralInfo: async function(calendarTerm) {
 					return [];
 				},
 
-				loadUserSubscribedClassesAndClassSections: async function(user) {
+				getUserSubscriptions: async function(user) {
 					return [
 						{
 							"id": 1,
@@ -253,43 +254,10 @@ describe('Services', function () {
 
 	}),
 
-	describe('getProgrammeCalendarTermOffers', function() { 
+	describe('getProgrammeOffers', function() { 
 		
 		it('should return 1 offer', async function () {			
 			// Arrange
-
-			const testOffers = [
-				{
-					"acronym":"DAW",
-					"name":"Desenvolvimento de Aplicações Web",
-					"courseId":2,
-					"id":1,
-					"termNumber":[6,4],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"LS",
-					"name":"Laboratório de Software",
-					"courseId":1,
-					"id":2,
-					"termNumber":[6],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"CN",
-					"name":"Computação na Nuvem",
-					"courseId":5,
-					"id":5,
-					"termNumber":[6],
-					"optional":true,
-					"ects":6,
-					"scientificArea":"IC"
-				}
-			];
 
 			const expected =  [
 				{
@@ -315,8 +283,39 @@ describe('Services', function () {
 			];
 
 			const data = {
-				loadAllProgrammeOffers: async function() {
-					return testOffers;
+				loadProgramme: async function() {
+					return {'offers': [
+						{
+							"acronym":"DAW",
+							"name":"Desenvolvimento de Aplicações Web",
+							"courseId":2,
+							"id":1,
+							"termNumber":[6,4],
+							"optional":false,
+							"ects":6,
+							"scientificArea":"IC"
+						},
+						{
+							"acronym":"LS",
+							"name":"Laboratório de Software",
+							"courseId":1,
+							"id":2,
+							"termNumber":[6],
+							"optional":false,
+							"ects":6,
+							"scientificArea":"IC"
+						},
+						{
+							"acronym":"CN",
+							"name":"Computação na Nuvem",
+							"courseId":5,
+							"id":5,
+							"termNumber":[6],
+							"optional":true,
+							"ects":6,
+							"scientificArea":"IC"
+						}
+					]};
 				},
 
 				loadCourseClassesByCalendarTerm: async function(courseId) {
@@ -329,8 +328,10 @@ describe('Services', function () {
 					return [];
 				},
 
-				loadCurrentCalendarTerm: async function() {
-					return "2021i";
+				loadCalendarTerm: async function() {
+					return {
+						"currentCalendarTerm": "2021i"
+					};
 				}
 			}
 			const sessionDB = null;
@@ -340,53 +341,53 @@ describe('Services', function () {
 			const user = testsUsers[0];
 			const programmeId = 1;
 			// Act
-			const response = await service.getProgrammeCalendarTermOffers(programmeId, user);
+			const response = await service.getProgrammeOffers(programmeId, user);
 
 			// Assert
-			expect(response.programmeCalendarTermOffers).to.deep.eql(expected);
+			expect(response.programmeOffers).to.deep.eql(expected);
 		}),
 
 		it('should return 0 offers', async function () {			
 			// Arrange
 
-			const testOffers = [
-				{
-					"acronym":"DAW",
-					"name":"Desenvolvimento de Aplicações Web",
-					"courseId":2,
-					"id":1,
-					"termNumber":[6,4],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"LS",
-					"name":"Laboratório de Software",
-					"courseId":1,
-					"id":2,
-					"termNumber":[6],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"CN",
-					"name":"Computação na Nuvem",
-					"courseId":5,
-					"id":5,
-					"termNumber":[6],
-					"optional":true,
-					"ects":6,
-					"scientificArea":"IC"
-				}
-			];
-
 			const expected =  [];
 
 			const data = {
-				loadAllProgrammeOffers: async function() {
-					return testOffers;
+				loadProgramme: async function() {
+					return {
+						'offers': [
+							{
+								"acronym":"DAW",
+								"name":"Desenvolvimento de Aplicações Web",
+								"courseId":2,
+								"id":1,
+								"termNumber":[6,4],
+								"optional":false,
+								"ects":6,
+								"scientificArea":"IC"
+							},
+							{
+								"acronym":"LS",
+								"name":"Laboratório de Software",
+								"courseId":1,
+								"id":2,
+								"termNumber":[6],
+								"optional":false,
+								"ects":6,
+								"scientificArea":"IC"
+							},
+							{
+								"acronym":"CN",
+								"name":"Computação na Nuvem",
+								"courseId":5,
+								"id":5,
+								"termNumber":[6],
+								"optional":true,
+								"ects":6,
+								"scientificArea":"IC"
+							}
+						]
+					};
 				},
 
 				loadCourseClassesByCalendarTerm: async function(courseId) {
@@ -397,8 +398,10 @@ describe('Services', function () {
 					return [];
 				},
 
-				loadCurrentCalendarTerm: async function() {
-					return '2021v';
+				loadCalendarTerm: async function() {
+					return {
+						"currentCalendarTerm": "2021v"
+					};
 				}
 			}
 			const sessionDB = null;
@@ -408,10 +411,10 @@ describe('Services', function () {
 			const user = testsUsers[0];;
 			const programmeId = 1;
 			// Act
-			const response = await service.getProgrammeCalendarTermOffers(programmeId, user);
+			const response = await service.getProgrammeOffers(programmeId, user);
 
 			// Assert
-			expect(response.programmeCalendarTermOffers).to.deep.eql(expected);
+			expect(response.programmeOffers).to.deep.eql(expected);
 		})
 		
 	}),
@@ -421,66 +424,65 @@ describe('Services', function () {
 		it('should return programme data', async function () {			
 			// Arrange
 
-			const testOffers = [
-				{
-					"acronym":"DAW",
-					"name":"Desenvolvimento de Aplicações Web",
-					"courseId":2,
-					"id":1,
-					"termNumber":[6,4],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"LS",
-					"name":"Laboratório de Software",
-					"courseId":1,
-					"id":2,
-					"termNumber":[6],
-					"optional":false,
-					"ects":6,
-					"scientificArea":"IC"
-				},
-				{
-					"acronym":"CN",
-					"name":"Computação na Nuvem",
-					"courseId":5,
-					"id":5,
-					"termNumber":[6],
-					"optional":true,
-					"ects":6,
-					"scientificArea":"IC"
-				}
-			];
-
 			const testData = {
 				"id":1,
 				"name":"Licenciatura em Engenharia Informática e de Computadores",
 				"acronym":"LEIC",
 				"termSize":6,
 				"department":"ADEETC","coordination":[
-					{"teacher":"Professor Artur Jorge Ferreira"},
-					{"teacher":"Professora Cátia Raquel Jesus Vaz"},
-					{"teacher":"Professor  Manuel de Campos Lages Garcia Simão"},
-					{"teacher":"Professor Nuno Miguel Soares Datia"},
-					{"teacher":"Professor Pedro Miguel Florindo Miguéns Matutino"}
-				],"contacts":"",
+					{"teacher":"Artur Jorge Ferreira"},
+					{"teacher":"Cátia Raquel Jesus Vaz"},
+					{"teacher":"José Manuel de Campos Lages Garcia Simão"},
+					{"teacher":"Nuno Miguel Soares Datia"},
+					{"teacher":"Pedro Miguel Florindo Miguéns Matutino"}
+				],
+				"contacts":"",
 				"sourceLink":"https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-e-de-computadores",
-				"description":"O ciclo de estudos conducente ao grau de licenciado em Engenharia Informática...."}
+				"description":"O ciclo de estudos conducente ao grau de licenciado em Engenharia Informática....",
+				"offers": [
+					{
+						"acronym":"DAW",
+						"name":"Desenvolvimento de Aplicações Web",
+						"courseId":2,
+						"id":1,
+						"termNumber":[6,4],
+						"optional":false,
+						"ects":6,
+						"scientificArea":"IC"
+					},
+					{
+						"acronym":"LS",
+						"name":"Laboratório de Software",
+						"courseId":1,
+						"id":2,
+						"termNumber":[6],
+						"optional":false,
+						"ects":6,
+						"scientificArea":"IC"
+					},
+					{
+						"acronym":"CN",
+						"name":"Computação na Nuvem",
+						"courseId":5,
+						"id":5,
+						"termNumber":[6],
+						"optional":true,
+						"ects":6,
+						"scientificArea":"IC"
+					}
+				]
+			}
 
 			const expectedOffersByAcademicTerms =  {
-				"4":[{"acronym":"DAW","name":"Desenvolvimento de Aplicações Web","courseId":2,"id":1,"termNumber":[6,4],"optional":false,"ects":6,"scientificArea":"IC"}],
-				"6":[{"acronym":"DAW","name":"Desenvolvimento de Aplicações Web","courseId":2,"id":1,"termNumber":[6,4],"optional":false,"ects":6,"scientificArea":"IC"},{"acronym":"LS","name":"Laboratório de Software","courseId":1,"id":2,"termNumber":[6],"optional":false,"ects":6,"scientificArea":"IC"},{"acronym":"CN","name":"Computação na Nuvem","courseId":5,"id":5,"termNumber":[6],"optional":true,"ects":6,"scientificArea":"IC"}]};
-			
-			const expectedProgrammeData = testData;
-			
-			const data = {
-				loadAllProgrammeOffers: async function() {
-					return testOffers;
-				},
+					"4":[{"acronym":"DAW","name":"Desenvolvimento de Aplicações Web","courseId":2,"id":1,"termNumber":[6,4],"optional":false,"ects":6,"scientificArea":"IC"}],
+					"6":[{"acronym":"DAW","name":"Desenvolvimento de Aplicações Web","courseId":2,"id":1,"termNumber":[6,4],"optional":false,"ects":6,"scientificArea":"IC"},
+						{"acronym":"LS","name":"Laboratório de Software","courseId":1,"id":2,"termNumber":[6],"optional":false,"ects":6,"scientificArea":"IC"},
+						{"acronym":"CN","name":"Computação na Nuvem","courseId":5,"id":5,"termNumber":[6],"optional":true,"ects":6,"scientificArea":"IC"}
+					]
+			};
 
-				loadProgrammeData: async function() {
+			const data = {
+				loadProgramme: async function() {
 					return testData;
 				},
 
@@ -496,12 +498,12 @@ describe('Services', function () {
 			
 			const user = null;
 			const programmeId = 1;
+			
 			// Act
 			const response = await service.getProgrammeData(programmeId, user);
-
+			
 			// Assert
-			expect(response.offersByAcademicTerms).to.deep.eql(expectedOffersByAcademicTerms);
-			expect(response.programme).to.deep.eql(expectedProgrammeData);
+			expect(response.programme.offers).to.deep.eql(expectedOffersByAcademicTerms);
 		})
 
 	}),
@@ -521,8 +523,7 @@ describe('Services', function () {
 				],
 				"master": [],
 				"schedule": [],
-				"user": undefined, 
-				"page": "schedule"
+				"user": undefined
 			};
 
 			const data = {
@@ -550,7 +551,10 @@ describe('Services', function () {
 			const response = await service.getUserSchedule(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
+			expect(response.schedule).to.deep.eql(expected.schedule);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 
 		}),
 
@@ -576,8 +580,7 @@ describe('Services', function () {
 						"weekday": "WE",
 					}
 				],
-				"user": testsUsers[1], 
-				"page": "schedule"
+				"user": testsUsers[1]
 			};
 
 			const data = {
@@ -593,11 +596,13 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
-					return "2021i";
+				loadCalendarTerm: async function() {
+					return {
+						"currentCalendarTerm": "2021i"
+					};
 				},
 
-				loadUserSubscribedClassesAndClassSections: async function(user) {
+				getUserSubscriptions: async function(user) {
 					return [
 						{
 							"id": 1,
@@ -632,7 +637,10 @@ describe('Services', function () {
 			const response = await service.getUserSchedule(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
+			expect(response.schedule).to.deep.eql(expected.schedule);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 			
 		}),
 		
@@ -649,8 +657,7 @@ describe('Services', function () {
 				],
 				"master": [],
 				"schedule": [],
-				"user": testsUsers[0], 
-				"page": "schedule"
+				"user": testsUsers[0]
 			};
 
 			const data = {
@@ -666,11 +673,13 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
-					return "2021i";
+				loadCalendarTerm: async function() {
+					return {
+						"currentCalendarTerm": "2021i"
+					};
 				},
 
-				loadUserSubscribedClassesAndClassSections: async function(user) {
+				getUserSubscriptions: async function(user) {
 					return [
 						{
 							"id": 1,
@@ -698,13 +707,15 @@ describe('Services', function () {
 			const response = await service.getUserSchedule(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
+			expect(response.schedule).to.deep.eql(expected.schedule);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 			
-
 		})
 	}),
 
-	describe('getUserEvents', function() { 
+	describe('getUserCalendar', function() { 
 		
 		it('should only return pages common info (unauthenticated user)', async function () {
 		
@@ -734,8 +745,7 @@ describe('Services', function () {
 					"assignments": [],
 					"testsAndExams": []
 				},
-				"user": undefined, 
-				"page": "calendar"
+				"user": undefined
 			};
 
 			const data = {
@@ -751,8 +761,10 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
-					return "2021v";
+				loadCalendarTerm: async function() {
+					return {
+						"currentCalendarTerm": "2021v"
+					};
 				},
 
 				loadCalendarTermGeneralInfo: async function() {
@@ -779,10 +791,13 @@ describe('Services', function () {
 			const user = undefined;
 
 			// Act
-			const response = await service.getUserEvents(user);
+			const response = await service.getUserCalendar(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
+			expect(response.events).to.deep.eql(expected.events);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 
 		}),
 
@@ -840,8 +855,7 @@ describe('Services', function () {
 						}
 					  ]
 				},
-				"user": testsUsers[0], 
-				"page": "calendar"
+				"user": testsUsers[0]
 			};
 
 			const data = {
@@ -857,8 +871,10 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
-					return "2021v";
+				loadCalendarTerm: async function() {
+					return {
+						"currentCalendarTerm": "2021v"
+					};
 				},
 
 				loadCalendarTermGeneralInfo: async function() {
@@ -876,7 +892,7 @@ describe('Services', function () {
 					];
 				},
 				
-				loadUserSubscribedClassesAndClassSections: async function(user) {
+				getUserSubscriptions: async function(user) {
 					return [
 						{
 							"id": 1,
@@ -929,16 +945,19 @@ describe('Services', function () {
 			const user = testsUsers[0];
 
 			// Act
-			const response = await service.getUserEvents(user);
+			const response = await service.getUserCalendar(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);	
+			expect(response.events).to.deep.eql(expected.events);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 			
 		})
 
 	}),
 
-	describe('getUserSubscribedClassesAndClassSections', function() { 
+	describe('getUserSubscriptions', function() { 
 		
 		it('should only return pages common info (unauthenticated user)', async function () {
 		
@@ -953,8 +972,7 @@ describe('Services', function () {
 				],
 				"master": [],
 				"userClasses": [],
-				"user": undefined, 
-				"page": "user-courses"
+				"user": undefined
 			};
 
 			const data = {
@@ -979,10 +997,13 @@ describe('Services', function () {
 			const user = undefined;
 
 			// Act
-			const response = await service.getUserSubscribedClassesAndClassSections(user);
+			const response = await service.getUserSubscriptions(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
+			expect(response.userClasses).to.deep.eql(expected.userClasses);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 
 		}),
 
@@ -1008,8 +1029,7 @@ describe('Services', function () {
 					    "name": "Desenvolvimento de Aplicações Web"
 					}
 				],
-				"user": testsUsers[1], 
-				"page": "user-courses"
+				"user": testsUsers[1]
 			};
 
 			const data = {
@@ -1025,11 +1045,13 @@ describe('Services', function () {
 					];
 				},
 
-				loadCurrentCalendarTerm: async function() {
-					return "2021v";
+				loadCalendarTerm: async function() {
+					return {
+						"currentCalendarTerm": "2021v"
+					};
 				},
 
-				loadUserSubscribedClassesAndClassSections: async function(user) {
+				getUserSubscriptions: async function(user) {
 					return [
 						{
 							"id": 2,
@@ -1060,16 +1082,18 @@ describe('Services', function () {
 			const user = testsUsers[1];
 
 			// Act
-			const response = await service.getUserSubscribedClassesAndClassSections(user);
+			const response = await service.getUserSubscriptions(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
-
+			expect(response.userClasses).to.deep.eql(expected.userClasses);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 		})
 
 	}),
 
-	describe('editUserSubscribedClassesAndClassSections', function() { 
+	describe('deleteUserSubscriptions', function() { 
 		
 		it('should return unauthenticated error (unauthenticated user)', async function () {
 		
@@ -1084,7 +1108,7 @@ describe('Services', function () {
 
 			// Act
 			try {
-				await service.editUserSubscribedClassesAndClassSections(user, selectedClassesAndClassSections);
+				await service.deleteUserSubscriptions(user, selectedClassesAndClassSections);
 			} catch (err) {
 				// Assert
 				expect(err).to.deep.eql(5);
@@ -1095,9 +1119,9 @@ describe('Services', function () {
 
 	describe('getClassSectionsFromSelectedClasses', function() { 
 		
-		it('should return classes from one selected course', async function () {			
+		it('should return classes from selected class', async function () {			
 			// Arrange
-			const expectedclassesByCourses = [{"id": 1, "courseId": 1,"name": "Laboratório de Software","classes": ["1D","1N","2D"]}];
+			const expectedclassSectionsByClasses = [{"id": 1, "courseId": 1,"name": "Laboratório de Software","classes": ["1D","1N","2D"]}];
 			
 			const data = {
 				loadCourseClassesByCalendarTerm: async function() {
@@ -1108,8 +1132,14 @@ describe('Services', function () {
 					return [];
 				},
 
-				loadCurrentCalendarTerm: async function() {
-					return "2021i";
+				loadCalendarTerm: async function() {
+					return {
+						"currentCalendarTerm": "2021i"
+					};
+				},
+
+				getUserSubscriptions: async function() {
+					return [];
 				}
 			}
 
@@ -1123,12 +1153,12 @@ describe('Services', function () {
 			const response = await service.getClassSectionsFromSelectedClasses(user, coursesIDs);
 
 			// Assert
-			expect(response.classesByCourses).to.deep.eql(expectedclassesByCourses);
+			expect(response.classeSectionsByClass).to.deep.eql(expectedclassSectionsByClasses);
 		})
 
 	}),
 
-	describe('saveUserClassesAndClassSections', function() { 
+	describe('saveUserSubscriptions', function() { 
 		
 		it('should return unauthenticated error (unauthenticated user)', async function () {
 		
@@ -1143,7 +1173,7 @@ describe('Services', function () {
 
 			// Act
 			try {
-				await service.saveUserClassesAndClassSections(user, selectedClassesAndClassSections);
+				await service.saveUserSubscriptions(user, selectedClassesAndClassSections);
 			} catch (err) {
 				// Assert
 				expect(err).to.deep.eql(5);
@@ -1179,8 +1209,8 @@ describe('Services', function () {
 						}
 					],
 					"teachers": [
-						{"teacher": "Professor João Trindade"},
-						{"teacher": "Professor Luís Falcão"}
+						{"teacher": "João Trindade"},
+						{"teacher": "Luís Falcão"}
 					]
 				}
 			};
@@ -1210,8 +1240,8 @@ describe('Services', function () {
 							}
 						],
 						"teachers": [
-							{"teacher": "Professor João Trindade"},
-							{"teacher": "Professor Luís Falcão"}
+							{"teacher": "João Trindade"},
+							{"teacher": "Luís Falcão"}
 						]
 					}
 				}
@@ -1380,6 +1410,72 @@ describe('Services', function () {
 				expect(err).to.deep.eql(5);
 			}
 		})
-	})
+	}),
 	
+
+	describe('getAuthMethodsAndFeatures', function() {
+
+		it('should return the authentication mehotds and features', async function () {
+
+			const expected = {
+				"bachelor": [
+					{
+						"programmeId": 3,
+						"acronym": "LEIRT",
+						"name": "Engenharia Informática, Redes e Telecomunicações",
+						"degree": "bachelor"
+					}
+				], 
+				"master": [],
+				"data": [
+					{
+					  "allowed_domains": [
+						"*.isel.pt",
+						"*.isel.ipl.pt"
+					  ],
+					  "type": "email"
+					}
+				]
+			};
+			
+			const data = {
+				loadAllProgrammes: async function() {
+					return [
+						{
+							"programmeId": 3,
+							"acronym": "LEIRT",
+							"name": "Engenharia Informática, Redes e Telecomunicações",
+							"degree": "bachelor"
+						}
+					];
+				},
+
+				loadAuthenticationMethodsAndFeatures: async function() {
+					return [
+						{
+						  "allowed_domains": [
+							"*.isel.pt",
+							"*.isel.ipl.pt"
+						  ],
+						  "type": "email"
+						}
+					];
+				}
+			};
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+
+			// Act
+			const response = await service.getAuthMethodsAndFeatures();
+
+			// Assert
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.data).to.deep.eql(expected.data);
+
+		})
+
+	})
 })

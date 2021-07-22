@@ -110,12 +110,6 @@ tr.border_bottom td {
 	border-bottom: 1px solid black;
 }
 
-.tableDetails {
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-}
-
 /* Padding space between div and previous element */
 .divSpacing {
   padding-top: 30px;
@@ -146,4 +140,26 @@ hr.solid {
 /* Bold text */
 .boldText {
   font-weight: bold;
+}
+
+/* Home Page Tables */
+.home-table-row{
+  cursor: pointer;
+}
+
+/* Tetse */
+.classSectionS{
+  display: none;
+}
+
+@media (max-width: 700px) {
+
+  .classSectionM {
+    display:none;
+ }
+
+ .classSectionS {
+   display: block;
+ }
+
 }

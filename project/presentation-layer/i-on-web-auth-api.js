@@ -24,7 +24,9 @@ function webapi(auth) {
                 
 				if(isCompleted) {
 					res.json();
-				} else res.status(202).json();
+				} else {
+					res.status(202).json();
+				}
 
 			} catch(err) {
                 onError(res, err, 'Failed to authenticate user');
@@ -37,8 +39,8 @@ function webapi(auth) {
 	router.use(express.json());	        /// Middleware to to create body property in request
 
 	/******* Mapping requests to handlers according to the path *******/
-	router.post('/email', 	theWebAPI.submitInstitutionalEmail	);	/// ...
-	router.post('/poll',	theWebAPI.pollingCore				);	/// ...
+	router.post('/email', 	theWebAPI.submitInstitutionalEmail	);
+	router.post('/poll',	theWebAPI.pollingCore				);
 
 	return router;
 }

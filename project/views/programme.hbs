@@ -10,57 +10,63 @@
          <p>{{this.programme.description}}</p>
       </div>
    </div>
+
    <hr class="solid">
 
    <div class="row row-content">
-      <div class="offset-1 col-12 col-sm-5 col-md-5">
-         <p class="text-left"><strong>Departamento:</strong> {{this.programme.department}}</p>
-         <p class="text-left"><strong>Duração do curso:</strong> {{this.programme.termSize}} semestres</p>
-         <p class="text-left"><strong>Contactos: </strong>{{this.programme.contacts}}</p>
+      <div class="offset-1 col-11 col-sm-5 col-md-5">
+         <p class="text-left boldText ">Coordenação:</p>
+         <p class="text-left">
+            {{#each this.programme.coordination}}
+              {{this.teacher}}<br>
+            {{/each}}
+         </p>
+      </div>
+      <div class="offset-1  col-11 col-sm-5 col-md-5"> 
+         <p class="text-left"><b>Departamento:</b> {{this.programme.department}}</p>
+         <p class="text-left"><b>Duração do curso:</b> {{this.programme.termSize}} semestres</p>
+         <p class="text-left"><b>Contactos:</b> {{this.programme.contacts}}</p>
          <a class="text-left" target="_blank" href="{{this.programme.sourceLink}}">Mais informação</a>
       </div>
-      <div class="col-12 col-sm-1 col-md-1"> 
-         <p class="text-left"><strong>Coordenação:</strong></p>
-      </div>
-      <div class="col-12 col-sm-4 col-md-4"> 
-            {{#each this.programme.coordination}}
-               {{this.teacher}}<br>
-            {{/each}}
-      </div>
    </div>
+
    <hr class="solid">
-   <a class="btn btn-outline-dark pull-right" href="/programme-offers/{{this.programme.id}}" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a><br>
+
+   <a class="btn btn-outline-dark pull-right" href="{{pathPrefix}}/programmes/{{this.programme.id}}/offers" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a><br>
+   
    <div class="container-fluid divSpacing">
       <h3 class="text-center">Plano Curricular</h3>
+
       <div class="row row-content">
-      {{#each offersByAcademicTerms}}
-         <div class="col-md-6 divSpacing">
-               <h4 class="text-center">{{@key}}º Semestre</h4>
-               <table class="table table-bordered">
-                  <tr>
-                     <th>Unidade Curricular</th>
-                     <th class="text-center">ECTS</th>
-                     <th class="text-center">Área</th>
-                     <th class="text-center">Obrigatória</th>
-                  </tr>
-                  {{#each this}} 
-                     <tr class="border_bottom">
-                           <td class="col-md-3">{{this.name}}</td>
-                           <td class="col-md-1 text-center">{{this.ects}}</td>
-                           <td class="col-md-1 text-center">{{this.scientificArea}}</td>
-                           <td class="col-md-1 text-center">
-                            {{#if this.optional}}
-                                <i class="fa fa-times" aria-hidden="true"></i>
-                            {{else}}
-                                <i class="fa fa-check" aria-hidden="true"></i>
-                            {{/if}}
-                        </td>
+         {{#each this.programme.offers}}
+            <div class="col-md-6 divSpacing">
+                  <h4 class="text-center">{{@key}}º Semestre</h4>
+                  <table class="table table-bordered">
+                     <tr>
+                        <th>Unidade Curricular</th>
+                        <th class="text-center">ECTS</th>
+                        <th class="text-center">Área</th>
+                        <th class="text-center">Obrigatória</th>
                      </tr>
-                  {{/each}}
-               </table>
-         </div>
-      {{/each}}
+                     {{#each this}} 
+                        <tr class="border_bottom">
+                              <td class="col">{{this.name}}</td>
+                              <td class="col text-center">{{this.ects}}</td>
+                              <td class="col text-center">{{this.scientificArea}}</td>
+                              <td class="col text-center">
+                              {{#if this.optional}}
+                                 <i class="fa fa-times" aria-hidden="true"></i>
+                              {{else}}
+                                 <i class="fa fa-check" aria-hidden="true"></i>
+                              {{/if}}
+                           </td>
+                        </tr>
+                     {{/each}}
+                  </table>
+            </div>
+         {{/each}}
       </div>
+      
    </div>
 
 </div>

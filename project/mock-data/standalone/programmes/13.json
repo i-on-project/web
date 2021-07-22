@@ -5,13 +5,14 @@
     "termSize": 4,
     "department": "ADEETC",
     "coordination": [
-        {"teacher": "Professor António João Nunes Serrador"},
-        {"teacher": "Professor António Manuel Albuquerque Couto Pinto"},
-        {"teacher": "Professor Carlos Eduardo Meneses Ribeiro"},
-        {"teacher": "Professor Nuno Miguel Machado Cruz"},
-        {"teacher": "Professor Nuno António Fraga Juliano Cota"}
+        {"teacher": "António João Nunes Serrador"},
+        {"teacher": "António Manuel Albuquerque Couto Pinto"},
+        {"teacher": "Carlos Eduardo Meneses Ribeiro"},
+        {"teacher": "Nuno Miguel Machado Cruz"},
+        {"teacher": "Nuno António Fraga Juliano Cota"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-de-eletronica-e-telecomunicacoes",
-    "description": "O ciclo de estudos conducente ao grau de Mestre em Engenharia de Eletrónica e Telecomunicações (MEET) emerge da adoção de um novo modelo de formação (resultante do processo de Bolonha) tendo como principal objetivo o ensino e aprendizagem aprofundados de um conjunto de perfis profissionais reconhecidos pelo mercado empregador. Deste modelo resulta a formação de recursos humanos altamente qualificados nas áreas da eletrónica, telecomunicações e computadores, capazes de responder a desafios complexos de engenharia e de reengenharia."
+    "description": "O ciclo de estudos conducente ao grau de Mestre em Engenharia de Eletrónica e Telecomunicações (MEET) emerge da adoção de um novo modelo de formação (resultante do processo de Bolonha) tendo como principal objetivo o ensino e aprendizagem aprofundados de um conjunto de perfis profissionais reconhecidos pelo mercado empregador. Deste modelo resulta a formação de recursos humanos altamente qualificados nas áreas da eletrónica, telecomunicações e computadores, capazes de responder a desafios complexos de engenharia e de reengenharia.",
+    "offers": []
 }

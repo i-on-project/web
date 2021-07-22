@@ -5,13 +5,14 @@
     "termSize": 4,
     "department": "ADEQ",
     "coordination": [
-        {"teacher": "Professor Doutor João Miguel Silva (Coordenador do MEQA)"},
-        {"teacher": "Professor Doutor João Gomes"},
-        {"teacher": "Professora Doutora Isabel João"},
-        {"teacher": "Professor Feliz Mil Homens"},
-        {"teacher": "Professora Doutora Teresa Santos"}
+        {"teacher": "João Miguel Silva (Coordenador do MEQA)"},
+        {"teacher": "João Gomes"},
+        {"teacher": "Isabel João"},
+        {"teacher": "Feliz Mil Homens"},
+        {"teacher": "Teresa Santos"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/mestrados/engenharia-da-qualidade-e-ambiente",
-    "description": "O MEQA proporciona conhecimentos avançados em tecnologias ambientais e técnicas de engenharia da qualidade conjugados com métodos de gestão com foco na excelência organizacional. Os conteúdos programáticos centram-se em temáticas de reconhecida importância para o planeamento, controlo, melhoria dos processos e produtos com enfase na utilização eficiente dos recursos e uso de tecnologias adequadas às melhores práticas empresariais numa visão sistémica de sustentabilidade."
+    "description": "O MEQA proporciona conhecimentos avançados em tecnologias ambientais e técnicas de engenharia da qualidade conjugados com métodos de gestão com foco na excelência organizacional. Os conteúdos programáticos centram-se em temáticas de reconhecida importância para o planeamento, controlo, melhoria dos processos e produtos com enfase na utilização eficiente dos recursos e uso de tecnologias adequadas às melhores práticas empresariais numa visão sistémica de sustentabilidade.",
+    "offers": []
 }

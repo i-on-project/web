@@ -1,12 +1,15 @@
 <div class="container-fluid pageBeginning">
+
     <div class="row row-content">
+
         <div class="col-12 offset-1 col-sm-5">
             <h3 class="offset-4">Alunos</h3><br>
             {{#each this.aboutData.projects}}
+            
                 <div class="container-fluid">
                     <div class="row row-content">
                         <div class="col col-sm-3">
-                            <img src="/public/images/{{this.image}}" alt="Projeto i-on {{this.name}}" class="img-fluid">
+                            <img src="{{../pathPrefix}}/public/images/{{this.image}}" alt="Projeto i-on {{this.name}}" class="img-fluid">
                         </div>
                         <div class="col col-sm-9">
                             <h5>Projeto i-on {{this.name}}</h5>
@@ -16,21 +19,27 @@
                         </div>
                     </div>
                 </div>
+
             {{/each}}
          </div>
+
         <div class="col col-sm-5">
             <h3 class="offset-3">Docentes</h3><br>
+
             <div class="container-fluid">
                 <div class="row row-content">
                     <div class="col col-sm-4">
-                        <img src="/public/images/{{this.aboutData.departmentImage}}" alt="ISEL {{this.aboutData.departmentImage}}" class="img-fluid">
+                        <img src="{{pathPrefix}}/public/images/{{this.aboutData.departmentImage}}" alt="ISEL {{this.aboutData.departmentImage}}" class="img-fluid">
                     </div>
                     <div class="col col-sm-8">
                         {{#each this.aboutData.teachers}}
                             {{this.teacher}}<br>
                         {{/each}}
                     </div>
-                </div>
+            </div>
+
         </div>
+
     </div>
+
 </div>

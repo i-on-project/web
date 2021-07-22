@@ -5,13 +5,465 @@
     "termSize": 6,
     "department": "ADEETC",
     "coordination": [
-        {"teacher": "Professor Artur Jorge Ferreira"},
-        {"teacher": "Professora Cátia Raquel Jesus Vaz"},
-        {"teacher": "Professor José Manuel de Campos Lages Garcia Simão"},
-        {"teacher": "Professor Nuno Miguel Soares Datia"},
-        {"teacher": "Professor Pedro Miguel Florindo Miguéns Matutino"}
+        {"teacher": "Artur Jorge Ferreira"},
+        {"teacher": "Cátia Raquel Jesus Vaz"},
+        {"teacher": "José Manuel de Campos Lages Garcia Simão"},
+        {"teacher": "Nuno Miguel Soares Datia"},
+        {"teacher": "Pedro Miguel Florindo Miguéns Matutino"}
     ],
     "contacts": "",
     "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-e-de-computadores",
-    "description": "O ciclo de estudos conducente ao grau de licenciado em Engenharia Informática e de Computadores resulta do aprofundamento dum perfil profissional reconhecido pelo mercado empregador nacional e internacional. A inovação e o aperfeiçoamento pedagógico reconhecidos são consequência da vasta experiência do corpo docente e do seu envolvimento em atividades de investigação, desenvolvimento e de projeto, em colaboração com empresas e outras entidades, públicas e privadas. Este ciclo de estudos reflete a influência da ligação à indústria, da interação com a comunidade. Trata-se duma experiência continuada de relacionamento produtivo, acompanhada pela transferência de tecnologia, formação e consultadoria, em diferentes áreas de especialização da engenharia informática e de computadores."
+    "description": "O ciclo de estudos conducente ao grau de licenciado em Engenharia Informática e de Computadores resulta do aprofundamento dum perfil profissional reconhecido pelo mercado empregador nacional e internacional. A inovação e o aperfeiçoamento pedagógico reconhecidos são consequência da vasta experiência do corpo docente e do seu envolvimento em atividades de investigação, desenvolvimento e de projeto, em colaboração com empresas e outras entidades, públicas e privadas. Este ciclo de estudos reflete a influência da ligação à indústria, da interação com a comunidade. Trata-se duma experiência continuada de relacionamento produtivo, acompanhada pela transferência de tecnologia, formação e consultadoria, em diferentes áreas de especialização da engenharia informática e de computadores.",
+    "offers": [
+        {
+            "acronym": "CDI",
+            "name": "Cálculo Diferencial e Integral",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "TMD",
+            "name": "Tópicos de Matemática Discreta",
+            "courseId": 3,
+            "id": 3,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "LSD",
+            "name": "Lógica e Sistemas Digitais",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PG",
+            "name": "Programação",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "Elect",
+            "name": "Eletrónica",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "LIC",
+            "name": "Laboratório de Informática e Computadores",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "RcP",
+            "name": "Redes de Computadores",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "AED",
+            "name": "Algoritmos e Estruturas de Dados",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "AC",
+            "name": "Arquitetura de Computadores",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "ALGA",
+            "name": "Álgebra Linear e Geometria Analítica",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "PE",
+            "name": "Probabilidade e Estatística",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "IPW",
+            "name": "Introdução à Programação na Web",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "ISI",
+            "name": "Introdução aos Sistemas de Informação",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PSC",
+            "name": "Programação em Sistemas Computacionais",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "TDS",
+            "name": "Técnicas de Desenvolvimento de Software",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "CD",
+            "name": "Comunicação Digital",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "LS",
+            "name": "Laboratório de Software",
+            "courseId": 1,
+            "id": 2,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "LAE",
+            "name": "Linguagens e Ambientes de Execução",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PC",
+            "name": "Programação Concorrente",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "SI",
+            "name": "Sistemas de Informação",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "DAW",
+            "name": "Desenvolvimento de Aplicações Web",
+            "courseId": 2,
+            "id": 1,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PDM",
+            "name": "Programação em Dispositivos Móveis",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "TVS",
+            "name": "Técnicas de Virtualização de Sistemas",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "SI",
+            "name": "Segurança Informática",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PS",
+            "name": "Projeto e Seminário",
+            "courseId": 4,
+            "id": 4,
+            "termNumber": [6],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "EGP",
+            "name": "Economia e Gestão de Projeto",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5, 6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "CSO"
+        },
+        {
+            "acronym": "Emp",
+            "name": "Empreendedorismo",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "CSO"
+        },
+        {
+            "acronym": "GQS",
+            "name": "Gestão da Qualidade em Saúde",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "CSO"
+        },
+        {
+            "acronym": "SG",
+            "name": "Sistemas de Gestão",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5, 6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "CSO"
+        },
+        {
+            "acronym": "GAP",
+            "name": "Gestão e Avaliação de Projetos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "CSO"
+        },
+        {
+            "acronym": "CQF",
+            "name": "Controlo de Qualidade e Fiabilidade",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "IEB",
+            "name": "Introdução à Estatística Bayesiana",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "AA",
+            "name": "Álgebra e Aplicações",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "TJ",
+            "name": "Teoria de Jogos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "CSM",
+            "name": "Codificação de Sinais Multimédia",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "ET"
+        },
+        {
+            "acronym": "ICD",
+            "name": "Introdução à Codificação de Dados",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "LC",
+            "name": "Lógica e Computação",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PF",
+            "name": "Programação Funcional",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "RI",
+            "name": "Redes de Internet",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "SE",
+            "name": "Sistemas Embebidos",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "CN",
+            "name": "Computação na Nuvem",
+            "courseId": 5,
+            "id": 5,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "IA",
+            "name": "Inteligência Artificial",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PIB",
+            "name": "Processamento de Imagem e Biometria",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "SEIC",
+            "name": "Sistemas Embebidos para a Internet das Coisas",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "TAR",
+            "name": "Tecnologias Avançadas de Redes",
+            "courseId": 0,
+            "id": 0,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        }
+    ]
 }
