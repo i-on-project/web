@@ -13,14 +13,14 @@
   ],
   "testsAndExams": [
     {
-      "event": "Exame de DAW",
+      "event": "Exame de DAW (Época normal)",
       "date": "2021-06-28",
       "startTime": "19:00",
       "endTime": "22:00",
       "location": "G.1.03"
     },
     {
-      "event": "Exame de DAW",
+      "event": "Exame de DAW (Época de recurso)",
       "date": "2021-07-21",
       "startTime": "10:00",
       "endTime": "13:00",
