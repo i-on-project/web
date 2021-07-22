@@ -256,15 +256,13 @@ module.exports = function(data, sessionDB) {
 	}
 
 	const getClassSectionsFromSelectedClasses = async function(user, classesIds) {
-
-		/* Validations */
-
-		if(!classesIds) throw internalErrors.BAD_REQUEST;
-
-		const classeSectionsByClass = [];
-		let userClasses;
-
 		if(user) {
+			/* Validations */
+
+			if(!classesIds) throw internalErrors.BAD_REQUEST;
+
+			const classeSectionsByClass = [];
+			let userClasses;
 			
 			const calendarTerm = await getCurrentCalendarTerm(data);
 
@@ -293,21 +291,22 @@ module.exports = function(data, sessionDB) {
 			.filter(userClass => {
 				return classeSectionsByClass.some(selectedClass => selectedClass.id === userClass.id && selectedClass.courseId === userClass.courseId);
 			})
+			
+			const commonInfo = await getProgrammesByDegree(data);
 
+			return Object.assign(
+				commonInfo, 
+				{
+					user: user, 
+					classeSectionsByClass: classeSectionsByClass,
+					userSubscribedClasses : userClasses,
+					pathPrefix : pathPrefix
+				}
+			);
+
+		} else {
+			throw internalErrors.UNAUTHENTICATED;
 		}
-		
-		const commonInfo = await getProgrammesByDegree(data);
-
-		return Object.assign(
-			commonInfo, 
-			{
-				user: user, 
-				classeSectionsByClass: classeSectionsByClass,
-				userSubscribedClasses : userClasses,
-				pathPrefix : pathPrefix
-			}
-		);
-
 	};
 
 	const saveUserClassesAndClassSections = async function(user, selectedClassesAndClassSections) {
