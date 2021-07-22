@@ -9,7 +9,7 @@ const app = express();
 
 /// Cache
 const Cache = require('./data-access-layer/cache/cache.js');
-const myCache = new Cache(0); /// Change
+const myCache = new Cache(0);
 
 async function configurations() {
 
@@ -31,11 +31,11 @@ async function configurations() {
     /// Data
     let data;
 
-    //if(process.env.OPERATION_MODE === "standalone") {
+    if(process.env.OPERATION_MODE === "standalone") {
 
        data = require(`${dataAccessStandaloneModePath}/mock-data.js`)();
 
-    /*} else {
+    } else {
 
         const core = require(`${dataAccessIntegratedModePath}/core-data.js`)();
         const coreTransformer = require(`${dataAccessIntegratedModePath}/core-data-transformer.js`)(core);
@@ -44,7 +44,7 @@ async function configurations() {
         const metadata = require(`${dataAccessIntegratedModePath}/remove-metadata.js`)(cache);
         
         data = metadata;
-    }*/
+    }
 
     /// Auth
     const auth = require(`${businessLogicLayerPath}/i-on-web-auth.js`)(app, data, sessionDB);
@@ -68,12 +68,7 @@ async function configurations() {
     
     app.use(`${pathPrefix}`, router);
 
-    /*
-        Since the main router positions our routes above the middleware defined below,
-        this means that Express will attempt to match & call routes before continuing on,
-        at which point we assume it's a 404 because no route has handled the request.
-    */
-
+    /// We assume it's a 404 because no route has handled the request
     app.use(function(req, res) {
         res.status(404);
         res.render('errorPage', { status: 404, errorMessage: 'Not Found', user: req.user });

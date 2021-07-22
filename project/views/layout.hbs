@@ -61,7 +61,7 @@
 					<li id="calendar" class="nav-item">
 						<a href="{{pathPrefix}}/calendar" class="nav-link"><i class="fa fa-fw fa-calendar fa-lg" aria-hidden="true"></i>Calendário</a>
 					</li>
-					<li id="user-courses" class="nav-item">
+					<li id="user-classes" class="nav-item">
 						<a href="{{pathPrefix}}/subscriptions" class="nav-link"><i class="fa fa-fw fa-book fa-lg" aria-hidden="true"></i>As minhas disciplinas</a>
 					</li>
 					<li id="programmes" class="nav-item">
@@ -122,13 +122,6 @@
 		<div>
 			{{{body}}}
 		</div>
-		
-		<script>
-			{{#if page}}
-				const elem = document.querySelector('#{{this.page}}');
-				elem.classList.add("active");
-			{{/if}}
-		</script>
 
 		<!-- jQuery first, then Popper.js, then Bootstrap JS. (Bootstrap dependencies) -->
 		<script src="{{pathPrefix}}/public/dependencies/jquery.slim.min.js"></script>

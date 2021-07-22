@@ -126,6 +126,7 @@ function webui(service, auth) {
 		},
 
 		/******* Authentication Pages *******/
+
 		loginUI: async function(req, res) {
 			try {
 				const data = await service.getAuthMethodsAndFeatures();
@@ -155,10 +156,10 @@ function webui(service, auth) {
 	router.get(	'/programmes/:id', 			theWebUI.programme							);	/// Programme info page
 	router.get(	'/programmes/:id/offers',	theWebUI.programmeOffers					); 	/// Programme offers page
 	
-	router.get('/class-sections',			theWebUI.classSectionsFromSelectedClasses	);	/// Available classes of the selected courses
+	router.get('/class-sections',			theWebUI.classSectionsFromSelectedClasses	);	/// Available class-sections of the selected classes
 	
 	router.post('/subscriptions', 			theWebUI.saveUserSubscriptions				);
-	router.get(	'/subscriptions',			theWebUI.getUserSubscriptions		); 	/// Users courses page
+	router.get(	'/subscriptions',			theWebUI.getUserSubscriptions				); 	/// Users subscriptions page
 	router.post('/subscriptions/delete',	theWebUI.deleteUserSubscriptions			);
 	
 	router.get(	'/schedule', 				theWebUI.userSchedule						);	/// Users schedule page

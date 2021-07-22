@@ -62,6 +62,10 @@
 
 
 <script>
+
+    const elem = document.querySelector('#calendar');
+    elem.classList.add("active");
+
    const backgroundImageUri = `{{pathPrefix}}/public/images/isel_ipl.jpg`;
    const headerBackgroudElem = document.querySelector("#backgroundID");
    headerBackgroudElem.style["background-image"] = `url(${backgroundImageUri})`;

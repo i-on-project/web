@@ -8,7 +8,7 @@ const internalErrors = require('../common/i-on-web-errors.js');
 const FileStore = require('session-file-store')(session); 
 
 /// Session expiration time
-const sessionMaxAge = 7 * 24 * 60 * 60 * 1000; 
+const sessionMaxAge = 7 * 24 * 60 * 60 * 1000; /// Corresponds to 7 days in milliseconds
 
 module.exports = (app, data, sessionDB) => {
 
@@ -45,10 +45,10 @@ module.exports = (app, data, sessionDB) => {
     return {
 
 		submitInstitutionalEmail: async function(email) {
-			if(!email)  throw internalErrors.BAD_REQUEST;
 
+			/// Using regular expressions to validate email
 			const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-			if(!re.test(email)) throw internalErrors.BAD_REQUEST;
+			if(!email || !re.test(email)) throw internalErrors.BAD_REQUEST;
 			
 			return data.submitInstitutionalEmail(email);
         }, 
@@ -59,6 +59,7 @@ module.exports = (app, data, sessionDB) => {
 			/// Check if pooling succeeded
 			if(pollingResponse.hasOwnProperty("access_token")) {
 
+				/// Obtaining user email
 				const tokens = pollingResponse.id_token.split(".");
 				const user_email = jwt_decode(tokens[1], { header: true }).email;
 				
@@ -71,7 +72,7 @@ module.exports = (app, data, sessionDB) => {
 					pollingResponse
 				);
 				
-				/// If the user doesn't have a username, we give one by default. 
+				/// If the user doesn't have a username, we provide one by default. 
 				if(!userSessionInfo.username) {
 					const newUsername = user.email.slice(0, user.email.indexOf("@"));
 					userSessionInfo.username = newUsername;
