@@ -57,7 +57,7 @@ Next we will see how we can run the i-on Web application according to its operat
 
 ## Docker-compose
 The docker compose file contains the following enviroment variables:
-- __`OPERATION_MODE`__ - Where we can specify the operation mode. As seen previously, the operation mode by default, is using the i-on Core data;
+- __`OPERATION_MODE`__ - Where we can specify the operation mode. By default, its integrated mode which connects to i-on Core;
 
 - __`CORE_URL`__ - Where we can indicate the location of i-on Core. By default is set to `http://172.17.0.1:10023` since i-on Core listens on port `10023` and since both applications are running locally but in isolated containers, in order to make requests from i-on Web to i-on Core we can use the IP `172.17.0.1`;
 
@@ -91,7 +91,7 @@ docker-compose -f .docker/docker-compose.yml build
 ```
 In similarity to the command previously shown, we can assign values to the enviroment variables, as shown in the following example:
 ```
-docker-compose -f .docker/docker-compose.yml build --build-arg CORE_CLIENT_ID="22dd1551-db23-481b-acde-d286440388a5" --build-arg CORE_READ_TOKEN="l7kowOOkliu21oXxNpuCyM47u2omkysxb8lv3qEhm5U"
+docker-compose -f .docker/docker-compose.yml build --build-arg PATH_PREFIX="/i-on-web" --build-arg CORE_READ_TOKEN="l7kowOOkliu21oXxNpuCyM47u2omkysxb8lv3qEhm5U"
 ```
 
 ## Running i-on Web
