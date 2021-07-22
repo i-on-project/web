@@ -6,24 +6,24 @@ const fetch = require('node-fetch');
 const contentType = 'application/json';
 
 /// Sessions expiration time
-const sessionsDeletionPeriod = 7 * 24 * 60 * 60 * 1000; 
+const sessionsDeletionPeriod = 7 * 24 * 60 * 60 * 1000; /// Corresponds to 7 days in milliseconds
 
 module.exports = function(baseUrl) {
 
-	const usersBaseUrl = `${baseUrl}/sessions`;
+	const sessionsBaseUrl = `${baseUrl}/sessions`;
 
 	/**
-	 * Initialize index 'users' in elasticsearch db
+	 * Initialize index 'sessions' in elasticsearch db
 	 */
 	const initializeDatabaseIndexes = async function () {
 		try {
 
-			const getResponseUsers = await fetch(`${usersBaseUrl}/`); /// GET request to verify the existence of 'users' index
+			const getResponseUsers = await fetch(`${sessionsBaseUrl}/`); /// GET request to verify the existence of 'sessions' index
 	
 			if(getResponseUsers.status != 200 && getResponseUsers.status != 404) throw getResponseUsers.status;
 
 			if(getResponseUsers.status == 404) { /// If the index doesn't exist than it shall be created
-				const putResponseUsers = await fetch(`${usersBaseUrl}/`, { method: 'PUT'});
+				const putResponseUsers = await fetch(`${sessionsBaseUrl}/`, { method: 'PUT'});
 				if(putResponseUsers.status != 200 && putResponseUsers.status != 201) throw putResponseUsers.status;
 			}
 
@@ -54,7 +54,7 @@ module.exports = function(baseUrl) {
 					)
 				};
 				
-				const res = await fetchRequest(`${usersBaseUrl}/_delete_by_query`, 200, options);
+				const res = await fetchRequest(`${sessionsBaseUrl}/_delete_by_query`, 200, options);
 			
 			} catch (err) { // Unexpected error
 				throw internalErrors.SERVICE_FAILURE;
@@ -81,7 +81,7 @@ module.exports = function(baseUrl) {
 				)
 			};
 
-			const res = await fetchRequest(`${usersBaseUrl}/_doc/`, 201, options);
+			const res = await fetchRequest(`${sessionsBaseUrl}/_doc/`, 201, options);
 			return res['_id'];
 
 		} catch (err) { // Unexpected error
@@ -89,11 +89,6 @@ module.exports = function(baseUrl) {
 		}
 	};
 
-	/**
-	 * Store user's session tokens
-	 * @param {*} email user email
-	 * @param {*} tokens user session tokens
-	 */
 	const storeUpdatedInfo = async function (email, tokens, doc_id) {
 		try {
 
@@ -111,22 +106,17 @@ module.exports = function(baseUrl) {
 				  })
 			};
 
-			await fetchRequest(`${usersBaseUrl}/_doc/${doc_id}/`, 200, options);
+			await fetchRequest(`${sessionsBaseUrl}/_doc/${doc_id}/`, 200, options);
 
 		} catch (err) { // Unexpected error
 			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
 
-	/**
-	 * Get user's tokens
-	 * @param {*} email user email
-	 * @returns An object with the user tokens
-	 */
 	const getUserTokens = async function (id) { /// Obtain user given the id
 		try {
 
-			const answer = await fetchRequest(`${usersBaseUrl}/_doc/${id}`, 200);
+			const answer = await fetchRequest(`${sessionsBaseUrl}/_doc/${id}`, 200);
 			return answer._source;
 
 		} catch (err) { // Unexpected error
@@ -136,7 +126,7 @@ module.exports = function(baseUrl) {
 
 	const deleteUserSession = async function (id) {
 		try {
-			await fetchRequest(`${usersBaseUrl}/_doc/${id}`, 200, {method: 'DELETE'});
+			await fetchRequest(`${sessionsBaseUrl}/_doc/${id}`, 200, {method: 'DELETE'});
 
 		} catch (err) {
 			switch (err) {
@@ -170,7 +160,7 @@ module.exports = function(baseUrl) {
 				)
 			};
 			
-			await fetchRequest(`${usersBaseUrl}/_delete_by_query`, 200, options);
+			await fetchRequest(`${sessionsBaseUrl}/_delete_by_query`, 200, options);
 		
 		} catch (err) { // Unexpected error
 			throw internalErrors.SERVICE_FAILURE;
