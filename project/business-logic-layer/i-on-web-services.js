@@ -1,6 +1,7 @@
 'use strict'
 
 const internalErrors = require('../common/i-on-web-errors.js');
+const pathPrefix = process.env.PATH_PREFIX || "";
 
 module.exports = function(data, sessionDB) {
 
@@ -36,7 +37,8 @@ module.exports = function(data, sessionDB) {
 			{
 				events: events,
 				user: user, 
-				page: 'home'
+				page: 'home',
+				pathPrefix : pathPrefix
 			}
 		);
 
@@ -67,7 +69,8 @@ module.exports = function(data, sessionDB) {
 			const commonInfo = await getProgrammesByDegree(data);
 			return Object.assign({
 				user: user,
-				programmeOffers : programmeOffers
+				programmeOffers : programmeOffers,
+				pathPrefix : pathPrefix
 			}, commonInfo);
 		} else {
 			throw internalErrors.UNAUTHENTICATED;
@@ -95,7 +98,8 @@ module.exports = function(data, sessionDB) {
 		return Object.assign(commonInfo, {
 			user: user, 
 			offersByAcademicTerms: offersByAcademicTerms, 
-			programme: programme
+			programme: programme,
+			pathPrefix : pathPrefix
 		});
 	};
 
@@ -126,7 +130,8 @@ module.exports = function(data, sessionDB) {
 			return Object.assign(commonInfo, {
 				schedule: schedule,
 				user: user, 
-				page: "schedule"
+				page: "schedule",
+				pathPrefix : pathPrefix
 			});
 			
 		} catch (err) {
@@ -167,7 +172,8 @@ module.exports = function(data, sessionDB) {
 			return Object.assign(commonInfo, {
 				events: events,
 				user: user, 
-				page: "calendar"
+				page: "calendar",
+				pathPrefix : pathPrefix
 			});
 	
 		} catch (err) {
@@ -201,7 +207,8 @@ module.exports = function(data, sessionDB) {
 			return Object.assign(commonInfo, {
 				user: user, 
 				userClasses: userClasses, 
-				page: "user-courses"
+				page: "user-courses",
+				pathPrefix : pathPrefix
 			});
 
 		} catch (err) {
@@ -296,7 +303,8 @@ module.exports = function(data, sessionDB) {
 			{
 				user: user, 
 				classeSectionsByClass: classeSectionsByClass,
-				userSubscribedClasses : userClasses
+				userSubscribedClasses : userClasses,
+				pathPrefix : pathPrefix
 			}
 		);
 
@@ -342,7 +350,8 @@ module.exports = function(data, sessionDB) {
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			user: user,
-			aboutData: aboutData
+			aboutData: aboutData,
+			pathPrefix : pathPrefix
 		});
 	};
 
@@ -352,7 +361,8 @@ module.exports = function(data, sessionDB) {
 			//user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
 
 			return Object.assign(commonInfo, {
-				user: user
+				user: user,
+				pathPrefix : pathPrefix
 			});
 		} else {
 			throw internalErrors.UNAUTHENTICATED;
@@ -368,7 +378,8 @@ module.exports = function(data, sessionDB) {
 	
 				const commonInfo = await getProgrammesByDegree(data);
 				return Object.assign(commonInfo, {
-					user: user
+					user: user,
+					pathPrefix : pathPrefix
 				});
 			} else {
 				throw internalErrors.UNAUTHENTICATED;
@@ -396,7 +407,8 @@ module.exports = function(data, sessionDB) {
 		const commonInfo = await getProgrammesByDegree(data);
 		
 		return Object.assign(
-			{'page': 'login'},
+			{'page': 'login',
+			'pathPrefix': pathPrefix},
 			commonInfo,
 			{'data': authMethods}
 		);

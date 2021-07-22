@@ -145,7 +145,10 @@
 				'email' : document.querySelector('#emailValue').value
 			};
 
-			const response = await fetch("/auth-api/email", {
+			const pathPrefix = '{{pathPrefix}}';
+			const submit_email_uri = `${pathPrefix}/auth-api/email`;
+
+			const response = await fetch(submit_email_uri, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -175,7 +178,7 @@
 				'auth_req_id' : authData.auth_req_id
 			};
 
-			const polling_uri = `/auth-api/poll`
+			const polling_uri = `${pathPrefix}/auth-api/poll`;
 			let counter = authData.expires_in;
 
 			// Polling loop
@@ -183,7 +186,7 @@
 
 				counter -= 5;
 
-				const pollingResponse = await fetch("/auth-api/poll", {
+				const pollingResponse = await fetch(polling_uri, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -197,7 +200,7 @@
 
 					setTimeout(async () => {
 						loading.innerHTML = "<br><p>Autenticação realizada com sucesso!</p>";
-						window.location.replace('/');
+						window.location.replace(`${pathPrefix}/`);
 					}, 500)
 					
 				} else if(pollingResponse.status !== 202) {
