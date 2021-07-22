@@ -155,7 +155,7 @@ function webui(service, auth) {
 	router.get(	'/programmes/:id', 			theWebUI.programme							);	/// Programme info page
 	router.get(	'/programmes/:id/offers',	theWebUI.programmeOffers					); 	/// Programme offers page
 	
-	router.get(	'/available-class-sections',theWebUI.classSectionsFromSelectedClasses	);	/// Available classes of the selected courses
+	router.get(	'/class-sections',			theWebUI.classSectionsFromSelectedClasses	);	/// Available classes of the selected courses
 	router.post('/class-sections', 			theWebUI.saveUserClassesAndClassSections	);
 
 	router.get(	'/classes',					theWebUI.userClassesAndClassSections		); 	/// Users courses page

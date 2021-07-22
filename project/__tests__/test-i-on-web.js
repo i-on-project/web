@@ -132,13 +132,13 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/available-class-sections'", () => {
+	describe("Testing '/class-sections'", () => {
 		
-		describe('GET /available-class-sections', () => {
+		describe('GET /class-sections', () => {
 			
 			it ('should return the available class sections of the selected classes', () => {
 				return frisby
-				.fetch(`${app_base_url}/available-class-sections`)
+				.fetch(`${app_base_url}/class-sections`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
