@@ -131,7 +131,7 @@ function webui(service, auth) {
 				const data = await service.getAuthMethodsAndFeatures();
 				res.render('login', data);
 			} catch(err) {
-				onError(req, res, err, 'Failed to show login page', commonInfo);
+				onError(req, res, err, 'Failed to show login page');
 			}
 		},
 
@@ -140,7 +140,7 @@ function webui(service, auth) {
 				await auth.logout(req);	
 				res.redirect(pathPrefix + '/');
 			} catch(err) {
-				onError(req, res, err, 'Failed to logout', commonInfo);
+				onError(req, res, err, 'Failed to logout');
 			}
 		},
 	}
@@ -185,16 +185,15 @@ function onError(req, res, err, defaultError) {
 
 	switch (err) {
 		case internalErrors.UNAUTHENTICATED:
-			res.status(401).redirect(pathPrefix + '/login');
-			break;
+			return res.status(401).redirect(pathPrefix + '/login');
 		case internalErrors.BAD_REQUEST:
 			return res.status(400).render('errorPage', { status: 400, errorMessage: 'Bad Request', user: req.user});
 		case internalErrors.RESOURCE_NOT_FOUND:
-			return res.status(400).render('errorPage', { status: 404, errorMessage: 'Resource Not Found', user: req.user });
+			return res.status(404).render('errorPage', { status: 404, errorMessage: 'Resource Not Found', user: req.user });
 		case internalErrors.SERVICE_UNAVAILABLE:
-			return res.status(400).render('errorPage', { status: 502, errorMessage: 'Service Unavailable', user: req.user }); 
+			return res.status(502).render('errorPage', { status: 502, errorMessage: 'Service Unavailable', user: req.user }); 
 		default:
-			return res.status(400).render('errorPage', { status: 500, errorMessage: `An internal error has occured: ${defaultError}`, user: req.user });
+			return res.status(500).render('errorPage', { status: 500, errorMessage: `An internal error has occured: ${defaultError}`, user: req.user });
 	}
 
 }

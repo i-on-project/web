@@ -617,7 +617,7 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/users', options);
 			
-			if(response.status != 204) throw response.status; // TO DO - handle the status code
+			if(response.status != 204) throw response.status;
 
 		} catch(err) {		/// Error handling
 			switch (err) {

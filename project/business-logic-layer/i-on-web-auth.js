@@ -88,7 +88,7 @@ module.exports = (app, data, sessionDB) => {
 		},
 		
 		logout: async function(req) {
-			if(user) {
+			if(req.user) {
 				const user = req.user;
 				
 				req.logout();

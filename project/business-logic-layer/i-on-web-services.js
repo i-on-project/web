@@ -70,7 +70,8 @@ module.exports = function(data, sessionDB) {
 			return Object.assign({
 				user: user,
 				programmeOffers : programmeOffers,
-				pathPrefix : pathPrefix
+				pathPrefix : pathPrefix,
+				page: 'programmes'
 			}, commonInfo);
 		} else {
 			throw internalErrors.UNAUTHENTICATED;
@@ -99,6 +100,7 @@ module.exports = function(data, sessionDB) {
 			user: user, 
 			offersByAcademicTerms: offersByAcademicTerms, 
 			programme: programme,
+			page: 'programmes',
 			pathPrefix : pathPrefix
 		});
 	};
@@ -300,6 +302,7 @@ module.exports = function(data, sessionDB) {
 					user: user, 
 					classeSectionsByClass: classeSectionsByClass,
 					userSubscribedClasses : userClasses,
+					page: 'programmes',
 					pathPrefix : pathPrefix
 				}
 			);
