@@ -91,7 +91,7 @@ docker-compose -f .docker/docker-compose.yml build
 ```
 In similarity to the command previously shown, we can assign values to the enviroment variables, as shown in the following example:
 ```
-docker-compose -f .docker/docker-compose.yml build --build-arg CORE_CLIENT_ID="22dd1551-db23-481b-acde-d286440388a5"
+docker-compose -f .docker/docker-compose.yml build --build-arg CORE_CLIENT_ID="22dd1551-db23-481b-acde-d286440388a5" --build-arg CORE_READ_TOKEN="l7kowOOkliu21oXxNpuCyM47u2omkysxb8lv3qEhm5U"
 ```
 
 ## Running i-on Web
