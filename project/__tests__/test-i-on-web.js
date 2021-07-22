@@ -5,11 +5,8 @@ const fetch = require('node-fetch');
 const setCookieParser = require('set-cookie-parser');
 //const Joi = frisby.Joi;
 
-const app_base_url = 'http://localhost:8080/'; // TO DO port and prefix generic
+const app_base_url = 'http://localhost:' + process.env.PORT;
 const db_base_url = process.env.DB_ELASTIC_URL;
-
-//const storageCreator = require('../covida-db-elastic.js');
-//const database = storageCreator('localhost', 9200);
 
 let cookie;
 
@@ -93,7 +90,7 @@ describe(`Integration tests on ${app_base_url}`, () => {
 		
 			it ('should return programme offers page', () => {
 				return frisby
-				.fetch(`${app_base_url}/programmes/:id/offers`)
+				.fetch(`${app_base_url}/programmes/1/offers`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
@@ -106,13 +103,13 @@ describe(`Integration tests on ${app_base_url}`, () => {
 
 	});
 
-	describe("Testing '/subscriptions'", () => {
+	describe("Testing '/class-sections'", () => {
 		
-		describe('GET /subscriptions', () => {
+		describe('GET /class-sections', () => {
 			
 			it ('should return the available class sections of the selected classes', () => {
 				return frisby
-				.fetch(`${app_base_url}/subscriptions`)
+				.fetch(`${app_base_url}/class-sections`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
@@ -132,25 +129,6 @@ describe(`Integration tests on ${app_base_url}`, () => {
 			it ('should return the user subscribed classes and class sections', () => {
 				return frisby
 				.fetch(`${app_base_url}/subscriptions`)
-				.then(data => {
-					const $ = cheerio.load(data.body);
-					expect($("head [charset]").attr("charset")).toBe("utf-8");
-				})
-				.expect('status', 200)
-				.expect('header', 'Content-Type', 'text/html; charset=utf-8');
-			});
-			
-		});
-
-	});
-
-	describe("Testing '/subscriptions/delete'", () => {
-		
-		describe('GET /subscriptions/delete', () => {
-		
-			it ('should return the user subscribed classes and class sections', () => {
-				return frisby
-				.fetch(`${app_base_url}/subscriptions/delete`)
 				.then(data => {
 					const $ = cheerio.load(data.body);
 					expect($("head [charset]").attr("charset")).toBe("utf-8");
