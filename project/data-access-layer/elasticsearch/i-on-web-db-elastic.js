@@ -136,7 +136,7 @@ module.exports = function(baseUrl) {
 		try {
 			await fetchRequest(`${usersBaseUrl}/_doc/${id}`, 200, {method: 'DELETE'});
 
-		} catch (err) { // TODO handling errors
+		} catch (err) {
 			switch (err) {
 				case 404: /// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;

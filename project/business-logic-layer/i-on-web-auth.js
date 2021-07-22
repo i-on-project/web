@@ -87,18 +87,22 @@ module.exports = (app, data, sessionDB) => {
 			}
 		},
 		
-		logout: async function(req) { /// TODO: Verify if user is authenticated and handling errors
-			const user = req.user;
-			
-			req.logout();
-			req.session.destroy(err => { /// TODO : replace ...
-				if (err) {
-					throw internalErrors.SERVICE_FAILURE;
-				}
-			})
+		logout: async function(req) {
+			if(user) {
+				const user = req.user;
+				
+				req.logout();
+				req.session.destroy(err => {
+					if (err) {
+						throw internalErrors.SERVICE_FAILURE;
+					}
+				})
 
-			await data.revokeAccessToken(user);
-			await sessionDB.deleteUserSession(user.sessionId);
+				await data.revokeAccessToken(user);
+				await sessionDB.deleteUserSession(user.sessionId);
+			} else {
+				throw internalErrors.UNAUTHENTICATED;
+			}
 		},
 
 		deleteUser: async function(req) {
