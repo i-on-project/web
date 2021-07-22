@@ -19,7 +19,7 @@ module.exports = function(data, myCache) {
 		const key = 'programme/' + programmeId;
 
 		const fetchFunction = function() { 
-			return data.loadProgrammeData(programmeId, ...arguments);
+			return data.loadProgramme(programmeId, ...arguments);
 		}
 
 		return getData(myCache, key, fetchFunction);

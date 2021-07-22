@@ -81,9 +81,9 @@ module.exports = function(data, sessionDB) {
 	const getProgrammeData = async function(programmeId, user) {
 
 		if(!isIdValid(programmeId)) throw internalErrors.BAD_REQUEST;
-
+		console.log('S1')
 		const programme = await data.loadProgramme(programmeId);
-
+		console.log('S2')
 		const offersByAcademicTerms = programme.offers
 		.reduce( (offersByTerms, offer) => {
 			return offer.termNumber.reduce( (offersByTerms, term) => {

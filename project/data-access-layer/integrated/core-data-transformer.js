@@ -51,7 +51,9 @@ module.exports = function(data) {
 
 
 	const loadProgramme = async function(programmeId, metadata) {
+		console.log('T1')
 		const receivedData = await data.loadProgramme(programmeId, metadata);
+		console.log('T2')
 
 		const cache_control = receivedData.metadata.get('Cache-Control');
 
