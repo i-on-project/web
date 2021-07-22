@@ -82,7 +82,7 @@ module.exports = function() {
 			}
 		}
 		return {
-			"auth_req_id": email,
+			"auth_req_id": email,  /// In order to simulate the authentication
 			"expires_in": 20
 		};
 	};
@@ -90,6 +90,7 @@ module.exports = function() {
 	const pollingCore = async function(authForPoll) {
 		if(Object.keys(users).length < mock_users_limit || users.hasOwnProperty(authForPoll)) {  
 			
+			/// Creating an id token
 			const encodedData = base64url(JSON.stringify({"email": authForPoll}));
 			const token = "eyJhbGciOiJIUzI1NiJ9." + encodedData;
 		
@@ -118,13 +119,16 @@ module.exports = function() {
 			let subscribedToCourse = false;
 
 			for(let i = 0; i < users[user.email].classesAndClassSections.length; i++) {
-				if(users[user.email].classesAndClassSections[i].id == id) { // ===
+				if(users[user.email].classesAndClassSections[i].id === id) { 
+					/// User is already subscribed to a class section of this class and now (as long as its not the ones hes already subscribed to)
+					/// he is going to subscribe one more class section
 					subscribedToCourse = true;
 					if(!users[user.email].classesAndClassSections[i].classes.includes(classSection)) {
 						users[user.email].classesAndClassSections[i].classes.push(classSection);
 					}
 				}
 			} 
+			/// User is subscribing for the first time to a class section of a certain classs
 			if(users[user.email].classesAndClassSections.length === 0 || !subscribedToCourse) {
 				const course = data;
 				course['classes'] = [classSection];
@@ -148,6 +152,7 @@ module.exports = function() {
 
 		const classSectionsSize = classSections.length;
 
+		/// Delete the class section from the user subscriptions
 		for( let i = 0; i < classSectionsSize; i++){ 
 			if ( classSections[i] == classSection) { 
 				users[user.email].classesAndClassSections
@@ -158,6 +163,7 @@ module.exports = function() {
 	}
 
 	const deleteUserClass = async function(user, id) {
+		/// Delete the class from the user subscriptions
 		for( let i = 0; i < users[user.email].classesAndClassSections.length; i++){ 
 			if ( users[user.email].classesAndClassSections[i].id == id) { 
 				users[user.email].classesAndClassSections.splice(i, 1); 
