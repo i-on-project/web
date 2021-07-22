@@ -39,7 +39,6 @@ afterAll(async function () {
 });
 
 describe(`Integration tests on ${app_base_url}`, () => {
-	/// Verificar se o servidor está a correr
 	describe('Checking if server is running', () => {
 		test ('the server must be running', () => {
 			return frisby.get(`${app_base_url}/`);
