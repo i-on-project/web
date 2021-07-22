@@ -526,8 +526,7 @@ describe('Services', function () {
 				],
 				"master": [],
 				"schedule": [],
-				"user": undefined, 
-				"page": "schedule"
+				"user": undefined
 			};
 
 			const data = {
@@ -555,7 +554,10 @@ describe('Services', function () {
 			const response = await service.getUserSchedule(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
+			expect(response.schedule).to.deep.eql(expected.schedule);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 
 		}),
 
@@ -581,8 +583,7 @@ describe('Services', function () {
 						"weekday": "WE",
 					}
 				],
-				"user": testsUsers[1], 
-				"page": "schedule"
+				"user": testsUsers[1]
 			};
 
 			const data = {
@@ -639,7 +640,10 @@ describe('Services', function () {
 			const response = await service.getUserSchedule(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
+			expect(response.schedule).to.deep.eql(expected.schedule);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 			
 		}),
 		
@@ -656,8 +660,7 @@ describe('Services', function () {
 				],
 				"master": [],
 				"schedule": [],
-				"user": testsUsers[0], 
-				"page": "schedule"
+				"user": testsUsers[0]
 			};
 
 			const data = {
@@ -707,9 +710,11 @@ describe('Services', function () {
 			const response = await service.getUserSchedule(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
+			expect(response.schedule).to.deep.eql(expected.schedule);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 			
-
 		})
 	}),
 
@@ -743,8 +748,7 @@ describe('Services', function () {
 					"assignments": [],
 					"testsAndExams": []
 				},
-				"user": undefined, 
-				"page": "calendar"
+				"user": undefined
 			};
 
 			const data = {
@@ -793,7 +797,10 @@ describe('Services', function () {
 			const response = await service.getUserCalendar(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
+			expect(response.events).to.deep.eql(expected.events);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 
 		}),
 
@@ -851,8 +858,7 @@ describe('Services', function () {
 						}
 					  ]
 				},
-				"user": testsUsers[0], 
-				"page": "calendar"
+				"user": testsUsers[0]
 			};
 
 			const data = {
@@ -945,7 +951,10 @@ describe('Services', function () {
 			const response = await service.getUserCalendar(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);	
+			expect(response.events).to.deep.eql(expected.events);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 			
 		})
 
@@ -966,8 +975,7 @@ describe('Services', function () {
 				],
 				"master": [],
 				"userClasses": [],
-				"user": undefined, 
-				"page": "user-courses"
+				"user": undefined
 			};
 
 			const data = {
@@ -995,7 +1003,10 @@ describe('Services', function () {
 			const response = await service.getUserSubscribedClassesAndClassSections(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
+			expect(response.userClasses).to.deep.eql(expected.userClasses);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 
 		}),
 
@@ -1021,8 +1032,7 @@ describe('Services', function () {
 					    "name": "Desenvolvimento de Aplicações Web"
 					}
 				],
-				"user": testsUsers[1], 
-				"page": "user-courses"
+				"user": testsUsers[1]
 			};
 
 			const data = {
@@ -1078,8 +1088,10 @@ describe('Services', function () {
 			const response = await service.getUserSubscribedClassesAndClassSections(user);
 
 			// Assert
-			expect(response).to.deep.eql(expected);
-
+			expect(response.userClasses).to.deep.eql(expected.userClasses);
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.user).to.deep.eql(expected.user);
 		})
 
 	}),
