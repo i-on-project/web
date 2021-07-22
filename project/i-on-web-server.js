@@ -8,7 +8,7 @@ const express = require('express');
 const app = express();
 
 /// Cache
-const Cache = require('./cache/cache.js');
+const Cache = require('./data-access-layer/cache/cache.js');
 const myCache = new Cache(0); /// Change
 
 async function configurations() {
@@ -17,16 +17,16 @@ async function configurations() {
     const presentationLayerPath  = './presentation-layer';
     const businessLogicLayerPath = './business-logic-layer';
     const dataAccessLayerPath    = './data-access-layer';
+    const dataAccessStandaloneModePath = `${dataAccessLayerPath}/standalone`;
+    const dataAccessIntegratedModePath = `${dataAccessLayerPath}/integrated`;
 
-    const coreDecoratorsPath     = `${dataAccessLayerPath}/core-decorators`
 
-    let pathPrefix = process.env.PATH_PREFIX; /// TO DO can be simplified
-    if(!pathPrefix) pathPrefix = "";
+    let pathPrefix = ""; //process.env.PATH_PREFIX || ""; 
 
     /// ElasticSearch initializer
-    const storageCreator = require(`${dataAccessLayerPath}/i-on-web-db-elastic.js`);
-    const sessionDB = storageCreator(process.env.DB_ELASTIC_URL); // TO DO
-    await sessionDB.initializeDatabaseIndexes();               /// Initialize elastic indexes
+    const storageCreator = require(`${dataAccessLayerPath}/elasticsearch/i-on-web-db-elastic.js`);
+    const sessionDB = storageCreator(process.env.DB_ELASTIC_URL);
+    await sessionDB.initializeDatabaseIndexes();    /// Initialize elastic indexes
     sessionDB.deleteOldSessionsScheduler();
 
     /// Data
@@ -34,17 +34,15 @@ async function configurations() {
 
     if(process.env.OPERATION_MODE === "standalone") {
 
-       data = require(`${dataAccessLayerPath}/mock-data.js`)();
+       data = require(`${dataAccessStandaloneModePath}/mock-data.js`)();
 
     } else {
 
-        const core = require(`${dataAccessLayerPath}/core-data.js`)();
-
-        /// Decorators
-        const coreTransformer = require(`${coreDecoratorsPath}/core-data-transformer.js`)(core);
-        const addMissingData  = require(`${coreDecoratorsPath}/core-add-missing-data.js`)(coreTransformer);
-        const cache = require('./cache/i-on-web-cache.js')(addMissingData, myCache);
-        const metadata = require(`${businessLogicLayerPath}/remove-metadata.js`)(cache);
+        const core = require(`${dataAccessIntegratedModePath}/core-data.js`)();
+        const coreTransformer = require(`${dataAccessIntegratedModePath}/core-data-transformer.js`)(core);
+        const addMissingData  = require(`${dataAccessIntegratedModePath}/core-add-missing-data.js`)(coreTransformer);
+        const cache = require(`${dataAccessIntegratedModePath}/core-cache.js`)(addMissingData, myCache);
+        const metadata = require(`${dataAccessIntegratedModePath}/remove-metadata.js`)(cache);
         
         data = metadata;
     }
@@ -89,6 +87,9 @@ async function configurations() {
 
 };
 
+configurations();
+
+/*
 const timeToRetry = 60000;
 const retryInterval = 5000;
 let timePassed = 0;
@@ -102,5 +103,5 @@ const myInterval = setInterval(async () => {
             console.log('Executing initial configurations..')
         }
     }
-}, retryInterval);
+}, retryInterval);*/
 

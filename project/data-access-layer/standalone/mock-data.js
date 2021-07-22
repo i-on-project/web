@@ -1,6 +1,6 @@
 'use strict'
 
-const internalErrors = require('../common/i-on-web-errors.js');
+const internalErrors = require('../../common/i-on-web-errors.js');
 const base64url = require('base64url');
 
 let users = {};
@@ -221,7 +221,7 @@ module.exports = function() {
 
 /******* Helper functions *******/
 
-const mockDataPath = '../mock-data/standalone';
+const mockDataPath = '../../mock-data/standalone';
 const getMockData = function(path) {
 	try{
 		return require(mockDataPath + path);
