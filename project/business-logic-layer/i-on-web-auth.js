@@ -31,7 +31,7 @@ module.exports = (app, data, sessionDB) => {
     app.use(session({
 		resave: false,              
 		saveUninitialized: false,  
-		secret: 'secret',   // TO DO - Generate random string
+		secret: 'secret',
 		cookie: { maxAge: sessionMaxAge },
 		store: new FileStore() 
     }))

@@ -1416,7 +1416,7 @@ describe('Services', function () {
 	}),
 	
 
-	describe('getAuthMethodsAndFeatures', function() { // to do
+	describe('getAuthMethodsAndFeatures', function() {
 
 		it('should return the authentication mehotds and features', async function () {
 
