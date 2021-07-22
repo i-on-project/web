@@ -7,6 +7,9 @@ const internalErrors = require('../common/i-on-web-errors.js');
 
 const FileStore = require('session-file-store')(session); 
 
+/// Session expiration time
+const sessionMaxAge = 7 * 24 * 60 * 60 * 1000; 
+
 module.exports = (app, data, sessionDB) => {
 
 	function userToRef(user, done) {
@@ -29,7 +32,7 @@ module.exports = (app, data, sessionDB) => {
 		resave: false,              
 		saveUninitialized: false,  
 		secret: 'secret',   // TO DO - Generate random string
-		cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 },
+		cookie: { maxAge: sessionMaxAge },
 		store: new FileStore() 
     }))
 
@@ -153,7 +156,7 @@ const getUserAndSessionInfo = async function(data, sessionDB, sessionId) { // Th
 	}
 }
 
-const updateUserSession = async function(data, sessionDB, sessionInfo, sessionId) {// mudar assinatura pra receber o session id e talvez email
+const updateUserSession = async function(data, sessionDB, sessionInfo, sessionId) {
 	const newTokens = await data.refreshAccessToken(sessionInfo);
 	await sessionDB.storeUpdatedInfo(sessionInfo.email, newTokens, sessionId)
 }

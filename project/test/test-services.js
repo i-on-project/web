@@ -1413,6 +1413,72 @@ describe('Services', function () {
 				expect(err).to.deep.eql(5);
 			}
 		})
-	})
+	}),
 	
+
+	describe('getAuthMethodsAndFeatures', function() { // to do
+
+		it('should return the authentication mehotds and features', async function () {
+
+			const expected = {
+				"bachelor": [
+					{
+						"programmeId": 3,
+						"acronym": "LEIRT",
+						"name": "Engenharia Informática, Redes e Telecomunicações",
+						"degree": "bachelor"
+					}
+				], 
+				"master": [],
+				"data": [
+					{
+					  "allowed_domains": [
+						"*.isel.pt",
+						"*.isel.ipl.pt"
+					  ],
+					  "type": "email"
+					}
+				]
+			};
+			
+			const data = {
+				loadAllProgrammes: async function() {
+					return [
+						{
+							"programmeId": 3,
+							"acronym": "LEIRT",
+							"name": "Engenharia Informática, Redes e Telecomunicações",
+							"degree": "bachelor"
+						}
+					];
+				},
+
+				loadAuthenticationMethodsAndFeatures: async function() {
+					return [
+						{
+						  "allowed_domains": [
+							"*.isel.pt",
+							"*.isel.ipl.pt"
+						  ],
+						  "type": "email"
+						}
+					];
+				}
+			};
+
+			const sessionDB = null;
+
+			const service = serviceCreator(data, sessionDB);
+
+			// Act
+			const response = await service.getAuthMethodsAndFeatures();
+
+			// Assert
+			expect(response.bachelor).to.deep.eql(expected.bachelor);
+			expect(response.master).to.deep.eql(expected.master);
+			expect(response.data).to.deep.eql(expected.data);
+
+		})
+
+	})
 })
