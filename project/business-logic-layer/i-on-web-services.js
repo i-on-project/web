@@ -50,14 +50,15 @@ module.exports = function(data, sessionDB) {
 
 		if(user) {
 			const offers = await data.loadAllProgrammeOffers(programmeId);
-
+	
 			const courseIDs = offers
 			.map(offer => offer.courseId)
 			//.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
-
+			
 			const calendarTerm = await getCurrentCalendarTerm(data);
-
+			
 			const filteredCoursesId = [];
+			
 			for(let i = 0; i < courseIDs.length; i++) {
 				const courseClasses = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm);
 				if(courseClasses.classes.length != 0) filteredCoursesId.push(courseIDs[i]);
@@ -67,6 +68,7 @@ module.exports = function(data, sessionDB) {
 				.filter(course => filteredCoursesId.includes(course.courseId))
 
 			const commonInfo = await getProgrammesByDegree(data);
+
 			return Object.assign({
 				user: user,
 				programmeOffers : programmeOffers,
@@ -108,17 +110,17 @@ module.exports = function(data, sessionDB) {
 			let schedule = [];
 			if(user) {
 				const calendarTerm = await getCurrentCalendarTerm(data);
-				const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
-				const userClassesOfPresentCalendarTerm = userClassesAndClassSections.filter(userClass => userClass.calendarTerm === calendarTerm);
+				const userSubscriptions = await data.getUserSubscriptions(user);
+				const userClassesOfCurrentCalendarTerm = userSubscriptions.filter(userClass => userClass.calendarTerm === calendarTerm);
 				
-				for(let i = 0; i < userClassesOfPresentCalendarTerm.length; i++) {
-					const courseId = userClassesOfPresentCalendarTerm[i].courseId;
-					const classes = userClassesOfPresentCalendarTerm[i].classes;
+				for(let i = 0; i < userClassesOfCurrentCalendarTerm.length; i++) {
+					const courseId = userClassesOfCurrentCalendarTerm[i].courseId;
+					const classes = userClassesOfCurrentCalendarTerm[i].classes;
 
 					for(let j = 0; j < classes.length; j++) {
 						const classSectionSchedule = await data.loadClassSectionSchedule(courseId, calendarTerm, classes[j])
 						schedule = schedule.concat(classSectionSchedule.map(classSection => {
-							classSection['acronym'] = userClassesOfPresentCalendarTerm[i].acronym;
+							classSection['acronym'] = userClassesOfCurrentCalendarTerm[i].acronym;
 							classSection['classSection'] = classes[j];
 							return classSection;
 						}));
@@ -187,20 +189,20 @@ module.exports = function(data, sessionDB) {
 		}
 	};
 
-	const getUserSubscribedClassesAndClassSections = async function(user) {
+	const getUserSubscriptions = async function(user) {
 		try {
 			let userClasses = [];
 			if(user) {
 				const calendarTerm = await getCurrentCalendarTerm(data);
-				const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
-				const userClassesOfPresentCalendarTerm = userClassesAndClassSections.filter(userClass => userClass.calendarTerm === calendarTerm);
+				const userSubscriptions = await data.getUserSubscriptions(user);
+				const userClassesOfCurrentCalendarTerm = userSubscriptions.filter(userClass => userClass.calendarTerm === calendarTerm);
 
-				for(let i = 0; i < userClassesOfPresentCalendarTerm.length; i++) {
-					const course = await data.loadCourseClassesByCalendarTerm(userClassesOfPresentCalendarTerm[i].courseId , calendarTerm)
-					const userClass = userClassesOfPresentCalendarTerm[i];
+				for(let i = 0; i < userClassesOfCurrentCalendarTerm.length; i++) {
+					const course = await data.loadCourseClassesByCalendarTerm(userClassesOfCurrentCalendarTerm[i].courseId , calendarTerm)
+					const userClass = userClassesOfCurrentCalendarTerm[i];
 					userClass['name'] = course.name;
 				}
-				userClasses = userClassesOfPresentCalendarTerm;
+				userClasses = userClassesOfCurrentCalendarTerm;
 			}
 		
 			const commonInfo = await getProgrammesByDegree(data);
@@ -215,14 +217,14 @@ module.exports = function(data, sessionDB) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
 					await updateUserSession(data, sessionDB, sessionDBuser);
-					return getUserSubscribedClassesAndClassSections(user);
+					return getUserSubscriptions(user);
 				default:
 					throw err;
 			}
 		}
 	};
 
-	const editUserSubscribedClassesAndClassSections = async function(user, selectedClassesAndClassSections) {
+	const deleteUserSubscriptions = async function(user, selectedClassesAndClassSections) {
 
 		try {
 			if(user) {
@@ -233,9 +235,9 @@ module.exports = function(data, sessionDB) {
 
 					if(Array.isArray(selectedClassesAndClassSections[classId])) {
 						for(let i = 0; i < selectedClassesAndClassSections[classId].length; i++)
-							await data.deleteUserClassSection(user, classId, selectedClassesAndClassSections[classId][i]);
+							await data.deleteUserSubscriptions(user, classId, selectedClassesAndClassSections[classId][i]);
 					} else {
-						await data.deleteUserClassSection(user, classId, selectedClassesAndClassSections[classId]);
+						await data.deleteUserSubscriptions(user, classId, selectedClassesAndClassSections[classId]);
 					}
 					const classes = await data.loadUserSubscribedClassSectionsInClass(user, classId);
 					if(classes.length === 0)
@@ -248,7 +250,7 @@ module.exports = function(data, sessionDB) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
 					await updateUserSession(data, sessionDB, user);
-					return editUserSubscribedClassesAndClassSections(user, selectedCoursesAndClassesToDelete);
+					return deleteUserSubscriptions(user, selectedCoursesAndClassesToDelete);
 				default:
 					throw err;
 			}
@@ -280,16 +282,16 @@ module.exports = function(data, sessionDB) {
 		
 
 			/**** Get user subscribed Classes ****/
-			const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
-			const userClassesOfPresentCalendarTerm = userClassesAndClassSections.filter(userClass => userClass.calendarTerm === calendarTerm);
+			const userSubscriptions = await data.getUserSubscriptions(user);
+			const userClassesOfCurrentCalendarTerm = userSubscriptions.filter(userClass => userClass.calendarTerm === calendarTerm);
 
-			for(let i = 0; i < userClassesOfPresentCalendarTerm.length; i++) {
-				const course = await data.loadCourseClassesByCalendarTerm(userClassesOfPresentCalendarTerm[i].courseId , calendarTerm)
-				const userClass = userClassesOfPresentCalendarTerm[i];
+			for(let i = 0; i < userClassesOfCurrentCalendarTerm.length; i++) {
+				const course = await data.loadCourseClassesByCalendarTerm(userClassesOfCurrentCalendarTerm[i].courseId , calendarTerm)
+				const userClass = userClassesOfCurrentCalendarTerm[i];
 				userClass['name'] = course.name;
 			}
 
-			userClasses = userClassesOfPresentCalendarTerm
+			userClasses = userClassesOfCurrentCalendarTerm
 			.filter(userClass => {
 				return classeSectionsByClass.some(selectedClass => selectedClass.id === userClass.id && selectedClass.courseId === userClass.courseId);
 			})
@@ -310,7 +312,7 @@ module.exports = function(data, sessionDB) {
 
 	};
 
-	const saveUserClassesAndClassSections = async function(user, selectedClassesAndClassSections) {
+	const saveUserSubscriptions = async function(user, selectedClassesAndClassSections) {
 
 		try {
 
@@ -323,9 +325,9 @@ module.exports = function(data, sessionDB) {
 
 					if(Array.isArray(selectedClassesAndClassSections[classId])) {
 						for(let i = 0; i < selectedClassesAndClassSections[classId].length; i++) 
-							await data.saveUserClassesAndClassSections(user, classId, selectedClassesAndClassSections[classId][i]);
+							await data.saveUserSubscriptions(user, classId, selectedClassesAndClassSections[classId][i]);
 					} else {
-						await data.saveUserClassesAndClassSections(user, classId, selectedClassesAndClassSections[classId]);
+						await data.saveUserSubscriptions(user, classId, selectedClassesAndClassSections[classId]);
 					}
 				}
 
@@ -337,7 +339,7 @@ module.exports = function(data, sessionDB) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
 					await updateUserSession(data, sessionDB, user);
-					return saveUserClassesAndClassSections(user, selectedClassesAndClassSections);
+					return saveUserSubscriptions(user, selectedClassesAndClassSections);
 				default:
 					throw err;
 			}
@@ -358,7 +360,6 @@ module.exports = function(data, sessionDB) {
 	const getProfilePage = async function(user) {
 		if(user) {
 			const commonInfo = await getProgrammesByDegree(data);
-			//user['programmeName'] = (await data.loadProgrammeData(user.programme)).name;
 
 			return Object.assign(commonInfo, {
 				user: user,
@@ -421,10 +422,10 @@ module.exports = function(data, sessionDB) {
 		getProgrammeData : getProgrammeData,
 		getUserSchedule : getUserSchedule,
 		getUserCalendar : getUserCalendar,
-		getUserSubscribedClassesAndClassSections : getUserSubscribedClassesAndClassSections,
-		editUserSubscribedClassesAndClassSections : editUserSubscribedClassesAndClassSections,
+		getUserSubscriptions : getUserSubscriptions,
+		deleteUserSubscriptions : deleteUserSubscriptions,
 		getClassSectionsFromSelectedClasses : getClassSectionsFromSelectedClasses,
-		saveUserClassesAndClassSections : saveUserClassesAndClassSections,		
+		saveUserSubscriptions : saveUserSubscriptions,		
 		getAboutData : getAboutData,
 		getProfilePage : getProfilePage,
 		editProfile : editProfile,
@@ -436,10 +437,10 @@ module.exports = function(data, sessionDB) {
 /******* Helper functions *******/
 
 const getUserEvents = async function(data, user, calendarTerm) {
-	const userClassesAndClassSections = await data.loadUserSubscribedClassesAndClassSections(user);
+	const userSubscriptions = await data.getUserSubscriptions(user);
 
 	// filtering classes by current calendar term
-	const userClassesOfCurrentCalendarTerm = userClassesAndClassSections.filter(
+	const userClassesOfCurrentCalendarTerm = userSubscriptions.filter(
 		userClass => userClass.calendarTerm === calendarTerm
 	);
 
@@ -489,5 +490,5 @@ const updateUserSession = async function(data, sessionsDb, user) {
 
 function isIdValid(id) {
 	const numberId = Number(id);
-	return typeof(numberId) === 'number' && Math.round(numberId) === numberId && numberId > 0;
+	return typeof(numberId) === 'number' && Math.round(numberId) === numberId && numberId >= 0;
 }

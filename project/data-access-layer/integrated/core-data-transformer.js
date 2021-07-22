@@ -59,9 +59,9 @@ module.exports = function(data) {
 			"ETag": receivedData.metadata.get('ETag'),
 			"maxAge": getMaxAge(cache_control)
 		}
-
-		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
 		
+		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
+
 		const transformedData = receivedData.data.entities
 		.map(entities => entities.properties)
 		.reduce(function(response, currentCourse) {
@@ -160,7 +160,6 @@ module.exports = function(data) {
 	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm, metadata)  {
 	
 		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, metadata) ;
-	
 		const cache_control = receivedData.metadata.get('Cache-Control');
 
 		const receivedmetadata = {
@@ -550,8 +549,8 @@ module.exports = function(data) {
 
 	/* User related methods */
 
-	const saveUserClassesAndClassSections = function(user, id, classSection) {
-		return data.saveUserClassesAndClassSections(user, id, classSection);
+	const saveUserSubscriptions = function(user, id, classSection) {
+		return data.saveUserSubscriptions(user, id, classSection);
 	}
 
 	const loadUserSubscribedClassSectionsInClass = async function(user, id) {
@@ -573,8 +572,8 @@ module.exports = function(data) {
 	*/
 	////
 
-	const loadUserSubscribedClassesAndClassSections = async function(user) {
-		const receivedData = await data.loadUserSubscribedClassesAndClassSections(user);
+	const getUserSubscriptions = async function(user) {
+		const receivedData = await data.getUserSubscriptions(user);
 
 		return receivedData.entities		
 		.map(entities => entities.properties)
@@ -602,8 +601,8 @@ module.exports = function(data) {
 		}, []);
 	}
 
-	const deleteUserClassSection = function(user, id, classSection) {
-		return data.deleteUserClassSection(user, id, classSection);
+	const deleteUserSubscriptions = function(user, id, classSection) {
+		return data.deleteUserSubscriptions(user, id, classSection);
 	}
 
 	const deleteUserClass = function(user, id) {
@@ -679,10 +678,10 @@ module.exports = function(data) {
 		pollingCore : pollingCore,
 
 		/* User related methods */
-		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
+		saveUserSubscriptions : saveUserSubscriptions,
 		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
-		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
-		deleteUserClassSection : deleteUserClassSection,
+		getUserSubscriptions : getUserSubscriptions,
+		deleteUserSubscriptions : deleteUserSubscriptions,
 		deleteUserClass : deleteUserClass,
 		editUser : editUser,
 		loadUser : loadUser,

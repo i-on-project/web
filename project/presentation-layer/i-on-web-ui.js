@@ -53,18 +53,18 @@ function webui(service, auth) {
 			}
 		},
 
-		userClassesAndClassSections: async function(req, res) {
+		getUserSubscriptions: async function(req, res) {
 			try {
-				const data = await service.getUserSubscribedClassesAndClassSections(req.user);
+				const data = await service.getUserSubscriptions(req.user);
 				res.render('user-classes', data);
 			} catch(err) {
 				onError(req, res, err, 'Failed to show user courses');
 			}
 		},
 
-		userClassesAndClassSectionsEdit: async function(req, res) {
+		deleteUserSubscriptions: async function(req, res) {
 			try {
-				await service.editUserSubscribedClassesAndClassSections(req.user, req.body);
+				await service.deleteUserSubscriptions(req.user, req.body);
 				res.redirect(pathPrefix + '/subscriptions');
 			} catch(err) {
 				onError(req, res, err, 'Failed to edit user classe sections');
@@ -80,9 +80,9 @@ function webui(service, auth) {
 			}
 		},
 
-		saveUserClassesAndClassSections: async function(req, res) { 
+		saveUserSubscriptions: async function(req, res) { 
 			try {
-				await service.saveUserClassesAndClassSections(req.user, req.body);
+				await service.saveUserSubscriptions(req.user, req.body);
 				res.redirect(pathPrefix + '/subscriptions');
 			} catch(err) {
 				onError(req, res, err, 'Failed to save user classe sections');
@@ -157,9 +157,9 @@ function webui(service, auth) {
 	
 	router.get('/class-sections',			theWebUI.classSectionsFromSelectedClasses	);	/// Available classes of the selected courses
 	
-	router.post('/subscriptions', 			theWebUI.saveUserClassesAndClassSections	);
-	router.get(	'/subscriptions',			theWebUI.userClassesAndClassSections		); 	/// Users courses page
-	router.post('/subscriptions/delete',	theWebUI.userClassesAndClassSectionsEdit	);
+	router.post('/subscriptions', 			theWebUI.saveUserSubscriptions				);
+	router.get(	'/subscriptions',			theWebUI.getUserSubscriptions		); 	/// Users courses page
+	router.post('/subscriptions/delete',	theWebUI.deleteUserSubscriptions			);
 	
 	router.get(	'/schedule', 				theWebUI.userSchedule						);	/// Users schedule page
 	router.get(	'/calendar', 				theWebUI.userCalendar						);	/// Users calendar page

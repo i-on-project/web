@@ -62,20 +62,20 @@ module.exports = function(data) {
 	};
 	
 	/* User related methods */
-	const saveUserClassesAndClassSections = function(user, id, classSection) {
-		return data.saveUserClassesAndClassSections(user, id, classSection);
+	const saveUserSubscriptions = function(user, id, classSection) {
+		return data.saveUserSubscriptions(user, id, classSection);
 	};
 	
 	const loadUserSubscribedClassSectionsInClass = function(user, id) {
 		return data.loadUserSubscribedClassSectionsInClass(user, id);
 	};
 	
-	const loadUserSubscribedClassesAndClassSections = function(user) {
-		return data.loadUserSubscribedClassesAndClassSections(user);
+	const getUserSubscriptions = function(user) {
+		return data.getUserSubscriptions(user);
 	};
 	
-	const deleteUserClassSection = function(user, id, classSection) {
-		return data.deleteUserClassSection(user, id, classSection);
+	const deleteUserSubscriptions = function(user, id, classSection) {
+		return data.deleteUserSubscriptions(user, id, classSection);
 	};
 	
 	const deleteUserClass = function(user, id) {
@@ -120,10 +120,10 @@ module.exports = function(data) {
 		pollingCore : pollingCore,
 
 		/* User related methods */
-		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
+		saveUserSubscriptions : saveUserSubscriptions,
 		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
-		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
-		deleteUserClassSection : deleteUserClassSection,
+		getUserSubscriptions : getUserSubscriptions,
+		deleteUserSubscriptions : deleteUserSubscriptions,
 		deleteUserClass : deleteUserClass,
 		editUser : editUser,
 		loadUser : loadUser,

@@ -470,7 +470,7 @@ module.exports = function() {
 
 	/* Methods related to user api */
 
-	const saveUserClassesAndClassSections = async function(user, id, classSection) {
+	const saveUserSubscriptions = async function(user, id, classSection) {
 		try {
 			const options = {
 				method: 'PUT',
@@ -522,7 +522,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadUserSubscribedClassesAndClassSections = async function(user) {
+	const getUserSubscriptions = async function(user) {
 		try {
 			const options = {
 				method: 'GET',
@@ -546,7 +546,7 @@ module.exports = function() {
 		}
 	};
 
-	const deleteUserClassSection = async function(user, id, classSection) {
+	const deleteUserSubscriptions = async function(user, id, classSection) {
 		try {
 			const options = {
 				method: 'DELETE',
@@ -775,10 +775,10 @@ module.exports = function() {
 		pollingCore : pollingCore,
 
 		/* Methods related to user api */
-		saveUserClassesAndClassSections : saveUserClassesAndClassSections,
+		saveUserSubscriptions : saveUserSubscriptions,
 		loadUserSubscribedClassSectionsInClass : loadUserSubscribedClassSectionsInClass,
-		loadUserSubscribedClassesAndClassSections : loadUserSubscribedClassesAndClassSections,
-		deleteUserClassSection : deleteUserClassSection,
+		getUserSubscriptions : getUserSubscriptions,
+		deleteUserSubscriptions : deleteUserSubscriptions,
 		deleteUserClass : deleteUserClass,
 		editUser : editUser,
 		loadUser : loadUser,
