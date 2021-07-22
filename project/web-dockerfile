@@ -15,12 +15,8 @@ ENV CORE_CLIENT_ID=$CORE_CLIENT_ID
 ENV DB_ELASTIC_URL=$DB_ELASTIC_URL
 ENV PATH_PREFIX=$PATH_PREFIX
 
-# Create a directory to hold the application code inside the image, this will be the working directory for the application
 WORKDIR /web
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
 COPY package*.json ./
 
 RUN npm install
