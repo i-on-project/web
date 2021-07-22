@@ -4,7 +4,7 @@ name: heroku_deploy
 on:
   # Triggers the workflow on push or pull request events but only for the staging branch
   push:
-    branches: [ staging ]
+    branches: [ staging , fix/standalone-bug]
   pull_request:
     branches: [ staging ]
 
