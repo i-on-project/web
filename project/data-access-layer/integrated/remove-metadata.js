@@ -7,13 +7,8 @@ module.exports = function(data) {
 		return receivedData.data;
 	};
 
-    const loadAllProgrammeOffers = async function (programmeId) {
-		const receivedData = await data.loadAllProgrammeOffers(programmeId);
-		return receivedData.data;
-	};
-
-	const loadProgrammeData = async function(programmeId) {
-		const receivedData = await data.loadProgrammeData(programmeId);
+    const loadProgramme = async function (programmeId) {
+		const receivedData = await data.loadProgramme(programmeId);
 		return receivedData.data;
 	};
 
@@ -105,8 +100,7 @@ module.exports = function(data) {
 	
 	return {
         loadAllProgrammes : loadAllProgrammes,
-		loadAllProgrammeOffers : loadAllProgrammeOffers,
-		loadProgrammeData : loadProgrammeData,
+		loadProgramme : loadProgramme,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,

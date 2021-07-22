@@ -50,8 +50,9 @@ module.exports = function(data) {
 	*/
 
 
-	const loadAllProgrammeOffers = async function(programmeId, metadata) {
-		const receivedData = await data.loadAllProgrammeOffers(programmeId, metadata);
+	const loadProgramme = async function(programmeId, metadata) {
+
+		const receivedData = await data.loadProgramme(programmeId, metadata);
 
 		const cache_control = receivedData.metadata.get('Cache-Control');
 
@@ -61,8 +62,8 @@ module.exports = function(data) {
 		}
 
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
-		
-		const transformedData = receivedData.data.entities
+
+		const offers = receivedData.data.entities
 		.map(entities => entities.properties)
 		.reduce(function(response, currentCourse) {
 			const course = {
@@ -79,48 +80,6 @@ module.exports = function(data) {
 			return response;
 		}, []);;
 
-		return {
-			"metadata": receivedmetadata,
-			"data": transformedData
-		};
-	};
-	/* Returned data Example:
-	* [{
-	*	'acronym': 'PI',
-	*	'name': 'Programação na Internet',
-	*	'courseId': 5,
-	*	'id': 3,
-	*	'termNumber': [5],
-	*	'optional': false,
-	*	'ects': 6,
-	*	'scientificArea': 'IC'
-	* }, 
-	* ...
-	* {
-	*	'acronym': 'CN',
-	*	'name': 'Computação na Nuvem',
-	*	'courseId': 9,
-	*	'id': 7,
-	*	'termNumber': [6],
-	*	'optional': false,
-	*	'ects': 6,
-	*	'scientificArea': 'IC'
-	* }]
-	*/
-
-
-	const loadProgrammeData = async function(programmeId, metadata) {
-		const receivedData = await data.loadProgrammeData(programmeId, metadata);
-	
-		const cache_control = receivedData.metadata.get('Cache-Control');
-
-		const receivedmetadata = {
-			"ETag": receivedData.metadata.get('ETag'),
-			"maxAge": getMaxAge(cache_control)
-		}
-
-		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
-
 		const transformedData = {
 			"id": receivedData.data.properties.id,
 			"name": receivedData.data.properties.name,
@@ -131,6 +90,7 @@ module.exports = function(data) {
 			"contacts": receivedData.data.properties.contacts,
 			"sourceLink": receivedData.data.properties.sourceLink,
 			"description": receivedData.data.properties.description,
+			"offers": offers
 		};
 
 		return {
@@ -153,6 +113,27 @@ module.exports = function(data) {
     *	'contacts': 'ccleirt@deetc.isel.ipl.pt',
     *	'sourceLink': 'https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-redes-e-telecomunicacoes',
     *	'description': 'O curso de Licenciatura em Engenharia Informática, Redes e Telecomunicações (LEIRT)...'
+	*	'offers': [{
+	*		'acronym': 'PI',
+	*		'name': 'Programação na Internet',
+	*		'courseId': 5,
+	*		'id': 3,
+	*		'termNumber': [5],
+	*		'optional': false,
+	*		'ects': 6,
+	*		'scientificArea': 'IC'
+	* 	}, 
+	* 	...
+	* 	{
+	*		'acronym': 'CN',
+	*		'name': 'Computação na Nuvem',
+	*		'courseId': 9,
+	*		'id': 7,
+	*		'termNumber': [6],
+	*		'optional': false,
+	*		'ects': 6,
+	*		'scientificArea': 'IC'
+	* 	}]
 	* }
 	*/
 
@@ -571,7 +552,7 @@ module.exports = function(data) {
 	*	'1N'
 	* ]
 	*/
-	////
+	
 
 	const loadUserSubscribedClassesAndClassSections = async function(user) {
 		const receivedData = await data.loadUserSubscribedClassesAndClassSections(user);
@@ -664,8 +645,7 @@ module.exports = function(data) {
 
 	return {
         loadAllProgrammes : loadAllProgrammes,
-		loadAllProgrammeOffers : loadAllProgrammeOffers,
-		loadProgrammeData : loadProgrammeData,
+		loadProgramme : loadProgramme,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,

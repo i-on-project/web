@@ -12,5 +12,407 @@
     ],
     "contacts": "ccleirt@deetc.isel.ipl.pt",
     "sourceLink": "https://www.isel.pt/cursos/licenciaturas/engenharia-informatica-redes-e-telecomunicacoes",
-    "description": "O curso de Licenciatura em Engenharia Informática, Redes e Telecomunicações (LEIRT) é uma nova licenciatura do ISEL, motivada pelas necessidades crescentes de profissionais nas áreas de convergência entre a informática, as redes de computadores e as telecomunicações fixas e móveis. A LEIRT fornece conhecimentos e competências que permitirão o desenvolvimento de projetos nas áreas dos sistemas computacionais em nuvem, aplicações online, redes celulares, redes de dados, Internet das Coisas, entre outras. Este curso prepara engenheiros para construir o futuro!"
+    "description": "O curso de Licenciatura em Engenharia Informática, Redes e Telecomunicações (LEIRT) é uma nova licenciatura do ISEL, motivada pelas necessidades crescentes de profissionais nas áreas de convergência entre a informática, as redes de computadores e as telecomunicações fixas e móveis. A LEIRT fornece conhecimentos e competências que permitirão o desenvolvimento de projetos nas áreas dos sistemas computacionais em nuvem, aplicações online, redes celulares, redes de dados, Internet das Coisas, entre outras. Este curso prepara engenheiros para construir o futuro!",
+    "offers": [
+        {
+            "acronym": "AM1",
+            "name": "Análise Matemática I",
+            "courseId": 47,
+            "id": 47,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "ALGA",
+            "name": "Álgebra Linear e Geometria Analítica",
+            "courseId": 10,
+            "id": 10,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "LSD",
+            "name": "Lógica e Sistemas Digitais",
+            "courseId": 3,
+            "id": 3,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PG1",
+            "name": "Programação I",
+            "courseId": 48,
+            "id": 48,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "Elect",
+            "name": "Eletrónica",
+            "courseId": 5,
+            "id": 5,
+            "termNumber": [1],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "TEL"
+        },
+        {
+            "acronym": "PE",
+            "name": "Probabilidades e Estatística",
+            "courseId": 49,
+            "id": 49,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "RcP",
+            "name": "Redes de Computadores",
+            "courseId": 7,
+            "id": 7,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "SS",
+            "name": "Sinais e Sistemas",
+            "courseId": 50,
+            "id": 50,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "TEL"
+        },
+        {
+            "acronym": "AC",
+            "name": "Arquitetura de Computadores",
+            "courseId": 9,
+            "id": 9,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PG2",
+            "name": "Programação II",
+            "courseId": 51,
+            "id": 51,
+            "termNumber": [2],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "RI",
+            "name": "Redes de Internet",
+            "courseId": 40,
+            "id": 40,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "Tel1",
+            "name": "Telecomunicações I",
+            "courseId": 52,
+            "id": 52,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "TEL"
+        },
+        {
+            "acronym": "AM2",
+            "name": "Análise Matemática II",
+            "courseId": 53,
+            "id": 53,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "MAT"
+        },
+        {
+            "acronym": "PG3",
+            "name": "Programação III",
+            "courseId": 54,
+            "id": 54,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "SI",
+            "name": "Sistemas de Informação",
+            "courseId": 20,
+            "id": 20,
+            "termNumber": [3],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "TAR",
+            "name": "Tecnologias Avançadas de Redes",
+            "courseId": 46,
+            "id": 46,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "Tel2",
+            "name": "Telecomunicações II",
+            "courseId": 55,
+            "id": 55,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "TEL"
+        },
+        {
+            "acronym": "FPR",
+            "name": "Fundamentos de Propagação e Radiação",
+            "courseId": 56,
+            "id": 56,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "TEL"
+        },
+        {
+            "acronym": "SO",
+            "name": "Sistemas Operativos",
+            "courseId": 57,
+            "id": 57,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "MPD",
+            "name": "Modelação e Padrões de Desenho",
+            "courseId": 58,
+            "id": 58,
+            "termNumber": [4],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PDS",
+            "name": "Processamento Digital de Sinais",
+            "courseId": 59,
+            "id": 59,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "TEL"
+        },
+        {
+            "acronym": "ST",
+            "name": "Sistemas de Telecomunicações",
+            "courseId": 60,
+            "id": 60,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "TEL"
+        },
+        {
+            "acronym": "PI",
+            "name": "Programação na Internet",
+            "courseId": 61,
+            "id": 61,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "SI",
+            "name": "Segurança Informática",
+            "courseId": 24,
+            "id": 24,
+            "termNumber": [5],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PDM",
+            "name": "Programação de Dispositivos Móveis",
+            "courseId": 22,
+            "id": 22,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "PRC",
+            "name": "Projeto de Redes de Computadores",
+            "courseId": 62,
+            "id": 62,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "IRS",
+            "name": "Integração de Redes e Serviços",
+            "courseId": 63,
+            "id": 63,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "RCom",
+            "name": "Rádio Comunicações",
+            "courseId": 64,
+            "id": 64,
+            "termNumber": [5],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "P",
+            "name": "Projeto",
+            "courseId": 65,
+            "id": 65,
+            "termNumber": [6],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "CN",
+            "name": "Computação na Nuvem",
+            "courseId": 42,
+            "id": 42,
+            "termNumber": [6],
+            "optional": false,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "SD",
+            "name": "Sistemas Distribuídos",
+            "courseId": 43,
+            "id": 43,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "DAW",
+            "name": "Desenvolvimento de Aplicações Web",
+            "courseId": 21,
+            "id": 21,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "SRC",
+            "name": "Segurança em Redes de Computadores",
+            "courseId": 66,
+            "id": 66,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "RA",
+            "name": "Redes de Acesso",
+            "courseId": 67,
+            "id": 67,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "CTVS",
+            "name": "Comunicações Terrestres e Via Satélite",
+            "courseId": 68,
+            "id": 68,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "TEL"
+        },
+        {
+            "acronym": "PORM",
+            "name": "Planeamento e Otimização de Redes Móveis",
+            "courseId": 69,
+            "id": 69,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "TEL"
+        },
+        {
+            "acronym": "AAR",
+            "name": "Administração Automatizada de Redes",
+            "courseId": 70,
+            "id": 70,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "IC"
+        },
+        {
+            "acronym": "GAP",
+            "name": "Gestão e Avaliação de Projetos",
+            "courseId": 31,
+            "id": 31,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "CSO"
+        },
+        {
+            "acronym": "SG",
+            "name": "Sistemas de Gestão",
+            "courseId": 30,
+            "id": 30,
+            "termNumber": [6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "CSO"
+        },	
+        {
+            "acronym": "EGP",
+            "name": "Economia e Gestão de Projeto",
+            "courseId": 26,
+            "id": 26,
+            "termNumber": [5, 6],
+            "optional": true,
+            "ects": 6,
+            "scientificArea": "CSO"
+        }		
+    ]
 }

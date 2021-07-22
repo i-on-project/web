@@ -14,23 +14,12 @@ module.exports = function(data, myCache) {
 
 	};
 
-	const loadAllProgrammeOffers = async function (programmeId) {
-		
-		const key = 'offers/' + programmeId;
-
-		const fetchFunction = function() { 
-			return data.loadAllProgrammeOffers(programmeId, ...arguments);
-		}
-
-		return getData(myCache, key, fetchFunction);
-	};
-
-	const loadProgrammeData = async function(programmeId) {
+	const loadProgramme = async function(programmeId) {
 	
 		const key = 'programme/' + programmeId;
 
 		const fetchFunction = function() { 
-			return data.loadProgrammeData(programmeId, ...arguments);
+			return data.loadProgramme(programmeId, ...arguments);
 		}
 
 		return getData(myCache, key, fetchFunction);
@@ -168,8 +157,7 @@ module.exports = function(data, myCache) {
 
 	return {
         loadAllProgrammes : loadAllProgrammes,
-		loadAllProgrammeOffers : loadAllProgrammeOffers,
-		loadProgrammeData : loadProgrammeData,
+		loadProgramme : loadProgramme,
 		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,

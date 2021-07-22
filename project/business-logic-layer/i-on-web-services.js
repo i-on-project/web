@@ -49,9 +49,9 @@ module.exports = function(data, sessionDB) {
 		if(!isIdValid(programmeId)) throw internalErrors.BAD_REQUEST;
 
 		if(user) {
-			const offers = await data.loadAllProgrammeOffers(programmeId);
+			const programme = await data.loadProgramme(programmeId);
 
-			const courseIDs = offers
+			const courseIDs = programme.offers
 			.map(offer => offer.courseId)
 			//.filter(courseId => courseId > 0 && courseId < 4) // TO DO - Delete
 
@@ -63,7 +63,7 @@ module.exports = function(data, sessionDB) {
 				if(courseClasses.classes.length != 0) filteredCoursesId.push(courseIDs[i]);
 			}
 
-			const programmeOffers = offers
+			const programmeOffers = programme.offers
 				.filter(course => filteredCoursesId.includes(course.courseId))
 
 			const commonInfo = await getProgrammesByDegree(data);
@@ -82,10 +82,9 @@ module.exports = function(data, sessionDB) {
 
 		if(!isIdValid(programmeId)) throw internalErrors.BAD_REQUEST;
 
-		const programme = await data.loadProgrammeData(programmeId);
-		const offers = await data.loadAllProgrammeOffers(programmeId);
+		const programme = await data.loadProgramme(programmeId);
 
-		const offersByAcademicTerms = offers
+		const offersByAcademicTerms = programme.offers
 		.reduce( (offersByTerms, offer) => {
 			return offer.termNumber.reduce( (offersByTerms, term) => {
 				offersByTerms[term] = offersByTerms[term] || [];
@@ -98,8 +97,8 @@ module.exports = function(data, sessionDB) {
 		const commonInfo = await getProgrammesByDegree(data);
 		return Object.assign(commonInfo, {
 			user: user, 
-			offersByAcademicTerms: offersByAcademicTerms, 
 			programme: programme,
+			offersByAcademicTerms: offersByAcademicTerms,
 			page: 'programmes',
 			pathPrefix : pathPrefix
 		});
