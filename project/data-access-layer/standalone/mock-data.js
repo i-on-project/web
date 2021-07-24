@@ -116,20 +116,21 @@ module.exports = function() {
 			delete data.classes;
 			data['calendarTerm'] = calendarTerm.currentCalendarTerm;
 	
-			let subscribedToCourse = false;
+			let subscribedToClass = false;
 
 			for(let i = 0; i < users[user.email].classesAndClassSections.length; i++) {
-				if(users[user.email].classesAndClassSections[i].id === id) { 
+				
+				if(users[user.email].classesAndClassSections[i].id == id) { 
 					/// User is already subscribed to a class section of this class and now (as long as its not the ones hes already subscribed to)
 					/// he is going to subscribe one more class section
-					subscribedToCourse = true;
+					subscribedToClass = true;
 					if(!users[user.email].classesAndClassSections[i].classes.includes(classSection)) {
 						users[user.email].classesAndClassSections[i].classes.push(classSection);
 					}
 				}
 			} 
 			/// User is subscribing for the first time to a class section of a certain classs
-			if(users[user.email].classesAndClassSections.length === 0 || !subscribedToCourse) {
+			if(!subscribedToClass) {
 				const course = data;
 				course['classes'] = [classSection];
 				users[user.email].classesAndClassSections.push(course);
@@ -147,8 +148,10 @@ module.exports = function() {
 	}
 
 	const deleteUserSubscriptions = async function(user, id, classSection) {
+	
 		const classSections = users[user.email].classesAndClassSections
-		.filter(course => course.id == id).find(__ => __).classes;
+			.filter(course => course.id == id)
+			.find(__ => __).classes;
 
 		const classSectionsSize = classSections.length;
 
@@ -160,6 +163,7 @@ module.exports = function() {
 				.find(__ => __).classes.splice(i, 1); 
 			}
 		}
+
 	}
 
 	const deleteUserClass = async function(user, id) {
