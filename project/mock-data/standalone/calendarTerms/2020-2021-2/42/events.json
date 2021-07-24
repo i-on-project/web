@@ -20,6 +20,13 @@
       "startTime": "19:00",
       "endTime": "22:00",
       "location": "G.1.04"
+    },
+    {
+      "event": "Exame de CN (Época especial)",
+      "date": "2021-09-10",
+      "startTime": "19:00",
+      "endTime": "22:00",
+      "location": "A.2.10"
     }
   ]
 }

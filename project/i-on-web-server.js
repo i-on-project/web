@@ -31,11 +31,11 @@ async function configurations() {
     /// Data
     let data;
 
-    if(process.env.OPERATION_MODE === "standalone") {
+   // if(process.env.OPERATION_MODE === "standalone") {
 
        data = require(`${dataAccessStandaloneModePath}/mock-data.js`)();
 
-    } else {
+    /*} else {
 
         const core = require(`${dataAccessIntegratedModePath}/core-data.js`)();
         const coreTransformer = require(`${dataAccessIntegratedModePath}/core-data-transformer.js`)(core);
@@ -44,7 +44,7 @@ async function configurations() {
         const metadata = require(`${dataAccessIntegratedModePath}/remove-metadata.js`)(cache);
         
         data = metadata;
-    }
+    }*/
 
     /// Auth
     const auth = require(`${businessLogicLayerPath}/i-on-web-auth.js`)(app, data, sessionDB);
@@ -82,7 +82,7 @@ async function configurations() {
 };
 
 const timeToRetry = 5 * 60000; // 5 min
-const retryInterval = 4 * 5000;    // 20s 
+const retryInterval = 4 * 500;    // 20s 
 let timePassed = 0;
 const myInterval = setInterval(async () => {
     if(timePassed < timeToRetry) {

@@ -1,0 +1,7 @@
+{
+	"id": 46,
+	"courseId" : 46,
+	"acronym" : "TAR",
+	"name" : "Tecnologias Avançadas de Redes",
+	"classes": ["LEIRT41D", "LI61N"]
+}
