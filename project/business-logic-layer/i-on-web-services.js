@@ -46,12 +46,11 @@ module.exports = function(data, sessionDB) {
 		if(user) {
 
 			const programme = await data.loadProgramme(programmeId);
-
 			const courseIDs = programme.offers
 				.map(offer => offer.courseId);
 			
 			const calendarTerm = await getCurrentCalendarTerm(data);
-			
+
 			/// Check if there are class sections for the classes contained in the programme offer
 			const filteredCoursesId = [];
 			for(let i = 0; i < courseIDs.length; i++) {
@@ -62,9 +61,9 @@ module.exports = function(data, sessionDB) {
 			/// Obtaining only the offers that have class sections
 			const programmeOffers = programme.offers
 				.filter(course => filteredCoursesId.includes(course.courseId));
-
+		
 			const commonInfo = await getProgrammesByDegree(data);
-
+			
 			return Object.assign({
 				user: user,
 				programmeOffers : programmeOffers,

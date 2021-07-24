@@ -3,7 +3,7 @@ const NodeCache = require( "node-cache" );
 class Cache {
     
     constructor(ttlSeconds) {
-        this.cache = new NodeCache({ stdTTL: ttlSeconds, useClones: false, deleteOnExpire: false});
+        this.cache = new NodeCache({ stdTTL: ttlSeconds, useClones: true, deleteOnExpire: false});
     }
     
     get(key) {
