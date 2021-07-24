@@ -191,25 +191,22 @@ module.exports = function(data) {
 	}
 	
 	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
-		
 		const response = await data.loadCalendarTermGeneralInfo(calendarTerm, metadata);
-	
+		
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 
 		/* Adding missing data */ 
 		const mockDataToBeAdded = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
-	
+
 		const improvedData = response.data.map(season => {
-	
-			const mockSeason = mockDataToBeAdded.find(mockSeason => ( mockSeason.date === season.date && mockSeason.id === season.id )) 
-	
+			const mockSeason = mockDataToBeAdded.find(mockSeason => ( mockSeason.date === season.date && mockSeason.id === season.id)) 
+			
 			return {
 				"date": season.date,
 				"title": mockSeason.title,
 			  	"description": mockSeason.description
 			}
 		})
-
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {

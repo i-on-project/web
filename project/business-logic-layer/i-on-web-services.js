@@ -152,16 +152,16 @@ module.exports = function(data, sessionDB) {
 		try {
 			/// Obtaining calendar term e.g., 2021v
 			const calendarTerm = await getCurrentCalendarTerm(data);
-			
+
 			/// Specific events of the calendar term e.g., start and end date of exams 
 			const calendarEvents = await data.loadCalendarTermGeneralInfo(calendarTerm);
-	
+
 			let events = {
 				"calendar": calendarEvents,
 				"assignments": [],
 				"testsAndExams": []
 			};
-	
+			
 			/// If a user is authenticated, we shall get his own events according to his courses
 			if(user) {
 				const calendarTerm = await getCurrentCalendarTerm(data);
@@ -169,15 +169,15 @@ module.exports = function(data, sessionDB) {
 				events.assignments = userEvents.assignments;
 				events.testsAndExams = userEvents.testsAndExams;
 			}
-	
+			
 			const commonInfo = await getProgrammesByDegree(data);
-
+			
 			return Object.assign(commonInfo, {
 				events: events,
 				user: user, 
 				pathPrefix : pathPrefix
 			});
-	
+			
 		} catch (err) {
 			switch (err) {
 				case internalErrors.EXPIRED_ACCESS_TOKEN:
