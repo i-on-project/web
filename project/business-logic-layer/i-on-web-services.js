@@ -432,18 +432,24 @@ module.exports = function(data, sessionDB) {
 const getUserEvents = async function(data, user, calendarTerm) {
 	const userSubscriptions = await data.getUserSubscriptions(user);
 
-	// filtering classes by current calendar term
-	const userClassesOfCurrentCalendarTerm = userSubscriptions.filter(
-		userClass => userClass.calendarTerm === calendarTerm
-	);
+	// Filtering classes by current calendar term and removing repeated classes
+	const userCurrentCalendarTermSubscriptions = userSubscriptions
+		.filter(userClass => userClass.calendarTerm === calendarTerm)
+		.reduce((accum, current) => {
+
+			if(!accum.some(subscription => subscription.courseId === current.courseId && subscription.id === current.id)) 
+				accum.push(current);
+			
+			return accum;
+		}, []);
 
 	const userEvents = {
 		"assignments": [],
 		"testsAndExams": []
 	};
 
-	for(let i = 0; i < userClassesOfCurrentCalendarTerm.length; i++) {
-		const courseId = userClassesOfCurrentCalendarTerm[i].courseId;
+	for(let i = 0; i < userCurrentCalendarTermSubscriptions.length; i++) {
+		const courseId = userCurrentCalendarTermSubscriptions[i].courseId;
 		const classEvents = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm);
 
 		userEvents.assignments = userEvents.assignments.concat(classEvents.assignments);
