@@ -4,14 +4,14 @@ const internalErrors = require('../../common/i-on-web-errors.js');
 const base64url = require('base64url');
 
 let users = {};
-const mock_users_limit = 50;
+const mockUsersLimit = 50;
 
 module.exports = function() {
 
 	const loadAllProgrammes = function() {
 		const data = getMockData('/programmes');
 		if(!data) throw internalErrors.RESOURCE_NOT_FOUND;
-		return JSON.parse(JSON.stringify(data));;
+		return JSON.parse(JSON.stringify(data)); // Clone object
 	};
 
 	const loadProgramme = async function(programmeId) {
@@ -72,12 +72,12 @@ module.exports = function() {
 	};
 
 	const submitInstitutionalEmail = async function(email) {
-		if(Object.keys(users).length < mock_users_limit) {
+		if(Object.keys(users).length < mockUsersLimit) {
 			if(!users.hasOwnProperty(email)) {
 				users[`${email}`] = {
 					"email": email,
 					"username": email.slice(0, email.indexOf("@")),
-					"classesAndClassSections": []
+					"subscriptions": []
 				};
 			}
 		}
@@ -88,7 +88,7 @@ module.exports = function() {
 	};
 
 	const pollingCore = async function(authForPoll) {
-		if(Object.keys(users).length < mock_users_limit || users.hasOwnProperty(authForPoll)) {  
+		if(Object.keys(users).length < mockUsersLimit || users.hasOwnProperty(authForPoll)) {  
 			
 			/// Creating an id token
 			const encodedData = base64url(JSON.stringify({"email": authForPoll}));
@@ -98,7 +98,8 @@ module.exports = function() {
 			 "access_token": "",
 			 "token_type": "",
 			 "id_token": token
-			}; 
+			};
+
 		} else {
 			return {};
 		}
@@ -118,14 +119,14 @@ module.exports = function() {
 	
 			let subscribedToClass = false;
 
-			for(let i = 0; i < users[user.email].classesAndClassSections.length; i++) {
+			for(let i = 0; i < users[user.email].subscriptions.length; i++) {
 				
-				if(users[user.email].classesAndClassSections[i].id == id) { 
+				if(users[user.email].subscriptions[i].id == id) { 
 					/// User is already subscribed to a class section of this class and now (as long as its not the ones hes already subscribed to)
 					/// he is going to subscribe one more class section
 					subscribedToClass = true;
-					if(!users[user.email].classesAndClassSections[i].classes.includes(classSection)) {
-						users[user.email].classesAndClassSections[i].classes.push(classSection);
+					if(!users[user.email].subscriptions[i].classes.includes(classSection)) {
+						users[user.email].subscriptions[i].classes.push(classSection);
 					}
 				}
 			} 
@@ -133,23 +134,23 @@ module.exports = function() {
 			if(!subscribedToClass) {
 				const course = data;
 				course['classes'] = [classSection];
-				users[user.email].classesAndClassSections.push(course);
+				users[user.email].subscriptions.push(course);
 			}
 		};
 
 	}
 
 	const loadUserSubscribedClassSectionsInClass = async function(user, id) {
-		return users[user.email].classesAndClassSections.filter(course => course.id == id).find(__ => __).classes;
+		return users[user.email].subscriptions.filter(course => course.id == id).find(__ => __).classes;
 	}
 
 	const getUserSubscriptions = function(user) {
-		return users[user.email].classesAndClassSections;
+		return users[user.email].subscriptions;
 	}
 
 	const deleteUserSubscriptions = async function(user, id, classSection) {
 	
-		const classSections = users[user.email].classesAndClassSections
+		const classSections = users[user.email].subscriptions
 			.filter(course => course.id == id)
 			.find(__ => __).classes;
 
@@ -158,7 +159,7 @@ module.exports = function() {
 		/// Delete the class section from the user subscriptions
 		for( let i = 0; i < classSectionsSize; i++){ 
 			if ( classSections[i] == classSection) { 
-				users[user.email].classesAndClassSections
+				users[user.email].subscriptions
 				.filter(course => course.id == id)
 				.find(__ => __).classes.splice(i, 1); 
 			}
@@ -168,9 +169,9 @@ module.exports = function() {
 
 	const deleteUserClass = async function(user, id) {
 		/// Delete the class from the user subscriptions
-		for( let i = 0; i < users[user.email].classesAndClassSections.length; i++){ 
-			if ( users[user.email].classesAndClassSections[i].id == id) { 
-				users[user.email].classesAndClassSections.splice(i, 1); 
+		for( let i = 0; i < users[user.email].subscriptions.length; i++){ 
+			if ( users[user.email].subscriptions[i].id == id) { 
+				users[user.email].subscriptions.splice(i, 1); 
 			}
 		}
 	}

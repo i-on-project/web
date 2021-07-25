@@ -19,7 +19,7 @@ module.exports = function(data, sessionDB) {
 			const filterOldEvents = event => {
 				const date = event.date.split('-');
 				const eventDate = new Date(date[0], date[1]-1, date[2]).getTime();
-				return eventDate >= currentDate
+				return eventDate >= currentDate;
 			};
 
 			events.assignments = events.assignments.filter(filterOldEvents);
@@ -31,48 +31,12 @@ module.exports = function(data, sessionDB) {
 		return Object.assign(
 			commonInfo,
 			{
-				events: events,
 				user: user,
-				pathPrefix : pathPrefix
+				pathPrefix : pathPrefix,
+				events: events
 			}
 		);
 
-	};
-
-	const getProgrammeOffers = async function(programmeId, user) {
-
-		if(!isIdValid(programmeId)) throw internalErrors.BAD_REQUEST;
-
-		if(user) {
-
-			const programme = await data.loadProgramme(programmeId);
-			const courseIDs = programme.offers
-				.map(offer => offer.courseId);
-			
-			const calendarTerm = await getCurrentCalendarTerm(data);
-
-			/// Check if there are class sections for the classes contained in the programme offer
-			const filteredCoursesId = [];
-			for(let i = 0; i < courseIDs.length; i++) {
-				const classSections = await data.loadCourseClassesByCalendarTerm(courseIDs[i], calendarTerm);
-				if(classSections.classes.length != 0) filteredCoursesId.push(courseIDs[i]);
-			}
-
-			/// Obtaining only the offers that have class sections
-			const programmeOffers = programme.offers
-				.filter(course => filteredCoursesId.includes(course.courseId));
-		
-			const commonInfo = await getProgrammesByDegree(data);
-			
-			return Object.assign({
-				user: user,
-				programmeOffers : programmeOffers,
-				pathPrefix : pathPrefix
-			}, commonInfo);
-
-		} else {
-			throw internalErrors.UNAUTHENTICATED;
-		}
 	};
 
 	const getProgrammeData = async function(programmeId, user) {
@@ -83,21 +47,66 @@ module.exports = function(data, sessionDB) {
 
 		/// Creating an object in which each property will contain the programme offers associated with the academic term
 		programme.offers = programme.offers
-		.reduce( (offersByTerms, offer) => {
-			return offer.termNumber.reduce( (offersByTerms, term) => {
-				offersByTerms[term] = offersByTerms[term] || [];
-				offersByTerms[term].push(offer);
-				return offersByTerms;
-			}, offersByTerms);
-		}, {});
+			.reduce( (offersByTerms, offer) => {
+
+				return offer.termNumber
+					.reduce( (offersByTerms, term) => {
+						offersByTerms[term] = offersByTerms[term] || [];
+						offersByTerms[term].push(offer);
+						return offersByTerms;
+					}, offersByTerms);
+
+			}, {});
 
 		const commonInfo = await getProgrammesByDegree(data);
 
-		return Object.assign(commonInfo, {
-			user: user, 
-			programme: programme,
-			pathPrefix : pathPrefix
-		});
+		return Object.assign(
+			commonInfo,
+			{
+				user: user,
+				pathPrefix : pathPrefix,
+				programme: programme
+			}
+		);
+	};
+
+	const getProgrammeOffers = async function(programmeId, user) {
+
+		if(!isIdValid(programmeId)) throw internalErrors.BAD_REQUEST;
+
+		if(user) {
+
+			const programme = await data.loadProgramme(programmeId);
+			const offersCourseIds = programme.offers
+				.map(offer => offer.courseId);
+			
+			const calendarTerm = await getCurrentCalendarTerm(data);
+
+			/// Check if there are class sections for the classes contained in the programme offer
+			const filteredCoursesId = [];
+			for(let i = 0; i < offersCourseIds.length; i++) {
+				const classSections = await data.loadCourseClassesByCalendarTerm(offersCourseIds[i], calendarTerm);
+				if(classSections.classes.length !== 0)
+					filteredCoursesId.push(offersCourseIds[i]);
+			}
+
+			/// Obtaining only the offers that have class sections
+			const programmeOffers = programme.offers
+				.filter(course => filteredCoursesId.includes(course.courseId));
+		
+			const commonInfo = await getProgrammesByDegree(data);
+			
+			return Object.assign(
+				commonInfo,
+				{
+					user: user,
+					pathPrefix : pathPrefix,
+					programmeOffers: programmeOffers
+				}
+			);
+		} else {
+			throw internalErrors.UNAUTHENTICATED;
+		}
 	};
 
 	const getUserSchedule = async function(user) {
@@ -130,11 +139,15 @@ module.exports = function(data, sessionDB) {
 			}
 
 			const commonInfo = await getProgrammesByDegree(data);
-			return Object.assign(commonInfo, {
-				schedule: schedule,
-				user: user, 
-				pathPrefix : pathPrefix
-			});
+
+			return Object.assign(
+				commonInfo,
+				{
+					user: user,
+					pathPrefix : pathPrefix,
+					schedule: schedule
+				}
+			);
 			
 		} catch (err) {
 			switch (err) {
@@ -171,11 +184,14 @@ module.exports = function(data, sessionDB) {
 			
 			const commonInfo = await getProgrammesByDegree(data);
 			
-			return Object.assign(commonInfo, {
-				events: events,
-				user: user, 
-				pathPrefix : pathPrefix
-			});
+			return Object.assign(
+				commonInfo,
+				{
+					user: user,
+					pathPrefix : pathPrefix,
+					events: events
+				}
+			);
 			
 		} catch (err) {
 			switch (err) {
@@ -206,11 +222,15 @@ module.exports = function(data, sessionDB) {
 			}
 		
 			const commonInfo = await getProgrammesByDegree(data);
-			return Object.assign(commonInfo, {
-				user: user, 
-				userClasses: userClasses,
-				pathPrefix : pathPrefix
-			});
+			
+			return Object.assign(
+				commonInfo,
+				{
+					user: user,
+					pathPrefix : pathPrefix,
+					userClasses: userClasses
+				}
+			);
 
 		} catch (err) {
 			switch (err) {
@@ -263,7 +283,7 @@ module.exports = function(data, sessionDB) {
 
 
 			const classeSectionsByClass = [];
-			let userClasses;
+			let userSubscribedClasses;
 			
 			const calendarTerm = await getCurrentCalendarTerm(data);
 
@@ -280,18 +300,18 @@ module.exports = function(data, sessionDB) {
 
 			/**** Get user subscribed Classes ****/
 			const userSubscriptions = await data.getUserSubscriptions(user);
-			const userClassesOfCurrentCalendarTerm = userSubscriptions.filter(userClass => userClass.calendarTerm === calendarTerm);
+			const userCurrentCalendarTermSubscriptions = userSubscriptions.filter(userClass => userClass.calendarTerm === calendarTerm);
 
-			for(let i = 0; i < userClassesOfCurrentCalendarTerm.length; i++) {
-				const course = await data.loadCourseClassesByCalendarTerm(userClassesOfCurrentCalendarTerm[i].courseId , calendarTerm)
-				const userClass = userClassesOfCurrentCalendarTerm[i];
+			for(let i = 0; i < userCurrentCalendarTermSubscriptions.length; i++) {
+				const course = await data.loadCourseClassesByCalendarTerm(userCurrentCalendarTermSubscriptions[i].courseId , calendarTerm)
+				const userClass = userCurrentCalendarTermSubscriptions[i];
 				userClass['name'] = course.name;
 			}
 
-			userClasses = userClassesOfCurrentCalendarTerm
-			.filter(userClass => {
-				return classeSectionsByClass.some(selectedClass => selectedClass.id === userClass.id && selectedClass.courseId === userClass.courseId);
-			})
+			userSubscribedClasses = userCurrentCalendarTermSubscriptions
+				.filter(userClass => {
+					return classeSectionsByClass.some(selectedClass => selectedClass.id === userClass.id && selectedClass.courseId === userClass.courseId);
+				});
 			
 			const commonInfo = await getProgrammesByDegree(data);
 
@@ -299,9 +319,9 @@ module.exports = function(data, sessionDB) {
 				commonInfo, 
 				{
 					user: user, 
+					pathPrefix : pathPrefix,
 					classeSectionsByClass: classeSectionsByClass,
-					userSubscribedClasses : userClasses,
-					pathPrefix : pathPrefix
+					userSubscribedClasses : userSubscribedClasses
 				}
 			);
 
@@ -312,6 +332,8 @@ module.exports = function(data, sessionDB) {
 
 	const saveUserSubscriptions = async function(user, selectedClassesAndClassSections) {
 		try {
+			// selectedClassesAndClassSections e.g. format: {"42":"LEIRT61D","46":["LEIRT41D","LI61N"],"50":"LEIRT21D"} 
+			// where 42, 46 and 50 are the ids and LEIRT61D, ... and LEIRT21D are the class sections
 			if(user) {
 				for(let classId in selectedClassesAndClassSections) {
 					
@@ -345,22 +367,28 @@ module.exports = function(data, sessionDB) {
 		const aboutData = await data.loadAboutData();		
 
 		const commonInfo = await getProgrammesByDegree(data);
-		return Object.assign(commonInfo, {
-			user: user,
-			aboutData: aboutData,
-			pathPrefix : pathPrefix
-		});
+
+		return Object.assign(
+			commonInfo, 
+			{
+				user: user, 
+				pathPrefix : pathPrefix,
+				aboutData: aboutData
+			}
+		);
 	};
 
 	const getProfilePage = async function(user) {
 		if(user) {
 			const commonInfo = await getProgrammesByDegree(data);
 
-			return Object.assign(commonInfo, {
-				user: user,
-				pathPrefix : pathPrefix
-			});
-
+			return Object.assign(
+				commonInfo, 
+				{
+					user: user, 
+					pathPrefix : pathPrefix
+				}
+			);
 		} else {
 			throw internalErrors.UNAUTHENTICATED;
 		}
@@ -368,15 +396,11 @@ module.exports = function(data, sessionDB) {
 	
 	const editProfile = async function(user, newUserInfo) {
 		try {
+			
 			if(user) {
 				if(!newUserInfo || !newUserInfo.newUsername) throw internalErrors.BAD_REQUEST;
 				await data.editUser(user, newUserInfo.newUsername);
-	
-				const commonInfo = await getProgrammesByDegree(data);
-				return Object.assign(commonInfo, {
-					user: user,
-					pathPrefix : pathPrefix
-				});
+
 			} else {
 				throw internalErrors.UNAUTHENTICATED;
 			}
@@ -401,17 +425,19 @@ module.exports = function(data, sessionDB) {
 		const commonInfo = await getProgrammesByDegree(data);
 		
 		return Object.assign(
-			{pathPrefix: pathPrefix,
-			'data': authMethods},
-			commonInfo
+			commonInfo, 
+			{
+				pathPrefix : pathPrefix,
+				'data': authMethods
+			}
 		);
 	};
 
 
 	return {
 		getHome : getHome,
-		getProgrammeOffers : getProgrammeOffers,
 		getProgrammeData : getProgrammeData,
+		getProgrammeOffers : getProgrammeOffers,
 		getUserSchedule : getUserSchedule,
 		getUserCalendar : getUserCalendar,
 		getUserSubscriptions : getUserSubscriptions,
