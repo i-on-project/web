@@ -31,11 +31,11 @@ async function configurations() {
     /// Data
     let data;
 
-    if(process.env.OPERATION_MODE === "standalone") {
+   // if(process.env.OPERATION_MODE === "standalone") {
 
        data = require(`${dataAccessStandaloneModePath}/mock-data.js`)();
 
-    } else {
+    /*} else {
 
         const core = require(`${dataAccessIntegratedModePath}/core-data.js`)();
         const coreTransformer = require(`${dataAccessIntegratedModePath}/core-data-transformer.js`)(core);
@@ -44,7 +44,7 @@ async function configurations() {
         const metadata = require(`${dataAccessIntegratedModePath}/remove-metadata.js`)(cache);
         
         data = metadata;
-    }
+    }*/
 
     /// Auth
     const auth = require(`${businessLogicLayerPath}/i-on-web-auth.js`)(app, data, sessionDB);

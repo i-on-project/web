@@ -115,7 +115,7 @@ module.exports = function() {
 				}
 			};
 		
-			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm, options);	
+			const response = await fetch(core_url + '/api/courses/' + courseId + '/classes/' + calendarTerm, options);	
 			
 			if(response.status === 200) {
 				return {

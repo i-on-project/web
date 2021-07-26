@@ -1,338 +1,348 @@
 <div class="container-fluid pageBeginning">
     <h3 class="text-center">Horário</h3>
 
-    {{#if schedule}}
-    <br><div class="scheduleDiv" id="content">
-        <div class="schedule schedulepdf">
-            <div class="schedule_header">
-                <span class="dl boldText">Hora</span>
-                <span class="ds boldText">H</span>
-            </div>  
+    {{#if user}}
 
-            <!-- Week days-->
-            <div class="schedule_header schedule-monday">
-                <span class="dl boldText">Segunda</span>
-                <span class="ds boldText">2ª</span>
+        {{#if schedule}}
+        <br><div class="scheduleDiv" id="content">
+            <div class="schedule schedulepdf">
+                <div class="schedule_header">
+                    <span class="dl boldText">Hora</span>
+                    <span class="ds boldText">H</span>
+                </div>  
+
+                <!-- Week days-->
+                <div class="schedule_header schedule-monday">
+                    <span class="dl boldText">Segunda</span>
+                    <span class="ds boldText">2ª</span>
+                </div>
+                <div class="schedule_header schedule-tuesday">
+                    <span class="dl boldText">Terça</span>
+                    <span class="ds boldText">3ª</span>
+                </div>
+                <div class="schedule_header schedule-wednesday">
+                    <span class="dl boldText">Quarta</span>
+                    <span class="ds boldText">4ª</span>
+                </div>
+                <div class="schedule_header schedule-thursday">
+                    <span class="dl boldText">Quinta</span>
+                    <span class="ds boldText">5ª</span>
+                </div>
+                <div class="schedule_header schedule-friday">
+                    <span class="dl boldText">Sexta</span>
+                    <span class="ds boldText">6ª</span>
+                </div>
+                <div class="schedule_header schedule-saturday">
+                    <span class="dl boldText">Sábado</span>
+                    <span class="ds boldText">Sab</span>
+                </div>
+                <!-- ./Week days-->
+                
+
+                <!-- Time-->
+                <div class="schedule_time time-from-s">08:00</div>
+                <div class="schedule_time time-from-sf">08:30</div>
+                <div class="schedule_time time-from-st">09:00</div>
+                <div class="schedule_time time-from-sff">09:30</div>
+                
+                <div class="schedule_time time-from-e">10:00</div>
+                <div class="schedule_time time-from-ef">10:30</div>
+                <div class="schedule_time time-from-et">11:00</div>
+                <div class="schedule_time time-from-eff">11:30</div>
+                
+                <div class="schedule_time time-from-n">12:00</div>
+                <div class="schedule_time time-from-nf">12:30</div>
+                <div class="schedule_time time-from-nt">13:00</div>
+                <div class="schedule_time time-from-nff">13:30</div>
+
+                <div class="schedule_time time-from-a">14:00</div>
+                <div class="schedule_time time-from-af">14:30</div>
+                <div class="schedule_time time-from-at">15:00</div>
+                <div class="schedule_time time-from-aff">15:30</div>
+
+                <div class="schedule_time time-from-b">16:00</div>
+                <div class="schedule_time time-from-bf">16:30</div>
+                <div class="schedule_time time-from-bt">17:00</div>
+                <div class="schedule_time time-from-bff">17:30</div>
+
+                <div class="schedule_time time-from-c">18:00</div>
+                <div class="schedule_time time-from-cf">18:30</div>
+                <div class="schedule_time time-from-ct">19:00</div>
+                <div class="schedule_time time-from-cff">19:30</div>
+
+                <div class="schedule_time time-from-d">20:00</div>
+                <div class="schedule_time time-from-df">20:30</div>
+                <div class="schedule_time time-from-dt">21:00</div>
+                <div class="schedule_time time-from-dff">21:30</div>
+
+                <div class="schedule_time time-from-g">22:00</div>
+                <div class="schedule_time time-from-gf">22:30</div>
+                <div class="schedule_time time-from-gt">23:00</div>
+                <!-- ./Time-->
+                
+                
+                <!--  Grid Rows-->
+                <div class="grid time-from-s time-to-sf schedule-row-from-monday schedule-row-to-saturday"></div>  
+                <div class="grid time-from-sf time-to-st schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-st time-to-sff schedule-row-from-monday schedule-row-to-saturday"></div>
+                
+                <div class="grid time-from-sff time-to-e schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-e time-to-ef schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-ef time-to-et schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-et time-to-eff schedule-row-from-monday schedule-row-to-saturday"></div>
+                
+                <div class="grid time-from-eff time-to-n schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-n time-to-nf schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-nf time-to-nt schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-nt time-to-nff schedule-row-from-monday schedule-row-to-saturday"></div>
+
+                <div class="grid time-from-nff time-to-a schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-a time-to-af schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-af time-to-at schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-at time-to-aff schedule-row-from-monday schedule-row-to-saturday"></div>
+
+                <div class="grid time-from-aff time-to-b schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-b time-to-bf schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-bf time-to-bt schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-bt time-to-bff schedule-row-from-monday schedule-row-to-saturday"></div>
+
+                <div class="grid time-from-bff time-to-c schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-c time-to-cf schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-cf time-to-ct schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-ct time-to-cff schedule-row-from-monday schedule-row-to-saturday"></div>
+
+                <div class="grid time-from-cff time-to-d schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-d time-to-df schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-df time-to-dt schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-dt time-to-dff schedule-row-from-monday schedule-row-to-saturday"></div>
+                
+                <div class="grid time-from-dff time-to-g schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-g time-to-gf schedule-row-from-monday schedule-row-to-saturday"></div>
+                <div class="grid time-from-gf time-to-gt schedule-row-from-monday schedule-row-to-saturday"></div>
+
+                <div class="grid grid-last time-from-gt time-to-gt schedule-row-from-monday schedule-row-to-saturday"></div>
+                <!-- ./Grid Rows-->
+                
+
+                <!-- Grid Columns-->
+                
+                <div class="grid schedule-monday time-from-s time-to-gt"></div>
+                <div class="grid grid-last schedule-monday time-from-gt time-to-gt"></div>
+                
+                <div class="grid schedule-tuesday time-from-s time-to-gt"></div>
+                <div class="grid grid-last schedule-tuesday time-from-gt time-to-gt"></div>
+                
+                <div class="grid schedule-wednesday time-from-s time-to-gt"></div>
+                <div class="grid grid-last schedule-wednesday time-from-gt time-to-gt"></div>
+                
+                <div class="grid schedule-thursday time-from-s time-to-gt"></div>
+                <div class="grid grid-last schedule-thursday time-from-gt time-to-gt"></div>
+                
+                <div class="grid schedule-friday time-from-s time-to-gt"></div>
+                <div class="grid grid-last schedule-friday time-from-gt time-to-gt"></div>
+                
+                <div class="grid schedule-saturday time-from-s time-to-gt"></div>
+                <div class="grid grid-last schedule-saturday time-from-gt time-to-gt"></div>
+
+                <div class="grid schedule-saturday time-from-s time-to-gt"></div>
+                <div class="grid grid-last schedule-saturday time-from-gt time-to-gt"></div>
+                <!-- ./Grid Columns-->
+
             </div>
-            <div class="schedule_header schedule-tuesday">
-                <span class="dl boldText">Terça</span>
-                <span class="ds boldText">3ª</span>
-            </div>
-            <div class="schedule_header schedule-wednesday">
-                <span class="dl boldText">Quarta</span>
-                <span class="ds boldText">4ª</span>
-            </div>
-            <div class="schedule_header schedule-thursday">
-                <span class="dl boldText">Quinta</span>
-                <span class="ds boldText">5ª</span>
-            </div>
-            <div class="schedule_header schedule-friday">
-                <span class="dl boldText">Sexta</span>
-                <span class="ds boldText">6ª</span>
-            </div>
-            <div class="schedule_header schedule-saturday">
-                <span class="dl boldText">Sábado</span>
-                <span class="ds boldText">Sab</span>
-            </div>
-            <!-- ./Week days-->
-            
-
-            <!-- Time-->
-            <div class="schedule_time time-from-s">08:00</div>
-            <div class="schedule_time time-from-sf">08:30</div>
-            <div class="schedule_time time-from-st">09:00</div>
-            <div class="schedule_time time-from-sff">09:30</div>
-            
-            <div class="schedule_time time-from-e">10:00</div>
-            <div class="schedule_time time-from-ef">10:30</div>
-            <div class="schedule_time time-from-et">11:00</div>
-            <div class="schedule_time time-from-eff">11:30</div>
-            
-            <div class="schedule_time time-from-n">12:00</div>
-            <div class="schedule_time time-from-nf">12:30</div>
-            <div class="schedule_time time-from-nt">13:00</div>
-            <div class="schedule_time time-from-nff">13:30</div>
-
-            <div class="schedule_time time-from-a">14:00</div>
-            <div class="schedule_time time-from-af">14:30</div>
-            <div class="schedule_time time-from-at">15:00</div>
-            <div class="schedule_time time-from-aff">15:30</div>
-
-            <div class="schedule_time time-from-b">16:00</div>
-            <div class="schedule_time time-from-bf">16:30</div>
-            <div class="schedule_time time-from-bt">17:00</div>
-            <div class="schedule_time time-from-bff">17:30</div>
-
-            <div class="schedule_time time-from-c">18:00</div>
-            <div class="schedule_time time-from-cf">18:30</div>
-            <div class="schedule_time time-from-ct">19:00</div>
-            <div class="schedule_time time-from-cff">19:30</div>
-
-            <div class="schedule_time time-from-d">20:00</div>
-            <div class="schedule_time time-from-df">20:30</div>
-            <div class="schedule_time time-from-dt">21:00</div>
-            <div class="schedule_time time-from-dff">21:30</div>
-
-            <div class="schedule_time time-from-g">22:00</div>
-            <div class="schedule_time time-from-gf">22:30</div>
-            <div class="schedule_time time-from-gt">23:00</div>
-            <!-- ./Time-->
-            
-            
-            <!--  Grid Rows-->
-            <div class="grid time-from-s time-to-sf schedule-row-from-monday schedule-row-to-saturday"></div>  
-            <div class="grid time-from-sf time-to-st schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-st time-to-sff schedule-row-from-monday schedule-row-to-saturday"></div>
-            
-            <div class="grid time-from-sff time-to-e schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-e time-to-ef schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-ef time-to-et schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-et time-to-eff schedule-row-from-monday schedule-row-to-saturday"></div>
-            
-            <div class="grid time-from-eff time-to-n schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-n time-to-nf schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-nf time-to-nt schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-nt time-to-nff schedule-row-from-monday schedule-row-to-saturday"></div>
-
-            <div class="grid time-from-nff time-to-a schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-a time-to-af schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-af time-to-at schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-at time-to-aff schedule-row-from-monday schedule-row-to-saturday"></div>
-
-            <div class="grid time-from-aff time-to-b schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-b time-to-bf schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-bf time-to-bt schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-bt time-to-bff schedule-row-from-monday schedule-row-to-saturday"></div>
-
-            <div class="grid time-from-bff time-to-c schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-c time-to-cf schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-cf time-to-ct schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-ct time-to-cff schedule-row-from-monday schedule-row-to-saturday"></div>
-
-            <div class="grid time-from-cff time-to-d schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-d time-to-df schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-df time-to-dt schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-dt time-to-dff schedule-row-from-monday schedule-row-to-saturday"></div>
-            
-            <div class="grid time-from-dff time-to-g schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-g time-to-gf schedule-row-from-monday schedule-row-to-saturday"></div>
-            <div class="grid time-from-gf time-to-gt schedule-row-from-monday schedule-row-to-saturday"></div>
-
-            <div class="grid grid-last time-from-gt time-to-gt schedule-row-from-monday schedule-row-to-saturday"></div>
-            <!-- ./Grid Rows-->
-            
-
-            <!-- Grid Columns-->
-            
-            <div class="grid schedule-monday time-from-s time-to-gt"></div>
-            <div class="grid grid-last schedule-monday time-from-gt time-to-gt"></div>
-            
-            <div class="grid schedule-tuesday time-from-s time-to-gt"></div>
-            <div class="grid grid-last schedule-tuesday time-from-gt time-to-gt"></div>
-            
-            <div class="grid schedule-wednesday time-from-s time-to-gt"></div>
-            <div class="grid grid-last schedule-wednesday time-from-gt time-to-gt"></div>
-            
-            <div class="grid schedule-thursday time-from-s time-to-gt"></div>
-            <div class="grid grid-last schedule-thursday time-from-gt time-to-gt"></div>
-            
-            <div class="grid schedule-friday time-from-s time-to-gt"></div>
-            <div class="grid grid-last schedule-friday time-from-gt time-to-gt"></div>
-            
-            <div class="grid schedule-saturday time-from-s time-to-gt"></div>
-            <div class="grid grid-last schedule-saturday time-from-gt time-to-gt"></div>
-
-            <div class="grid schedule-saturday time-from-s time-to-gt"></div>
-            <div class="grid grid-last schedule-saturday time-from-gt time-to-gt"></div>
-            <!-- ./Grid Columns-->
-
         </div>
-    </div>
-    <br>
-        <button class="btn btn-outline-dark pull-right downloadButton" id="download">Obter em PDF</button>
-    <br><br><br>
-    
-    <script>
-
-        let itemsSchedule = [];
-        const arrColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'grey'];
-        const acrColors = {};
+        <br>
+            <button class="btn btn-outline-dark pull-right downloadButton" id="download">Obter em PDF</button>
+        <br><br><br>
         
-        {{#each schedule}}
-            itemsSchedule.push({
-                'startDate'     : '{{this.startDate}}',
-                'endDate'       : '{{this.endDate}}',
-                'location'      : '{{this.location}}',
-                'weekday'       : '{{this.weekday}}',
-                'acronym'       : '{{this.acronym}}',
-                'classSection'  : '{{this.classSection}}'
+        <script>
+
+            let itemsSchedule = [];
+            const arrColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'grey'];
+            const acrColors = {};
+            
+            {{#each schedule}}
+                itemsSchedule.push({
+                    'startDate'     : '{{this.startDate}}',
+                    'endDate'       : '{{this.endDate}}',
+                    'location'      : '{{this.location}}',
+                    'weekday'       : '{{this.weekday}}',
+                    'acronym'       : '{{this.acronym}}',
+                    'classSection'  : '{{this.classSection}}'
+                });
+            {{/each}}
+
+
+            itemsSchedule = itemsSchedule.map(classSection => {
+                return {
+                    'keyfrom': convertTimeInterval(classSection['startDate']),
+                    'keyto': convertTimeInterval(classSection['endDate']),
+                    'text': `${classSection['acronym']}[${classSection['classSection']}]`,
+                    'location': `${classSection['location']}`,
+                    'bg': getAcrColor(classSection['acronym']),
+                    'days': [convertAcrToWeekday( classSection['weekday'] )]
+                }
             });
-        {{/each}}
 
+            itemsSchedule.forEach(function(sitem, index) {
 
-        itemsSchedule = itemsSchedule.map(classSection => {
-            return {
-                'keyfrom': convertTimeInterval(classSection['startDate']),
-                'keyto': convertTimeInterval(classSection['endDate']),
-                'text': `${classSection['acronym']}[${classSection['classSection']}]`,
-                'location': `${classSection['location']}`,
-                'bg': getAcrColor(classSection['acronym']),
-                'days': [convertAcrToWeekday( classSection['weekday'] )]
-            }
-        });
+                sitem.days.forEach(function(sday, dindex) {
+                    $(".schedule").append(
+                    '<div class="schedule-item'
+                    +' schedule-'+ sday
+                    +' time-from-'+ sitem.keyfrom
+                    +' time-to-'+sitem.keyto
+                    +' bg-'+sitem.bg+'">' /*used to be  nt bg-'+sitem.bg+'">*/
+                    + sitem.text + '<br>'
+                    + sitem.location
+                    +'</div>'
+                    )
 
-        itemsSchedule.forEach(function(sitem, index) {
-
-            sitem.days.forEach(function(sday, dindex) {
-                $(".schedule").append(
-                '<div class="schedule-item'
-                +' schedule-'+ sday
-                +' time-from-'+ sitem.keyfrom
-                +' time-to-'+sitem.keyto
-                +' bg-'+sitem.bg+'">' /*used to be  nt bg-'+sitem.bg+'">*/
-                + sitem.text + '<br>'
-                + sitem.location
-                +'</div>'
-                )
+                })
 
             })
 
-        })
+            function convertTimeInterval(time) {
+                switch (time) {
 
-        function convertTimeInterval(time) {
-            switch (time) {
+                    case '08:00':
+                        return 's';
+                    case '08:30':
+                        return 'sf';
+                    case '09:00':
+                        return 'st';
+                    case '09:30':
+                        return 'sff';
+                    
+                    case '10:00':
+                        return 'e';
+                    case '10:30':
+                        return 'ef';
+                    case '11:00':
+                        return 'et';
+                    case '11:30':
+                        return 'eff';
 
-                case '08:00':
-                    return 's';
-                case '08:30':
-                    return 'sf';
-                case '09:00':
-                    return 'st';
-                case '09:30':
-                    return 'sff';
+                    case '12:00':
+                        return 'n';
+                    case '12:30':
+                        return 'nf';
+                    case '13:00':
+                        return 'nt';
+                    case '13:30':
+                        return 'nff';
+
+                    case '14:00':
+                        return 'a';
+                    case '14:30':
+                        return 'af';
+                    case '15:00':
+                        return 'at';
+                    case '15:30':
+                        return 'aff';
+
+                    case '16:00':
+                        return 'b';
+                    case '16:30':
+                        return 'bf';
+                    case '17:00':
+                        return 'bt';
+                    case '17:30':
+                        return 'bff';
+
+                    case '18:00':
+                        return 'c';
+                    case '18:30':
+                        return 'cf';
+                    case '19:00':
+                        return 'ct';
+                    case '19:30':
+                        return 'cff';
+
+                    case '20:00':
+                        return 'd';
+                    case '20:30':
+                        return 'df';
+                    case '21:00':
+                        return 'dt';
+                    case '21:30':
+                        return 'dff';
                 
-                case '10:00':
-                    return 'e';
-                case '10:30':
-                    return 'ef';
-                case '11:00':
-                    return 'et';
-                case '11:30':
-                    return 'eff';
+                    case '22:00':
+                        return 'g';
+                    case '22:30':
+                        return 'gf';
+                    case '23:00':
+                        return 'gt';
 
-                case '12:00':
-                    return 'n';
-                case '12:30':
-                    return 'nf';
-                case '13:00':
-                    return 'nt';
-                case '13:30':
-                    return 'nff';
-
-                case '14:00':
-                    return 'a';
-                case '14:30':
-                    return 'af';
-                case '15:00':
-                    return 'at';
-                case '15:30':
-                    return 'aff';
-
-                case '16:00':
-                    return 'b';
-                case '16:30':
-                    return 'bf';
-                case '17:00':
-                    return 'bt';
-                case '17:30':
-                    return 'bff';
-
-                case '18:00':
-                    return 'c';
-                case '18:30':
-                    return 'cf';
-                case '19:00':
-                    return 'ct';
-                case '19:30':
-                    return 'cff';
-
-                case '20:00':
-                    return 'd';
-                case '20:30':
-                    return 'df';
-                case '21:00':
-                    return 'dt';
-                case '21:30':
-                    return 'dff';
-            
-                case '22:00':
-                    return 'g';
-                case '22:30':
-                    return 'gf';
-                case '23:00':
-                    return 'gt';
-
-                default:
-                    console.log(`Error, bad time: ${time}.`);
+                    default:
+                        console.log(`Error, bad time: ${time}.`);
+                }
             }
-        }
 
-        function convertAcrToWeekday(acr) {
-            
-            switch (acr) {
-                case 'MO':
-                    return 'monday';
-                case 'TU':
-                    return 'tuesday';
-                case 'WE':
-                    return 'wednesday';
-                case 'TH':
-                    return 'thursday';
-                case 'FR':
-                    return 'friday';
-                case 'ST':
-                    return 'saturday';
+            function convertAcrToWeekday(acr) {
+                
+                switch (acr) {
+                    case 'MO':
+                        return 'monday';
+                    case 'TU':
+                        return 'tuesday';
+                    case 'WE':
+                        return 'wednesday';
+                    case 'TH':
+                        return 'thursday';
+                    case 'FR':
+                        return 'friday';
+                    case 'ST':
+                        return 'saturday';
+        
+                    default:
+                        console.log(`Error, incorrect weekday acr: ${acr}.`);
+                }
+
+            }
+
+            function getAcrColor(acr) {
+                // If the class already has an associated color, return it 
+                if(acrColors.hasOwnProperty(acr))
+                    return acrColors[acr];
+                
+                // Else, get a random color and return it   
+                const color = randomColor();
+                acrColors[acr] = color;
+
+                return color;
+            }
+
+            function randomColor() {
+
+                /// Randomly getting a color
+                color = arrColors[Math.floor(Math.random() * arrColors.length)];
+                
+                const index = arrColors.indexOf(color);
+
+                if (index > -1) {
+                    arrColors.splice(index, 1);
+                }
+
+                if(arrColors.length === 0) arrColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'grey'];
+
+                return color;
+            }
+
+        </script>
+
+        {{else}}
+
+            <div class="divSpacing">
+                <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
+            </div>
+
+        {{/if}}
     
-                default:
-                    console.log(`Error, incorrect weekday acr: ${acr}.`);
-            }
-
-        }
-
-        function getAcrColor(acr) {
-            // If the class already has an associated color, return it 
-            if(acrColors.hasOwnProperty(acr))
-                return acrColors[acr];
-            
-            // Else, get a random color and return it   
-            const color = randomColor();
-            acrColors[acr] = color;
-
-            return color;
-        }
-
-        function randomColor() {
-
-            /// Randomly getting a color
-            color = arrColors[Math.floor(Math.random() * arrColors.length)];
-            
-            const index = arrColors.indexOf(color);
-
-            if (index > -1) {
-                arrColors.splice(index, 1);
-            }
-
-            if(arrColors.length === 0) arrColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'grey'];
-
-            return color;
-        }
-
-    </script>
-
     {{else}}
 
         <div class="divSpacing">
-            <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
+            <p class="text-center">Inicia sessão para veres o teu horário.</p>
         </div>
 
     {{/if}}
@@ -342,20 +352,20 @@
 
 
 <script>  
-   window.onload = function () {
-    document.getElementById("download")
-        .addEventListener("click", () => {
-            const content = this.document.getElementById("content");
-            let opt = {
-                margin: 1,
-                filename: 'Horário.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'letter', orientation: 'landscape' }
-            };
-            html2pdf().from(content).set(opt).save();
-        })
-}
+    window.onload = function () {
+        document.getElementById("download")
+            .addEventListener("click", () => {
+                const content = this.document.getElementById("content");
+                let opt = {
+                    margin: 1,
+                    filename: 'Horário.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'mm', format: 'letter', orientation: 'landscape' }
+                };
+                html2pdf().from(content).set(opt).save();
+            })
+    }
 </script>  
 
 <script>
