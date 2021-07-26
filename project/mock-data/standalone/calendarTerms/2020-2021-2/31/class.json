@@ -3,5 +3,5 @@
 	"courseId" : 31,
 	"acronym" : "GAP",
 	"name" : "Gestão e Avaliação de Projetos",
-	"classes": ["LI61D", "LEIRT61D"]
+	"classSections": ["LI61D", "LEIRT61D"]
 }

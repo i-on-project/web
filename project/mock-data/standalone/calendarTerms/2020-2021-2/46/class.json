@@ -3,5 +3,5 @@
 	"courseId" : 46,
 	"acronym" : "TAR",
 	"name" : "Tecnologias Avançadas de Redes",
-	"classes": ["LEIRT41D", "LI61N"]
+	"classSections": ["LEIRT41D", "LI61N"]
 }

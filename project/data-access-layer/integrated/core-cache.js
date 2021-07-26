@@ -25,11 +25,11 @@ module.exports = function(data, myCache) {
 		return getData(myCache, key, fetchFunction);
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
+	const loadClassByCalendarTerm = async function(courseId, calendarTerm)  {
 		const key = courseId + '/' + calendarTerm;
 
 		const fetchFunction = function() { 
-			return data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, ...arguments);
+			return data.loadClassByCalendarTerm(courseId, calendarTerm, ...arguments);
 		}
 
 		return getData(myCache, key, fetchFunction);
@@ -158,7 +158,7 @@ module.exports = function(data, myCache) {
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadProgramme : loadProgramme,
-		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
+		loadClassByCalendarTerm : loadClassByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,

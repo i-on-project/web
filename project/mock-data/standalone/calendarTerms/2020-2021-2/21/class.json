@@ -3,5 +3,5 @@
 	"courseId" : 21,
 	"acronym" : "DAW",
 	"name" : "Desenvolvimento de Aplicações Web",
-	"classes": ["LI61D", "LEIRT61D", "LI61N"]
+	"classSections": ["LI61D", "LEIRT61D", "LI61N"]
 }

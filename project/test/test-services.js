@@ -198,7 +198,7 @@ describe('Services', function () {
 							"courseId": 1,
 							"acronym": "PI",
 							"calendarTerm": "2021i",
-							"classes": ["1D"]
+							"classSections": ["1D"]
 						}
 					];
 				},
@@ -318,10 +318,10 @@ describe('Services', function () {
 					]};
 				},
 
-				loadCourseClassesByCalendarTerm: async function(courseId) {
-					if(courseId === 1) return {"courseId":courseId,"name":"Laboratório de Software","classes":["1D","1N","2D"]};
-					else if(courseId === 2) return {"courseId":courseId,"name":"Desenvolvimento de Aplicações Web","classes":["1D","1N","2D"]};
-					else { return {"courseId":courseId,"name":"Computação na Nuvem","classes":[]} }
+				loadClassByCalendarTerm: async function(courseId) {
+					if(courseId === 1) return {"courseId":courseId,"name":"Laboratório de Software","classSections":["1D","1N","2D"]};
+					else if(courseId === 2) return {"courseId":courseId,"name":"Desenvolvimento de Aplicações Web","classSections":["1D","1N","2D"]};
+					else { return {"courseId":courseId,"name":"Computação na Nuvem","classSections":[]} }
 				},
 
 				loadAllProgrammes: async function() {
@@ -390,8 +390,8 @@ describe('Services', function () {
 					};
 				},
 
-				loadCourseClassesByCalendarTerm: async function(courseId) {
-					return {"courseId": courseId,"name":"Computação na Nuvem","classes":[] };
+				loadClassByCalendarTerm: async function(courseId) {
+					return {"courseId": courseId,"name":"Computação na Nuvem","classSections":[] };
 				},
 
 				loadAllProgrammes: async function() {
@@ -609,7 +609,7 @@ describe('Services', function () {
 							"courseId": 1,
 							"acronym": "PI",
 							"calendarTerm": "2021i",
-							"classes": ["1D"]
+							"classSections": ["1D"]
 						}
 					];
 				},
@@ -686,7 +686,7 @@ describe('Services', function () {
 							"courseId": 1,
 							"acronym": "PI",
 							"calendarTerm": "2021i",
-							"classes": ["1D"]
+							"classSections": ["1D"]
 						}
 					];
 				},
@@ -899,7 +899,7 @@ describe('Services', function () {
 							"courseId": 1,
 							"acronym": "PI",
 							"calendarTerm": "2021v",
-							"classes": ["1N"]
+							"classSections": ["1N"]
 						}
 					];
 				},
@@ -1023,7 +1023,7 @@ describe('Services', function () {
 					{
 					    "acronym": "DAW",
 					    "calendarTerm": "2021v",
-					    "classes": ["2D"],
+					    "classSections": ["2D"],
 					    "courseId": 2,
 					    "id": 2,
 					    "name": "Desenvolvimento de Aplicações Web"
@@ -1058,18 +1058,18 @@ describe('Services', function () {
 							"courseId": 2,
 							"acronym": "DAW",
 							"calendarTerm": "2021v",
-							"classes": ["2D"]
+							"classSections": ["2D"]
 						}
 					];
 				},
 
-				loadCourseClassesByCalendarTerm: async function(courseId, calendarTerm) {
+				loadClassByCalendarTerm: async function(courseId, calendarTerm) {
 					return {
 						"id" : 2, 
 						"courseId" : 2,
 						"acronym" : "DAW",
 						"name" : "Desenvolvimento de Aplicações Web",
-						"classes": ["1D","1N","2D"]
+						"classSections": ["1D","1N","2D"]
 					};
 				}
 				
@@ -1121,11 +1121,11 @@ describe('Services', function () {
 		
 		it('should return classes from selected class', async function () {			
 			// Arrange
-			const expectedclassSectionsByClasses = [{"id": 1, "courseId": 1,"name": "Laboratório de Software","classes": ["1D","1N","2D"]}];
+			const expectedclassSectionsByClasses = [{"id": 1, "courseId": 1,"name": "Laboratório de Software","classSections": ["1D","1N","2D"]}];
 			
 			const data = {
-				loadCourseClassesByCalendarTerm: async function() {
-					return {"id": 1, "courseId": 1, "name": "Laboratório de Software", "classes": ["1D","1N","2D"]};
+				loadClassByCalendarTerm: async function() {
+					return {"id": 1, "courseId": 1, "name": "Laboratório de Software", "classSections": ["1D","1N","2D"]};
 				},
 
 				loadAllProgrammes: async function() {

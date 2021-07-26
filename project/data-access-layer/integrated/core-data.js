@@ -103,7 +103,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm, metadata) {
+	const loadClassByCalendarTerm = async function(courseId, calendarTerm, metadata) {
 		try {
 
 			const options = {
@@ -720,7 +720,7 @@ module.exports = function() {
 		/* Methods to load generic academic information */
         loadAllProgrammes : loadAllProgrammes,
 		loadProgramme : loadProgramme,
-		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
+		loadClassByCalendarTerm : loadClassByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,

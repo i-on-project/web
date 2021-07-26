@@ -93,9 +93,9 @@ module.exports = function(data) {
 		};
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm, metadata)  {
+	const loadClassByCalendarTerm = async function(courseId, calendarTerm, metadata)  {
 	
-		const response = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, metadata) ;
+		const response = await data.loadClassByCalendarTerm(courseId, calendarTerm, metadata) ;
 
 		if(!response.hasOwnProperty('data')) return response; // The resource has not been modified 
 
@@ -305,7 +305,7 @@ module.exports = function(data) {
 	return {
 		loadAllProgrammes : loadAllProgrammes,
 		loadProgramme : loadProgramme,
-		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
+		loadClassByCalendarTerm : loadClassByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,

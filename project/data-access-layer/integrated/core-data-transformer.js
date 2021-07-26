@@ -138,9 +138,9 @@ module.exports = function(data) {
 	*/
 
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm, metadata)  {
+	const loadClassByCalendarTerm = async function(courseId, calendarTerm, metadata)  {
 	
-		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, metadata) ;
+		const receivedData = await data.loadClassByCalendarTerm(courseId, calendarTerm, metadata) ;
 		const cache_control = receivedData.metadata.get('Cache-Control');
 
 		const receivedmetadata = {
@@ -150,22 +150,22 @@ module.exports = function(data) {
 
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
 
-		const courseData = receivedData.data.properties;
-		const course = {
-			'id' : courseData.id,
-			'courseId' : courseData.courseId,
-			'acronym' : courseData.courseAcr,
-			'name' : courseData.name,
-			'classes': []
+		const classData = receivedData.data.properties;
+		const classObj = {
+			'id' : classData.id,
+			'courseId' : classData.courseId,
+			'acronym' : classData.courseAcr,
+			'name' : classData.name,
+			'classSections': []
 		} 
 
 		const transformedData = receivedData.data.entities
-		.filter(entity => entity.properties.hasOwnProperty('id'))
-		.map(entity => entity.properties)
-		.reduce(function(newResponse, currentClass) {
-			newResponse.classes.push(currentClass.id);
-			return newResponse;
-		  }, course);
+			.filter(entity => entity.properties.hasOwnProperty('id'))
+			.map(entity => entity.properties)
+			.reduce(function(newResponse, currentClass) {
+				newResponse.classSections.push(currentClass.id);
+				return newResponse;
+			}, classObj);
 
 		return {
 			"metadata": receivedmetadata,
@@ -173,7 +173,7 @@ module.exports = function(data) {
 		};
 	}
 	/* Returned data example:
-	* {
+	* {getUserSubscriptions
 	*	'id' : 2, 
 	*	'courseId' : 2,
 	*	'acronym' : 'DAW',
@@ -645,7 +645,7 @@ module.exports = function(data) {
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadProgramme : loadProgramme,
-		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
+		loadClassByCalendarTerm : loadClassByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,

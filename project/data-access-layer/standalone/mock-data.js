@@ -21,10 +21,10 @@ module.exports = function() {
 		return JSON.parse(JSON.stringify(data));
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
+	const loadClassByCalendarTerm = async function(courseId, calendarTerm)  {
 		const path = '/calendarTerms/' + calendarTerm + '/' + courseId + '/class';
 		const data = getMockData(path);
-		if(!data) return {"classes": []};
+		if(!data) return {"classSections": []};
 		return JSON.parse(JSON.stringify(data));;
 	};
 
@@ -108,13 +108,14 @@ module.exports = function() {
 	/* User related methods */
 
 	const saveUserSubscriptions = async function(user, id, classSection) {
+		console.log('id: ' + id + ' classSection: ' + classSection)
 		const calendarTerm = await loadCalendarTerm();
 		const path = '/calendarTerms/' + calendarTerm.currentCalendarTerm + '/' + id + '/class';
-		const receidedData = await getMockData(path);
+		const receivedData = await getMockData(path);
 
-		if(receidedData) {
-			const data = JSON.parse(JSON.stringify(receidedData));
-			delete data.classes;
+		if(receivedData) {
+			const data = JSON.parse(JSON.stringify(receivedData));
+			delete data.classSections;
 			data['calendarTerm'] = calendarTerm.currentCalendarTerm;
 	
 			let subscribedToClass = false;
@@ -196,7 +197,7 @@ module.exports = function() {
 		/* Methods to load generic academic information */
         loadAllProgrammes : loadAllProgrammes,
 		loadProgramme : loadProgramme,
-		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
+		loadClassByCalendarTerm : loadClassByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,

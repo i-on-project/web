@@ -99,8 +99,8 @@ module.exports = function(data, sessionDB) {
 			/// Check if there are class sections for the course contained in the programme offer (in the current calendar term)
 			const filteredCoursesId = [];
 			for(const courseId of offersCourseIds) {
-				const classSections = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm);
-				if(classSections.classes.length !== 0)
+				const classObj = await data.loadClassByCalendarTerm(courseId, calendarTerm);
+				if(classObj.classSections.length !== 0)
 					filteredCoursesId.push(courseId);
 			}
 
@@ -236,12 +236,13 @@ module.exports = function(data, sessionDB) {
 				/// Obtaining user subscriptions in current calendar term 
 				const calendarTerm = await getCurrentCalendarTerm(data);
 				const userSubscriptions = await data.getUserSubscriptions(user);
+				console.log("getUserSubscriptions " + JSON.stringify(userSubscriptions));
 				const userCurrentCalendarTermSubscriptions = userSubscriptions.filter(userClass => userClass.calendarTerm === calendarTerm);
 
 				/// In order to obtain the name of each subscription
 				for(const subscription of userCurrentCalendarTermSubscriptions) {
-					const course = await data.loadCourseClassesByCalendarTerm(subscription.courseId , calendarTerm);
-					subscription['name'] = course.name;
+					const classObj = await data.loadClassByCalendarTerm(subscription.courseId , calendarTerm);
+					subscription['name'] = classObj.name;
 				}
 
 				userSubscriptionsFinal = userCurrentCalendarTermSubscriptions;
@@ -310,26 +311,26 @@ module.exports = function(data, sessionDB) {
 		}
 	}
 
-	const getClassSectionsFromSelectedClasses = async function(user, classesIds) {
+	const getClassSectionsFromSelectedClasses = async function(user, courseIds) {
 
 		if(user) {
 
 			/// Validations
-			if(!classesIds) throw internalErrors.BAD_REQUEST;
+			if(!courseIds) throw internalErrors.BAD_REQUEST;
 
 			const classeSectionsByClass = [];
 			
 			const calendarTerm = await getCurrentCalendarTerm(data);
 
 			/**** Get class sections for each class id ****/
-			if(Array.isArray(classesIds)) {
+			if(Array.isArray(courseIds)) {
 
-				for(const classId of classesIds) {
-					if(!isIdValid(classId)) throw internalErrors.BAD_REQUEST; // Check if the classes ids are valid 
-					classeSectionsByClass.push(await data.loadCourseClassesByCalendarTerm(classId, calendarTerm));
+				for(const courseId of courseIds) {
+					if(!isIdValid(courseId)) throw internalErrors.BAD_REQUEST; // Check if the classes ids are valid 
+					classeSectionsByClass.push(await data.loadClassByCalendarTerm(courseId, calendarTerm));
 				}
 
-			} else classeSectionsByClass.push(await data.loadCourseClassesByCalendarTerm(classesIds, calendarTerm));
+			} else classeSectionsByClass.push(await data.loadClassByCalendarTerm(courseIds, calendarTerm));
 		
 
 			/**** Get user subscribed Classes ****/
@@ -338,7 +339,7 @@ module.exports = function(data, sessionDB) {
 
 			/// In order to obtain the name of each subscription
 			for(const subscription of userCurrentCalendarTermSubscriptions) {
-				const course = await data.loadCourseClassesByCalendarTerm(subscription.courseId , calendarTerm);
+				const course = await data.loadClassByCalendarTerm(subscription.courseId , calendarTerm);
 				subscription['name'] = course.name;
 			}
 
@@ -349,7 +350,7 @@ module.exports = function(data, sessionDB) {
 				});
 			
 			const commonInfo = await getProgrammesByDegree(data);
-
+			console.log("antes do retorno " + JSON.stringify(classeSectionsByClass))
 			return Object.assign(
 				commonInfo, 
 				{
@@ -372,17 +373,20 @@ module.exports = function(data, sessionDB) {
 			// where 42, 46 and 50 are the ids and LEIRT61D, ... and LEIRT21D are the class sections
 			if(user) {
 
-				for(let classId in selectedClassesAndClassSections) {
+				for(const classId in selectedClassesAndClassSections) {
 					
 					// Check if the class id is valid and if it has class sections
 					if(!isIdValid(classId) || !selectedClassesAndClassSections[classId]) throw internalErrors.BAD_REQUEST;
 
 					if(Array.isArray(selectedClassesAndClassSections[classId])) {
-
-						for(const classSection in selectedClassesAndClassSections[classId]) 
+						//console.log('here: ' + )
+						for(const classSection of selectedClassesAndClassSections[classId]) { 
+							console.log('é um array: ' + classId +' '+ classSection)
 							await data.saveUserSubscriptions(user, classId, classSection);
+						}
 							
 					} else {
+						console.log('não é: ' + classId +' '+ selectedClassesAndClassSections[classId])
 						await data.saveUserSubscriptions(user, classId, selectedClassesAndClassSections[classId]);
 					}
 				}

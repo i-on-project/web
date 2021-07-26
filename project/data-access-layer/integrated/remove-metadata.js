@@ -12,8 +12,8 @@ module.exports = function(data) {
 		return receivedData.data;
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
-		const receivedData = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm);
+	const loadClassByCalendarTerm = async function(courseId, calendarTerm)  {
+		const receivedData = await data.loadClassByCalendarTerm(courseId, calendarTerm);
 		return receivedData.data;
 	};
 	
@@ -101,7 +101,7 @@ module.exports = function(data) {
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadProgramme : loadProgramme,
-		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
+		loadClassByCalendarTerm : loadClassByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
