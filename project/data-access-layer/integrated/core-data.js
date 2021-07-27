@@ -103,7 +103,7 @@ module.exports = function() {
 		}
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm, metadata) {
+	const loadClassByCalendarTerm = async function(courseId, calendarTerm, metadata) {
 		try {
 
 			const options = {
@@ -115,7 +115,7 @@ module.exports = function() {
 				}
 			};
 		
-			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm, options);	
+			const response = await fetch(core_url + '/api/courses/' + courseId + '/classes/' + calendarTerm, options);	
 			
 			if(response.status === 200) {
 				return {
@@ -146,8 +146,17 @@ module.exports = function() {
 	
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) {
 		try {
-			
-			const options = {
+
+			/*
+				Since core has changed after delivery and there are some inconsistencies with the previous versions, 
+				for the final demo we decided use mock data on the parts that have changed
+ 			*/
+			 return {
+				"metadata": new Map(),
+				"data": {}
+			}
+
+			/*const options = {
 				method: 'GET',
 				headers: {
 					'If-None-Match': metadata,
@@ -169,7 +178,7 @@ module.exports = function() {
 				}
 			} else {
 				throw response.status;
-			}
+			}*/
 
 		} catch (err) {		/// Error handling
 			switch (err) {
@@ -188,7 +197,17 @@ module.exports = function() {
 	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
 		try {
 			
-			const options = {
+			/*
+				Since core has changed after delivery and there are some inconsistencies with the previous versions, 
+				for the final demo we decided use mock data on the parts that have changed
+ 			*/
+			return {
+				"metadata": new Map(),
+				"data": {}
+			}
+			
+
+			/*const options = {
 				method: 'GET',
 				headers: {
 					'If-None-Match': metadata,
@@ -210,7 +229,7 @@ module.exports = function() {
 				}
 			} else {
 				throw response.status;
-			}
+			}*/
 			
 		} catch (err) {		/// Error handling
 			switch (err) {
@@ -720,7 +739,7 @@ module.exports = function() {
 		/* Methods to load generic academic information */
         loadAllProgrammes : loadAllProgrammes,
 		loadProgramme : loadProgramme,
-		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
+		loadClassByCalendarTerm : loadClassByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,

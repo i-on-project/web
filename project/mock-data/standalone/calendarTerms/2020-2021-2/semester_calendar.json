@@ -28,5 +28,15 @@
     "date":"2021-07-31",
 	  "title": "Fim do período de exames",
     "description": "(época de recurso)"
+  },
+  {
+    "date":"2021-09-02",
+    "title": "Início do período de exames",
+    "description": "(época especial)"
+  },
+  {
+    "date":"2021-09-18",
+    "title": "Fim do período de exames",
+    "description": "(época especial)"
   }
 ]

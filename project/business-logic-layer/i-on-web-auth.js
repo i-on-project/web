@@ -33,7 +33,7 @@ module.exports = (app, data, sessionDB) => {
 		saveUninitialized: false,  
 		secret: 'secret',
 		cookie: { maxAge: sessionMaxAge },
-		store: new FileStore() 
+		store: new FileStore({logFn: function(){}}) 
     }))
 
 	app.use(passport.initialize());

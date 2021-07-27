@@ -17,21 +17,21 @@ function webui(service, auth) {
 			}
 		},
 
-		programmeOffers: async function(req, res) {
-			try {
-				const data = await service.getProgrammeOffers(req.params['id'], req.user);
-				res.render('programmeOffers', data);
-			} catch(err) {
-				onError(req, res, err, 'Failed to show programme offers');
-			}
-		},
-
 		programme: async function(req, res) {
 			try {
-				const data = await service.getProgrammeData(req.params['id'], req.user);
+				const data = await service.getProgrammeData(req.user, req.params['id']);
 				res.render('programme', data);
 			} catch(err) {
 				onError(req, res, err, 'Failed to show programme page');
+			}
+		},
+
+		programmeOffers: async function(req, res) {
+			try {
+				const data = await service.getProgrammeOffers(req.user, req.params['id']);
+				res.render('programmeOffers', data);
+			} catch(err) {
+				onError(req, res, err, 'Failed to show programme offers');
 			}
 		},
 
@@ -98,7 +98,7 @@ function webui(service, auth) {
 			}
 		},
 
-		profile: async function(req, res) { /// User Profile Page
+		profile: async function(req, res) {
 			try {
 				const data = await service.getProfilePage(req.user);
 				res.render('user-profile', data);
@@ -125,7 +125,7 @@ function webui(service, auth) {
 			}
 		},
 
-		/******* Authentication Pages *******/
+		/******* Authentication *******/
 
 		loginUI: async function(req, res) {
 			try {
@@ -143,7 +143,8 @@ function webui(service, auth) {
 			} catch(err) {
 				onError(req, res, err, 'Failed to logout');
 			}
-		},
+		}
+
 	}
 
 	const router = express.Router();

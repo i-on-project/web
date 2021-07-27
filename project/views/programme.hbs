@@ -35,7 +35,8 @@
    <a class="btn btn-outline-dark pull-right" href="{{pathPrefix}}/programmes/{{this.programme.id}}/offers" role="button">Selecionar disciplinas <i class="fa fa-angle-double-right" aria-hidden="true"></i></a><br>
    
    <div class="container-fluid divSpacing">
-      <h3 class="text-center">Plano Curricular</h3>
+
+      <h3 class="text-center" id="programmeOffers">Plano Curricular</h3>
 
       <div class="row row-content">
          {{#each this.programme.offers}}
@@ -57,7 +58,7 @@
                               {{#if this.optional}}
                                  <i class="fa fa-times" aria-hidden="true"></i>
                               {{else}}
-                                 <i class="fa fa-check" aria-hidden="true"></i>
+                                 <i class="fa fa-check   " aria-hidden="true"></i>
                               {{/if}}
                            </td>
                         </tr>
@@ -66,7 +67,26 @@
             </div>
          {{/each}}
       </div>
-      
-   </div>
+
+      <p class="text-center" id="offersWarning">De momento não nos é possivel apresentar o plano curricular deste curso.</p>
+               
+   </div><br><br><br>
 
 </div>
+
+<script>
+   const arr = [
+      {{#each this.programme.offers}}
+         {{@key}},
+      {{/each}}
+   ]
+
+   if(arr.length === 0) {
+      $('#programmeOffers').hide();
+      $('#offersWarning').show();
+   } else {
+      $('#programmeOffers').show();
+      $('#offersWarning').hide();
+   }
+
+</script>

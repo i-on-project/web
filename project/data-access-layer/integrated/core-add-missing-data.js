@@ -93,9 +93,9 @@ module.exports = function(data) {
 		};
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm, metadata)  {
+	const loadClassByCalendarTerm = async function(courseId, calendarTerm, metadata)  {
 	
-		const response = await data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, metadata) ;
+		const response = await data.loadClassByCalendarTerm(courseId, calendarTerm, metadata) ;
 
 		if(!response.hasOwnProperty('data')) return response; // The resource has not been modified 
 
@@ -139,11 +139,20 @@ module.exports = function(data) {
 		};
 	};
 
+
+
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) { 
 		const response = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
 
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
-				
+		
+		/* Adding missing data */
+		/*
+			Since core has changed after delivery and there are some inconsistencies with the previous versions, 
+			for the final demo we decided use mock data on the parts that have changed
+		*/
+		const improvedData = await getMockData('/calendarTerms/' + calendarTerm + '/' + courseId + '/classSections/' + classSection);
+		
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": defaulEtag,
@@ -152,7 +161,7 @@ module.exports = function(data) {
 		
 		return {
 			"metadata": improvedMetadata,
-			"data": response.data
+			"data": improvedData /// response.data
 		};
 	}
 
@@ -161,6 +170,13 @@ module.exports = function(data) {
 
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 				
+		/* Adding missing data */ 
+		/*
+			Since core has changed after delivery and there are some inconsistencies with the previous versions, 
+			for the final demo we decided use mock data on the parts that have changed
+		*/
+		const improvedData = await getMockData('/calendarTerms/' + calendarTerm + '/' + courseId + '/events');
+
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": defaulEtag,
@@ -169,12 +185,21 @@ module.exports = function(data) {
 		
 		return {
 			"metadata": improvedMetadata,
-			"data": response.data
+			"data": improvedData /// response.data
 		};
 	}
 
 	const loadCalendarTerm = async function(metadata) {
 		const response = await data.loadCalendarTerm(metadata);
+
+		/* Adding missing data */ 
+		/*
+			Since core has changed after delivery and there are some inconsistencies with the previous versions, 
+			for the final demo we decided use mock data on the parts that have changed
+		*/
+		const improvedData = {
+			"currentCalendarTerm": "1718i"
+		};
 	
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 				
@@ -186,30 +211,27 @@ module.exports = function(data) {
 	
 		return {
 			"metadata": improvedMetadata,
-			"data": response.data
+			"data": improvedData /// response.data
 		};
 	}
 	
 	const loadCalendarTermGeneralInfo = async function(calendarTerm, metadata) {
-		
 		const response = await data.loadCalendarTermGeneralInfo(calendarTerm, metadata);
-	
+		
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 
 		/* Adding missing data */ 
 		const mockDataToBeAdded = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
-	
+
 		const improvedData = response.data.map(season => {
-	
-			const mockSeason = mockDataToBeAdded.find(mockSeason => ( mockSeason.date === season.date && mockSeason.id === season.id )) 
-	
+			const mockSeason = mockDataToBeAdded.find(mockSeason => ( mockSeason.date === season.date && mockSeason.id === season.id)) 
+			
 			return {
 				"date": season.date,
 				"title": mockSeason.title,
 			  	"description": mockSeason.description
 			}
 		})
-
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
@@ -308,7 +330,7 @@ module.exports = function(data) {
 	return {
 		loadAllProgrammes : loadAllProgrammes,
 		loadProgramme : loadProgramme,
-		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
+		loadClassByCalendarTerm : loadClassByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,

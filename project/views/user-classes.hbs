@@ -4,42 +4,50 @@
 
     <div class="divSpacing">
 
-        {{#if userClasses}} <!-- If the user has selected any courses -->
-            
-            <form method="POST" action="{{pathPrefix}}/subscriptions/delete" onsubmit="return confirm('Tem a certeza que pretende anular a inscrição a estas turmas?');">
+        {{#if user}}
 
-                {{#each userClasses}} <!-- Iterate all user courses -->
-                    {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->
-                        <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
-                            {{../this.name}} - {{this}} 
-                            <input class="pull-right toDeleteCheckBoxes" type="checkbox" style="display:none" name={{../this.id}} value={{this}}>
-                        </div>
+            {{#if userClasses}} <!-- If the user has selected any courses -->
+                
+                <form method="POST" action="{{pathPrefix}}/subscriptions/delete" onsubmit="return confirm('Tem a certeza que pretende anular a inscrição a estas turmas?');">
+
+                    {{#each userClasses}} <!-- Iterate all user courses -->
+                        {{#each this.classes}} <!-- For each course we iterate all classes chosen by the user -->
+                            <div class="boxes"> <!-- Show each course & class combination belonging to the user -->
+                                {{../this.name}} - {{this}} 
+                                <input class="pull-right toDeleteCheckBoxes" type="checkbox" style="display:none" name={{../this.id}} value={{this}}>
+                            </div>
+                        {{/each}}
                     {{/each}}
-                {{/each}}
 
 
-                <!-- Buttons -->
+                    <!-- Buttons -->
 
-                <div id="notEditing" class="buttonsDiv">
-                    <button type="button" onclick=edit() class="btn btn-outline-dark">Editar</a>
-                </div>
+                    <div id="notEditing" class="buttonsDiv">
+                        <button type="button" onclick=edit() class="btn btn-outline-dark">Editar</a>
+                    </div>
 
-                <div id="editing" class="buttonsDiv" style="display:none">
-                    <!-- Back button -->
-                    <button type="button" onclick=back() class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</button>
-     
-                    <!-- Delete classes button -->
-                    <button type="submit" class="btn btn-danger pull-right"><i class="fa fa-trash" aria-hidden="true"></i> Remover turmas</button>
-                </div>
+                    <div id="editing" class="buttonsDiv" style="display:none">
+                        <!-- Back button -->
+                        <button type="button" onclick=back() class="btn btn-outline-dark" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> Voltar</button>
+        
+                        <!-- Delete classes button -->
+                        <button type="submit" class="btn btn-danger pull-right"><i class="fa fa-trash" aria-hidden="true"></i> Remover turmas</button>
+                    </div>
 
-             
-            </form>
+                
+                </form>
 
-   
+    
+            {{else}}
+
+                <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
+
+            {{/if}}
+
         {{else}}
 
-            <p class="text-center">Ainda não estás inscrito a nenhuma disciplina.</p>
-
+            <p class="text-center">Inicia sessão para veres as tuas disciplinas.</p>
+            
         {{/if}}
 
     </div>

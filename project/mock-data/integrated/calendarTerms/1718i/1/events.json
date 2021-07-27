@@ -1,0 +1,37 @@
+{
+  "assignments": [
+    {
+      "event": "[SI] Entrega do 1º Trabalho",
+      "date": "2017-10-18",
+      "time": "23:59"
+    },
+    {
+      "event": "[SI] Entrega do 2º Trabalho",
+      "date": "2017-11-29",
+      "time": "23:59"
+    }
+  ],
+  "testsAndExams": [
+    {
+      "event": "Exame de SI (Época normal)",
+      "date": "2018-01-10",
+      "startTime": "19:00",
+      "endTime": "22:00",
+      "location": "G.1.03"
+    },
+    {
+      "event": "Exame de SI (Época de recurso)",
+      "date": "2018-01-26",
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "location": "G.1.04"
+    },
+    {
+      "event": "Exame de SI (Época especial)",
+      "date": "2018-02-16",
+      "startTime": "19:00",
+      "endTime": "22:00",
+      "location": "G.1.18.2"
+    }
+  ]
+}

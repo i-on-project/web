@@ -27,10 +27,17 @@
       "location": "G.1.03"
     },
     {
-      "event": "Exame de GAP (Época normal)",
+      "event": "Exame de GAP (Época de recurso)",
       "date": "2021-07-19",
       "startTime": "10:00",
       "endTime": "13:00",
+      "location": "G.1.04"
+    },
+    {
+      "event": "Exame de GAP (Época especial)",
+      "date": "2021-09-03",
+      "startTime": "14:00",
+      "endTime": "17:00",
       "location": "G.1.04"
     }
   ]

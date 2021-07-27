@@ -5,7 +5,9 @@ const fetch = require('node-fetch');
 const setCookieParser = require('set-cookie-parser');
 //const Joi = frisby.Joi;
 
-const app_base_url = 'http://localhost:' + process.env.PORT;
+/// Port definition
+const port = process.env.PORT || 8080;
+const app_base_url = 'http://localhost:' + port;
 const db_base_url = process.env.DB_ELASTIC_URL;
 
 let cookie;
