@@ -67,6 +67,8 @@ __Note:__ Usually Docker uses the default `172.17.0.0/16` subnet for container n
 
 - __`CORE_CLIENT_ID`__ - The unique id of the client provided by the core system. By default, it has the value indicated in the i-on Core documentation `22dd1551-db23-481b-acde-d286440388a5`;
 
+- __`CORE_CLIENT_SECRET`__ - The client secret provided by the core system. By default, it has the value indicated by i-on Core;
+
 - __`DB_ELASTIC_URL`__ - Where we can indicate the location of the Elasticsearch database. By default is set to `http://elasticsearch:9200`;
 
 - __`PATH_PREFIX`__ - Where we can indicate a path prefix to the applicattion. By default it has no value.
