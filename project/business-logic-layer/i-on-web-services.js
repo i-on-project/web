@@ -94,7 +94,7 @@ module.exports = function(data, sessionDB) {
 
 			const offersCourseIds = programme.offers
 				.map(offer => offer.courseId)
-				.filter(courseId => courseId > 0);
+				.filter(courseId => courseId > 0); // Due to core inconsistencies, remove later
 			
 			const calendarTerm = await getCurrentCalendarTerm(data);
 

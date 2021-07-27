@@ -148,7 +148,7 @@ module.exports = function(data) {
 		
 		/* Adding missing data */
 		/*
-			Since core has changed after delevery and there are some inconsistencies with the previous versions, 
+			Since core has changed after delivery and there are some inconsistencies with the previous versions, 
 			for the final demo we decided use mock data on the parts that have changed
 		*/
 		const improvedData = await getMockData('/calendarTerms/' + calendarTerm + '/' + courseId + '/classSections/' + classSection);
@@ -172,7 +172,7 @@ module.exports = function(data) {
 				
 		/* Adding missing data */ 
 		/*
-			Since core has changed after delevery and there are some inconsistencies with the previous versions, 
+			Since core has changed after delivery and there are some inconsistencies with the previous versions, 
 			for the final demo we decided use mock data on the parts that have changed
 		*/
 		const improvedData = await getMockData('/calendarTerms/' + calendarTerm + '/' + courseId + '/events');
@@ -194,7 +194,7 @@ module.exports = function(data) {
 
 		/* Adding missing data */ 
 		/*
-			Since core has changed after delevery and there are some inconsistencies with the previous versions, 
+			Since core has changed after delivery and there are some inconsistencies with the previous versions, 
 			for the final demo we decided use mock data on the parts that have changed
 		*/
 		const improvedData = {

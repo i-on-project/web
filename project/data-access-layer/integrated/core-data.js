@@ -148,7 +148,7 @@ module.exports = function() {
 		try {
 
 			/*
-				Since core has changed after delevery and there are some inconsistencies with the previous versions, 
+				Since core has changed after delivery and there are some inconsistencies with the previous versions, 
 				for the final demo we decided use mock data on the parts that have changed
  			*/
 			 return {
@@ -198,7 +198,7 @@ module.exports = function() {
 		try {
 			
 			/*
-				Since core has changed after delevery and there are some inconsistencies with the previous versions, 
+				Since core has changed after delivery and there are some inconsistencies with the previous versions, 
 				for the final demo we decided use mock data on the parts that have changed
  			*/
 			return {
