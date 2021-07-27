@@ -139,12 +139,14 @@ module.exports = function(data) {
 		};
 	};
 
-	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) { 
+	/*const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) { 
 		const response = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
 
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
-				
-		/*** Adding metadata ***/
+		
+		
+		
+		/// Adding metadata
 		const improvedMetadata = {
 			"ETag": defaulEtag,
 			"maxAge": default_maxAge
@@ -154,13 +156,16 @@ module.exports = function(data) {
 			"metadata": improvedMetadata,
 			"data": response.data
 		};
-	}
+	}*/
 
-	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
-		const response = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm, metadata);
+	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) { 
+		const response = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
 
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
-				
+		
+		/* Adding missing data */ 
+		const improvedData = await getMockData('/calendarTerms/' + calendarTerm + '/' + courseId + '/classSections/' + classSection);
+		
 		/*** Adding metadata ***/
 		const improvedMetadata = {
 			"ETag": defaulEtag,
@@ -169,7 +174,27 @@ module.exports = function(data) {
 		
 		return {
 			"metadata": improvedMetadata,
-			"data": response.data
+			"data": improvedData
+		};
+	}
+
+	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
+		const response = await data.loadCourseEventsInCalendarTerm(courseId, calendarTerm, metadata);
+
+		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
+				
+		/* Adding missing data */ 
+		const improvedData = await getMockData('/calendarTerms/' + calendarTerm + '/' + courseId + '/events');
+
+		/*** Adding metadata ***/
+		const improvedMetadata = {
+			"ETag": defaulEtag,
+			"maxAge": default_maxAge
+		}
+		
+		return {
+			"metadata": improvedMetadata,
+			"data": improvedData
 		};
 	}
 

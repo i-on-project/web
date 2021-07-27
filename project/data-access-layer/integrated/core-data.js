@@ -146,8 +146,13 @@ module.exports = function() {
 	
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) {
 		try {
-			
-			const options = {
+
+			return {
+				"metadata": new Map(),
+				"data": {}
+			}
+
+			/*const options = {
 				method: 'GET',
 				headers: {
 					'If-None-Match': metadata,
@@ -169,7 +174,7 @@ module.exports = function() {
 				}
 			} else {
 				throw response.status;
-			}
+			}*/
 
 		} catch (err) {		/// Error handling
 			switch (err) {
@@ -188,7 +193,12 @@ module.exports = function() {
 	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
 		try {
 			
-			const options = {
+			return {
+				"metadata": new Map(),
+				"data": {}
+			}
+			
+			/*const options = {
 				method: 'GET',
 				headers: {
 					'If-None-Match': metadata,
@@ -210,7 +220,7 @@ module.exports = function() {
 				}
 			} else {
 				throw response.status;
-			}
+			}*/
 			
 		} catch (err) {		/// Error handling
 			switch (err) {

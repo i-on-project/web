@@ -108,7 +108,6 @@ module.exports = function() {
 	/* User related methods */
 
 	const saveUserSubscriptions = async function(user, id, classSection) {
-		console.log('id: ' + id + ' classSection: ' + classSection)
 		const calendarTerm = await loadCalendarTerm();
 		const path = '/calendarTerms/' + calendarTerm.currentCalendarTerm + '/' + id + '/class';
 		const receivedData = await getMockData(path);

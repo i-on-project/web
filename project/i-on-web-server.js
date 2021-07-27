@@ -91,6 +91,7 @@ const myInterval = setInterval(async () => {
             await configurations();
             clearInterval(myInterval);
         } catch(err) {
+            console.log("--> " + err);
             console.log('Executing initial configurations..')
         }
     }

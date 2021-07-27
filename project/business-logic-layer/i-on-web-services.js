@@ -91,8 +91,10 @@ module.exports = function(data, sessionDB) {
 
 			/// Obtaining programme offers course ids
 			const programme = await data.loadProgramme(programmeId);
+
 			const offersCourseIds = programme.offers
-				.map(offer => offer.courseId);
+				.map(offer => offer.courseId)
+				.filter(courseId => courseId > 0);
 			
 			const calendarTerm = await getCurrentCalendarTerm(data);
 
@@ -236,7 +238,7 @@ module.exports = function(data, sessionDB) {
 				/// Obtaining user subscriptions in current calendar term 
 				const calendarTerm = await getCurrentCalendarTerm(data);
 				const userSubscriptions = await data.getUserSubscriptions(user);
-				console.log("getUserSubscriptions " + JSON.stringify(userSubscriptions));
+
 				const userCurrentCalendarTermSubscriptions = userSubscriptions.filter(userClass => userClass.calendarTerm === calendarTerm);
 
 				/// In order to obtain the name of each subscription
@@ -350,7 +352,7 @@ module.exports = function(data, sessionDB) {
 				});
 			
 			const commonInfo = await getProgrammesByDegree(data);
-			console.log("antes do retorno " + JSON.stringify(classeSectionsByClass))
+
 			return Object.assign(
 				commonInfo, 
 				{
@@ -379,14 +381,11 @@ module.exports = function(data, sessionDB) {
 					if(!isIdValid(classId) || !selectedClassesAndClassSections[classId]) throw internalErrors.BAD_REQUEST;
 
 					if(Array.isArray(selectedClassesAndClassSections[classId])) {
-						//console.log('here: ' + )
 						for(const classSection of selectedClassesAndClassSections[classId]) { 
-							console.log('é um array: ' + classId +' '+ classSection)
 							await data.saveUserSubscriptions(user, classId, classSection);
 						}
 							
 					} else {
-						console.log('não é: ' + classId +' '+ selectedClassesAndClassSections[classId])
 						await data.saveUserSubscriptions(user, classId, selectedClassesAndClassSections[classId]);
 					}
 				}
@@ -530,8 +529,9 @@ const getUserEvents = async function(data, user, calendarTerm) {
 };
 
 const getCurrentCalendarTerm = async function(data) { 
-	const calendarTerm = await data.loadCalendarTerm(); 
-	return calendarTerm.currentCalendarTerm;
+	//const calendarTerm = await data.loadCalendarTerm(); 
+	//return calendarTerm.currentCalendarTerm;
+	return "1718i"
 }
 
 const getProgrammesByDegree = async function(data) {

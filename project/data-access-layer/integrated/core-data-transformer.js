@@ -237,7 +237,7 @@ module.exports = function(data) {
 
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) {
 		const receivedData = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
-
+		
 		const cache_control = receivedData.metadata.get('Cache-Control');
 
 		const receivedmetadata = {
@@ -246,7 +246,7 @@ module.exports = function(data) {
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
-
+		/*
 		const transformedData = receivedData.data.properties.subComponents		
 		.map(subcomponent => subcomponent.properties)
 		.reduce(function(response, currentClassSection) {
@@ -266,11 +266,11 @@ module.exports = function(data) {
 			};
 			response.push(classSection);
 			return response;
-		}, []);	
+		}, []);*/
 		
 		return {
 			"metadata": receivedmetadata,
-			"data": transformedData
+			"data": receivedData.data // transformedData
 		};
 
 	}
@@ -303,7 +303,7 @@ module.exports = function(data) {
 		}
 		
 		if(!receivedData.hasOwnProperty('data')) return {"metadata": receivedmetadata};	/// The resource has not been modified 
-
+		/*
 		const transformedData = receivedData.data.properties.subComponents		
 		.reduce(function(response, currentEvent) {
 			let event = {
@@ -339,11 +339,11 @@ module.exports = function(data) {
 		}, {
 			"assignments": [],
 			"testsAndExams": []
-		});		
+		});	*/	
 
 		return {
 			"metadata": receivedmetadata,
-			"data": transformedData
+			"data": receivedData.data
 		};
 	}
 	/* Returned data example:  
@@ -437,6 +437,8 @@ module.exports = function(data) {
 				}
 			]
 		);
+
+		console.log("transformedData -> " + JSON.stringify(transformedData));
 
 		return {
 			"metadata": receivedmetadata,
