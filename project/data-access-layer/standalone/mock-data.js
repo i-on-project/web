@@ -97,6 +97,8 @@ module.exports = function() {
 			return {
 			 "access_token": "",
 			 "token_type": "",
+			 "refresh_token": "",
+			 "expires_in": 0,
 			 "id_token": token
 			};
 
