@@ -341,7 +341,7 @@ describe('Services', function () {
 			const user = testsUsers[0];
 			const programmeId = 1;
 			// Act
-			const response = await service.getProgrammeOffers(programmeId, user);
+			const response = await service.getProgrammeOffers(user, programmeId);
 
 			// Assert
 			expect(response.programmeOffers).to.deep.eql(expected);
@@ -411,7 +411,7 @@ describe('Services', function () {
 			const user = testsUsers[0];;
 			const programmeId = 1;
 			// Act
-			const response = await service.getProgrammeOffers(programmeId, user);
+			const response = await service.getProgrammeOffers(user, programmeId);
 
 			// Assert
 			expect(response.programmeOffers).to.deep.eql(expected);
@@ -609,7 +609,7 @@ describe('Services', function () {
 							"courseId": 1,
 							"acronym": "PI",
 							"calendarTerm": "2021i",
-							"classSections": ["1D"]
+							"classes": ["1D"]
 						}
 					];
 				},
@@ -686,7 +686,7 @@ describe('Services', function () {
 							"courseId": 1,
 							"acronym": "PI",
 							"calendarTerm": "2021i",
-							"classSections": ["1D"]
+							"classes": ["1D"]
 						}
 					];
 				},
@@ -1328,68 +1328,6 @@ describe('Services', function () {
 	}),
 
 	describe('editProfile', function() { 
-
-		it('should return the common page info and updated user info (authenticated user)', async function () {
-			
-			const testProgrammes = [
-				{
-					"programmeId": 3,
-					"acronym": "LEIRT",
-					"name": "Engenharia Informática, Redes e Telecomunicações",
-					"degree": "bachelor"
-				}
-			];
-
-			const expected = {
-				"bachelor": [
-					{
-						"programmeId": 3,
-						"acronym": "LEIRT",
-						"name": "Engenharia Informática, Redes e Telecomunicações",
-						"degree": "bachelor"
-					}
-				], 
-				"master": [],
-				"user": {
-					"sessionId":"sessionId_2",
-					"email": "A45245@alunos.isel.pt",
-					"username": "Ricardo Filipe Severino",
-					"access_token":"access_token_2",
-					"token_type":"Bearer",
-					"refresh_token":"refresh_token_2",
-					"expires_in":3599,
-					"id_token":"id_token_2"
-				}
-			};
-			
-			const data = {
-				loadAllProgrammes: async function() {
-					return testProgrammes;
-				},
-
-				editUser: async function(user, newUsername) {
-					user.username = newUsername;
-				}
-			};
-
-			const sessionDB = null;
-
-			const service = serviceCreator(data, sessionDB);
-			
-			const user = testsUsers[1];
-			const newUserInfo = {
-				"newUsername": "Ricardo Filipe Severino"
-			}
-
-			// Act
-			const response = await service.editProfile(user, newUserInfo);
-
-			// Assert
-			expect(response.bachelor).to.deep.eql(expected.bachelor);
-			expect(response.master).to.deep.eql(expected.master);
-			expect(response.user.username).to.deep.eql(expected.user.username);
-
-		}),
 
 		it('should return unauthenticated error (unauthenticated user)', async function () {
 		
