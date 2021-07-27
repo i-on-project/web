@@ -147,7 +147,11 @@ module.exports = function() {
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) {
 		try {
 
-			return {
+			/*
+				Since core has changed after delevery and there are some inconsistencies with the previous versions, 
+				for the final demo we decided use mock data on the parts that have changed
+ 			*/
+			 return {
 				"metadata": new Map(),
 				"data": {}
 			}
@@ -193,11 +197,16 @@ module.exports = function() {
 	const loadCourseEventsInCalendarTerm = async function(courseId, calendarTerm, metadata) {
 		try {
 			
+			/*
+				Since core has changed after delevery and there are some inconsistencies with the previous versions, 
+				for the final demo we decided use mock data on the parts that have changed
+ 			*/
 			return {
 				"metadata": new Map(),
 				"data": {}
 			}
 			
+
 			/*const options = {
 				method: 'GET',
 				headers: {

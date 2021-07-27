@@ -17,6 +17,7 @@ module.exports = function(baseUrl) {
 	 */
 	const initializeDatabaseIndexes = async function () {
 		try {
+			console.log('Trying to connect to elasticsearch..');
 
 			const getResponseUsers = await fetch(`${sessionsBaseUrl}/`); /// GET request to verify the existence of 'sessions' index
 	

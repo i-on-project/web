@@ -529,9 +529,8 @@ const getUserEvents = async function(data, user, calendarTerm) {
 };
 
 const getCurrentCalendarTerm = async function(data) { 
-	//const calendarTerm = await data.loadCalendarTerm(); 
-	//return calendarTerm.currentCalendarTerm;
-	return "1718i"
+	const calendarTerm = await data.loadCalendarTerm(); 
+	return calendarTerm.currentCalendarTerm;
 }
 
 const getProgrammesByDegree = async function(data) {

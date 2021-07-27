@@ -139,31 +139,18 @@ module.exports = function(data) {
 		};
 	};
 
-	/*const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) { 
-		const response = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
 
-		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
-		
-		
-		
-		/// Adding metadata
-		const improvedMetadata = {
-			"ETag": defaulEtag,
-			"maxAge": default_maxAge
-		}
-		
-		return {
-			"metadata": improvedMetadata,
-			"data": response.data
-		};
-	}*/
 
 	const loadClassSectionSchedule = async function(courseId, calendarTerm, classSection, metadata) { 
 		const response = await data.loadClassSectionSchedule(courseId, calendarTerm, classSection, metadata);
 
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 		
-		/* Adding missing data */ 
+		/* Adding missing data */
+		/*
+			Since core has changed after delevery and there are some inconsistencies with the previous versions, 
+			for the final demo we decided use mock data on the parts that have changed
+		*/
 		const improvedData = await getMockData('/calendarTerms/' + calendarTerm + '/' + courseId + '/classSections/' + classSection);
 		
 		/*** Adding metadata ***/
@@ -174,7 +161,7 @@ module.exports = function(data) {
 		
 		return {
 			"metadata": improvedMetadata,
-			"data": improvedData
+			"data": improvedData /// response.data
 		};
 	}
 
@@ -184,6 +171,10 @@ module.exports = function(data) {
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 				
 		/* Adding missing data */ 
+		/*
+			Since core has changed after delevery and there are some inconsistencies with the previous versions, 
+			for the final demo we decided use mock data on the parts that have changed
+		*/
 		const improvedData = await getMockData('/calendarTerms/' + calendarTerm + '/' + courseId + '/events');
 
 		/*** Adding metadata ***/
@@ -194,12 +185,21 @@ module.exports = function(data) {
 		
 		return {
 			"metadata": improvedMetadata,
-			"data": improvedData
+			"data": improvedData /// response.data
 		};
 	}
 
 	const loadCalendarTerm = async function(metadata) {
 		const response = await data.loadCalendarTerm(metadata);
+
+		/* Adding missing data */ 
+		/*
+			Since core has changed after delevery and there are some inconsistencies with the previous versions, 
+			for the final demo we decided use mock data on the parts that have changed
+		*/
+		const improvedData = {
+			"currentCalendarTerm": "1718i"
+		};
 	
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
 				
@@ -211,7 +211,7 @@ module.exports = function(data) {
 	
 		return {
 			"metadata": improvedMetadata,
-			"data": response.data
+			"data": improvedData /// response.data
 		};
 	}
 	

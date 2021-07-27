@@ -438,8 +438,6 @@ module.exports = function(data) {
 			]
 		);
 
-		console.log("transformedData -> " + JSON.stringify(transformedData));
-
 		return {
 			"metadata": receivedmetadata,
 			"data": transformedData

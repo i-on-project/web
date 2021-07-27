@@ -36,46 +36,57 @@
    
    <div class="container-fluid divSpacing">
 
-      {{#if this.programme.offers}}
+      <h3 class="text-center" id="programmeOffers">Plano Curricular</h3>
 
-         <h3 class="text-center">Plano Curricular</h3>
-
-         <div class="row row-content">
-            {{#each this.programme.offers}}
-               <div class="col-md-6 divSpacing">
-                     <h4 class="text-center">{{@key}}º Semestre</h4>
-                     <table class="table table-bordered">
-                        <tr>
-                           <th>Unidade Curricular</th>
-                           <th class="text-center">ECTS</th>
-                           <th class="text-center">Área</th>
-                           <th class="text-center">Obrigatória</th>
+      <div class="row row-content">
+         {{#each this.programme.offers}}
+            <div class="col-md-6 divSpacing">
+                  <h4 class="text-center">{{@key}}º Semestre</h4>
+                  <table class="table table-bordered">
+                     <tr>
+                        <th>Unidade Curricular</th>
+                        <th class="text-center">ECTS</th>
+                        <th class="text-center">Área</th>
+                        <th class="text-center">Obrigatória</th>
+                     </tr>
+                     {{#each this}} 
+                        <tr class="border_bottom">
+                              <td class="col">{{this.name}}</td>
+                              <td class="col text-center">{{this.ects}}</td>
+                              <td class="col text-center">{{this.scientificArea}}</td>
+                              <td class="col text-center">
+                              {{#if this.optional}}
+                                 <i class="fa fa-times" aria-hidden="true"></i>
+                              {{else}}
+                                 <i class="fa fa-check   " aria-hidden="true"></i>
+                              {{/if}}
+                           </td>
                         </tr>
-                        {{#each this}} 
-                           <tr class="border_bottom">
-                                 <td class="col">{{this.name}}</td>
-                                 <td class="col text-center">{{this.ects}}</td>
-                                 <td class="col text-center">{{this.scientificArea}}</td>
-                                 <td class="col text-center">
-                                 {{#if this.optional}}
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                 {{else}}
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                 {{/if}}
-                              </td>
-                           </tr>
-                        {{/each}}
-                     </table>
-               </div>
-            {{/each}}
-         </div>
+                     {{/each}}
+                  </table>
+            </div>
+         {{/each}}
+      </div>
 
-      {{else}}
-
-         <p class="text-center">PLEASE WORK.</p>
-
-      {{/if}}
-            
-   </div>
+      <p class="text-center" id="offersWarning">De momento não nos é possivel apresentar o plano curricular deste curso.</p>
+               
+   </div><br><br><br>
 
 </div>
+
+<script>
+   const arr = [
+      {{#each this.programme.offers}}
+         {{@key}},
+      {{/each}}
+   ]
+
+   if(arr.length === 0) {
+      $('#programmeOffers').hide();
+      $('#offersWarning').show();
+   } else {
+      $('#programmeOffers').show();
+      $('#offersWarning').hide();
+   }
+
+</script>
