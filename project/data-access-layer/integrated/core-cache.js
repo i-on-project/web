@@ -198,7 +198,7 @@ const getData = async function(myCache, key, fetchNewData) {
 		
 	} else if (myCache.hasExpired(key)) { /// Value already exists but expired -> conditional request
 		
-		const resp = await fetchNewData.apply(this, [value.metadata.ETag]);
+		const resp = await fetchNewData(value.metadata.ETag);
 		
 		if(resp.data) {	/// The resource has been modified since the given date
 			value = resp;
