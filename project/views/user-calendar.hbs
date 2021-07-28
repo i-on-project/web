@@ -6,6 +6,7 @@
          <h4>Eventos</h4>
          <h5 id="eventDayName">Data</h5>
       </div>
+
       <div class="sidebar-events" id="sidebarEvents">
          <div class="empty-message">Não existem eventos.</div>
       </div>
@@ -14,7 +15,8 @@
 
    <div class="content-wrapper">
 
-         <div class="calendar-wrapper z-depth-2">
+      <!-- Calendar Header (background and arrows) -->
+      <div class="calendar-wrapper z-depth-2">
 
          <div class="header-background" id="backgroundID">
             <div class="calendar-header">
@@ -37,54 +39,63 @@
             </div>
          </div>
 
+         <!-- Calendar Content -->
          <div class="calendar-content">
             <div id="calendar-table" class="calendar-cells">
 
                <div id="table-header">
-               <div class="row">
-                  <div class="col boldText">Segunda</div>
-                  <div class="col boldText">Terça</div>
-                  <div class="col boldText">Quarta</div>
-                  <div class="col boldText">Quinta</div>
-                  <div class="col boldText">Sexta</div>
-                  <div class="col boldText">Sábado</div>
-                  <div class="col boldText">Domingo</div>
-               </div>
+                  <div class="row">
+                     <div class="col boldText">Segunda</div>
+                     <div class="col boldText">Terça</div>
+                     <div class="col boldText">Quarta</div>
+                     <div class="col boldText">Quinta</div>
+                     <div class="col boldText">Sexta</div>
+                     <div class="col boldText">Sábado</div>
+                     <div class="col boldText">Domingo</div>
+                  </div>
                </div>
 
+               <!-- This div will display the days of the month -->
                <div id="table-body" class=""></div>
 
             </div>
          </div>
+
       </div>
+
    </div>
+
 </div>
 
 
 <script>
 
-    const elem = document.querySelector('#calendar');
-    elem.classList.add("active");
+   /// Activate navbar item
+   const elem = document.querySelector('#calendar');
+   elem.classList.add("active");
 
+   /// Inserting background image
    const backgroundImageUri = `{{pathPrefix}}/public/images/isel_ipl.jpg`;
    const headerBackgroudElem = document.querySelector("#backgroundID");
    headerBackgroudElem.style["background-image"] = `url(${backgroundImageUri})`;
 
    let calendar = document.getElementById("calendar-table");
    let gridTable = document.getElementById("table-body");
+   let sidebar = document.getElementById("sidebar");
+
    let currentDate = new Date();
    let selectedDate = currentDate;
    let selectedDayBlock = null;
    let globalEventObj = {};
-
-   let sidebar = document.getElementById("sidebar");
-
+   
    function createCalendar(date, side) {
 
       let currentDate = date;
       let startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 
+      /// Update month and year on header
       let monthTitle = document.getElementById("month-name");
+
       let monthName = currentDate.toLocaleString("pt-PT", {
          month: "long"
       });
@@ -95,6 +106,7 @@
 
       monthTitle.innerHTML = `${monthName} ${yearNum}`;
 
+      /// Animations
       if (side == "left") {
          gridTable.className = "animated fadeOutRight";
       } else {
@@ -119,11 +131,13 @@
          lastDay = lastDay.getDate();
 
          for (let i = 1; i <= lastDay; i++) {
-            if (currentTr.children.length >= 7) {
+
+            if (currentTr.children.length >= 7) { // Per row we place a max. of 7 days
                currentTr = gridTable.appendChild(addNewRow());
             }
             let currentDay = document.createElement("div");
             currentDay.className = "col";
+
             if (selectedDayBlock == null && i == currentDate.getDate() || selectedDate.toDateString() == new Date(currentDate.getFullYear(), currentDate.getMonth(), i).toDateString()) {
                selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
 
@@ -142,7 +156,7 @@
             }
             currentDay.innerHTML = i;
 
-            //show marks
+            /// If there is event(s) in a specific day, show a dot mark
             if (globalEventObj[new Date(currentDate.getFullYear(), currentDate.getMonth(), i).toDateString()]) {
                let eventMark = document.createElement("div");
                eventMark.className = "day-mark";
@@ -169,11 +183,13 @@
             node.className = "row";
             return node;
          }
+
       }, !side ? 0 : 270);
    }
 
    createCalendar(currentDate);
 
+   /// Header construction
    let todayDayName = document.getElementById("todayDayName");
    todayDayName.innerHTML = "Hoje é " + currentDate.toLocaleString("pt-PT", {
       weekday: "long",
@@ -184,6 +200,7 @@
    let prevButton = document.getElementById("prev");
    let nextButton = document.getElementById("next");
 
+   /// prevButton.onclick and nextButton.onclick functions update current date and calendar body
    prevButton.onclick = function changeMonthPrev() {
       currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1);
       createCalendar(currentDate, "left");
@@ -194,11 +211,22 @@
       createCalendar(currentDate, "right");
    }
 
-   function addEvent(title, desc, date) {
-     
+   function addEvent(title, desc, date) { 
+     /* Events are added to globalEventObj e.g.
+      globalEventObj = {
+         '2021-07-27': {
+            'Exame de SI (Epoca de Recurso)': 'Das 19:00 às 21:00 na G.0.24',
+            'Exame de CN (Epoca de Recurso)': 'Das 19:00 às 21:00 na G.0.24'
+         },
+         '2021-07-29': {
+            'Apresentação do projeto final de curso': 'Das 10:00 às 11:30'
+         }
+      }
+     */
       if (!globalEventObj[date.toDateString()]) {
          globalEventObj[date.toDateString()] = {};
       }
+
       globalEventObj[date.toDateString()][title] = desc;
    }
 
@@ -208,9 +236,10 @@
 
       sidebarEvents.innerHTML = "";
 
-      if (objWithDate) {
+      if (objWithDate) { // If the selected day is in the 'globalEventObj' variable, in other words, if the seleted day has events
          let eventsCount = 0;
-         for (key in globalEventObj[selectedDate.toDateString()]) {
+
+         for (key in globalEventObj[selectedDate.toDateString()]) { // For each event
             let eventContainer = document.createElement("div");
             eventContainer.className = "eventCard";
 
@@ -237,7 +266,8 @@
 
             eventsCount++;
          }
-      } else {
+
+      } else { // In case there are no events in the selected date
          let emptyMessage = document.createElement("div");
          emptyMessage.className = "empty-message";
          emptyMessage.innerHTML = "Não existem eventos na data selecionada.";
@@ -251,16 +281,19 @@
          return;
       }
 
-      if (selectedDayBlock) {
+      if (selectedDayBlock) { // Remove the highlight of the previous selected day
          if (selectedDayBlock.classList.contains("blue") && selectedDayBlock.classList.contains("lighten-3")) {
             selectedDayBlock.classList.remove("blue");
             selectedDayBlock.classList.remove("lighten-3");
          }
       }
+
+      // Highlight the selected day
       selectedDayBlock = e.target;
       selectedDayBlock.classList.add("blue");
       selectedDayBlock.classList.add("lighten-3");
 
+      // Obtain the selected day
       selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), parseInt(e.target.innerHTML));
 
       document.getElementById("eventDayName").innerHTML = selectedDate.toLocaleString("pt-PT", {
@@ -269,18 +302,21 @@
          year: "numeric"
       });
 
+      // Display th events of the selected day
       showEvents();
    }
+
+   /***** Inserting events in the calendar *****/
 
    /* User assignments */
    let assignments = [];
      
    {{#each events.assignments}}
-         assignments.push({
-            'event'     : '{{this.event}}',
-            'date'      : '{{this.date}}',
-            'time'      : '{{this.time}}'
-         });
+      assignments.push({
+         'event'     : '{{this.event}}',
+         'date'      : '{{this.date}}',
+         'time'      : '{{this.time}}'
+      });
    {{/each}}
 
   
@@ -290,20 +326,20 @@
       const receivedDate = assignment.date.split('-');
       const date = new Date(receivedDate[0], receivedDate[1]-1, receivedDate[2]);
       addEvent(title, desc, date);
-
-      });
+   });
  
-  /* User tests and exams */
+
+   /* User tests and exams */
    let testsAndExams = [];
 
    {{#each events.testsAndExams}}
-         testsAndExams.push({
-            'event'     : '{{this.event}}',
-            'date'      : '{{this.date}}',
-            'startTime' : '{{this.startTime}}',
-            'endTime'   : '{{this.endTime}}',
-            'location'  : '{{this.location}}'
-         });
+      testsAndExams.push({
+         'event'     : '{{this.event}}',
+         'date'      : '{{this.date}}',
+         'startTime' : '{{this.startTime}}',
+         'endTime'   : '{{this.endTime}}',
+         'location'  : '{{this.location}}'
+      });
    {{/each}}
     
    testsAndExams.forEach(testsAndExams => {
@@ -314,18 +350,18 @@
       addEvent(title, desc, date);
    });
 
+
    /* Calendar Info */
    let calendarInfo = [];
      
    {{#each events.calendar}}
-         calendarInfo.push({
-            'title'       : '{{this.title}}',
-            'description' : '{{this.description}}',
-            'date'        : '{{this.date}}'
-         });
+      calendarInfo.push({
+         'title'       : '{{this.title}}',
+         'description' : '{{this.description}}',
+         'date'        : '{{this.date}}'
+      });
    {{/each}}
 
-  
    calendarInfo.forEach(calendarInfo => {
       const title = calendarInfo.title;
       const desc = calendarInfo.description;
