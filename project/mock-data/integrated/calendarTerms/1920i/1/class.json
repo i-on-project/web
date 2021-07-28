@@ -1,0 +1,7 @@
+{
+	"id": 16,
+	"courseId" : 1,
+	"acronym" : "SI",
+	"name" : "Segurança Informática",
+	"classSections": ["1D", "2D", "1N"]
+}

@@ -198,7 +198,7 @@ module.exports = function(data) {
 			for the final demo we decided use mock data on the parts that have changed
 		*/
 		const improvedData = {
-			"currentCalendarTerm": "1718i"
+			"currentCalendarTerm": "1920i"
 		};
 	
 		if(!response.hasOwnProperty('data')) return response;	// The resource has not been modified 
@@ -223,7 +223,7 @@ module.exports = function(data) {
 		/* Adding missing data */ 
 		const mockDataToBeAdded = await getMockData('/calendarTerms/' + calendarTerm + '/semester_calendar');
 
-		const improvedData = response.data.map(season => {
+		/*const improvedData = response.data.map(season => {
 			const mockSeason = mockDataToBeAdded.find(mockSeason => ( mockSeason.date === season.date && mockSeason.id === season.id)) 
 			
 			return {
@@ -231,7 +231,7 @@ module.exports = function(data) {
 				"title": mockSeason.title,
 			  	"description": mockSeason.description
 			}
-		})
+		})*/
 
 		/*** Adding metadata ***/
 		const improvedMetadata = {
@@ -241,7 +241,7 @@ module.exports = function(data) {
 
 		return {
 			"metadata": improvedMetadata,
-			"data": improvedData
+			"data": mockDataToBeAdded //improvedData
 		};
 	}
 
