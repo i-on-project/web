@@ -29,7 +29,7 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/programmes/', options);	
 		
-			return verifyResponseStatus(response);
+			return await verifyResponseStatus(response);
 
 		} catch(err) {		/// Error handling
 			translateCoreError(err);
@@ -49,8 +49,8 @@ module.exports = function() {
 			};
 
 			const response = await fetch(core_url + '/api/programmes/'+ programmeId, options);	
-
-			return verifyResponseStatus(response);
+			
+			return await verifyResponseStatus(response);
 
 		} catch(err) {		/// Error handling
 			translateCoreError(err);
@@ -71,7 +71,7 @@ module.exports = function() {
 		
 			const response = await fetch(core_url + '/api/courses/' + courseId + '/classes/' + calendarTerm, options);	
 			
-			return verifyResponseStatus(response);
+			return await verifyResponseStatus(response);
 
 		} catch (err) {		/// Error handling
 			translateCoreError(err);
@@ -101,7 +101,7 @@ module.exports = function() {
 			
 			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/' + classSection + '/calendar', options);	
 			
-			return verifyResponseStatus(response);*/
+			return await verifyResponseStatus(response);*/
 
 		} catch (err) {		/// Error handling
 			translateCoreError(err);
@@ -132,7 +132,7 @@ module.exports = function() {
 			
 			const response = await fetch(core_url + '/api/courses/'+ courseId +'/classes/' + calendarTerm + '/calendar', options);	
 			
-			return verifyResponseStatus(response);*/
+			return await verifyResponseStatus(response);*/
 			
 		} catch (err) {		/// Error handling
 			translateCoreError(err);
@@ -166,7 +166,7 @@ module.exports = function() {
 			
 			const response = await fetch(core_url + '/api/calendar-terms', options);	
 			
-			return verifyResponseStatus(response);
+			return await verifyResponseStatus(response);
 
 		} catch(err) {	/// Although the request is not yet supported by the core, there is already a possible error checking for when the request is implemented 
 			translateCoreError(err);
@@ -187,7 +187,7 @@ module.exports = function() {
 			
 			const response = await fetch(core_url + '/api/calendar-terms/' + calendarTerm, options);	
 			
-			return verifyResponseStatus(response);
+			return await verifyResponseStatus(response);
 
 		} catch(err) {	/// Although the request is not yet supported by the core, there is already a possible error checking for when the request is implemented 
 			translateCoreError(err);
@@ -211,7 +211,7 @@ module.exports = function() {
 			
 			const response = await fetch(core_url + '/api/auth/methods', options);	
 
-			return verifyResponseStatus(response);
+			return await verifyResponseStatus(response);
 
 		} catch(err) {		/// Error handling
 			translateCoreError(err);
@@ -395,7 +395,7 @@ module.exports = function() {
 
 			const response = await fetch(core_url + '/api/users', options);	
 
-			return verifyResponseStatus(response);
+			return await verifyResponseStatus(response);
 
 		} catch(err) {		/// Error handling
 			translateCoreError(err);
@@ -509,6 +509,7 @@ const coreRequest = async function(endpoint, expectedStatus, options) {
 };
 
 const translateCoreError = function(err) {
+	console.log("[core-data.js] - Error : " + err);
 	switch (err) {
 		case 400:	/// Bad request
 			throw internalErrors.BAD_REQUEST;
@@ -519,7 +520,6 @@ const translateCoreError = function(err) {
 		case 503:	/// Service Unavailable
 			throw internalErrors.SERVICE_UNAVAILABLE;
 		default:	/// Internal Server Error
-			console.log('Core returned ' + err);
 			throw internalErrors.SERVICE_FAILURE;
 	}
 }
