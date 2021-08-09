@@ -1,0 +1,14 @@
+[
+  {
+    "startDate":"14:00",
+    "endDate":"15:30",
+    "location":"E.1.07",
+    "weekday":"MO"
+  },
+  {
+    "startDate":"11:00",
+    "endDate":"14:00",
+    "location":"E.1.07",
+    "weekday":"FR"
+  }	
+]

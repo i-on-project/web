@@ -25,11 +25,11 @@ module.exports = function(data, myCache) {
 		return getData(myCache, key, fetchFunction);
 	};
 
-	const loadCourseClassesByCalendarTerm = async function(courseId, calendarTerm)  {
+	const loadClassByCalendarTerm = async function(courseId, calendarTerm)  {
 		const key = courseId + '/' + calendarTerm;
 
 		const fetchFunction = function() { 
-			return data.loadCourseClassesByCalendarTerm(courseId, calendarTerm, ...arguments);
+			return data.loadClassByCalendarTerm(courseId, calendarTerm, ...arguments);
 		}
 
 		return getData(myCache, key, fetchFunction);
@@ -158,7 +158,7 @@ module.exports = function(data, myCache) {
 	return {
         loadAllProgrammes : loadAllProgrammes,
 		loadProgramme : loadProgramme,
-		loadCourseClassesByCalendarTerm : loadCourseClassesByCalendarTerm,
+		loadClassByCalendarTerm : loadClassByCalendarTerm,
 		loadAboutData : loadAboutData,
 		loadClassSectionSchedule : loadClassSectionSchedule,
 		loadCourseEventsInCalendarTerm : loadCourseEventsInCalendarTerm,
@@ -190,17 +190,16 @@ module.exports = function(data, myCache) {
 
 const getData = async function(myCache, key, fetchNewData) {
 	let value = myCache.get(key);
-
-	if(!value) { /// Value does not exists
-
-		value = await fetchNewData();
 	
+	if(!value) { /// Value does not exists
+		
+		value = await fetchNewData();
 		myCache.set(key, value, value.metadata.maxAge);
-
+		
 	} else if (myCache.hasExpired(key)) { /// Value already exists but expired -> conditional request
-
-		const resp = await fetchNewData.apply(this, [value.metadata.ETag]);
-
+		
+		const resp = await fetchNewData(value.metadata.ETag);
+		
 		if(resp.data) {	/// The resource has been modified since the given date
 			value = resp;
 			myCache.set(key, value, value.metadata.maxAge);

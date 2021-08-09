@@ -3,5 +3,5 @@
 	"courseId" : 42,
 	"acronym" : "CN",
 	"name" : "Computação na Nuvem",
-	"classes": ["LI61D", "LEIRT61D", "LI61N"]
+	"classSections": ["LI61D", "LEIRT61D", "LI61N"]
 }

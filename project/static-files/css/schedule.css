@@ -6,11 +6,11 @@
 }
 
 .schedule{
-    background-color: #D3D3D3;
-    border: 1px solid #343a40;
-    display: grid;
-    grid-gap: 0;
-    justify-self: center;
+  background-color: #D3D3D3;
+  border: 1px solid #343a40;
+  display: grid;
+  grid-gap: 0;
+  justify-self: center;
   
     grid-template-columns: [time] 80px
     [monday] minmax(150px, 150px) 
@@ -295,7 +295,16 @@
       .grid-last{
         height: 98px;
       }
+
+
+    .scheduleDiv {
+      display: block;
+      justify-content: center;
+    }
   
+    .downloadButton {
+      display: none;
+    }
   }
   
   

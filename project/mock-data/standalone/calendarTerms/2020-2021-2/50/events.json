@@ -1,0 +1,51 @@
+{
+  "assignments": [
+    {
+      "event": "[SS] Entrega do 1º trabalho",
+      "date": "2021-05-08",
+      "time": "23:59"
+    },
+    {
+      "event": "[SS] Entrega do 2º trabalho",
+      "date": "2021-06-25",
+      "time": "23:59"
+    }
+  ],
+  "testsAndExams": [
+    {
+      "event": "1º teste de SS",
+      "date": "2021-05-03",
+      "startTime": "08:00",
+      "endTime": "09:30",
+      "location": "G.1.18"
+    },
+    {
+      "event": "2º teste de SS",
+      "date": "2021-06-21",
+      "startTime": "08:00",
+      "endTime": "09:30",
+      "location": "G.1.18"
+    },
+    {
+      "event": "Exame de SS (Época normal)",
+      "date": "2021-07-07",
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "location": "A.2.12"
+    },
+    {
+      "event": "Exame de SS (Época de recurso)",
+      "date": "2021-07-30",
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "location": "A.2.12"
+    },
+    {
+      "event": "Exame de SS (Época especial)",
+      "date": "2021-09-14",
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "location": "A.2.10"
+    }
+  ]
+}

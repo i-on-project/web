@@ -1,0 +1,37 @@
+{
+  "assignments": [
+    {
+      "event": "[CTVS] Entrega do 1º trabalho",
+      "date": "2021-06-26",
+      "time": "23:59"
+    },
+    {
+      "event": "[CTVS] Entrega do 2º trabalho",
+      "date": "2021-05-24",
+      "time": "23:59"
+    }
+  ],
+  "testsAndExams": [
+    {
+      "event": "Exame de CTVS (Época normal)",
+      "date": "2021-07-07",
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "location": "E.2.04"
+    },
+    {
+      "event": "Exame de CTVS (Época de recurso)",
+      "date": "2021-07-27",
+      "startTime": "19:00",
+      "endTime": "22:00",
+      "location": "E.2.05"
+    },
+    {
+      "event": "Exame de CTVS (Época especial)",
+      "date": "2021-09-16",
+      "startTime": "19:00",
+      "endTime": "22:00",
+      "location": "E.2.05"
+    }
+  ]
+}

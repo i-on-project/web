@@ -25,6 +25,13 @@
       "startTime": "10:00",
       "endTime": "13:00",
       "location": "G.1.04"
+    },
+    {
+      "event": "Exame de DAW (Época especial)",
+      "date": "2021-09-15",
+      "startTime": "19:00",
+      "endTime": "22:00",
+      "location": "G.1.18.2"
     }
   ]
 }

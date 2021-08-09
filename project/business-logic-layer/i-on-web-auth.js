@@ -33,7 +33,7 @@ module.exports = (app, data, sessionDB) => {
 		saveUninitialized: false,  
 		secret: 'secret',
 		cookie: { maxAge: sessionMaxAge },
-		store: new FileStore() 
+		store: new FileStore({logFn: function(){}}) 
     }))
 
 	app.use(passport.initialize());
@@ -46,10 +46,20 @@ module.exports = (app, data, sessionDB) => {
 
 		submitInstitutionalEmail: async function(email) {
 
+			if(!email) throw internalErrors.BAD_REQUEST;
+			
+			const allowed_domains = (await data.loadAuthenticationMethodsAndFeatures())
+				.find(method => method.type === "email")
+				.allowed_domains;
+
+			function isBeingUsed(domain) {
+				return email.endsWith(domain.substring(1));
+			}
+
 			/// Using regular expressions to validate email
 			const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-			if(!email || !re.test(email)) throw internalErrors.BAD_REQUEST;
-			
+			if(!allowed_domains.some(isBeingUsed) || !re.test(email)) throw internalErrors.BAD_REQUEST;
+	
 			return data.submitInstitutionalEmail(email);
         }, 
 

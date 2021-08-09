@@ -17,6 +17,7 @@ module.exports = function(baseUrl) {
 	 */
 	const initializeDatabaseIndexes = async function () {
 		try {
+			console.log('Trying to connect to elasticsearch..');
 
 			const getResponseUsers = await fetch(`${sessionsBaseUrl}/`); /// GET request to verify the existence of 'sessions' index
 	
@@ -28,6 +29,7 @@ module.exports = function(baseUrl) {
 			}
 
 		} catch (err) { // Unexpected error
+			console.log("[i-on-web-db-elastic.js] - Error in function 'initializeDatabaseIndexes': " + err);
 			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
@@ -57,6 +59,7 @@ module.exports = function(baseUrl) {
 				const res = await fetchRequest(`${sessionsBaseUrl}/_delete_by_query`, 200, options);
 			
 			} catch (err) { // Unexpected error
+				console.log("[i-on-web-db-elastic.js] - Error in function 'deleteOldSessionsScheduler': " + err);
 				throw internalErrors.SERVICE_FAILURE;
 			}
 
@@ -85,6 +88,7 @@ module.exports = function(baseUrl) {
 			return res['_id'];
 
 		} catch (err) { // Unexpected error
+			console.log("[i-on-web-db-elastic.js] - Error in function 'createUserSession': " + err);
 			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
@@ -109,6 +113,7 @@ module.exports = function(baseUrl) {
 			await fetchRequest(`${sessionsBaseUrl}/_doc/${doc_id}/`, 200, options);
 
 		} catch (err) { // Unexpected error
+			console.log("[i-on-web-db-elastic.js] - Error in function 'storeUpdatedInfo': " + err);
 			throw internalErrors.SERVICE_FAILURE;
 		}
 	};
@@ -120,7 +125,13 @@ module.exports = function(baseUrl) {
 			return answer._source;
 
 		} catch (err) { // Unexpected error
-			throw internalErrors.UNAUTHENTICATED;
+			console.log("[i-on-web-db-elastic.js] - Error in function 'getUserTokens': " + err);
+			switch (err) {
+				case 404: /// Not Found
+					throw internalErrors.UNAUTHENTICATED;
+				default: /// Internal Server Error and others..
+					throw internalErrors.SERVICE_FAILURE;
+			}
 		}
 	};
 
@@ -129,6 +140,7 @@ module.exports = function(baseUrl) {
 			await fetchRequest(`${sessionsBaseUrl}/_doc/${id}`, 200, {method: 'DELETE'});
 
 		} catch (err) {
+			console.log("[i-on-web-db-elastic.js] - Error in function 'deleteUserSession': " + err);
 			switch (err) {
 				case 404: /// Not Found
 					throw internalErrors.RESOURCE_NOT_FOUND;
@@ -163,6 +175,7 @@ module.exports = function(baseUrl) {
 			await fetchRequest(`${sessionsBaseUrl}/_delete_by_query`, 200, options);
 		
 		} catch (err) { // Unexpected error
+			console.log("[i-on-web-db-elastic.js] - Error in function 'deleteAllUserSessions': " + err);
 			throw internalErrors.SERVICE_FAILURE;
 		}
 	};

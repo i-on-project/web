@@ -1,0 +1,46 @@
+{
+  "assignments": [
+    {
+      "event": "[TAR] Entrega do trabalho final",
+      "date": "2021-06-18",
+      "time": "23:59"
+    }
+  ],
+  "testsAndExams": [
+    {
+      "event": "1º teste de TAR",
+      "date": "2021-05-06",
+      "startTime": "18:30",
+      "endTime": "20:00",
+      "location": "G.1.18"
+    },
+    {
+      "event": "2º teste de TAR",
+      "date": "2021-06-25",
+      "startTime": "20:00",
+      "endTime": "21:30",
+      "location": "G.1.18"
+    },
+    {
+      "event": "Exame de TAR (Época normal)",
+      "date": "2021-07-16",
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "location": "A.2.05"
+    },
+    {
+      "event": "Exame de TAR (Época de recurso)",
+      "date": "2021-07-30",
+      "startTime": "19:00",
+      "endTime": "22:00",
+      "location": "A.2.05"
+    },
+    {
+      "event": "Exame de TAR (Época especial)",
+      "date": "2021-09-07",
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "location": "A.2.10"
+    }
+  ]
+}
